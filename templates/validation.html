@@ -45,10 +45,10 @@
             <h3 class="panel-title">Number of IATI files on the registry that don't validate</h3>
           </div>
           <div class="panel-body big-number">
-            -1
+            {{current_stats.aggregated.validation.fail}}
           </div>
           <div class="panel-body">
-            Graph of the above, over time
+            <img src="fail_validation.png" width="100%" />
           </div>
         </div>
       </div>
@@ -58,10 +58,10 @@
             <h3 class="panel-title">Number of publishers with files that don't validate</h3>
           </div>
           <div class="panel-body big-number">
-            -1
+            {{current_stats.aggregated.publishers_validation.fail}}
           </div>
           <div class="panel-body">
-            Graph of the above, over time
+            <img src="publishers_fail_validation.png" width="100%" />
           </div>
         </div>
       </div>
@@ -69,32 +69,38 @@
 
     <h2>Breakdown By Publisher</h2>
 
+    {% for publisher,files in current_stats.inverted_file.validation.fail.items() %}
     <div class="row">
       <div class="col-md-6">
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><h3 class="panel-title">ABCD</h3></div>
-          <div class="panel-body">
+          <div class="panel-heading"><h3 class="panel-title">{{publisher}}</h3></div>
+          <!--<div class="panel-body">
             <p>...</p>
-          </div>
+          </div>-->
 
           <!-- List group -->
           <ul class="list-group">
+            {% for file in files %}
             <li class="list-group-item">
               <div class="row">
                 <div class="col-md-4">
-                  <a href="registry">dataset</a>
+                  <a href="registry">registry</a>
                 </div>
                 <div class="col-md-4">
-                   <a href="xml">filename.xml</a>
+                   <a href="xml">{{file}}</a>
                 </div>
                 <div class="col-md-4">
-                   <a href="">validator</a></li>
+                   <a href="">validator</a>
                 </div>
+              </div>
+            </li>
+            {% endfor %}
           </ul>
         </div>
       </div>
     </div>
+    {% endfor%}
 
   </div><!-- /.container -->
 </body>

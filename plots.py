@@ -17,8 +17,9 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
 import json, re
+git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
+
 for stat_name in ['fail_validation', 'publishers_fail_validation']:
-    git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
     items = sorted(git_stats.get(stat_name).items())
     x_values = [ datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x,y in items ]
     y_values = [ y for x,y in items ]
@@ -28,6 +29,8 @@ for stat_name in ['fail_validation', 'publishers_fail_validation']:
     dateFmt = mdates.DateFormatter('%Y-%m-%d')
 
     fig, ax = plt.subplots()
+    dpi = 96
+    fig.set_size_inches(600.0/dpi, 600.0/dpi)
     ax.plot(x_values, y_values)
 
 
@@ -50,5 +53,5 @@ for stat_name in ['fail_validation', 'publishers_fail_validation']:
     # axes up to make room for them
     fig.autofmt_xdate()
 
-    plt.savefig('out/{0}.png'.format(stat_name))
+    plt.savefig('out/{0}.png'.format(stat_name), dpi=dpi)
 
