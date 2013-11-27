@@ -1,0 +1,6 @@
+*.pyc
+
+pyenv
+stats-calculated
+out
+

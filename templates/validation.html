@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+  <title>IATI Stats Dashboard - Validation</title>
+  <style>
+    .big-number {
+      font-size: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">IATI Stats Dashboard</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Validation</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <h1>Validation Against the Schema</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Number of IATI files on the registry that don't validate</h3>
+          </div>
+          <div class="panel-body big-number">
+            -1
+          </div>
+          <div class="panel-body">
+            Graph of the above, over time
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Number of publishers with files that don't validate</h3>
+          </div>
+          <div class="panel-body big-number">
+            -1
+          </div>
+          <div class="panel-body">
+            Graph of the above, over time
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>Breakdown By Publisher</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading"><h3 class="panel-title">ABCD</h3></div>
+          <div class="panel-body">
+            <p>...</p>
+          </div>
+
+          <!-- List group -->
+          <ul class="list-group">
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-md-4">
+                  <a href="registry">dataset</a>
+                </div>
+                <div class="col-md-4">
+                   <a href="xml">filename.xml</a>
+                </div>
+                <div class="col-md-4">
+                   <a href="">validator</a></li>
+                </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /.container -->
+</body>
+</html>
