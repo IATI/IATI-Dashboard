@@ -68,13 +68,13 @@
     </div>
 
     <h2>Breakdown By Publisher</h2>
-
+    <div class="col-md-6">
     {% for publisher,datasets in current_stats.inverted_file.validation.fail.items() %}
     <div class="row">
-      <div class="col-md-6">
+      <!--<div class="col-md-6">-->
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><h3 class="panel-title">{{publisher}}</h3></div>
+          <div class="panel-heading"><h3 class="panel-title">{{publisher}} ({{datasets|length}})</h3></div>
           <!--<div class="panel-body">
             <p>...</p>
           </div>-->
@@ -100,9 +100,28 @@
             {% endfor %}
           </ul>
         </div>
-      </div>
+      <!--</div>-->
     </div>
     {% endfor%}
+    </div>
+    
+    <div class="col-md-6">
+      <table class="table table-striped">
+      <tbody>
+        <thead><tr><th>Publisher</th><th>Failing files</th></tr></thead>
+    {% for publisher,datasets in current_stats.inverted_file.validation.fail.items() %}
+    
+    
+        <tr>
+          <td>{{publisher}}</td>
+          <td>{{datasets|length}}</td>
+        </tr>
+      
+    
+    {% endfor%}
+    </tbody>
+    </table>
+    </div>
 
   </div><!-- /.container -->
 </body>
