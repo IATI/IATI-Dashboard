@@ -11,12 +11,13 @@ def validation(jinja_env):
         'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict)
     }
     ckan = json.load(open('./ckan.json'), object_pairs_hook=OrderedDict)
-    return validation_template.render(current_stats=current_stats, ckan=ckan)
+    return validation_template.render(current_stats=current_stats, ckan=ckan, validation=True)
 
 
 
 import github.web
 urls = {
+    'index.html': lambda x: x.get_template('index.html').render(),
     'validation.html': validation,
     'github.html': github.web.main
 }

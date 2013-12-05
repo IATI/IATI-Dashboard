@@ -23,5 +23,5 @@ def main(jinja_env):
                     milestones_calendar[m.group(1)][m.group(2)][m.group(3)].append(milestone)
                     #print('   ', milestone['title'], '---', milestone['due_on'], '---', str(milestone['open_issues'])+'/'+str(milestone['closed_issues']))
 
-    return template.render(milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, sorted=sorted)
+    return template.render(milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, sorted=sorted, github=True)
 

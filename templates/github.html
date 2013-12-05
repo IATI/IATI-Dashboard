@@ -1,6 +1,9 @@
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+{% extends 'base.html' %}
+{% block title %}
+{{ super () }} - Validation
+{% endblock %}
 
-<div class="container">
+{% block content %}
 {% for year, year_cal in sorted(milestones_calendar.items()) %}
     <h2>{{year}}<h2>
     {% for month, month_cal in sorted(year_cal.items()) %}
@@ -27,3 +30,4 @@
     {% endfor %}
 {%endfor %}
 </div>
+{% endblock %}

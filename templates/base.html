@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+  <title>{% block title %}IATI Dashboard{% endblock %}</title>
+  <style>
+    .big-number {
+      font-size: 100px;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">IATI Dashboard</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+      <li{% if validation %} class="active"{% endif %}><a href="validation.html">Validation</a></li>
+      <li{% if github %} class="active"{% endif %}><a href="github.html">GitHub</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+    </div>
+  </div>
+
+  <div class="container">
+    {% block content %}
+    {% endblock %}
+  </div><!-- /.container -->
+</body>
+</html>
