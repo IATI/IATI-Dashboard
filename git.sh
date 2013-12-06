@@ -1,5 +1,6 @@
 cd out
 git pull
+rm *
 cd ..
 python fetch_data.py
 python plots.py

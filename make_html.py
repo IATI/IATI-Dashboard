@@ -21,7 +21,7 @@ current_stats = {
     'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict)
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
-ckan = json.load(open('./ckan.json'), object_pairs_hook=OrderedDict)
+ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 
 def iati_stats_page(template, **kwargs):
     def f(jinja_env):
