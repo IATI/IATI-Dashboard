@@ -2,23 +2,24 @@ from collections import OrderedDict
 import json
 import jinja2
 
+current_stats = {
+    'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
+    'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict)
+}
+ckan = json.load(open('./ckan.json'), object_pairs_hook=OrderedDict)
 
-def validation(jinja_env):
-    validation_template = jinja_env.get_template('validation.html')
-
-    current_stats = {
-        'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
-        'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict)
-    }
-    ckan = json.load(open('./ckan.json'), object_pairs_hook=OrderedDict)
-    return validation_template.render(current_stats=current_stats, ckan=ckan, validation=True)
+def iati_stats_page(template):
+    def f(jinja_env):
+        validation_template = jinja_env.get_template(template)
+        return validation_template.render(current_stats=current_stats, ckan=ckan, validation=True)
+    return f
 
 
 
 import github.web
 urls = {
-    'index.html': lambda x: x.get_template('index.html').render(),
-    'validation.html': validation,
+    'index.html': iati_stats_page('index.html'),
+    'validation.html': iati_stats_page('validation.html'),
     'github.html': github.web.main
 }
 

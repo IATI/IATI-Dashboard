@@ -19,10 +19,13 @@ import matplotlib.dates as mdates
 import json, re
 git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
 
-for stat_name in ['validation', 'publishers_validation']:
+for stat_name in ['activities', 'publishers', 'activity_files', 'activities_no_country',  'validation', 'publishers_validation']:
     items = sorted(git_stats.get(stat_name).items())
     x_values = [ datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x,y in items ]
-    y_values = [ y.get('fail') for x,y in items ]
+    if stat_name in ['validation', 'publishers_validation']:
+        y_values = [ y.get('fail') for x,y in items ]
+    else:
+        y_values = [ y for x,y in items ]
 
     #years    = mdates.YearLocator()   # every year
     #months   = mdates.MonthLocator()  # every month

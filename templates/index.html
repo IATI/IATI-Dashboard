@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Activities</h3>
+          </div>
+          <div class="panel-body big-number">
+            {{current_stats.aggregated.activities}}
+          </div>
+          <div class="panel-body">
+            <img src="activities.png" width="100%" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Publishers</h3>
+          </div>
+          <div class="panel-body big-number">
+            {{current_stats.aggregated.publishers}}
+          </div>
+          <div class="panel-body">
+            <img src="publishers.png" width="100%" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Activity XML Files</h3>
+          </div>
+          <div class="panel-body big-number">
+            {{current_stats.aggregated.activity_files}}
+          </div>
+          <div class="panel-body">
+            <img src="activity_files.png" width="100%" />
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Activities with No Country</h3>
+          </div>
+          <div class="panel-body big-number">
+            {{current_stats.aggregated.activities_no_country}}
+          </div>
+          <div class="panel-body">
+            <img src="publishers.png" width="100%" />
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
