@@ -7,6 +7,8 @@ def fetch():
         os.makedirs(os.path.join('data','github','milestones'))
     except IOError:
         pass
+    except OSError:
+        pass
 
     r = requests.get('https://api.github.com/orgs/IATI/repos')
     for repo in json.loads(r.text):
