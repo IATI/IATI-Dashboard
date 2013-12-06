@@ -40,7 +40,7 @@
     <h2>Breakdown By Publisher</h2>
 
     <div class="col-md-6">
-    {% for publisher,datasets in current_stats.inverted_file.validation.fail.items() %}
+    {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
     <div class="row">
         <div class="panel panel-default">
           <!-- Default panel contents -->
@@ -79,7 +79,7 @@
         <table class="table table-striped">
           <tbody>
             <thead><tr><th>Publisher</th><th>Failing files</th></tr></thead>
-            {% for publisher,datasets in current_stats.inverted_file.validation.fail.items() %}
+            {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
             <tr>
               <td><a href="#list_{{publisher}}">{{publisher}}</a></td>
               <td>{{datasets|length}}</td>
