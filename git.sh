@@ -1,4 +1,5 @@
 cd out
+git reset --hard HEAD
 git pull
 rm *
 cd ..
