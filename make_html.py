@@ -1,15 +1,20 @@
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 import json
 import jinja2
 import copy
 
 def group_files(d):
-    out = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    out = OrderedDict()
     for k,v in d.items():
+        out[k] = OrderedDict()
         for k2,v2 in v.items():
             if type(v2) == list:
+                out[k][k2] = OrderedDict()
+                v2.sort()
                 for listitem in v2:
                     publisher = listitem.split('-', 1)[0]
+                    if not publisher in out[k][k2]:
+                        out[k][k2][publisher] = []
                     out[k][k2][publisher].append(listitem)
             else:
                 out[k][k2] = v2
