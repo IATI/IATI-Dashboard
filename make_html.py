@@ -36,9 +36,7 @@ import github.web
 urls = {
     'index.html': iati_stats_page('index.html'),
     'validation.html': iati_stats_page('validation.html', validation=True),
-    'github.html': github.web.main,
-    'twitter.html': template_page('sparkwise.html', boardid='1fe3cec0-425a-11e3-8790-f23c91dfda42', twitter=True),
-    'channels.html': template_page('sparkwise.html', boardid='7aec5020-40c1-11e3-8790-f23c91dfda42', channels=True),
+    'github.html': github.web.main
 }
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
