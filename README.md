@@ -1,3 +1,5 @@
+See the dashboard in action at http://bjwebb.github.io/IATI-Dashboard/
+
     git clone http://arstneio.com/iati/stats/.git
 
     mkdir out
