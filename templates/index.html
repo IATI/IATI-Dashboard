@@ -1,53 +1,11 @@
 {% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <span class="title-number">{{current_stats.aggregated.activities}}</span>
-              <span class="title-text">Activities</span>
-              <br clear="all"/>
-            </h3>
-          </div>
-
-          <div class="panel-body">
-            <img src="activities.png" width="100%" />
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <span class="title-number">{{current_stats.aggregated.publishers}}</span>
-              <span class="title-text">Publishers</span>
-              <br clear="all"/>
-            </h3>
-          </div>
-
-          <div class="panel-body">
-            <img src="publishers.png" width="100%" />
-          </div>
-        </div>
-      </div>
+      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png')}}
+      {{boxes.box('Pubishers', current_stats.aggregated.publishers, 'publishers.png')}}
     </div>
     <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              <span class="title-number">{{current_stats.aggregated.activity_files}}</span>
-              <span class="title-text">Activity XML Files</span>
-              <br clear="all"/>
-            </h3>
-          </div>
-
-          <div class="panel-body">
-            <img src="activity_files.png" width="100%" />
-          </div>
-        </div>
-      </div>
-
+      {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png')}}
     </div>
 {% endblock %}

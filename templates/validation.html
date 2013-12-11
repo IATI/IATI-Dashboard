@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
 {% block title %}
 {{ super () }} - Validation
 {% endblock %}
@@ -9,32 +10,8 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Number of IATI files on the registry that don't validate</h3>
-          </div>
-          <div class="panel-body big-number">
-            {{current_stats.aggregated.validation.fail}}
-          </div>
-          <div class="panel-body">
-            <img src="validation.png" width="100%" />
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Number of publishers with files that don't validate</h3>
-          </div>
-          <div class="panel-body big-number">
-            {{current_stats.aggregated.publishers_validation.fail}}
-          </div>
-          <div class="panel-body">
-            <img src="publishers_validation.png" width="100%" />
-          </div>
-        </div>
-      </div>
+      {{boxes.box('IATI Files on the registry don\'t validate', current_stats.aggregated.validation.fail, 'validation.png')}}
+      {{boxes.box('Publishers have files that don\'t validate', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png')}}
     </div>
 
     <h2>Breakdown By Publisher</h2>
