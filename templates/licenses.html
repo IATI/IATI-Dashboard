@@ -1,8 +1,31 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
-    <div class="row">
-      {{boxes.box('Publishers per license', '', 'err.png')}}
-      {{boxes.box('Publishers with non-open licenses', '', 'err.png')}}
+    <div class="page-header">
+      <h1>Licenses listed on the Registry</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="panel panel-default">
+      <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>License Name</th>
+                <th>License Id</th>
+                <th>Files</th>
+                <th>Publishers</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for license, files in sorted(license_count.items()) %}
+            <tr>
+                <td>{{license_names[license]}}</td>
+                <td>{{license}}</td>
+                <td>{{files}}</td>
+                <td>{{publisher_license_count[license]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+      <table>
     </div>
 {% endblock %}

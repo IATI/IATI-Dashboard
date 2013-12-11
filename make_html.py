@@ -31,6 +31,7 @@ current_stats = {
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 
+
 def template_page(template, **kwargs):
     def f(jinja_env):
         validation_template = jinja_env.get_template(template)
@@ -40,13 +41,13 @@ def template_page(template, **kwargs):
 def iati_stats_page(template, **kwargs):
     return template_page(template, current_stats=current_stats, ckan=ckan, **kwargs) 
 
-import github.web
+import github.web, licenses
 urls = {
     'index.html': iati_stats_page('index.html'),
     'files.html': iati_stats_page('files.html', files=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
     'versions.html': iati_stats_page('versions.html', versions=True),
-    'licenses.html': iati_stats_page('licenses.html', licenses=True),
+    'licenses.html': licenses.create_main(ckan),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
     'github.html': github.web.main,
