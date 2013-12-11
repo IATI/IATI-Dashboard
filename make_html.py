@@ -25,7 +25,8 @@ def group_files(d):
 
 current_stats = {
     'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
-    'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict)
+    'inverted': json.load(open('./stats-calculated/current/inverted.json'), object_pairs_hook=OrderedDict),
+    'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict),
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
@@ -42,8 +43,12 @@ def iati_stats_page(template, **kwargs):
 import github.web
 urls = {
     'index.html': iati_stats_page('index.html'),
+    'files.html': iati_stats_page('files.html', files=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
-    'github.html': github.web.main
+    'versions.html': iati_stats_page('versions.html', versions=True),
+    'licenses.html': iati_stats_page('licenses.html', licenses=True),
+    'organisation.html': iati_stats_page('organisation.html', organisation=True),
+    'github.html': github.web.main,
 }
 
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))

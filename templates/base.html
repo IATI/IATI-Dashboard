@@ -41,7 +41,11 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+      <li{% if files %} class="active"{% endif %}><a href="files.html">Files</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="validation.html">Validation</a></li>
+      <li{% if versions %} class="active"{% endif %}><a href="versions.html">Versions</a></li>
+      <li{% if licenses %} class="active"{% endif %}><a href="licenses.html">Licenses</a></li>
+      <li{% if organisation %} class="active"{% endif %}><a href="organisation.html">Organisation XML</a></li>
       <li{% if github %} class="active"{% endif %}><a href="github.html">GitHub</a></li>
       </ul>
     </div><!--/.nav-collapse -->

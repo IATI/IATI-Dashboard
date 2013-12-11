@@ -5,7 +5,25 @@
       {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png')}}
       {{boxes.box('Pubishers', current_stats.aggregated.publishers, 'publishers.png')}}
     </div>
-    <div class="row">
-      {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png')}}
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Activities</th>
+                <th>Files</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, activities in current_stats.inverted.activities.items() %}
+            <tr>
+                <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                <td>{{activities}}</td>
+                <td>{{current_stats.inverted.activity_files.get(publisher)}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     </div>
 {% endblock %}
