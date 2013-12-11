@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Codelists
+{% endblock %}
+{% block content %}
+
+    <table class="table table-striped">
+      <thead><tr><th>Element</th><th>Values</th></tr></thead>
+      <tbody>
+        {% for element, values in current_stats.inverted.codelist_values.items() %}
+            <tr><td><a href="codelist/{{element_url(element)}}.html">{{element}}</td><td>{{values|length}}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}

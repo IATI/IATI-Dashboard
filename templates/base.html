@@ -58,17 +58,18 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">IATI Dashboard</a>
+      <a class="navbar-brand" href="{{url('index.html')}}">IATI Dashboard</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      <li{% if files %} class="active"{% endif %}><a href="files.html">Files</a></li>
-      <li{% if validation %} class="active"{% endif %}><a href="validation.html">Validation</a></li>
-      <li{% if versions %} class="active"{% endif %}><a href="versions.html">Versions</a></li>
-      <li{% if licenses %} class="active"{% endif %}><a href="licenses.html">Licenses</a></li>
-      <li{% if organisation %} class="active"{% endif %}><a href="organisation.html">Organisation XML</a></li>
-      <li{% if elements %} class="active"{% endif %}><a href="elements.html">Elements</a></li>
-      <li{% if github %} class="active"{% endif %}><a href="github.html">GitHub</a></li>
+      <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
+      <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
+      <li{% if versions %} class="active"{% endif %}><a href="{{url('versions.html')}}">Versions</a></li>
+      <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>
+      <li{% if organisation %} class="active"{% endif %}><a href="{{url('organisation.html')}}">Organisation XML</a></li>
+      <li{% if elements %} class="active"{% endif %}><a href="{{url('elements.html')}}">Elements</a></li>
+      <li{% if codelists %} class="active"{% endif %}><a href="{{url('codelists.html')}}">Codelists</a></li>
+      <li{% if github %} class="active"{% endif %}><a href="{{url('github.html')}}">GitHub</a></li>
       </ul>
     </div><!--/.nav-collapse -->
     </div>

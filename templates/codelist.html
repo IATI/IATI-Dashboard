@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Codelists
+{% endblock %}
+{% block content %}
+
+    <h3>{{element}}</h3>
+
+    <table class="table table-striped">
+      <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
+      <tbody>
+        {% for value, publishers in values.items() %}
+            <tr><td>{{value}}</td><td>
+                {% if publishers|length < 20 %}
+                    <abbr title="{% for publisher in sorted(publishers) %}{{publisher}}{% if not loop.last %}
+{% endif %}{% endfor %}">{{publishers|length}}</abbr>
+                {% else %}
+                    {{publishers|length}}
+                {% endif %}
+            </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}
