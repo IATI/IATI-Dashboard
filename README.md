@@ -1,4 +1,4 @@
-    git clone git@github.com:Bjwebb/IATI-Stats-Calculated.git stats-calculated
+    git clone http://arstneio.com/iati/stats/.git
 
     mkdir out
     python plots.py

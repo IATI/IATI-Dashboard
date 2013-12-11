@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block extrahead %}
+<script type="text/javascript" src="http://sparkwi.se/static/js/lib/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://sparkwi.se/static/js/lib/jquery.ba-postmessage.js"></script>
+{% endblock %}
+{% block content %}
+<div id="iframe"></div>
+<script type="text/javascript">
+(function ($) {
+var if_height,
+src = 'http://sparkwi.se/b/{{boardid}}#' + encodeURIComponent( document.location.href ),
+iframe = $( '<iframe " src="' + src + '" width="1000" scrolling="no" frameborder="0"><\/iframe>' ).appendTo( '#iframe' );
+setInterval(function getHeight() {
+$.receiveMessage(function(e){
+var h = Number( e.data.replace( /.*if_height=(\d+)(?:&|$)/, '$1' ) );
+if ( !isNaN( h ) && h > 0 && h !== if_height ) {
+iframe.height( if_height = h );
+}
+} );
+}, 500);
+})(jQuery);
+</script>
+{% endblock %}

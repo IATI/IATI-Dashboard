@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Publishers per license', '', 'err.png')}}
+      {{boxes.box('Publishers with non-open licenses', '', 'err.png')}}
+    </div>
+{% endblock %}

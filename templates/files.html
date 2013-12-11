@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png')}}
+    </div>
+{% endblock %}

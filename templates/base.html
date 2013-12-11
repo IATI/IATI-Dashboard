@@ -10,7 +10,40 @@
     .big-number {
       font-size: 100px;
     }
+    .title-number {
+      font-weight: bold;
+      float: left;
+      width: 20%;
+    }
+    .title-text {
+      float: left;
+    }
+    .panel-heading {
+        clear: both;
+    }
+    .wrap {
+        word-wrap:break-word;
+    }
+.tablesorter-default .tablesorter-header {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+	background-position: center right;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+.tablesorter-default thead .headerSortUp,
+.tablesorter-default thead .tablesorter-headerSortUp,
+.tablesorter-default thead .tablesorter-headerAsc {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+	border-bottom: #000 2px solid;
+}
+.tablesorter-default thead .headerSortDown,
+.tablesorter-default thead .tablesorter-headerSortDown,
+.tablesorter-default thead .tablesorter-headerDesc {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+	border-bottom: #000 2px solid;
+}
   </style>
+  {% block extrahead %}{% endblock %}
 </head>
 <body>
   <div class="navbar navbar-inverse" role="navigation">
@@ -26,7 +59,12 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+      <li{% if files %} class="active"{% endif %}><a href="files.html">Files</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="validation.html">Validation</a></li>
+      <li{% if versions %} class="active"{% endif %}><a href="versions.html">Versions</a></li>
+      <li{% if licenses %} class="active"{% endif %}><a href="licenses.html">Licenses</a></li>
+      <li{% if organisation %} class="active"{% endif %}><a href="organisation.html">Organisation XML</a></li>
+      <li{% if elements %} class="active"{% endif %}><a href="elements.html">Elements</a></li>
       <li{% if github %} class="active"{% endif %}><a href="github.html">GitHub</a></li>
       </ul>
     </div><!--/.nav-collapse -->
@@ -37,5 +75,12 @@
     {% block content %}
     {% endblock %}
   </div><!-- /.container -->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+    <script>
+      $(function() {
+        $("table.table").tablesorter();
+  });
+    </script>
 </body>
 </html>
