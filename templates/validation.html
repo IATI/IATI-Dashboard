@@ -56,8 +56,8 @@
     <div class="col-md-6">
       <div class="panel panel-default">
         <table class="table table-striped">
+          <thead><tr><th>Publisher</th><th>Failing files</th></tr></thead>
           <tbody>
-            <thead><tr><th>Publisher</th><th>Failing files</th></tr></thead>
             {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
             <tr>
               <td><a href="#list_{{publisher}}">{{publisher}}</a></td>
