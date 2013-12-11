@@ -19,7 +19,7 @@ import matplotlib.dates as mdates
 import json, re
 git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
 
-for stat_path in ['activities', 'publishers', 'activity_files', 'spend',  ('validation', 'fail'), ('publishers_validation', 'fail')]:
+for stat_path in ['activities', 'publishers', 'activity_files', 'spend',  ('validation', 'fail'), ('publishers_validation', 'fail'), ('publisher_has_org_file', 'no')]:
     if type(stat_path) == tuple:
         stat_name = stat_path[0]
     else:

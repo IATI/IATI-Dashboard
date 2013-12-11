@@ -10,6 +10,19 @@
     </div>
 
     <div class="row">
-      {{boxes.box('Publishers without an Organization File', 'err', 'err.png')}}
+      {{boxes.box('Publishers without an Organization File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png')}}
+      <div class="col-md-6">
+        <div class="panel panel-default">
+        <table class="table table-bordered">
+        <tr>
+        {% for publisher in sorted(current_stats.inverted.publisher_has_org_file.no) %}
+            {{ loop.cycle('</tr><tr>', '', '', '') }}
+            <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+        {% endfor %}
+        </tr>
+        </table>
+        </div>
+      </div>
     </div>
+
 {% endblock %}

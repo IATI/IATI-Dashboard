@@ -34,7 +34,7 @@ ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=Ordered
 def template_page(template, **kwargs):
     def f(jinja_env):
         validation_template = jinja_env.get_template(template)
-        return validation_template.render(**kwargs)
+        return validation_template.render(sorted=sorted, **kwargs)
     return f
 
 def iati_stats_page(template, **kwargs):
