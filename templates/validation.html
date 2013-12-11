@@ -54,15 +54,15 @@
             {% for dataset in datasets %}
             <li class="list-group-item">
               <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 wrap">
                   <a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 wrap">
                   {% if publisher in ckan and dataset in ckan[publisher] %}
                   <a href="{{ckan[publisher][dataset].resource.url}}">{{ckan[publisher][dataset].resource.url|url_to_filename}}</a>
                   {% endif %}
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2 wrap">
                    {% if publisher in ckan and dataset in ckan[publisher] %}
                    <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset].resource.url|urlencode}}">validator</a>
                    {% endif %}

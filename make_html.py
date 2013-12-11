@@ -2,9 +2,11 @@ from collections import OrderedDict
 import json
 import jinja2
 import copy
+import re
 
 def group_files(d):
     out = OrderedDict()
+    publisher_re = re.compile('(.*)\-[^\-]')
     for k,v in d.items():
         out[k] = OrderedDict()
         for k2,v2 in v.items():
@@ -12,7 +14,7 @@ def group_files(d):
                 out[k][k2] = OrderedDict()
                 v2.sort()
                 for listitem in v2:
-                    publisher = listitem.split('-', 1)[0]
+                    publisher = publisher_re.match(listitem).group(1)
                     if not publisher in out[k][k2]:
                         out[k][k2][publisher] = []
                     out[k][k2][publisher].append(listitem)
