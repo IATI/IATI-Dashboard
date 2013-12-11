@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Validation
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+      <h1>Validation Against the Schema</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="row">
+      {{boxes.box('Versions in use', '', 'versions.png')}}
+      {{boxes.box('Version use over time', '', 'versions_time.png')}}
+    </div>
+
+    <div class="row">
+        {% for version, publishers in current_stats.inverted.versions.items() %}
+        {{ publishers.sort() or '' }}
+        <div class="col-md-2">
+          <div class="panel panel-default">
+          <div class="panel-heading">
+            <code>{{version|replace(' ', '&nbsp;')}}</code>
+          </div>
+          <table class="table table-striped">
+            {% for publisher in publishers %}
+            <tr>
+              <td><a href="http://iatiregistry.org/{{publisher}}">{{publisher}}</a></td>
+            </tr>
+            {% endfor %}
+          </table>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -48,6 +48,7 @@ urls = {
     'versions.html': iati_stats_page('versions.html', versions=True),
     'licenses.html': iati_stats_page('licenses.html', licenses=True),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
+    'elements.html': iati_stats_page('elements.html', elements=True),
     'github.html': github.web.main,
 }
 
