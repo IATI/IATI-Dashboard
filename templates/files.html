@@ -3,5 +3,28 @@
 {% block content %}
     <div class="row">
       {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png')}}
+      {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png')}}
+    </div>
+    <div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Package Name</th>
+                <th>Activities</th>
+                <th>Files</th>
+                <th>File Size</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for package, activities in current_stats.inverted_file.activities.items() %}
+            <tr>
+                <td><a href="http://iatiregistry.org/publisher/{{package}}">{{package}}</a></td>
+                <td>{{activities}}</td>
+                <td>{{current_stats.inverted_file.activity_files.get(package)}}</td>
+                <td data-value="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
     </div>
 {% endblock %}

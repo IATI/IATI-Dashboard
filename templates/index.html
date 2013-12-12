@@ -13,6 +13,7 @@
                 <th>Publisher</th>
                 <th>Activities</th>
                 <th>Files</th>
+                <th>File Size</th>
             </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
                 <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted.activity_files.get(publisher)}}</td>
+                <td>{{current_stats.inverted.file_size.get(publisher)}}</td>
             </tr>
             {% endfor %}
         </tbody>
