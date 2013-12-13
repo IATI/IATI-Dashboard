@@ -54,7 +54,12 @@ urls = {
     'licenses.html': licenses.create_main(ckan),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
-    'codelists.html': iati_stats_page('codelists.html', codelists=True, element_url=element_url),
+    'element':  dict([ (element_url(element)+'.html', iati_stats_page('element.html',
+        element=element,
+        publishers=publishers,
+        url=lambda x: '../'+x,
+        elements=True)) for element, publishers in current_stats['inverted']['elements'].items() ]),
+    'codelists.html': iati_stats_page('codelists.html', codelists=True),
     'codelist': dict([ (element_url(element)+'.html', iati_stats_page('codelist.html',
         element=element,
         values=values,
@@ -68,6 +73,7 @@ jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 jinja_env.globals['url'] = lambda x: x
 jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
 jinja_env.globals['datetime_data'] = max(gitdate.values())
+jinja_env.globals['element_url'] = element_url
 
 
 def make_html(urls, outdir='out'):
