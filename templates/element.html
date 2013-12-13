@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Elements
+{% endblock %}
+{% block content %}
+    <h2>Element - {{element}}</h2>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Publishing this element</h3>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for publisher in sorted(publishers) %}
+            <tr>
+                <td>{{publisher}}</td>
+            </tr>
+            {% endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Not publishing this element</h3>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for publisher in current_stats.inverted.publishers %}
+            {% if publisher not in publishers %}
+            <tr>
+                <td>{{publisher}}</td>
+            </tr>
+            {% endif %}
+            {% endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
