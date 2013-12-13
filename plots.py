@@ -19,7 +19,22 @@ import matplotlib.dates as mdates
 import json, re
 git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
 
-for stat_path in ['activities', 'publishers', 'activity_files', 'spend', 'file_size',  ('validation', 'fail'), ('publishers_validation', 'fail'), ('publisher_has_org_file', 'no'), ('versions', '*'), ('publishers_per_version', '*') ]:
+from vars import expected_versions
+
+for stat_path in [
+        'activities',
+        'publishers',
+        'activity_files',
+        'spend',
+        'file_size',
+        ('validation', lambda x: x=='fail', ''),
+        ('publishers_validation', lambda x: x=='fail', ''),
+        ('publisher_has_org_file', lambda x: x=='no', ''),
+        ('versions', lambda x: x in expected_versions, '_expected'),
+        ('versions', lambda x: x not in expected_versions, '_other'),
+        ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
+        ('publishers_per_version', lambda x: x not in expected_versions, '_other')
+        ]:
     if type(stat_path) == tuple:
         stat_name = stat_path[0]
     else:
@@ -27,8 +42,8 @@ for stat_path in ['activities', 'publishers', 'activity_files', 'spend', 'file_s
     
     items = sorted(git_stats.get(stat_name).items())
     x_values = [ datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x,y in items ]
-    if type(stat_path) == tuple and stat_path[1] != '*':
-        y_values = [ y.get(stat_path[1]) for x,y in items ]
+    if type(stat_path) == tuple:
+        y_values = [ dict((k,v) for k,v in y.items() if stat_path[1](k)) for x,y in items ]
     else:
         y_values = [ y for x,y in items ]
 
@@ -48,7 +63,7 @@ for stat_path in ['activities', 'publishers', 'activity_files', 'spend', 'file_s
             plots[key], = ax.plot(x_values, [ y.get(key) or 0 for y in y_values ])
         fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
         fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
-        fig_legend.savefig('out/{0}_legend.png'.format(stat_name))
+        fig_legend.savefig('out/{0}{1}_legend.png'.format(stat_name,stat_path[2]))
     else:
         ax.plot(x_values, y_values)
 
@@ -72,5 +87,6 @@ for stat_path in ['activities', 'publishers', 'activity_files', 'spend', 'file_s
     # axes up to make room for them
     fig.autofmt_xdate()
 
-    fig.savefig('out/{0}.png'.format(stat_name), dpi=dpi)
+    fig.savefig('out/{0}{1}.png'.format(stat_name,stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
+    plt.close()
 

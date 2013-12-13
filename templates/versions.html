@@ -10,31 +10,72 @@
     </div>
 
     <div class="row">
-      {{boxes.box('Versions legend', '', 'versions_legend.png')}}
+      {{boxes.box('Versions per file (expected)', '', 'versions_expected.png')}}
+      {{boxes.box('Versions per file (other)', '', 'versions_other.png')}}
+    </div>
+    <div class="row">
+      {{boxes.box('Versions legend (expected)', '', 'versions_expected_legend.png')}}
+      {{boxes.box('Versions legend (other)', '', 'versions_other_legend.png')}}
+    </div>
+    <div class="row">
+      {{boxes.box('Publishers per version (expected)', '', 'publishers_per_version_expected.png')}}
+      {{boxes.box('Publishers per version (other)', '', 'publishers_per_version_other.png')}}
     </div>
 
+    <h2>Publishers by version</h2>
     <div class="row">
-      {{boxes.box('Versions per file', '', 'versions.png')}}
-      {{boxes.box('Publishers per version', '', 'publishers_per_version.png')}}
-    </div>
-
-    <div class="row">
-        {% for version, publishers in current_stats.inverted.versions.items() %}
-        {{ publishers.sort() or '' }}
-        <div class="col-md-2">
-          <div class="panel panel-default">
+      <div class="col-md-6">
+        <div class="panel panel-default">
           <div class="panel-heading">
-            <code>{{version|replace(' ', '&nbsp;')}}</code>
+            <h3 class="panel-title">Expected versions</h3>
           </div>
-          <table class="table table-striped">
-            {% for publisher in publishers %}
-            <tr>
-              <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
-            </tr>
+          <div class="panel-body">
+          <div class="row">
+            {% for version, publishers in current_stats.inverted.versions.items() %}
+            {% if version in expected_versions %}
+            {{ publishers.sort() or '' }}
+            <div class="col-md-4">
+              <code>{{version|replace(' ', '&nbsp;')}}</code>
+              <table class="table table-striped">
+                {% for publisher in publishers %}
+                <tr>
+                  <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% endif %}
             {% endfor %}
-          </table>
+          </div>
           </div>
         </div>
-        {% endfor %}
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Other versions</h3>
+          </div>
+          <div class="panel-body">
+          <div class="row">
+            {% for version, publishers in current_stats.inverted.versions.items() %}
+            {% if version not in expected_versions %}
+            {{ publishers.sort() or '' }}
+            <div class="col-md-4">
+              <code>{{version|replace(' ', '&nbsp;')}}</code>
+              <table class="table table-striped">
+                {% for publisher in publishers %}
+                <tr>
+                  <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </div>
     </div>
 {% endblock %}

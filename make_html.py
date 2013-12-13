@@ -43,12 +43,13 @@ def iati_stats_page(template, **kwargs):
 def element_url(element):
     return element.replace('.//', '').replace('/@','.').replace('/','_')
 
+from vars import expected_versions
 import github.web, licenses
 urls = {
     'index.html': iati_stats_page('index.html'),
     'files.html': iati_stats_page('files.html', files=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
-    'versions.html': iati_stats_page('versions.html', versions=True),
+    'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
     'licenses.html': licenses.create_main(ckan),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
