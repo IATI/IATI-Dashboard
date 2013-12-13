@@ -45,10 +45,15 @@
 .tablesorter-header-inner {
   margin-left:10px;
 }
+html,body{height:100%;}
+#wrap{min-height:100%;height:auto;margin:0 auto -60px;padding:0 0 60px;}
+#footer{height:80px;background-color:#f5f5f5;}
+.container .text-muted{margin: 20px 0 0 0;}
   </style>
   {% block extrahead %}{% endblock %}
 </head>
 <body>
+<div id="wrap">
   <div class="navbar navbar-inverse" role="navigation">
     <div class="container">
     <div class="navbar-header">
@@ -79,13 +84,14 @@
     {% block content %}
     {% endblock %}
   </div><!-- /.container -->
-    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
-    <script>
-      $(function() {
-        $("table.table").tablesorter();
-  });
-    </script>
+
+</div>
+
+<div id="footer"><div class="container"><p class="text-muted"><a href="https://github.com/Bjwebb/IATI-Dashboard/">Source Code</a>. Generated on {{datetime_generated}} from data downloaded {{datetime_data}}. (NB This is the time the download completed. Changes in the previous few hours may not be present).</p></div></div>
+
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+<script>$(function() { $("table.table").tablesorter(); });</script>
 </body>
 </html>

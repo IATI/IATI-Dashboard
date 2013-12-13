@@ -1,7 +1,7 @@
 from collections import OrderedDict
-import json, os, re
+import json, os, re, copy, datetime
 import jinja2
-import copy
+import subprocess
 
 def group_files(d):
     out = OrderedDict()
@@ -29,6 +29,7 @@ current_stats = {
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
+gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
 
 
 def template_page(template, **kwargs):
@@ -65,6 +66,8 @@ urls = {
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 jinja_env.globals['url'] = lambda x: x
+jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
+jinja_env.globals['datetime_data'] = max(gitdate.values())
 
 
 def make_html(urls, outdir='out'):
