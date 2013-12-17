@@ -11,7 +11,6 @@
             <tr>
                 <th>Package Name</th>
                 <th>Activities</th>
-                <th>Files</th>
                 <th>File Size</th>
             </tr>
         </thead>
@@ -20,11 +19,13 @@
             <tr>
                 <td><a href="http://iatiregistry.org/publisher/{{package}}">{{package}}</a></td>
                 <td>{{activities}}</td>
-                <td>{{current_stats.inverted_file.activity_files.get(package)}}</td>
-                <td data-value="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
+                <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
+{% endblock %}
+{% block tablesorteroptions %}
+{textExtraction:{2: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}
 {% endblock %}

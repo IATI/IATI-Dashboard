@@ -92,6 +92,6 @@ html,body{height:100%;}
 <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
-<script>$(function() { $("table.table").tablesorter(); });</script>
+<script>$(function() { $("table.table").tablesorter({% block tablesorteroptions %}{% endblock %}); });</script>
 </body>
 </html>
