@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Download Errors
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+      <h1>Download Errors</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="row">
+      {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png')}}
+    </div>
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Registry Dataset</th>
+                <th>URL</th>
+                <th>Error Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for code, publisher, dataset, url in current_stats.download_errors %}
+            <tr>
+                <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="{{url}}">{{url|url_to_filename}}</a></td>
+                <td>{{code}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}

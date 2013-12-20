@@ -17,7 +17,7 @@
         <tbody>
             {% for package, activities in current_stats.inverted_file.activities.items() %}
             <tr>
-                <td><a href="http://iatiregistry.org/publisher/{{package}}">{{package}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
                 <td>{{activities}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
             </tr>

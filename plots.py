@@ -21,6 +21,10 @@ import matplotlib.dates as mdates
 import json, re
 git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
 
+import csv
+failed_downloads = csv.reader(open('data/downloads/history.csv'))
+git_stats['failed_downloads'] = dict((row[0],row[1]) for row in failed_downloads)
+
 from vars import expected_versions
 
 for stat_path in [
@@ -29,6 +33,7 @@ for stat_path in [
         'activity_files',
         'spend',
         'file_size',
+        'failed_downloads',
         ('validation', lambda x: x=='fail', ''),
         ('publishers_validation', lambda x: x=='fail', ''),
         ('publisher_has_org_file', lambda x: x=='no', ''),

@@ -26,10 +26,15 @@ current_stats = {
     'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
     'inverted': json.load(open('./stats-calculated/current/inverted.json'), object_pairs_hook=OrderedDict),
     'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict),
+    'download_errors': []
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
+with open('./data/downloads/errors') as fp:
+    for line in fp:
+        if line != '.\n':
+            current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
 
 
 def template_page(template, **kwargs):
@@ -49,6 +54,7 @@ import github.web, licenses
 urls = {
     'index.html': iati_stats_page('index.html'),
     'files.html': iati_stats_page('files.html', files=True),
+    'download.html': iati_stats_page('download.html', download=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
     'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
     'licenses.html': licenses.create_main(ckan),

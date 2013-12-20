@@ -7,8 +7,8 @@ To install:
     source pyenv/bin/activate
     pip install -r requirements.txt
     
-    # Fetch the calculated stats
-    git clone http://arstneio.com/iati/stats/.git stats-calculated
+    # Fetch the necessary calculated stats
+    ./get_stats.sh
 
     mkdir out
     python fetch_data.py
