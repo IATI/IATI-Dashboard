@@ -1,7 +1,7 @@
 cd out
 git reset --hard HEAD
 git pull
-rm *
+rm -r *
 cd ..
 python fetch_data.py
 python plots.py
