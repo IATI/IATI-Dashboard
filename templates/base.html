@@ -67,6 +67,7 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+      <li{% if publisher %} class="active"{% endif %}><a href="{{url('index.html')}}">Publishers</a></li>
       <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
       <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>
       <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>

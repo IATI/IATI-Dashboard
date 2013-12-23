@@ -52,7 +52,7 @@ def element_url(element):
 from vars import expected_versions
 import github.web, licenses
 urls = {
-    'index.html': iati_stats_page('index.html'),
+    'index.html': iati_stats_page('index.html', publisher=True),
     'files.html': iati_stats_page('files.html', files=True),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
@@ -72,6 +72,11 @@ urls = {
         values=values,
         url=lambda x: '../'+x,
         codelists=True)) for element, values in current_stats['inverted']['codelist_values'].items() ]),
+    'publisher': dict([ (publisher+'.html', iati_stats_page('publisher.html',
+        url=lambda x: '../'+x,
+        publisher=publisher,
+        publisher_stats=json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+        )) for publisher in ckan ]),
     'github.html': github.web.main,
 }
 

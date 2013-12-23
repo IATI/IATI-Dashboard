@@ -19,7 +19,7 @@
         <tbody>
             {% for publisher, activities in current_stats.inverted.activities.items() %}
             <tr>
-                <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted.activity_files.get(publisher)}}</td>
                 <td data-bytes="{{current_stats.inverted.file_size.get(publisher)}}">{{current_stats.inverted.file_size.get(publisher)|filesizeformat}}</td>
