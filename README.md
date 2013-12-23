@@ -1,17 +1,31 @@
+# IATI Dashboard
+
 See the dashboard in action at http://bjwebb.github.io/IATI-Dashboard/
+
+## Installation
+
+Requirements:
+
+* Unix based setup (e.g. Linux, Mac OS X) with bash etc.
+* Python 2.7
+* python-virtualenv
+* Development files for libfreetype and libpng e.g. `libfreetype6-dev libpng-dev`
 
 To install:
 
     # Set up a virtual environment
     virtualenv pyenv
     source pyenv/bin/activate
+    # If you are running a less recent linux distro, you will need to install distribute
+    easy_install -U distribute
     pip install -r requirements.txt
     
     # Fetch the necessary calculated stats
     ./get_stats.sh
+    # Fetch some extra data from github and github gists
+    ./fetch_data.py
 
     mkdir out
-    python fetch_data.py
     python plots.py
     python make_html.py
 
