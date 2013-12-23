@@ -13,7 +13,7 @@
                 <th>Publisher</th>
                 <th>Activities</th>
                 <th>Files</th>
-                <th>File Size</th>
+                <th>Total File Size</th>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@
             <tr>
                 <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
                 <td>{{activities}}</td>
-                <td>{{current_stats.inverted.activity_files.get(publisher)}}</td>
+                <td>{{current_stats.inverted.activity_files.get(publisher)+current_stats.inverted.organisation_files.get(publisher)}}</td>
                 <td data-bytes="{{current_stats.inverted.file_size.get(publisher)}}">{{current_stats.inverted.file_size.get(publisher)|filesizeformat}}</td>
             </tr>
             {% endfor %}
