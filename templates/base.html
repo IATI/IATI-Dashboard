@@ -69,6 +69,7 @@ html,body{height:100%;}
       <ul class="nav navbar-nav">
       <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
       <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>
+      <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
       <li{% if versions %} class="active"{% endif %}><a href="{{url('versions.html')}}">Versions</a></li>
       <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>

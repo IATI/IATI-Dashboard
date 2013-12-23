@@ -55,6 +55,7 @@ urls = {
     'index.html': iati_stats_page('index.html'),
     'files.html': iati_stats_page('files.html', files=True),
     'download.html': iati_stats_page('download.html', download=True),
+    'xml.html': iati_stats_page('xml.html', xml=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
     'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
     'licenses.html': licenses.create_main(ckan),

@@ -34,6 +34,8 @@ for stat_path in [
         'spend',
         'file_size',
         'failed_downloads',
+        'invalidxml',
+        'nonstandardroots',
         ('validation', lambda x: x=='fail', ''),
         ('publishers_validation', lambda x: x=='fail', ''),
         ('publisher_has_org_file', lambda x: x=='no', ''),
