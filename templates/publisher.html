@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Validation
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+      <h1>Publisher: {{publisher}}</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="row">
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>Reporting Org(s)</td>
+                <td>
+                {% for org in publisher_stats.reporting_orgs%}
+                <code>{{org|replace(' ', '&nbsp;')}}</code>
+                {% endfor %}
+                </td>
+            </tr><tr>
+                <td>Activity Files</td>
+                <td>{{publisher_stats.activity_files}}</td>
+            </tr><tr>
+                <td>Organisation Files</td>
+                <td>{{publisher_stats.organisation_files}}</td>
+            </tr><tr>
+                <td>Activities</td>
+                <td>{{publisher_stats.activities}}</td>
+            </tr><tr>
+                <td>Versions</td>
+                <td>
+                {%for version in publisher_stats.versions.keys() %}
+                <code>{{version|replace(' ', '&nbsp;')}}</code>
+                {%endfor%}
+                </td>
+            </tr><tr>
+                <td>Files failing validation</td>
+                <td>
+                {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+                    {{current_stats.inverted_file_grouped.validation.fail[publisher]|length}}
+                {% else %}
+                    0
+                {% endif %}
+                </td>
+            </tr>
+        </body>
+    </table>
+    </div>
+    </div>
+    </div>
+
+    {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+    <div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Files Failing Validation</h3></div>
+          <!--<div class="panel-body">
+            <p>...</p>
+          </div>-->
+
+          <!-- List group -->
+          <ul class="list-group">
+            {% for dataset in current_stats.inverted_file_grouped.validation.fail[publisher] %}
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-md-4 break">
+                  <a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a>
+                </div>
+                <div class="col-md-6 break">
+                  {% if publisher in ckan and dataset in ckan[publisher] %}
+                  <a href="{{ckan[publisher][dataset].resource.url}}">{{ckan[publisher][dataset].resource.url|url_to_filename}}</a>
+                  {% endif %}
+                </div>
+                <div class="col-md-2 break">
+                   {% if publisher in ckan and dataset in ckan[publisher] %}
+                   <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset].resource.url|urlencode}}">validator</a>
+                   {% endif %}
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+    </div>
+    </div>
+    {% endif %}
+
+{% endblock %}
