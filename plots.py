@@ -42,7 +42,8 @@ for stat_path in [
         ('versions', lambda x: x in expected_versions, '_expected'),
         ('versions', lambda x: x not in expected_versions, '_other'),
         ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
-        ('publishers_per_version', lambda x: x not in expected_versions, '_other')
+        ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
+        ('file_size_bins', lambda x: True, ''),
         ]:
     if type(stat_path) == tuple:
         stat_name = stat_path[0]

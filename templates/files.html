@@ -5,6 +5,25 @@
       {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png')}}
       {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png')}}
     </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title">File Sizes</h3></div>
+        <table class="table table-striped">
+            <tbody>
+            {% for bin,freq in sorted(current_stats.aggregated.file_size_bins.items(), key=firstint) %}
+                <tr>
+                    <td>{{bin}}</td>
+                    <td>{{freq}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
     <div class="panel panel-default">
     <table class="table table-striped">
         <thead>

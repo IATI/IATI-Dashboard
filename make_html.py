@@ -52,11 +52,16 @@ def element_url(element):
 def get_publisher_stats(publisher):
     return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
 
+def firstint(s):
+    if s[0].startswith('<'): return 0
+    m = re.search('\d+', s[0])
+    return int(m.group(0))
+
 from vars import expected_versions
 import github.web, licenses
 urls = {
     'index.html': iati_stats_page('index.html', publisher=True, get_publisher_stats=get_publisher_stats),
-    'files.html': iati_stats_page('files.html', files=True),
+    'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
