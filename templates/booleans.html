@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Booleans
+{% endblock %}
+{% block content %}
+
+    <table class="table table-striped">
+      <thead><tr><th>Element</th><th>Values</th></tr></thead>
+      <tbody>
+        {% for boolean, values in current_stats.inverted.boolean_values.items() %}
+            <tr><td>{{boolean}}</td><td>
+                {% for value, publishers in values.items()%}
+                <strong>{{value}}</strong> {%for publisher in publishers%}{{publisher}} {%endfor%}<br/>
+                {% endfor %}
+            </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+{% endblock %}

@@ -75,6 +75,7 @@ urls = {
         url=lambda x: '../'+x,
         elements=True)) for element, publishers in current_stats['inverted']['elements'].items() ]),
     'codelists.html': iati_stats_page('codelists.html', codelists=True),
+    'booleans.html': iati_stats_page('booleans.html', booleans=True),
     'codelist': dict([ (element_url(element)+'.html', iati_stats_page('codelist.html',
         element=element,
         values=values,
