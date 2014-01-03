@@ -49,10 +49,13 @@ def iati_stats_page(template, **kwargs):
 def element_url(element):
     return element.replace('.//', '').replace('/@','.').replace('/','_')
 
+def get_publisher_stats(publisher):
+    return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+
 from vars import expected_versions
 import github.web, licenses
 urls = {
-    'index.html': iati_stats_page('index.html', publisher=True),
+    'index.html': iati_stats_page('index.html', publisher=True, get_publisher_stats=get_publisher_stats),
     'files.html': iati_stats_page('files.html', files=True),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
@@ -75,7 +78,7 @@ urls = {
     'publisher': dict([ (publisher+'.html', iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
-        publisher_stats=json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+        publisher_stats=get_publisher_stats(publisher)
         )) for publisher in ckan ]),
     'github.html': github.web.main,
 }
