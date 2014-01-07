@@ -1,7 +1,9 @@
 from collections import OrderedDict
-import json, os, re, copy, datetime
-import jinja2
+import json, sys, os, re, copy, datetime
 import subprocess
+
+from flask import Flask, render_template
+app = Flask(__name__)
 
 def group_files(d):
     out = OrderedDict()
@@ -37,14 +39,10 @@ with open('./data/downloads/errors') as fp:
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
 
 
-def template_page(template, **kwargs):
-    def f(jinja_env):
-        validation_template = jinja_env.get_template(template)
-        return validation_template.render(sorted=sorted, **kwargs)
-    return f
-
 def iati_stats_page(template, **kwargs):
-    return template_page(template, current_stats=current_stats, ckan=ckan, **kwargs) 
+    def f():
+        return render_template(template, current_stats=current_stats, ckan=ckan, **kwargs) 
+    return f
 
 def element_url(element):
     return element.replace('.//', '').replace('/@','.').replace('/','_')
@@ -56,6 +54,13 @@ def firstint(s):
     if s[0].startswith('<'): return 0
     m = re.search('\d+', s[0])
     return int(m.group(0))
+
+app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
+app.jinja_env.globals['url'] = lambda x: x
+app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
+app.jinja_env.globals['datetime_data'] = max(gitdate.values())
+app.jinja_env.globals['element_url'] = element_url
+app.jinja_env.globals['sorted'] = sorted
 
 from vars import expected_versions
 import github.web, licenses
@@ -69,11 +74,11 @@ urls = {
     'licenses.html': licenses.create_main(ckan),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
-    'element':  dict([ (element_url(element)+'.html', iati_stats_page('element.html',
-        element=element,
-        publishers=publishers,
-        url=lambda x: '../'+x,
-        elements=True)) for element, publishers in current_stats['inverted']['elements'].items() ]),
+    #'element':  dict([ (element_url(element)+'.html', iati_stats_page('element.html',
+    #    element=element,
+    #    publishers=publishers,
+    #    url=lambda x: '../'+x,
+    #    elements=True)) for element, publishers in current_stats['inverted']['elements'].items() ]),
     'codelists.html': iati_stats_page('codelists.html', codelists=True),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
     'codelist': dict([ (element_url(element)+'.html', iati_stats_page('codelist.html',
@@ -89,23 +94,24 @@ urls = {
     'github.html': github.web.main,
 }
 
-jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
-jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
-jinja_env.globals['url'] = lambda x: x
-jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
-jinja_env.globals['datetime_data'] = max(gitdate.values())
-jinja_env.globals['element_url'] = element_url
-
-
-def make_html(urls, outdir='out'):
+def make_html(urls, outdir=''):
     for url, f in urls.items():
+        full_url = outdir+'/'+url
         if callable(f):
-            with open(outdir+'/'+url, 'w') as fp:
-                fp.write(f(jinja_env).encode('utf-8'))
+            f.__name__ = full_url.replace('.','_').encode('utf-8')
+            app.add_url_rule(full_url, view_func=f)
         else:
-            try: os.mkdir(outdir+'/'+url)
-            except OSError: pass
-            make_html(f, outdir+'/'+url)
+            make_html(f, full_url)
+
+make_html(urls)
 
 if __name__ == '__main__':
-    make_html(urls)
+    if '--live' in sys.argv:
+        app.debug = True
+        app.run()
+    else:
+        from flask_frozen import Freezer
+        app.config['FREEZER_DESTINATION'] = 'out'
+        app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+        freezer = Freezer(app)
+        freezer.freeze()

@@ -78,14 +78,15 @@ license_names = {
 'zpl': 'OSI Approved::Zope Public License',
 'zlib-license': 'OSI Approved::zlib/libpng license'}
 
+from flask import render_template
+
 def create_main(ckan):
-    def main(jinja_env):
+    def main():
         licenses = [ package.get('license_id') for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ]
         licenses_and_publisher = set([ (package.get('license_id'), publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ])
         licenses_per_publisher = [ license for license, publisher in licenses_and_publisher ]
 
-        template = jinja_env.get_template('licenses.html')
-        return template.render(
+        return render_template('licenses.html',
             license_names=license_names,
             license_count = dict((x,licenses.count(x)) for x in set(licenses)),
             publisher_license_count = dict((x,licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
