@@ -8,8 +8,8 @@
     <table class="table table-striped">
       <thead><tr><th>Element</th><th>Values</th></tr></thead>
       <tbody>
-        {% for element, values in current_stats.inverted.codelist_values.items() %}
-            <tr><td><a href="codelist/{{element_url(element)}}.html">{{element}}</td><td>{{values|length}}</td></tr>
+        {% for i, (element, values) in enumerate(current_stats.inverted.codelist_values.items()) %}
+            <tr><td><a href="codelist/{{i}}.html">{{element}}</td><td>{{values|length}}</td></tr>
         {% endfor %}
       </tbody>
     </table>

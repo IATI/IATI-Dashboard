@@ -1,6 +1,7 @@
 from collections import OrderedDict
 import json, sys, os, re, copy, datetime
 import subprocess
+import urllib
 
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -44,9 +45,6 @@ def iati_stats_page(template, **kwargs):
         return render_template(template, current_stats=current_stats, ckan=ckan, **kwargs) 
     return f
 
-def element_url(element):
-    return element.replace('.//', '').replace('/@','.').replace('/','_')
-
 def get_publisher_stats(publisher):
     return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
 
@@ -55,12 +53,13 @@ def firstint(s):
     m = re.search('\d+', s[0])
     return int(m.group(0))
 
+
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
 app.jinja_env.globals['datetime_data'] = max(gitdate.values())
-app.jinja_env.globals['element_url'] = element_url
 app.jinja_env.globals['sorted'] = sorted
+app.jinja_env.globals['enumerate'] = enumerate
 
 from vars import expected_versions
 import github.web, licenses
@@ -74,25 +73,39 @@ urls = {
     'licenses.html': licenses.create_main(ckan),
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
-    #'element':  dict([ (element_url(element)+'.html', iati_stats_page('element.html',
-    #    element=element,
-    #    publishers=publishers,
-    #    url=lambda x: '../'+x,
-    #    elements=True)) for element, publishers in current_stats['inverted']['elements'].items() ]),
     'codelists.html': iati_stats_page('codelists.html', codelists=True),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
-    'codelist': dict([ (element_url(element)+'.html', iati_stats_page('codelist.html',
-        element=element,
-        values=values,
-        url=lambda x: '../'+x,
-        codelists=True)) for element, values in current_stats['inverted']['codelist_values'].items() ]),
-    'publisher': dict([ (publisher+'.html', iati_stats_page('publisher.html',
+    'codelist': dict([ ]),
+    'github.html': github.web.main,
+}
+
+@app.route('/publisher/<publisher>.html')
+def publisher(publisher):
+    return iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
         publisher_stats=get_publisher_stats(publisher)
-        )) for publisher in ckan ]),
-    'github.html': github.web.main,
-}
+        )()
+
+@app.route('/codelist/<int:i>.html')
+def codelist(i):
+    element = current_stats['inverted']['codelist_values'].keys()[i]
+    values = current_stats['inverted']['codelist_values'].values()[i]
+    return iati_stats_page('codelist.html',
+        element=element,
+        values=values,
+        url=lambda x: '../'+x,
+        codelists=True)()
+
+@app.route('/element/<int:i>.html')
+def element(i):
+    element = current_stats['inverted']['elements'].keys()[i]
+    values = current_stats['inverted']['elements'].values()[i]
+    return iati_stats_page('element.html',
+        element=element,
+        publishers=values,
+        url=lambda x: '../'+x,
+        elements=True)()
 
 def make_html(urls, outdir=''):
     for url, f in urls.items():
@@ -114,4 +127,14 @@ if __name__ == '__main__':
         app.config['FREEZER_DESTINATION'] = 'out'
         app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
         freezer = Freezer(app)
+
+        @freezer.register_generator
+        def url_generator():
+            for publisher in ckan:
+                yield 'publisher', {'publisher':publisher}
+            for i in range(0, len(current_stats['inverted']['elements'])): 
+                yield 'element', {'i':i}
+            for i in range(0, len(current_stats['inverted']['codelist_values'])): 
+                yield 'codelist', {'i':i}
+
         freezer.freeze()

@@ -9,10 +9,10 @@
         <table class="table table-striped">
           <thead><tr><th>Elements</th><th>Publishers</th></tr></thead>
           <tbody>
-            {% for element,publishers in current_stats.inverted.elements.items() %}
+            {% for i, (element,publishers) in enumerate(current_stats.inverted.elements.items()) %}
             <tr>
-              <td class="break"><a href="element/{{element_url(element)}}.html">{{element}}</a></td>
-              <td><a href="element/{{element_url(element)}}.html">{{publishers|length}}</a></td>
+              <td class="break"><a href="element/{{i}}.html">{{element}}</a></td>
+              <td><a href="element/{{i}}.html">{{publishers|length}}</a></td>
             </tr>
             {% endfor%}
           </tbody>
