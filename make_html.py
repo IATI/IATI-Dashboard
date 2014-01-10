@@ -46,7 +46,10 @@ def iati_stats_page(template, **kwargs):
     return f
 
 def get_publisher_stats(publisher):
-    return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+    try:
+        return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+    except IOError:
+        return {}
 
 def firstint(s):
     if s[0].startswith('<'): return 0

@@ -7,10 +7,9 @@ def main():
 
     milestones_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     milestones_nodate = []
+    no_milestone = {}
 
     for fname in os.listdir('data/github/milestones'):
-        if not fname.endswith('.json'):
-            continue 
         milestones = json.load(open(os.path.join('data/github/milestones',fname)))
         if not 'message' in milestones:
             for milestone in milestones:
@@ -22,5 +21,12 @@ def main():
                     milestones_calendar[m.group(1)][m.group(2)][m.group(3)].append(milestone)
                     #print('   ', milestone['title'], '---', milestone['due_on'], '---', str(milestone['open_issues'])+'/'+str(milestone['closed_issues']))
 
-    return render_template('github.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, sorted=sorted, github=True)
+    for fname in os.listdir('data/github/issues_no_milestone'):
+        issues = json.load(open(os.path.join('data/github/issues_no_milestone',fname)))
+        if type(issues) == list:
+            if len(issues):
+                no_milestone[fname[:-5]] = len(issues)
+        
+
+    return render_template('github.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, github=True)
 

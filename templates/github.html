@@ -50,4 +50,23 @@
             </div>
 {% endfor %}
 
+    <h2>No milestone</h2>
+{% for repo, issues in sorted(no_milestone.items()) %}
+            <div class="row">
+                <div class="col-md-1">??</div>
+                <div class="col-md-2">
+                    <a href="https://github.com/IATI/{{ repo }}" class="badge">
+                        {{ repo }}
+                    </a>
+                </div>
+                <div class="col-md-1">{{ issues }}</div>
+                <div class="col-md-1"></div>
+                <div class="col-md-7">
+                    <a href="https://github.com/IATI/{{ repo }}/issues?milestone=none">
+                        No Milestone
+                    </a>
+                </div>
+            </div>
+{% endfor %}
+
 {% endblock %}
