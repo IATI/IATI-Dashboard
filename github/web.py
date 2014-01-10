@@ -8,10 +8,10 @@ def main():
     milestones_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     milestones_nodate = []
 
-    for fname in os.listdir('data'):
+    for fname in os.listdir('data/github/milestones'):
         if not fname.endswith('.json'):
             continue 
-        milestones = json.load(open(os.path.join('data',fname)))
+        milestones = json.load(open(os.path.join('data/github/milestones',fname)))
         if not 'message' in milestones:
             for milestone in milestones:
                 milestone['repo'] = fname[:-5]

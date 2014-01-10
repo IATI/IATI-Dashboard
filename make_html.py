@@ -3,7 +3,7 @@ import json, sys, os, re, copy, datetime
 import subprocess
 import urllib
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 app = Flask(__name__)
 
 def group_files(d):
@@ -78,6 +78,8 @@ urls = {
     'codelist': dict([ ]),
     'github.html': github.web.main,
 }
+
+app.route('/')(lambda: redirect('index.html'))
 
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):

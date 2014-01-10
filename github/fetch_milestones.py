@@ -14,7 +14,7 @@ def fetch():
     for repo in json.loads(r.text):
         milestones_url = repo['milestones_url'].replace('{/number}','')
         r2 = requests.get(milestones_url)
-        with open('data/{0}.json'.format(repo['name']), 'w') as fp:
+        with open('data/github/milestones/{0}.json'.format(repo['name']), 'w') as fp:
             fp.write(r2.text)
 
 if __name__ == '__main__':
