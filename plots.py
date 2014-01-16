@@ -50,6 +50,8 @@ for stat_path in [
     else:
         stat_name = stat_path
     
+    print stat_name
+
     items = sorted(git_stats.get(stat_name).items())
     x_values = [ datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x,y in items ]
     if type(stat_path) == tuple:
