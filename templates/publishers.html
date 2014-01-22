@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png')}}
+      {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png')}}
+    </div>
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Activities</th>
+                <th>Organisations</th>
+                <th>Files</th>
+                <th>Total File Size</th>
+                <th>Reporting Orgs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, activities in current_stats.inverted.activities.items() %}
+            {% set publisher_stats = get_publisher_stats(publisher) %}
+            <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+                <td>{{activities}}</td>
+                <td>{{publisher_stats.organisations}}</td>
+                <td>{{current_stats.inverted.activity_files.get(publisher)+current_stats.inverted.organisation_files.get(publisher)}}</td>
+                <td data-bytes="{{current_stats.inverted.file_size.get(publisher)}}">{{current_stats.inverted.file_size.get(publisher)|filesizeformat}}</td>
+                <td>{{publisher_stats.reporting_orgs|length}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}
+{% block tablesorteroptions %}
+{textExtraction:{4: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}
+{% endblock %}

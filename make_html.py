@@ -67,7 +67,8 @@ app.jinja_env.globals['enumerate'] = enumerate
 from vars import expected_versions
 import github.web, licenses
 urls = {
-    'index.html': iati_stats_page('index.html', publisher=True, get_publisher_stats=get_publisher_stats),
+    'index.html': iati_stats_page('index.html', index=True, get_publisher_stats=get_publisher_stats),
+    'publishers.html': iati_stats_page('publishers.html', publisher=True, get_publisher_stats=get_publisher_stats),
     'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
