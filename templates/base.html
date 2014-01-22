@@ -67,19 +67,39 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
+      <li {% if index or publisher or files
+          %}class="active"{%endif%}><a href="{{url('index.html')}}">Headlines</a></li>
+      <li {% if download or xml or validation or versions or licenses or organisation
+          %}class="active"{% endif %}><a href="{{url('download.html')}}">Data Quality</a></li>
+      <li {% if elements or codelists or booleans
+          %}class="active"{% endif %}><a href="{{url('elements.html')}}">Exploring Data</a></li>
+      <li {% if github
+          %}class="active"{% endif %}><a href="{{url('github.html')}}">Github</a></li>
+      </ul>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+      {% if index or publisher or files %}
       <li{% if index %} class="active"{% endif %}><a href="{{url('index.html')}}">Home</a></li>
       <li{% if publisher %} class="active"{% endif %}><a href="{{url('publishers.html')}}">Publishers</a></li>
       <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
+      {% endif %}
+      {% if download or xml or validation or versions or licenses or organisation %}
       <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>
       <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
       <li{% if versions %} class="active"{% endif %}><a href="{{url('versions.html')}}">Versions</a></li>
       <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>
       <li{% if organisation %} class="active"{% endif %}><a href="{{url('organisation.html')}}">Organisation XML</a></li>
+      {% endif %}
+      {% if elements or codelists or booleans %}
       <li{% if elements %} class="active"{% endif %}><a href="{{url('elements.html')}}">Elements</a></li>
       <li{% if codelists %} class="active"{% endif %}><a href="{{url('codelists.html')}}">Codelists</a></li>
       <li{% if booleans %} class="active"{% endif %}><a href="{{url('booleans.html')}}">Booleans</a></li>
-      <li{% if github %} class="active"{% endif %}><a href="{{url('github.html')}}">GitHub</a></li>
+      {% endif %}
+      {% if github %}
+      <li{% if github %} class="active"{% endif %}><a href="{{url('github.html')}}">Milestones</a></li>
+      {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
     </div>
