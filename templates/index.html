@@ -33,10 +33,58 @@
             <tr>
                 <td>
                     <a href="files.html">
-                    {{current_stats.aggregated.file_size}}
+                    {{current_stats.aggregated.file_size|filesizeformat}}
                     </a>
                 </td>
                 <td>Total File Size</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="download.html">
+                    {{current_stats.download_errors|length}}
+                    </a>
+                </td>
+                <td>Files Fail to Download</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="xml.html">
+                    {{current_stats.aggregated.invalidxml}}
+                    </a>
+                </td>
+                <td>Invalid XML Files</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="xml.html">
+                    {{current_stats.aggregated.nonstandardroots}}
+                    </a>
+                </td>
+                <td>Files with Nonstandard Roots</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="validation.html">
+                    {{current_stats.aggregated.validation.fail}}
+                    </a>
+                </td>
+                <td>Files don't validate against the schema</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="validation.html">
+                    {{current_stats.aggregated.publishers_validation.fail}}
+                    </a>
+                </td>
+                <td>Publishers have non-validating files</td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="organisation.html">
+                    {{current_stats.aggregated.publisher_has_org_file.no}}
+                    </a>
+                </td>
+                <td>Publishers with no organisation file</td>
             </tr>
         </body>
     </table>
