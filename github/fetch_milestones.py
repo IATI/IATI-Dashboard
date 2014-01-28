@@ -21,7 +21,7 @@ def fetch():
         issues_url = repo['issues_url'].replace('{/number}','')
         issues_no_milestone_request = requests.get(issues_url, params={'milestone':'none'})
         with open('data/github/issues_no_milestone/{0}.json'.format(repo['name']), 'w') as fp:
-            fp.write(issues_no_milestone_request.text)
+            fp.write(issues_no_milestone_request.text.encode('utf-8'))
 
 if __name__ == '__main__':
     fetch()
