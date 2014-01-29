@@ -5,15 +5,22 @@
 {% endblock %}
 {% block content %}
 
+<div class="page-header">
+  <h1>Booleans</h1>
+  <p>List of values actually used by publishers for attributes that should be booleans (ie. <code>true</code>, <code>false</code>, <code>0</code> or <code>1</code>)</p>.
+</div>
+
     <table class="table table-striped">
-      <thead><tr><th>Element</th><th>Values</th></tr></thead>
+      <thead><tr><th>Element</th><th>Values</th><th>Publishers</th></tr></thead>
       <tbody>
         {% for boolean, values in current_stats.inverted.boolean_values.items() %}
-            <tr><td>{{boolean}}</td><td>
-                {% for value, publishers in values.items()%}
-                <strong>{{value}}</strong> {%for publisher in publishers%}{{publisher}} {%endfor%}<br/>
-                {% endfor %}
-            </td></tr>
+            {% for value, publishers in values.items()%}
+                <tr>
+                    <td>{{boolean}}</td>
+                    <td>{{value}}</td>
+                    <td>{%for publisher in publishers%}{{publisher}} {%endfor%}</td>
+                </tr>
+            {% endfor %}
         {% endfor %}
       </tbody>
     </table>
