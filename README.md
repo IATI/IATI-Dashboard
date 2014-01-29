@@ -1,6 +1,6 @@
-# IATI Dashboard
+# IATI SMASHBOARD
 
-See the dashboard in action at http://iati.github.io/IATI-Dashboard/
+See the smashboard in action at http://iati.github.io/IATI-SMASHBOARD/
 
 ## Installation
 
@@ -31,7 +31,7 @@ To install:
 
 If you want to used the gh-pages branch as the output directory:
 
-    git clone -b gh-pages git@github.com:Bjwebb/IATI-Dashboard.git out
+    git clone -b gh-pages git@github.com:Bjwebb/IATI-SMASHBOARD.git out
 
 Look into `git.sh` for doing the full update of an output git repository.
 
