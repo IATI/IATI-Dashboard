@@ -1,6 +1,6 @@
 # IATI Dashboard
 
-See the dashboard in action at http://bjwebb.github.io/IATI-Dashboard/
+See the dashboard in action at http://iati.github.io/IATI-Dashboard/
 
 ## Installation
 
