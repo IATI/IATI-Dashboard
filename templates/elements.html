@@ -4,19 +4,24 @@
 {{ super () }} - Elements
 {% endblock %}
 {% block content %}
-    <div class="col-md-6">
+    <!--<div class="col-md-6">-->
       <div class="panel panel-default">
         <table class="table table-striped">
-          <thead><tr><th>Element/Attribute</th><th>Publishers</th></tr></thead>
+          <thead><tr>
+            <th>Element/Attribute</th>
+            <th>Publishers <a href="{{stats_url}}/current/inverted-publisher/elements.json">(J)</a></th>
+            <th>Occurences <a href="{{stats_url}}/current/aggregated/elements.json">(J)</a></th>
+          </tr></thead>
           <tbody>
             {% for i, (element,publishers) in enumerate(current_stats.inverted_publisher.elements.items()) %}
             <tr>
               <td class="break"><a href="element/{{i}}.html">{{element}}</a></td>
               <td><a href="element/{{i}}.html">{{publishers|length}}</a></td>
+              <td>{{current_stats.aggregated.elements[elemen]}}</td>
             </tr>
             {% endfor%}
           </tbody>
         </table>
       </div> 
-    </div>
+    <!--</div>-->
 {% endblock %}

@@ -11,11 +11,11 @@
         <thead>
             <tr>
                 <th>Publisher</th>
-                <th>Activities</th>
-                <th>Organisations</th>
-                <th>Files</th>
-                <th>Total File Size</th>
-                <th>Reporting Orgs</th>
+                <th>Activities <a href="{{stats_url}}/current/inverted-publisher/activities.json">(J)</a></th>
+                <th>Organisations <a href="{{stats_url}}/current/inverted-publisher/organisations.json">(J)</a></th>
+                <th>Files <a href="#files_note">(*)</a></th>
+                <th>Total File Size <a href="{{stats_url}}/current/inverted-publisher/file_size.json">(J)</a></th>
+                <th>Reporting Orgs <a href="{{stats_url}}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +33,7 @@
         </tbody>
     </table>
     </div>
+    <p id="files_note">* Files is the sum of Activity Files <a href="{{stats_url}}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{stats_url}}/current/inverted-publisher/organisation_files.json">(J)</a>.</p> 
 {% endblock %}
 {% block tablesorteroptions %}
 {textExtraction:{4: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}

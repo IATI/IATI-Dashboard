@@ -13,6 +13,8 @@
       {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png')}}
     </div>
 
+    <p><a href="{{url('data/download_errors.json')}}">This table as JSON</a></p>
+
     <div class="panel panel-default">
     <table class="table table-striped">
         <thead>

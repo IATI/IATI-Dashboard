@@ -13,6 +13,7 @@
       {{boxes.box('Publishers without an Organization File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png')}}
       <div class="col-md-6">
         <div class="panel panel-default">
+        <a href="{{stats_url}}/current/inverted-publisher/publisher_has_org_file.json">(J)</a>
         <table class="table table-bordered">
         <tr>
         {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}

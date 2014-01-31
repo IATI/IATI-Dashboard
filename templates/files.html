@@ -9,7 +9,10 @@
     <div class="row">
       <div class="col-md-6">
         <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title">File Sizes</h3></div>
+        <div class="panel-heading">
+            <a href="{{stats_url}}/current/aggregated/file_size_bins.json" style="float:right">(J)</a> 
+            <h3 class="panel-title">File Sizes</h3>
+        </div>
         <table class="table table-striped">
             <tbody>
             {% for bin,freq in sorted(current_stats.aggregated.file_size_bins.items(), key=firstint) %}
@@ -29,9 +32,9 @@
         <thead>
             <tr>
                 <th>Package Name</th>
-                <th>Activities</th>
-                <th>Organisations</th>
-                <th>File Size</th>
+                <th>Activities <a href="{{stats_url}}/current/inverted-file/activities.json">(J)</a></th>
+                <th>Organisations <a href="{{stats_url}}/current/inverted-file/organisations.json">(J)</a></th>
+                <th>File Size <a href="{{stats_url}}/current/inverted-file/file_size.json">(J)</a></th>
             </tr>
         </thead>
         <tbody>

@@ -3,7 +3,7 @@ import json, sys, os, re, copy, datetime
 import subprocess
 import urllib
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, Response
 app = Flask(__name__)
 
 def group_files(d):
@@ -61,6 +61,8 @@ app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
 app.jinja_env.globals['datetime_data'] = max(gitdate.values())
+#app.jinja_env.globals['stats_url'] = 'http://arstneio.com/iati/stats'
+app.jinja_env.globals['stats_url'] = 'http://localhost:8001'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
 
@@ -79,6 +81,7 @@ urls = {
     'elements.html': iati_stats_page('elements.html', elements=True),
     'codelists.html': iati_stats_page('codelists.html', codelists=True),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
+    'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
     'codelist': dict([ ]),
     'github.html': github.web.main,
 }
