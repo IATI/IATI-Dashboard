@@ -9,7 +9,7 @@
         <table class="table table-striped">
           <thead><tr><th>Element/Attribute</th><th>Publishers</th></tr></thead>
           <tbody>
-            {% for i, (element,publishers) in enumerate(current_stats.inverted.elements.items()) %}
+            {% for i, (element,publishers) in enumerate(current_stats.inverted_publisher.elements.items()) %}
             <tr>
               <td class="break"><a href="element/{{i}}.html">{{element}}</a></td>
               <td><a href="element/{{i}}.html">{{publishers|length}}</a></td>

@@ -31,7 +31,7 @@
         </div>
         <table class="table table-striped">
           <tbody>
-            {% for publisher in current_stats.inverted.publishers %}
+            {% for publisher in current_stats.inverted_publisher.publishers %}
             {% if publisher not in publishers %}
             <tr>
                 <td>{{publisher}}</td>

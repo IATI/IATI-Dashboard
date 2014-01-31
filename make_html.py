@@ -27,7 +27,7 @@ def group_files(d):
 
 current_stats = {
     'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
-    'inverted': json.load(open('./stats-calculated/current/inverted.json'), object_pairs_hook=OrderedDict),
+    'inverted_publisher': json.load(open('./stats-calculated/current/inverted-publisher.json'), object_pairs_hook=OrderedDict),
     'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict),
     'download_errors': []
 }
@@ -47,7 +47,7 @@ def iati_stats_page(template, **kwargs):
 
 def get_publisher_stats(publisher):
     try:
-        return json.load(open('./stats-calculated/current/aggregated/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+        return json.load(open('./stats-calculated/current/aggregated-publisher/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
     except IOError:
         return {}
 
@@ -95,8 +95,8 @@ def publisher(publisher):
 
 @app.route('/codelist/<int:i>.html')
 def codelist(i):
-    element = current_stats['inverted']['codelist_values'].keys()[i]
-    values = current_stats['inverted']['codelist_values'].values()[i]
+    element = current_stats['inverted_publisher']['codelist_values'].keys()[i]
+    values = current_stats['inverted_publisher']['codelist_values'].values()[i]
     return iati_stats_page('codelist.html',
         element=element,
         values=values,
@@ -105,8 +105,8 @@ def codelist(i):
 
 @app.route('/element/<int:i>.html')
 def element(i):
-    element = current_stats['inverted']['elements'].keys()[i]
-    values = current_stats['inverted']['elements'].values()[i]
+    element = current_stats['inverted_publisher']['elements'].keys()[i]
+    values = current_stats['inverted_publisher']['elements'].values()[i]
     return iati_stats_page('element.html',
         element=element,
         publishers=values,
@@ -138,9 +138,9 @@ if __name__ == '__main__':
         def url_generator():
             for publisher in ckan:
                 yield 'publisher', {'publisher':publisher}
-            for i in range(0, len(current_stats['inverted']['elements'])): 
+            for i in range(0, len(current_stats['inverted_publisher']['elements'])): 
                 yield 'element', {'i':i}
-            for i in range(0, len(current_stats['inverted']['codelist_values'])): 
+            for i in range(0, len(current_stats['inverted_publisher']['codelist_values'])): 
                 yield 'codelist', {'i':i}
 
         freezer.freeze()

@@ -31,7 +31,7 @@
           </div>
           <div class="panel-body">
           <div class="row">
-            {% for version, publishers in current_stats.inverted.versions.items() %}
+            {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version in expected_versions %}
             {{ publishers.sort() or '' }}
             <div class="col-md-4">
@@ -58,7 +58,7 @@
           </div>
           <div class="panel-body">
           <div class="row">
-            {% for version, publishers in current_stats.inverted.versions.items() %}
+            {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version not in expected_versions %}
             {{ publishers.sort() or '' }}
             <div class="col-md-4">

@@ -15,7 +15,7 @@
         <div class="panel panel-default">
         <table class="table table-bordered">
         <tr>
-        {% for publisher in sorted(current_stats.inverted.publisher_has_org_file.no) %}
+        {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
             {{ loop.cycle('</tr><tr>'|safe, '', '', '') }}
             <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
         {% endfor %}

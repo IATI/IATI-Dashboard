@@ -13,7 +13,7 @@
     <table class="table table-striped">
       <thead><tr><th>Element</th><th>Values</th><th>Publishers</th></tr></thead>
       <tbody>
-        {% for boolean, values in current_stats.inverted.boolean_values.items() %}
+        {% for boolean, values in current_stats.inverted_publisher.boolean_values.items() %}
             {% for value, publishers in values.items()%}
                 <tr>
                     <td>{{boolean}}</td>

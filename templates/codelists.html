@@ -8,7 +8,7 @@
     <table class="table table-striped">
       <thead><tr><th>Element/Attribute on codelist</th><th>Values</th></tr></thead>
       <tbody>
-        {% for i, (element, values) in enumerate(current_stats.inverted.codelist_values.items()) %}
+        {% for i, (element, values) in enumerate(current_stats.inverted_publisher.codelist_values.items()) %}
             <tr><td><a href="codelist/{{i}}.html">{{element}}</td><td>{{values|length}}</td></tr>
         {% endfor %}
       </tbody>
