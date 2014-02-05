@@ -61,8 +61,8 @@ app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
 app.jinja_env.globals['datetime_data'] = max(gitdate.values())
-#app.jinja_env.globals['stats_url'] = 'http://arstneio.com/iati/stats'
-app.jinja_env.globals['stats_url'] = 'http://localhost:8001'
+app.jinja_env.globals['stats_url'] = 'http://arstneio.com/iati/stats'
+#app.jinja_env.globals['stats_url'] = 'http://localhost:8001'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
 
