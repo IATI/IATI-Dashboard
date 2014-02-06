@@ -1,7 +1,8 @@
 from collections import OrderedDict
-import json, sys, os, re, copy, datetime
+import json, sys, os, re, copy, datetime, unicodecsv
 import subprocess
 import urllib
+from collections import defaultdict
 
 from flask import Flask, render_template, redirect, Response
 app = Flask(__name__)
@@ -38,11 +39,18 @@ with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
+data_tickets = defaultdict(list)
+with open('./data/issues.csv') as fp:
+    # Skip BOM
+    fp.read(3)
+    reader = unicodecsv.DictReader(fp)
+    for issue in reader:
+        data_tickets[issue['data_provider_regisrty_id']].append(issue)
 
 
 def iati_stats_page(template, **kwargs):
     def f():
-        return render_template(template, current_stats=current_stats, ckan=ckan, **kwargs) 
+        return render_template(template, current_stats=current_stats, ckan=ckan, data_tickets=data_tickets, **kwargs) 
     return f
 
 def get_publisher_stats(publisher):

@@ -2,6 +2,8 @@
 mkdir -p data/downloads/
 wget "https://gist.github.com/Bjwebb/6726204/raw/errors" -O data/downloads/errors
 
+wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned&status=new&status=reopened&format=csv&col=id&col=summary&col=status&col=owner&col=component&col=element&col=data_provider_regisrty_id&order=priority" -O data/issues.csv
+
 python fetch_data.py
 
 cd data/downloads

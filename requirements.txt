@@ -2,3 +2,4 @@ jinja2
 matplotlib
 requests
 Frozen-Flask
+unicodecsv
