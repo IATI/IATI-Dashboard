@@ -28,7 +28,7 @@
         <tbody>
             {% for code, publisher, dataset, url in current_stats.download_errors %}
             <tr>
-                <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
                 <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
                 <td><a href="{{url}}">{{url|url_to_filename}}</a></td>
                 <td>{{code}}</td>
