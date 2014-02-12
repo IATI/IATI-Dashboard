@@ -12,9 +12,9 @@ Technology Overview
 
 The dashboard is written in Python.
 
-`make_html.py` contains is a Flask application that makes use of Frozen Flask to generate some static HTML that is then deployed to github pages. 
+``make_html.py`` contains is a Flask application that makes use of Frozen Flask to generate some static HTML that is then deployed to github pages. 
 
-`plots.py` generates static images of graphs using matplotlib.
+``plots.py`` generates static images of graphs using matplotlib.
 
 The dashboard uses various data from github, that can be fetched using ``fetch_data.sh``, and some stats calculated on IATI data, using code in the `IATI-Stats repository <https://github.com/IATI/IATI-Stats>`_. ``get_stats.sh`` can be used to fetch nightly calculated stats.
 
