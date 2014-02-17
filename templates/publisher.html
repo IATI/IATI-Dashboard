@@ -32,6 +32,9 @@
                 <td>Organisation Files</td>
                 <td>{{publisher_stats.organisation_files}}</td>
             </tr><tr>
+                <td>Total File Size</td>
+                <td>{{publisher_stats.file_size|filesizeformat}}</td>
+            </tr><tr>
                 <td>Activities</td>
                 <td>{{publisher_stats.activities}}</td>
             </tr><tr>
@@ -61,7 +64,7 @@
     </div>
 
     <div class="row">
-    {% if publisher in data_tickets %}
+    {% if publisher in data_tickets and data_tickets[publisher]|count %}
     <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Data Tickets</h3></div>
@@ -115,6 +118,88 @@
         </div>
     </div>
     {% endif %}
+
+    {% if publisher_stats.invalidxml %}
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Invalid XML Files</h3>
     </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset, invalid in publisher_stats.invalidxml.items() %}
+            {% if invalid %}
+            <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    {% endif %}
+
+    {% if 1 in publisher_inverted.invalidxml.values() %}
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/invalidxml.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Invalid XML Files</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset, invalid in publisher_inverted.invalidxml.items() %}
+            {% if invalid %}
+            <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    {% endif %}
+
+    {% if 1 in publisher_inverted.nonstandardroots.values() %}
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/inverted-file/{{publisher}}/nonstandardroots.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Files with non-standard roots</h3>
+    </div>
+        <thead>
+            <tr>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset, nonstandard in publisher_inverted.nonstandardroots.items() %}
+            {% if nonstandard %}
+            <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    {% endif %}
+
+
+    </div><!-- .row -->
 
 {% endblock %}

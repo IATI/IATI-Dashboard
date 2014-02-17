@@ -59,9 +59,9 @@ def iati_stats_page(template, **kwargs):
             **kwargs) 
     return f
 
-def get_publisher_stats(publisher):
+def get_publisher_stats(publisher, stats_type='aggregated'):
     try:
-        return json.load(open('./stats-calculated/current/aggregated-publisher/{0}.json'.format(publisher)), object_pairs_hook=OrderedDict)
+        return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
     except IOError:
         return {}
 
@@ -107,7 +107,8 @@ def publisher(publisher):
     return iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
-        publisher_stats=get_publisher_stats(publisher)
+        publisher_stats=get_publisher_stats(publisher),
+        publisher_inverted=get_publisher_stats(publisher, 'inverted-file')
         )()
 
 @app.route('/codelist/<int:i>.html')
