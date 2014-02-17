@@ -22,7 +22,7 @@
                 <td>Reporting Org(s)</td>
                 <td>
                 {% for org in publisher_stats.reporting_orgs%}
-                <code>{{org|replace(' ', '&nbsp;')}}</code>
+                <code>{{org|replace(' ', '&nbsp;')|safe}}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -41,7 +41,7 @@
                 <td>Versions</td>
                 <td>
                 {%for version in publisher_stats.versions.keys() %}
-                <code>{{version|replace(' ', '&nbsp;')}}</code>
+                <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
                 {%endfor%}
                 </td>
             </tr><tr>
