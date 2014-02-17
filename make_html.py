@@ -33,6 +33,7 @@ current_stats = {
     'download_errors': []
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
+ckan_publishers = json.load(open('./data/ckan_publishers.json'), object_pairs_hook=OrderedDict)
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
 with open('./data/downloads/errors') as fp:
@@ -50,7 +51,12 @@ with open('./data/issues.csv') as fp:
 
 def iati_stats_page(template, **kwargs):
     def f():
-        return render_template(template, current_stats=current_stats, ckan=ckan, data_tickets=data_tickets, **kwargs) 
+        return render_template(template,
+            current_stats=current_stats,
+            ckan=ckan,
+            publisher_name={p['name']:p['title'] for p in ckan_publishers['result']},
+            data_tickets=data_tickets,
+            **kwargs) 
     return f
 
 def get_publisher_stats(publisher):
