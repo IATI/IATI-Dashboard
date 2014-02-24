@@ -7,6 +7,11 @@ from collections import defaultdict
 from flask import Flask, render_template, redirect, Response
 app = Flask(__name__)
 
+def dataset_to_publisher(publisher_slug):
+    """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
+    slug e.g. dfid """
+    return publisher_slug.rsplit('-',1)[0]
+
 def group_files(d):
     out = OrderedDict()
     publisher_re = re.compile('(.*)\-[^\-]')
@@ -72,6 +77,7 @@ def firstint(s):
 
 
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
+app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
 app.jinja_env.globals['datetime_data'] = max(gitdate.values())
