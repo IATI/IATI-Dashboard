@@ -79,17 +79,28 @@ license_names = {
 'zlib-license': 'OSI Approved::zlib/libpng license'}
 
 from flask import render_template
+from data import ckan
 
-def create_main(ckan):
-    def main():
-        licenses = [ package.get('license_id') for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ]
-        licenses_and_publisher = set([ (package.get('license_id'), publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ])
-        licenses_per_publisher = [ license for license, publisher in licenses_and_publisher ]
+licenses = [ package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items() ]
 
-        return render_template('licenses.html',
-            license_names=license_names,
-            license_count = dict((x,licenses.count(x)) for x in set(licenses)),
-            publisher_license_count = dict((x,licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
-            sorted=sorted,
-            licenses=True)
-    return main
+def main():
+    licenses_and_publisher = set([ (package.get('license_id'), publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ])
+    licenses_per_publisher = [ license for license, publisher in licenses_and_publisher ]
+
+    return render_template('licenses.html',
+        license_names=license_names,
+        license_count = dict((x,licenses.count(x)) for x in set(licenses)),
+        publisher_license_count = dict((x,licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
+        sorted=sorted,
+        licenses=True)
+
+def individual_license(license):
+    if license == 'None':
+        license = None
+    publishers = [ publisher_name for publisher_name, publisher in ckan.items() for _, package in publisher.items() if package.get('license_id') == license ]
+    publisher_counts = [ (publisher, publishers.count(publisher)) for publisher in set(publishers) ]
+    return render_template('license.html',
+        license=license,
+        license_names=license_names,
+        publisher_counts=publisher_counts,
+        licenses=True)
