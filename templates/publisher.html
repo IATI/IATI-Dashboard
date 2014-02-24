@@ -48,6 +48,13 @@
                 {%endfor%}
                 </td>
             </tr><tr>
+                <td>Licenses</td>
+                <td>
+                {%for license in licenses %}
+                <code><a href="../license/{{license}}.html">{{license}}</a></code>
+                {%endfor%}
+                </td>
+            </tr><tr>
                 <td>Files failing validation</td>
                 <td>
                 {% if publisher in current_stats.inverted_file_grouped.validation.fail %}

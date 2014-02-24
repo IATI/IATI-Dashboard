@@ -66,7 +66,8 @@ def publisher(publisher):
         url=lambda x: '../'+x,
         publisher=publisher,
         publisher_stats=get_publisher_stats(publisher),
-        publisher_inverted=get_publisher_stats(publisher, 'inverted-file')
+        publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
+        licenses=licenses.licenses_for_publisher(publisher)
         )()
 
 @app.route('/codelist/<int:i>.html')
