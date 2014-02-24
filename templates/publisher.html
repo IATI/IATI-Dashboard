@@ -126,32 +126,6 @@
     </div>
     {% endif %}
 
-    {% if publisher_stats.invalidxml %}
-    <div class="col-md-6">
-    <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Invalid XML Files</h3>
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Dataset</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dataset, invalid in publisher_stats.invalidxml.items() %}
-            {% if invalid %}
-            <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
-    </div>
-    {% endif %}
-
     {% if 1 in publisher_inverted.invalidxml.values() %}
     <div class="col-md-6">
     <div class="panel panel-default">
