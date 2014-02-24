@@ -26,6 +26,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>Publisher</th>
                 <th>Dataset</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
             {% for dataset, invalid in current_stats.inverted_file.invalidxml.items() %}
             {% if invalid %}
             <tr>
+                <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
                 <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
             </tr>
             {% endif %}
@@ -51,6 +53,7 @@
     </div>
         <thead>
             <tr>
+                <th>Publisher</th>
                 <th>Dataset</th>
             </tr>
         </thead>
@@ -58,6 +61,7 @@
             {% for dataset, nonstandard in current_stats.inverted_file.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
+                <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
                 <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
             </tr>
             {% endif %}
