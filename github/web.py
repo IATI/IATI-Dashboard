@@ -29,7 +29,7 @@ def main():
                 no_milestone[fname[:-5]] = len(issues)
     
     for fname in os.listdir('data/github/no_open_issues'):
-        no_open_issues.append(fname)
+        no_open_issues.append(fname[:-5])
         
 
     return render_template('github.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, github=True, no_open_issues=no_open_issues)
