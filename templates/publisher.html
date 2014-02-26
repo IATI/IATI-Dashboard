@@ -192,6 +192,32 @@
     <h2>Exploring Data</h2>
 
     <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Files</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Activities <a href="{{stats_url}}/current/inverted-file/{{publisher}}/activities.json">(J)</a></th>
+                <th>Organisations <a href="{{stats_url}}/current/inverted-file/{{publisher}}/organisations.json">(J)</a></th>
+                <th>File Size <a href="{{stats_url}}/current/inverted-file/{{publisher}}/file_size.json">(J)</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for package, activities in publisher_inverted.activities.items() %}
+            <tr>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
+                <td>{{activities}}</td>
+                <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
+                <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="panel panel-default">
     <table class="table table-striped">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/aggregated/{{publisher}}/elements.json" style="float:right">(J)</a>
