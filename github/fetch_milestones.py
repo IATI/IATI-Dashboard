@@ -4,6 +4,7 @@ import os
 
 def fetch():
     try:
+        os.makedirs(os.path.join('data','github','no_open_issues'))
         os.makedirs(os.path.join('data','github','issues_no_milestone'))
         os.makedirs(os.path.join('data','github','milestones'))
     except IOError:
@@ -22,6 +23,12 @@ def fetch():
         issues_no_milestone_request = requests.get(issues_url, params={'milestone':'none'})
         with open('data/github/issues_no_milestone/{0}.json'.format(repo['name']), 'w') as fp:
             fp.write(issues_no_milestone_request.text.encode('utf-8'))
+        
+        open_issues = repo['open_issues']
+        if open_issues == 0:
+            with open('data/github/no_open_issues/{0}.json'.format(repo['name']), 'w') as fp:
+                fp.write('0')
+        
 
 if __name__ == '__main__':
     fetch()
