@@ -83,10 +83,12 @@ def codelist(i):
 @app.route('/element/<int:i>.html')
 def element(i):
     element = current_stats['inverted_publisher']['elements'].keys()[i]
-    values = current_stats['inverted_publisher']['elements'].values()[i]
+    publishers = current_stats['inverted_publisher']['elements'].values()[i]
+    file_grouped = current_stats['inverted_file_grouped']['elements'].values()[i]
     return iati_stats_page('element.html',
         element=element,
-        publishers=values,
+        publishers=publishers,
+        file_grouped=file_grouped,
         get_publisher_stats=get_publisher_stats,
         url=lambda x: '../'+x,
         elements=True)()
