@@ -228,6 +228,7 @@
             <tr>
                 <th>Element/Attribute</th>
                 <th>Activities/Organisations</th>
+                <th>Files</th>
             </tr>
         </thead>
         <tbody>
@@ -235,6 +236,7 @@
             <tr>
                 <td>{{element}}</td>
                 <td>{{count}}</td>
+                <td>{{publisher_inverted.elements[element]|count}}</td>
             </tr>
             {% endfor %}
         </tbody>

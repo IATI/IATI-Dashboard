@@ -15,10 +15,25 @@
           <h3 class="panel-title">Publishing this element</h3>
         </div>
         <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Files with Element</td>
+                <td>Total Files</td>
+                <td>Activities/Orgs with Element</td>
+                <td>Total Activities</td>
+          </thead>
           <tbody>
             {% for publisher in sorted(publishers) %}
             <tr>
                 <td>{{publisher}}</td>
+                {% with publisher_inverted=get_publisher_stats(publisher, 'inverted-file')%}
+                <td>{% if 'elements' in publisher_inverted %}{{publisher_inverted.elements[element]|count}}{% endif %}</td>
+                {% endwith %}
+                <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
+                {% with publisher_stats=get_publisher_stats(publisher)%}
+                <td>{{publisher_stats.elements[element]}}</td>
+                {% endwith %}
+                <td>{{current_stats.inverted_publisher.activities[publisher]}}</td>
             </tr>
             {% endfor%}
           </tbody>
@@ -32,11 +47,18 @@
           <h3 class="panel-title">Not publishing this element</h3>
         </div>
         <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Total Files</td>
+                <td>Total Activities</td>
+          </thead>
           <tbody>
             {% for publisher in current_stats.inverted_publisher.publishers %}
             {% if publisher not in publishers %}
             <tr>
                 <td>{{publisher}}</td>
+                <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
+                <td>{{current_stats.inverted_publisher.activities[publisher]}}</td>
             </tr>
             {% endif %}
             {% endfor%}

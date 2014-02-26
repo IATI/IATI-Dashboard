@@ -87,6 +87,7 @@ def element(i):
     return iati_stats_page('element.html',
         element=element,
         publishers=values,
+        get_publisher_stats=get_publisher_stats,
         url=lambda x: '../'+x,
         elements=True)()
 
