@@ -20,6 +20,13 @@ def group_files(d):
                 out[k][k2] = v2
     return out
 
+def get_publisher_stats(publisher, stats_type='aggregated'):
+    try:
+        return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
+    except IOError:
+        return {}
+
+
 current_stats = {
     'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
     'inverted_publisher': json.load(open('./stats-calculated/current/inverted-publisher.json'), object_pairs_hook=OrderedDict),
@@ -42,9 +49,7 @@ with open('./data/issues.csv') as fp:
     for issue in reader:
         data_tickets[issue['data_provider_regisrty_id']].append(issue)
 
-
-def get_publisher_stats(publisher, stats_type='aggregated'):
-    try:
-        return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
-    except IOError:
-        return {}
+codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/mapping.json'))}
+# Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
+codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items()}
+codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }

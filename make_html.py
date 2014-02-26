@@ -51,10 +51,9 @@ urls = {
     'licenses.html': licenses.main,
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
-    'codelists.html': iati_stats_page('codelists.html', codelists=True),
+    'codelists.html': iati_stats_page('codelists.html', codelists=True, codelist_mapping=codelist_mapping),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
     'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
-    'codelist': dict([ ]),
     'github.html': github.web.main,
 }
 
@@ -77,6 +76,7 @@ def codelist(i):
     return iati_stats_page('codelist.html',
         element=element,
         values=values,
+        codelist_mapping=codelist_mapping,
         url=lambda x: '../'+x,
         codelists=True)()
 
