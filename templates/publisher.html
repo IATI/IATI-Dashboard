@@ -9,6 +9,8 @@
       <p class="lead"></p>
     </div>
 
+    <h2>Headlines</h2>
+
     <div class="row">
     <div class="col-md-6">
     <div class="panel panel-default">
@@ -69,6 +71,10 @@
     </div>
     </div>
     </div>
+
+    <h2>Data Quality</h2>
+
+    <p>This section will be blank if no issues were found.</p>
 
     <div class="row">
     {% if publisher in data_tickets and data_tickets[publisher]|count %}
@@ -161,6 +167,7 @@
         <a href="{{stats_url}}/current/inverted-file/{{publisher}}/nonstandardroots.json" style="float:right">(J)</a>
         <h3 class="panel-title">Files with non-standard roots</h3>
     </div>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Dataset</th>
@@ -180,7 +187,32 @@
     </div>
     {% endif %}
 
-
     </div><!-- .row -->
+
+    <h2>Exploring Data</h2>
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/aggregated/{{publisher}}/elements.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Elements and Attributes Published</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Element/Attribute</th>
+                <th>Activities/Organisations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for element, count in publisher_stats.elements.items() %}
+            <tr>
+                <td>{{element}}</td>
+                <td>{{count}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
 
 {% endblock %}
