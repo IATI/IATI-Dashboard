@@ -12,7 +12,14 @@
 
 
 {% for year, year_cal in sorted(milestones_calendar.items()) %}
-    <h2>{{year}}<h2>
+    <h2>{{year}}</h2>
+            <div class="row">
+                <div class="col-md-1">Date</div>
+                <div class="col-md-2">Repository</div>
+                <div class="col-md-1">Open Issues</div>
+                <div class="col-md-1">Closed/All</div>
+                <div class="col-md-7">Milestone title</div>
+            </div>
     {% for month, month_cal in sorted(year_cal.items()) %}
         <h3>{{month}}</h3>
         {% for day, day_cal in sorted(month_cal.items()) %}
@@ -37,7 +44,14 @@
     {% endfor %}
 {%endfor %}
 
-    <h2>No date</h2>
+    <h2>Milestones with no date</h2>
+    <div class="row">
+                <div class="col-md-1">Date</div>
+                <div class="col-md-2">Repository</div>
+                <div class="col-md-1">Open Issues</div>
+                <div class="col-md-1">Closed/All</div>
+                <div class="col-md-7">Milestone title</div>
+            </div>
 {% for milestone in milestones_nodate %}
             <div class="row">
                 <div class="col-md-1">??</div>
@@ -56,7 +70,14 @@
             </div>
 {% endfor %}
 
-    <h2>No milestone</h2>
+    <h2>Issues not assigned to a milestone</h2>
+    <div class="row">
+                <div class="col-md-1">Date</div>
+                <div class="col-md-2">Repository</div>
+                <div class="col-md-1">No. Issues</div>
+                <div class="col-md-1"></div>
+                <div class="col-md-7">Milestone title</div>
+            </div>
 {% for repo, issues in sorted(no_milestone.items()) %}
             <div class="row">
                 <div class="col-md-1">??</div>
@@ -70,6 +91,17 @@
                 <div class="col-md-7">
                     <a href="https://github.com/IATI/{{ repo }}/issues?milestone=none">
                         No Milestone
+                    </a>
+                </div>
+            </div>
+{% endfor %}
+
+    <h2>Repositories with No Open Issues</h2>
+{% for repo in sorted(no_open_issues) %}
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="https://github.com/IATI/{{ repo }}" class="badge">
+                        {{ repo }}
                     </a>
                 </div>
             </div>
