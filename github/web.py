@@ -2,9 +2,15 @@ import os, json, re
 from collections import defaultdict
 from flask import render_template
 
-def main():
-    isoDateRegex = re.compile('(-?[0-9]{4,})-([0-9]{2})-([0-9]{2})')
+isoDateRegex = re.compile('(-?[0-9]{4,})-([0-9]{2})-([0-9]{2})')
 
+def main():
+    github_stats = {
+        'repositories': len(os.listdir('data/github/milestones'))
+    }
+    return render_template('github.html', github=True, github_overview=True, github_stats=github_stats)
+
+def milestones():
     milestones_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
     milestones_nodate = []
     no_milestone = {}
@@ -12,7 +18,7 @@ def main():
 
     for fname in os.listdir('data/github/milestones'):
         milestones = json.load(open(os.path.join('data/github/milestones',fname)))
-        if not 'message' in milestones:
+        if not 'message' in milestones: #if GitHub API has returned a 'message' element at the beginning the json we won't have the data we want
             for milestone in milestones:
                 milestone['repo'] = fname[:-5]
                 if not milestone['due_on']:
@@ -32,5 +38,24 @@ def main():
         no_open_issues.append(fname[:-5])
         
 
-    return render_template('github.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, github=True, no_open_issues=no_open_issues)
+    return render_template('milestones.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, github=True, milestones=True, no_open_issues=no_open_issues)
+
+def milestones_closed():
+    milestones_closed_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    milestones_nodate = []
+
+    for fname in os.listdir('data/github/milestones_closed'):
+        milestones = json.load(open(os.path.join('data/github/milestones_closed',fname)))
+        if not 'message' in milestones: #if GitHub API has returned a 'message' element at the beginning the json we won't have the data we want
+            for milestone in milestones:
+                milestone['repo'] = fname[:-5]
+                if not milestone['due_on']:
+                    milestones_nodate.append(milestone)
+                else:
+                    m = isoDateRegex.match(milestone['due_on'])
+                    milestones_closed_calendar[m.group(1)][m.group(2)][m.group(3)].append(milestone)
+                    #print('   ', milestone['title'], '---', milestone['due_on'], '---', str(milestone['open_issues'])+'/'+str(milestone['closed_issues']))
+        
+
+    return render_template('milestones-completed.html', milestones_closed_calendar=milestones_closed_calendar, milestones_nodate=milestones_nodate, sorted=sorted, github=True, milestones_completed=True)
 

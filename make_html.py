@@ -55,6 +55,8 @@ urls = {
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
     'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
     'github.html': github.web.main,
+    'milestones.html': github.web.milestones,
+    'milestones-completed.html': github.web.milestones_closed,
 }
 
 app.route('/')(lambda: redirect('index.html'))
@@ -66,7 +68,7 @@ def publisher(publisher):
         publisher=publisher,
         publisher_stats=get_publisher_stats(publisher),
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
-        licenses=licenses.licenses_for_publisher(publisher)
+        publisher_licenses=licenses.licenses_for_publisher(publisher)
         )()
 
 @app.route('/codelist/<int:i>.html')
