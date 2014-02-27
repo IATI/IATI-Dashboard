@@ -4,7 +4,9 @@
 {{ super () }} - Elements
 {% endblock %}
 {% block content %}
-    <h2>Element - {{element}}</h2>
+  <h1>Element - {{element}}</h1>
+
+  <h2>Publishers</h2>
 
   <p>(<a href="{{stats_url}}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
 
@@ -15,10 +17,25 @@
           <h3 class="panel-title">Publishing this element</h3>
         </div>
         <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Files with Element</td>
+                <td>Total Files</td>
+                <td>Activities/Orgs with Element</td>
+                <td>Total Activities</td>
+          </thead>
           <tbody>
             {% for publisher in sorted(publishers) %}
             <tr>
-                <td>{{publisher}}</td>
+                <td><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td>
+                {% with publisher_inverted=get_publisher_stats(publisher, 'inverted-file')%}
+                <td><a href="#files_{{publisher}}">{% if 'elements' in publisher_inverted %}{{publisher_inverted.elements[element]|count}}{% endif %}</a></td>
+                {% endwith %}
+                <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
+                {% with publisher_stats=get_publisher_stats(publisher)%}
+                <td>{{publisher_stats.elements[element]}}</td>
+                {% endwith %}
+                <td>{{current_stats.inverted_publisher.activities[publisher]}}</td>
             </tr>
             {% endfor%}
           </tbody>
@@ -32,11 +49,18 @@
           <h3 class="panel-title">Not publishing this element</h3>
         </div>
         <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Total Files</td>
+                <td>Total Activities</td>
+          </thead>
           <tbody>
             {% for publisher in current_stats.inverted_publisher.publishers %}
             {% if publisher not in publishers %}
             <tr>
-                <td>{{publisher}}</td>
+                <td><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td>
+                <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
+                <td>{{current_stats.inverted_publisher.activities[publisher]}}</td>
             </tr>
             {% endif %}
             {% endfor%}
@@ -44,5 +68,25 @@
         </table>
       </div>
     </div>
+  </div>
+
+
+  <h2>Files</h2>
+  <div class="panel panel-default">
+    <table class="table table-striped">
+      <thead>
+            <td>Publisher</td>
+            <td>Files</td>
+      </thead>
+      <tbody>
+        {% for publisher, files in file_grouped.items() %}
+            <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td><td>
+            {% for file in files %}
+                <a href="http://iatiregistry.org/dataset/{{file}}">{{file}}</a>
+            {% endfor %}
+            </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 {% endblock %}

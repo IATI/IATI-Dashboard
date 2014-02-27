@@ -10,7 +10,8 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Publisher</th>
+                <th>Publisher Name</th>
+                <th>Publisher Registry Id</th>
                 <th>Activities <a href="{{stats_url}}/current/inverted-publisher/activities.json">(J)</a></th>
                 <th>Organisations <a href="{{stats_url}}/current/inverted-publisher/organisations.json">(J)</a></th>
                 <th>Files <a href="#files_note">(*)</a></th>
@@ -23,6 +24,7 @@
             {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
                 <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{publisher_stats.organisations}}</td>
@@ -38,5 +40,5 @@
     <p id="files_note">* Files is the sum of Activity Files <a href="{{stats_url}}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{stats_url}}/current/inverted-publisher/organisation_files.json">(J)</a>.</p> 
 {% endblock %}
 {% block tablesorteroptions %}
-{textExtraction:{4: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}
+{textExtraction:{5: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}
 {% endblock %}
