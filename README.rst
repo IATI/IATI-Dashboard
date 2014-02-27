@@ -70,7 +70,7 @@ For development, you can use the live Flask development server, instead of Froze
 
 .. code-block:: bash
 
-    python make_html --live
+    python make_html.py --live
 
 License
 ^^^^^^^
