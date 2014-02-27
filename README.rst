@@ -70,7 +70,7 @@ For development, you can use the live Flask development server, instead of Froze
 
 .. code-block:: bash
 
-    python make_html --live
+    python make_html.py --live
 
 Using the live development server is highly recommended, because it displays full bracktrackes for 500 errors, whereas frozen flask does not.
 
