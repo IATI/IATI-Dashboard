@@ -5,4 +5,5 @@ pyenv
 stats-calculated*
 data
 out
+config.py
 

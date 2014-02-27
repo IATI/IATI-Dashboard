@@ -45,6 +45,9 @@ To install:
     # If you are running a less recent linux distro, you will need to install distribute
     easy_install -U distribute
     pip install -r requirements.txt
+
+    # Create a configuration file
+    cp config.py.example config.py # And provide the necessary values
     
     # Fetch the necessary calculated stats
     ./get_stats.sh
