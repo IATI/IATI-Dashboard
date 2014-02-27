@@ -55,6 +55,7 @@ urls = {
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
     'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
     'github.html': github.web.main,
+    'github-past.html': github.web.closed,
 }
 
 app.route('/')(lambda: redirect('index.html'))
