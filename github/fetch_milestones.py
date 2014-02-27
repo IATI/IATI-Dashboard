@@ -2,10 +2,9 @@ import json
 import requests
 import os
 from requests.auth import HTTPBasicAuth
+from config import user,password
 
 def fetch():
-    user = 'USENAME HERE'
-    password = 'PASSWORD HERE'
     try:
         os.makedirs(os.path.join('data','github','milestones_closed'))
         os.makedirs(os.path.join('data','github','no_open_issues'))
@@ -16,7 +15,7 @@ def fetch():
     except OSError:
         pass
 
-    r = requests.get('https://api.github.com/orgs/IATI/repos')
+    r = requests.get('https://api.github.com/orgs/IATI/repos',auth=HTTPBasicAuth(user,password))
     for repo in json.loads(r.text):
         milestones_url = repo['milestones_url'].replace('{/number}','')
         milestones_request = requests.get(milestones_url,auth=HTTPBasicAuth(user,password))
