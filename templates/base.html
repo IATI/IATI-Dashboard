@@ -98,7 +98,9 @@ html,body{height:100%;}
       <li{% if booleans %} class="active"{% endif %}><a href="{{url('booleans.html')}}">Booleans</a></li>
       {% endif %}
       {% if github %}
-      <li{% if github %} class="active"{% endif %}><a href="{{url('github.html')}}">Milestones</a></li>
+      <li{% if github_overview %} class="active"{% endif %}><a href="{{url('github.html')}}">Overview</a></li>
+      <li{% if milestones %} class="active"{% endif %}><a href="{{url('milestones.html')}}">Milestones</a></li>
+      <li{% if milestones_completed %} class="active"{% endif %}><a href="{{url('milestones-completed.html')}}">Completed Milestones</a></li>
       {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
