@@ -7,6 +7,7 @@ wget "http://iatiregistry.org/api/3/action/organization_list?all_fields=true" -O
 
 wget "http://dev.iatistandard.org/ssot/commit/IATI-Codelists/5d15ad6ea028e1dc75bb4337059839f685ddeb06/en/_static/codelists/mapping.json" -O data/mapping.json
 
+rm -r data/github/
 python fetch_data.py
 
 cd data/downloads
