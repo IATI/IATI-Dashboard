@@ -5,10 +5,11 @@ from flask import render_template
 isoDateRegex = re.compile('(-?[0-9]{4,})-([0-9]{2})-([0-9]{2})')
 
 def main():
+    repos = json.load(open(os.path.join('data/github/repo.json')))
     github_stats = {
-        'repositories': len(os.listdir('data/github/milestones'))
+        'open_issues': sum([x['open_issues_count'] for x in repos]),
     }
-    return render_template('github.html', github=True, github_overview=True, github_stats=github_stats)
+    return render_template('github.html', github=True, github_overview=True, repos=repos, github_stats=github_stats)
 
 def milestones():
     milestones_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))

@@ -16,6 +16,8 @@ def fetch():
         pass
 
     r = requests.get('https://api.github.com/orgs/IATI/repos',auth=HTTPBasicAuth(user,password))
+    with open('data/github/repo.json', 'w') as fp:
+        fp.write(r.text)
     for repo in json.loads(r.text):
         milestones_url = repo['milestones_url'].replace('{/number}','')
         milestones_request = requests.get(milestones_url,auth=HTTPBasicAuth(user,password))
