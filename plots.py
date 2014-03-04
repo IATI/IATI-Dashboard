@@ -31,7 +31,6 @@ for stat_path in [
         'activities',
         'publishers',
         'activity_files',
-        'spend',
         'file_size',
         'failed_downloads',
         'invalidxml',
