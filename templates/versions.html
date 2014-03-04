@@ -58,7 +58,6 @@
           <div class="row">
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version in expected_versions %}
-            {{ publishers.sort() or '' }}
             <div class="col-md-4">
               <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
               <table class="table table-striped">
@@ -85,7 +84,6 @@
           <div class="row">
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version not in expected_versions %}
-            {{ publishers.sort() or '' }}
             <div class="col-md-4">
               <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
               <table class="table table-striped">

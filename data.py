@@ -8,14 +8,17 @@ def group_files(d):
     for k,v in d.items():
         out[k] = OrderedDict()
         for k2,v2 in v.items():
-            if type(v2) == list:
+            if type(v2) == OrderedDict:
                 out[k][k2] = OrderedDict()
-                v2.sort()
-                for listitem in v2:
-                    publisher = publisher_re.match(listitem).group(1)
-                    if not publisher in out[k][k2]:
-                        out[k][k2][publisher] = []
-                    out[k][k2][publisher].append(listitem)
+                for listitem, v3 in v2.items():
+                    m = publisher_re.match(listitem)
+                    if m:
+                        publisher = m.group(1)
+                        if not publisher in out[k][k2]:
+                            out[k][k2][publisher] = OrderedDict()
+                        out[k][k2][publisher][listitem] = v3
+                    else:
+                        pass # FIXME
             else:
                 out[k][k2] = v2
     return out
