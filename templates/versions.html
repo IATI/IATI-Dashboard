@@ -33,6 +33,7 @@
                 <td>Files</td>
           </thead>
           <tbody>
+            {% if 'true' in current_stats.inverted_file_grouped.version_mismatch %}
             {% for publisher,files in current_stats.inverted_file_grouped.version_mismatch.true.items() %}
                 <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td><td>
                 {% for file in files %}
@@ -40,6 +41,7 @@
                 {% endfor %}
                 </td></tr>
             {% endfor %}
+            {% endif %}
           </tbody>
         </table>
       </div>

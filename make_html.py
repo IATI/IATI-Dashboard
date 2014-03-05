@@ -120,7 +120,7 @@ if __name__ == '__main__':
 
         @freezer.register_generator
         def url_generator():
-            for publisher in ckan:
+            for publisher in current_stats['inverted_publisher']['activities'].keys():
                 yield 'publisher', {'publisher':publisher}
             for i in range(0, len(current_stats['inverted_publisher']['elements'])): 
                 yield 'element', {'i':i}

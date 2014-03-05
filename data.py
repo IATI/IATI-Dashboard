@@ -1,6 +1,7 @@
 import json
 from collections import OrderedDict, defaultdict
 import sys, os, re, copy, datetime, unicodecsv
+import UserDict
 
 def group_files(d):
     out = OrderedDict()
@@ -23,17 +24,41 @@ def group_files(d):
                 out[k][k2] = v2
     return out
 
+class JSONDir(object, UserDict.DictMixin):
+    folder = ''
+
+    def __init__(self, folder):
+        self.folder = folder
+
+    def __getitem__(self, key):
+        if os.path.exists(os.path.join(self.folder, key)):
+            return JSONDir(os.path.join(self.folder, key))
+        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+            with open(os.path.join(self.folder, key+'.json')) as fp:
+                return json.load(fp, object_pairs_hook=OrderedDict)
+        else:
+            raise KeyError, key
+
+    def keys(self):
+        return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
+
+    def __iter__(self):
+        return iter(self.keys())
+
 def get_publisher_stats(publisher, stats_type='aggregated'):
     try:
-        return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
+        if stats_type == 'inverted-file':
+            return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
+        else:
+            return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
     except IOError:
         return {}
 
 
 current_stats = {
-    'aggregated': json.load(open('./stats-calculated/current/aggregated.json'), object_pairs_hook=OrderedDict),
-    'inverted_publisher': json.load(open('./stats-calculated/current/inverted-publisher.json'), object_pairs_hook=OrderedDict),
-    'inverted_file': json.load(open('./stats-calculated/current/inverted-file.json'), object_pairs_hook=OrderedDict),
+    'aggregated': JSONDir('./stats-calculated/current/aggregated'),
+    'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
+    'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
     'download_errors': []
 }
 current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])

@@ -18,12 +18,18 @@ mpl.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-import json, re
-git_stats = json.load(open('./stats-calculated/gitaggregate-dated.json'))
-
 import csv
 failed_downloads = csv.reader(open('data/downloads/history.csv'))
-git_stats['failed_downloads'] = dict((row[0],row[1]) for row in failed_downloads)
+
+from data import JSONDir
+class AugmentedJSONDir(JSONDir):
+    def __getitem__(self, key):
+        if key == 'failed_downloads':
+            return dict((row[0],row[1]) for row in failed_downloads)
+        else: 
+            return super(AugmentedJSONDir, self).__getitem__(key)
+git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
+
 
 from vars import expected_versions
 
