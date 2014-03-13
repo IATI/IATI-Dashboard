@@ -47,10 +47,7 @@ class JSONDir(object, UserDict.DictMixin):
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
     try:
-        if stats_type == 'inverted-file':
-            return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
-        else:
-            return json.load(open('./stats-calculated/current/{0}-publisher/{1}.json'.format(stats_type, publisher)), object_pairs_hook=OrderedDict)
+        return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
     except IOError:
         return {}
 
