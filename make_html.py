@@ -5,7 +5,9 @@ import urllib
 from flask import Flask, render_template, redirect, Response
 app = Flask(__name__)
 
+print 'Doing initial data import'
 from data import *
+print 'Initial data import finished'
 
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
