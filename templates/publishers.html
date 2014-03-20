@@ -2,8 +2,8 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png')}}
-      {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png')}}
+      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png', 'activities.json')}}
+      {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png', 'publishers.json')}}
     </div>
 
     <div class="panel panel-default">

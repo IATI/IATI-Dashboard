@@ -1,12 +1,15 @@
-{% macro box(title, number, image) %}
+{% macro box(title, number, image, json) %}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h3 class="panel-title">
               <span class="title-number">{{number}}</span>
               <span class="title-text">{{title}}</span>
-              <br clear="all"/>
             </h3>
+            {% if json %}
+            <a href="{{stats_url}}/gitaggregate-dated/{{json}}" style="float:right">(J)</a>
+            {% endif %}
+            <br clear="all"/>
           </div>
           <div class="panel-body">
             <img src="{{image}}" width="100%" />
