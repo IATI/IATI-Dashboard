@@ -40,6 +40,21 @@ app.jinja_env.globals['stats_url'] = 'http://arstneio.com/iati/stats'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
 
+def make_slugs(keys):
+    out = {'by_slug':{}, 'by_i':{}}
+    for i,key in enumerate(keys):
+        slug = re.sub('[^a-zA-Z0-9:@\.\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_')))
+        while slug in out:
+            slug += '_'
+        out['by_slug'][slug] = i
+        out['by_i'][i] = slug
+    return out
+slugs = {
+    'codelist': make_slugs(current_stats['inverted_publisher']['codelist_values'].keys()),
+    'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
+}
+app.jinja_env.globals['slugs'] = slugs
+
 from vars import expected_versions
 import github.web, licenses
 urls = {
@@ -73,8 +88,9 @@ def publisher(publisher):
         publisher_licenses=licenses.licenses_for_publisher(publisher)
         )()
 
-@app.route('/codelist/<int:i>.html')
-def codelist(i):
+@app.route('/codelist/<slug>.html')
+def codelist(slug):
+    i = slugs['codelist']['by_slug'][slug]
     element = current_stats['inverted_publisher']['codelist_values'].keys()[i]
     values = current_stats['inverted_publisher']['codelist_values'].values()[i]
     return iati_stats_page('codelist.html',
@@ -84,8 +100,9 @@ def codelist(i):
         url=lambda x: '../'+x,
         codelists=True)()
 
-@app.route('/element/<int:i>.html')
-def element(i):
+@app.route('/element/<slug>.html')
+def element(slug):
+    i = slugs['element']['by_slug'][slug]
     element = current_stats['inverted_publisher']['elements'].keys()[i]
     publishers = current_stats['inverted_publisher']['elements'].values()[i]
     file_grouped = current_stats['inverted_file_grouped']['elements'].values()[i]
@@ -124,10 +141,10 @@ if __name__ == '__main__':
         def url_generator():
             for publisher in current_stats['inverted_publisher']['activities'].keys():
                 yield 'publisher', {'publisher':publisher}
-            for i in range(0, len(current_stats['inverted_publisher']['elements'])): 
-                yield 'element', {'i':i}
-            for i in range(0, len(current_stats['inverted_publisher']['codelist_values'])): 
-                yield 'codelist', {'i':i}
+            for slug in slugs['element']['by_slug']: 
+                yield 'element', {'slug':slug}
+            for slug in slugs['codelist']['by_slug']: 
+                yield 'codelist', {'slug':slug}
             for license in licenses.licenses: 
                 if license == None:
                     license = 'None'
