@@ -22,6 +22,7 @@
                 <td>Files with Element</td>
                 <td>Total Files</td>
                 <td>Activities/Orgs with Element</td>
+                <td>Total Instances of Element</td>
                 <td>Total Activities</td>
           </thead>
           <tbody>
@@ -34,6 +35,7 @@
                 <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
                 {% with publisher_stats=get_publisher_stats(publisher)%}
                 <td>{{publisher_stats.elements[element]}}</td>
+                <td>{{publisher_stats.elements_total[element]}}</td>
                 {% endwith %}
                 <td>{{current_stats.inverted_publisher.activities[publisher]}}</td>
             </tr>
