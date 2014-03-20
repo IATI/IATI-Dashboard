@@ -43,7 +43,7 @@ app.jinja_env.globals['enumerate'] = enumerate
 def make_slugs(keys):
     out = {'by_slug':{}, 'by_i':{}}
     for i,key in enumerate(keys):
-        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_')))
+        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_'))).strip('_')
         while slug in out:
             slug += '_'
         out['by_slug'][slug] = i
