@@ -41,10 +41,7 @@ currently isn’t.
 It should make sense in the way people access our tools/code
 ------------------------------------------------------------
 
-Currently at:
-`http://iati.github.io/IATI-Dashboard <http://iati.github.io/IATI-Dashboard>`__
-
-There is agreement that this can be moved to
+At 
 `http://dashboard.iatistandard.org <http://dashboard.iatistandard.org>`__
 
 Our code should be on our servers - we should be able to monitor the performance of those servers

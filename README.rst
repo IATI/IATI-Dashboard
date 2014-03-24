@@ -3,7 +3,7 @@ IATI Dashboard
 
 The IATI dashboard is a displays key numbers and graphs about the data on the IATI registry.
 
-See the dashboard in action at http://iati.github.io/IATI-Dashboard/
+See the dashboard in action at http://dashboard.iatistandard.org
 
 The dashboard is in beta, all contents/urls/machine readable downloads are subject to change.
 
