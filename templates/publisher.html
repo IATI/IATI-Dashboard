@@ -237,9 +237,9 @@
             {% for element, count in publisher_stats.elements.items() %}
             <tr>
             {% with element_i=current_stats.inverted_publisher.elements.keys().index(element) %}
-                <td><a href="{{url('element/{0}.html'.format(element_i))}}">{{element}}</a></td>
+                <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}">{{element}}</a></td>
                 <td>{{count}}</td>
-                <td><a href="{{url('element/{0}.html'.format(element_i))}}#files_{{publisher}}">{{publisher_inverted.elements[element]|count}}</a></td>
+                <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}#files_{{publisher}}">{{publisher_inverted.elements[element]|count}}</a></td>
             {% endwith %}
             </tr>
             {% endfor %}
