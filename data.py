@@ -3,26 +3,33 @@ from collections import OrderedDict, defaultdict
 import sys, os, re, copy, datetime, unicodecsv
 import UserDict
 
-def group_files(d):
-    out = OrderedDict()
-    publisher_re = re.compile('(.*)\-[^\-]')
-    for k,v in d.items():
-        out[k] = OrderedDict()
-        for k2,v2 in v.items():
+publisher_re = re.compile('(.*)\-[^\-]')
+
+class GroupFiles(object, UserDict.DictMixin):
+    def __init__(self, inputdict):
+        self.inputdict = inputdict
+        self.cache = {}
+
+    def __getitem__(self, key):
+        if key in self.cache: return self.cache[key]
+        self.inputdict[key]
+        out = OrderedDict()
+        for k2,v2 in self.inputdict[key].items():
             if type(v2) == OrderedDict:
-                out[k][k2] = OrderedDict()
+                out[k2] = OrderedDict()
                 for listitem, v3 in v2.items():
                     m = publisher_re.match(listitem)
                     if m:
                         publisher = m.group(1)
-                        if not publisher in out[k][k2]:
-                            out[k][k2][publisher] = OrderedDict()
-                        out[k][k2][publisher][listitem] = v3
+                        if not publisher in out[k2]:
+                            out[k2][publisher] = OrderedDict()
+                        out[k2][publisher][listitem] = v3
                     else:
                         pass # FIXME
             else:
-                out[k][k2] = v2
-    return out
+                out[k2] = v2
+        self.cache[key] = out
+        return out
 
 class JSONDir(object, UserDict.DictMixin):
     def __init__(self, folder):
@@ -62,7 +69,7 @@ current_stats = {
     'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
     'download_errors': []
 }
-current_stats['inverted_file_grouped'] = group_files(current_stats['inverted_file'])
+current_stats['inverted_file_grouped'] = GroupFiles(current_stats['inverted_file'])
 ckan_publishers = json.load(open('./data/ckan_publishers.json'), object_pairs_hook=OrderedDict)
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
