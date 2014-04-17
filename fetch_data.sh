@@ -5,7 +5,7 @@ wget "https://gist.github.com/Bjwebb/6726204/raw/errors" -O data/downloads/error
 wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned&status=new&status=reopened&format=csv&col=id&col=summary&col=status&col=owner&col=component&col=element&col=data_provider_regisrty_id&order=priority" -O data/issues.csv
 wget "http://iatiregistry.org/api/3/action/organization_list?all_fields=true" -O data/ckan_publishers.json
 
-wget "http://dev.iatistandard.org/_static/codelists/mapping.json" -O data/mapping.json
+wget "http://dev.iatistandard.org/codelists/downloads/clv2/mapping.json" -O data/mapping.json
 
 rm -r data/github/
 python fetch_data.py
