@@ -3,7 +3,7 @@ import os
 import data
 from collections import OrderedDict
 
-publisher_name = {p['name']:p['title'] for p in data.ckan_publishers['result']}
+publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in data.ckan_publishers.items()}
 
 def publisher_dicts():
     for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
