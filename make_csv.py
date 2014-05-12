@@ -51,3 +51,10 @@ with open(os.path.join('out', 'elements.csv'), 'w') as fp:
         publisher_dict['Element'] = element
         writer.writerow(publisher_dict)
 
+with open(os.path.join('out', 'elements_total.csv'), 'w') as fp:
+    writer = unicodecsv.DictWriter(fp, [ 'Element' ] + publishers )
+    writer.writeheader()
+    for element, publisher_dict in data.current_stats['inverted_publisher']['elements_total'].items():
+        publisher_dict['Element'] = element
+        writer.writerow(publisher_dict)
+
