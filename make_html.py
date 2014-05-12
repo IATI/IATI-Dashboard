@@ -61,6 +61,7 @@ urls = {
     'index.html': iati_stats_page('index.html', index=True, get_publisher_stats=get_publisher_stats),
     'publishers.html': iati_stats_page('publishers.html', publisher=True, get_publisher_stats=get_publisher_stats),
     'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
+    'activities.html': iati_stats_page('activities.html', activities=True),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
@@ -124,6 +125,12 @@ def make_html(urls, outdir=''):
             app.add_url_rule(full_url, view_func=f)
         else:
             make_html(f, full_url)
+
+# Server an image through the development server (--live)
+@app.route('/<image>.png')
+def image_development(image):
+    print image
+    return Response(open(os.path.join('out', image+'.png')).read(), mimetype='image/png')
 
 make_html(urls)
 

@@ -7,8 +7,8 @@
     </div>
 
     <div class="row">
-      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png', 'activities.json')}}
       {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png', 'publishers.json')}}
+      {{boxes.box('Publishers by type', '', 'publisher_types.png', None, 'publisher_types_legend.png')}}
     </div>
 
     <p><a href="{{url('publishers.csv')}}">This table as CSV</a></p>

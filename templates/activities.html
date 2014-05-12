@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="page-header">
+      <h1>Activities</h1>
+      <p class="lead"></p>
+    </div>
+
+    <div class="row">
+      {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png', 'activities.json')}}
+      {{boxes.box('Activities by publisher type', '', 'activities_per_publisher_type.png', None, 'activities_per_publisher_type_legend.png')}}
+    </div>
+{% endblock %}

@@ -81,10 +81,11 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      {% if index or publisher or files %}
+      {% if index or publisher or files or activities %}
       <li{% if index %} class="active"{% endif %}><a href="{{url('index.html')}}">Home</a></li>
       <li{% if publisher %} class="active"{% endif %}><a href="{{url('publishers.html')}}">Publishers</a></li>
       <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
+      <li{% if activities %} class="active"{% endif %}><a href="{{url('activities.html')}}">Activities</a></li>
       {% endif %}
       {% if download or xml or validation or versions or licenses or organisation %}
       <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>

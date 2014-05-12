@@ -17,15 +17,42 @@ import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
+from collections import defaultdict
 
 import csv
 failed_downloads = csv.reader(open('data/downloads/history.csv'))
+import json
+organisation_type_codelist = json.load(open('data/OrganisationType.json'))
+organisation_type_dict = {c['code']:c['name'] for c in organisation_type_codelist['data']}
 
-from data import JSONDir
-class AugmentedJSONDir(JSONDir):
+import data
+
+gitaggregate_publisher = data.JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+
+class AugmentedJSONDir(data.JSONDir):
     def __getitem__(self, key):
         if key == 'failed_downloads':
             return dict((row[0],row[1]) for row in failed_downloads)
+        elif key == 'publisher_types':
+            out = defaultdict(lambda: defaultdict(int))
+            for publisher, publisher_data in gitaggregate_publisher.items():
+                if publisher in data.ckan_publishers:
+                    organization_type = data.ckan_publishers[publisher]['result']['publisher_organization_type']
+                    for datestring,count in publisher_data['activities'].items():
+                        out[datestring][organisation_type_dict[organization_type]] += 1
+                else:
+                    print 'Publisher not matched:', publisher
+            return out
+        elif key == 'activities_per_publisher_type':
+            out = defaultdict(lambda: defaultdict(int))
+            for publisher, publisher_data in gitaggregate_publisher.items():
+                if publisher in data.ckan_publishers:
+                    organization_type = data.ckan_publishers[publisher]['result']['publisher_organization_type']
+                    for datestring,count in publisher_data['activities'].items():
+                        out[datestring][organisation_type_dict[organization_type]] += count 
+                else:
+                    print 'Publisher not matched:', publisher
+            return out
         else: 
             return super(AugmentedJSONDir, self).__getitem__(key)
 git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
@@ -49,6 +76,8 @@ for stat_path in [
         ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
         ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
         ('file_size_bins', lambda x: True, ''),
+        ('publisher_types', lambda x: True, '' ),
+        ('activities_per_publisher_type', lambda x: True, '' )
         ]:
     if type(stat_path) == tuple:
         stat_name = stat_path[0]
@@ -78,8 +107,12 @@ for stat_path in [
         plots = {}
         for key in keys:
             plots[key], = ax.plot(x_values, [ y.get(key) or 0 for y in y_values ])
-        fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
-        fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
+        if stat_name in ['publisher_types', 'activities_per_publisher_type']:
+            fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=1)
+            fig_legend.set_size_inches(600.0/dpi, 300.0/dpi)
+        else:
+            fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
+            fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
         fig_legend.savefig('out/{0}{1}_legend.png'.format(stat_name,stat_path[2]))
     else:
         ax.plot(x_values, y_values)
