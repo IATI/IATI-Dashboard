@@ -11,7 +11,7 @@
       <p class="lead"></p>
     </div>
 
-    <h2>Headlines</h2>
+    <h2 id="h_headlines">Headlines</h2>
 
     <div class="row">
     <div class="col-md-6">
@@ -75,16 +75,47 @@
     </table>
     </div>
     </div>
+    <div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Table of Contents</h3></div>
+        <div class="panel-body">
+            <ul>
+                <li><a href="#h_dataquality">Data Quality</a>
+                    <ul>
+                        {% if publisher in data_tickets and data_tickets[publisher]|count %}
+                        <li><a href="#p_datatickets">Data Tickets</a>
+                        {% endif %}
+                        {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+                        <li><a href="#p_validation">Files Failing Validation</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.invalidxml.values() %}
+                        <li><a href="#p_invalid">Invalid XML Files</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.nonstandardroots.values() %}
+                        <li><a href="#p_nonstandardroots">Files with non-standard roots</a>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li><a href="#h_dataquality">Exploring Data</a>
+                    <ul>
+                        <li><a href="#p_files">Files</a>
+                        <li><a href="#p_elements">Elements and Attributes published</a>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
     </div>
 
-    <h2>Data Quality</h2>
+    <h2 id="h_dataquality">Data Quality</h2>
 
     <p>This section will be blank if no issues were found.</p>
 
     <div class="row">
     {% if publisher in data_tickets and data_tickets[publisher]|count %}
     <div class="col-md-6">
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="p_datatickets">
           <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Data Tickets</h3></div>
 
           <table class="table">
@@ -104,7 +135,7 @@
 
     {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
     <div class="col-md-6">
-        <div class="panel panel-default">
+        <div class="panel panel-default" id="p_validation">
           <!-- Default panel contents -->
           <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Files Failing Validation</h3></div>
           <!--<div class="panel-body">
@@ -139,7 +170,7 @@
 
     {% if 1 in publisher_inverted.invalidxml.values() %}
     <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="p_invalid">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/invalidxml.json" style="float:right">(J)</a>
         <h3 class="panel-title">Invalid XML Files</h3>
@@ -166,7 +197,7 @@
 
     {% if 1 in publisher_inverted.nonstandardroots.values() %}
     <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="p_nonstandardroots">
     <table class="table table-striped">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/inverted-file/{{publisher}}/nonstandardroots.json" style="float:right">(J)</a>
@@ -194,9 +225,9 @@
 
     </div><!-- .row -->
 
-    <h2>Exploring Data</h2>
+    <h2 id="h_exploringdata">Exploring Data</h2>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="p_files">
     <div class="panel-heading">
         <h3 class="panel-title">Files</h3>
     </div>
@@ -222,7 +253,7 @@
     </table>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-default" id="p_elements">
     <table class="table table-striped">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/aggregated/{{publisher}}/elements.json" style="float:right">(J)</a>
