@@ -1,5 +1,5 @@
 | For general guidence on contributing to IATI Code please see 
-| http://atistandard.org/developer/contribute/
+| http://iatistandard.org/developer/contribute/
 
 If you would like to contribute to the IATI Dashboard project....
 
