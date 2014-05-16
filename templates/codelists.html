@@ -21,7 +21,7 @@
         {% for i, (element, values) in enumerate(current_stats.inverted_publisher.codelist_values.items()) %}
             <tr>
                 <td><a href="codelist/{{slugs.codelist.by_i[i]}}.html">{{element}}</td>
-                <td><a href="http://dev.iatistandard.org/codelists/{{codelist_mapping.get(element)}}.html">{{codelist_mapping.get(element)}}</a></td>
+                <td><a href="http://iatistandard.org/codelists/{{codelist_mapping.get(element)}}">{{codelist_mapping.get(element)}}</a></td>
                 
                 <td>{{values|length}}</td>
             </tr>
