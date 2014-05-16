@@ -92,6 +92,7 @@ html,body{height:100%;}
       <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
       <li{% if versions %} class="active"{% endif %}><a href="{{url('versions.html')}}">Versions</a></li>
+      <li{% if rulesets %} class="active"{% endif %}><a href="{{url('rulesets.html')}}">Rulesets</a></li>
       <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>
       <li{% if organisation %} class="active"{% endif %}><a href="{{url('organisation.html')}}">Organisation XML</a></li>
       {% endif %}

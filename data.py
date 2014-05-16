@@ -65,6 +65,7 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
 
 current_stats = {
     'aggregated': JSONDir('./stats-calculated/current/aggregated'),
+    'aggregated_file': JSONDir('./stats-calculated/current/aggregated-file'),
     'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
     'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
     'download_errors': []

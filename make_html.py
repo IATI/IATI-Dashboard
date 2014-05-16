@@ -66,6 +66,7 @@ urls = {
     'xml.html': iati_stats_page('xml.html', xml=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
     'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
+    'rulesets.html': iati_stats_page('rulesets.html', versions=True, expected_versions=expected_versions),
     'licenses.html': licenses.main,
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
