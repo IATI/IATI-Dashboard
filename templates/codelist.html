@@ -11,10 +11,17 @@
 
     <p>(<a href="{{stats_url}}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
 
+    <div class="row">
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">On Codelist</h3>
+    </div>
     <table class="table table-striped">
       <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
       <tbody>
         {% for value, publishers in values.items() %}
+            {% if value in codelist_sets.get(codelist_mapping.get(element)) %}
             <tr><td>{{value}}</td><td>
                 {% if publishers|length < 20 %}
                     <abbr title="{% for publisher in sorted(publishers) %}{{publisher}}{% if not loop.last %}
@@ -23,8 +30,37 @@
                     {{publishers|length}}
                 {% endif %}
             </td></tr>
+            {% endif %}
         {% endfor %}
       </tbody>
     </table>
+    </div>
+    </div>
+
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Not On Codelist</h3>
+    </div>
+    <table class="table table-striped">
+      <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
+      <tbody>
+        {% for value, publishers in values.items() %}
+            {% if not value in codelist_sets.get(codelist_mapping.get(element)) %}
+            <tr><td>{{value}}</td><td>
+                {% if publishers|length < 20 %}
+                    <abbr title="{% for publisher in sorted(publishers) %}{{publisher}}{% if not loop.last %}
+{% endif %}{% endfor %}">{{publishers|length}}</abbr>
+                {% else %}
+                    {{publishers|length}}
+                {% endif %}
+            </td></tr>
+            {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
 
 {% endblock %}

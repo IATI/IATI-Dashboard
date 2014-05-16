@@ -24,3 +24,11 @@ for commit in `git log --format=format:%H`; do
     echo $date,$count
 done > ../history.csv
 
+cd ../../
+if [ ! -d IATI-Codelists ]; then
+    git clone https://github.com/IATI/IATI-Codelists.git
+fi
+cd IATI-Codelists
+git checkout version-1.04 > /dev/null
+git pull > /dev/null
+./gen.sh

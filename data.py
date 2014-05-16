@@ -90,3 +90,6 @@ codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/mappin
 # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
 codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items()}
 codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
+
+codelist_sets = { cname:set(c['code'] for c in codelist['data']) for cname,codelist in JSONDir('data/IATI-Codelists/out/clv2/json/en/').items() }
+ 
