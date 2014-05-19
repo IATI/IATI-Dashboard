@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Rulesets
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+      <h1>Rulesets</h1>
+      <p></p>
+    </div>
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+      <thead><tr>
+        <th>Publisher</th>
+        <th>Standard (%)</th>
+      </tr></thead>
+      <tbody>
+        {% for publisher, passes in current_stats.inverted_publisher.ruleset_passes.standard.items() %}
+        <tr>
+          <td class="break"><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+          <td><a href="publisher/{{publisher}}.html#p_files">{{100.0*passes/current_stats.inverted_publisher.activities[publisher]}}</a></td>
+        </tr>
+        {% endfor%}
+      </tbody>
+    </table>
+    </div> 
+{% endblock %}
+
