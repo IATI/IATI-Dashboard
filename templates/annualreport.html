@@ -33,12 +33,12 @@
                 <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
                 <td>{{publisher_stats.bottom_hierarchy.activities}}</td>
                 {% for methodlogy_id in current_stats.aggregated.annualreport %}
-                {% if methodlogy_id in publisher_stats.annualreport and activities %}
-                    <th>{{(publisher_stats.bottom_hierarchy.annualreport[methodlogy_id]/publisher_stats.bottom_hierarchy.activities*100)|round|int}}
-                {% elif methodlogy_id == '2.1' and activities %}
-                    <th>{{(publisher_stats.publisher_unique_identifiers/activities*100)|round|int}}
+                {% if methodlogy_id in publisher_stats.bottom_hierarchy.annualreport and publisher_stats.bottom_hierarchy.annualreport_denominator[methodlogy_id] %}
+                    <td>{{(publisher_stats.bottom_hierarchy.annualreport[methodlogy_id]/publisher_stats.bottom_hierarchy.activities*100)|round|int}}</td>
+                {% elif publisher_stats.annualreport_denominator[methodlogy_id] %}
+                    <td>{{(publisher_stats.publisher_unique_identifiers/activities*100)|round|int}}</td>
                 {% else %}
-                    <th></th>
+                    <td></td>
                 {% endif %}
                 {% endfor %}
             </tr>
