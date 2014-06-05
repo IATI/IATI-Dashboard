@@ -1,5 +1,5 @@
-#import github.fetch_milestones
-#github.fetch_milestones.fetch()
+import github.fetch_milestones
+github.fetch_milestones.fetch()
 
 import requests
 import os
