@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="page-header">
+      <h1>Coverage</h1>
+      <p class="lead">NOTE: This page is a work in progress.</p>
+    </div>
+
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Publisher Name</td>
+                <td>Total Spend</td>
+                <td>ODA Spend</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% set publisher_stats = get_publisher_stats(publisher) %}
+            <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td>
+                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
+                    {% for k,v in publisher_stats.spend_currency_year['2013'].items() %}
+                    {{v}} {{k}}</br>
+                    {% endfor %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if publisher_stats.spend_currency_year_oda and '2013' in publisher_stats.spend_currency_year_oda %}
+                    {% for k,v in publisher_stats.spend_currency_year_oda['2013'].items() %}
+                    {{v}} {{k}}</br>
+                    {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
