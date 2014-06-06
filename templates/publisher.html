@@ -257,7 +257,7 @@
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
                 <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()[0]}}</td>
-                <td>{% if package in current_stats.inverted_file.ruleset_passes.standard %}{{100.0*current_stats.inverted_file.ruleset_passes.standard[package]/current_stats.inverted_file.activities[package]}}{% endif %}</td>
+                <td>{% if package in current_stats.inverted_file.ruleset_passes.standard and current_stats.inverted_file.activities[package] > 0 %}{{100.0*current_stats.inverted_file.ruleset_passes.standard[package]/current_stats.inverted_file.activities[package]}}{% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>
