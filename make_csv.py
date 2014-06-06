@@ -17,8 +17,9 @@ def publisher_dicts():
             'Activity Files': publisher_stats['activity_files'],
             'Organisation Files': publisher_stats['organisation_files'],
             'Total File Size': publisher_stats['file_size'],
-            'Reporting Orgs (count)': len(publisher_stats['reporting_orgs']),
-            'Reporting Orgs': ';'.join(publisher_stats['reporting_orgs']),
+            'Reporting Org on Registry': data.ckan_publishers[publisher]['result']['publisher_iati_id'],
+            'Reporting Orgs in Data (count)': len(publisher_stats['reporting_orgs']),
+            'Reporting Orgs in Data': ';'.join(publisher_stats['reporting_orgs']),
             'Data Tickets': len(data.data_tickets[publisher])
         }
 
@@ -32,8 +33,9 @@ with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
         'Activity Files',
         'Organisation Files',
         'Total File Size',
-        'Reporting Orgs (count)',
-        'Reporting Orgs',
+        'Reporting Org on Registry',
+        'Reporting Orgs in Data (count)',
+        'Reporting Orgs in Data',
         'Data Tickets',
         ])
     writer.writeheader()

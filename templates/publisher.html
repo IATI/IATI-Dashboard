@@ -23,7 +23,14 @@
                 <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
             </tr>
             <tr>
-                <td>Reporting Org(s)</td>
+                <td>Reporting Org on Registry</td>
+                <td>{% if ckan_publishers %}
+                    <code>{{ckan_publishers[publisher].result.publisher_iati_id}}</code>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Reporting Org(s) in Data</td>
                 <td>
                 {% for org in publisher_stats.reporting_orgs%}
                 <code>{{org|replace(' ', '&nbsp;')|safe}}</code>

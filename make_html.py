@@ -19,6 +19,7 @@ def iati_stats_page(template, **kwargs):
         return render_template(template,
             current_stats=current_stats,
             ckan=ckan,
+            ckan_publishers=ckan_publishers,
             publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()},
             data_tickets=data_tickets,
             **kwargs) 
