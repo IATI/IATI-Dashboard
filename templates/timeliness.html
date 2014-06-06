@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="page-header">
+      <h1>Timeliness</h1>
+      <p class="lead">NOTE: This page is a work in progress.</p>
+    </div>
+
+
+    <div class="row">
+    <div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Table of Contents</h3></div>
+        <div class="panel-body">
+            <ul>
+                <li><a href="#h_frequency">Frequency</a></li>
+                <li><a href="#h_timeliness">Timeliness of Transactions</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <h2 id="h_frequency">Frequency</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Publisher Name</td>
+                <td>Month 1</td>
+                <td>Month 2</td>
+                <td>etc.</td>
+                <td>Assesment</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% set publisher_stats = get_publisher_stats(publisher) %}
+            <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 id="h_timeliness">Timeliness of Transactions</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Publisher Name</td>
+                <td>&lt; 30 days</td>
+                <td>30 - 60 days</td>
+                <td>60 - 90 days</td>
+                <td>90 - 180 days</td>
+                <td>180 - 360 days</td>
+                <td>Assesment</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% set publisher_stats = get_publisher_stats(publisher) %}
+            <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td>{{publisher_stats.transaction_timing['30']}}</td>
+                <td>{{publisher_stats.transaction_timing['60']}}</td>
+                <td>{{publisher_stats.transaction_timing['90']}}</td>
+                <td>{{publisher_stats.transaction_timing['180']}}</td>
+                <td>{{publisher_stats.transaction_timing['360']}}</td>
+                <td>{{publisher_stats.annualreport_textual['1.1']}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
