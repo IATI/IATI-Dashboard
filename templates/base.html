@@ -106,6 +106,12 @@ html,body{height:100%;}
       <li{% if milestones %} class="active"{% endif %}><a href="{{url('milestones.html')}}">Milestones</a></li>
       <li{% if milestones_completed %} class="active"{% endif %}><a href="{{url('milestones-completed.html')}}">Completed Milestones</a></li>
       {% endif %}
+      {% if annualreport or coverage or timeliness or forwardlooking %}
+      <li{% if annualreport %} class="active"{% endif %}><a href="{{url('annualreport.html')}}">Overview</a></li>
+      <li{% if coverage %} class="active"{% endif %}><a href="{{url('coverage.html')}}">Coverage</a></li>
+      <li{% if timeliness %} class="active"{% endif %}><a href="{{url('timeliness.html')}}">Timeliness</a></li>
+      <li{% if forwardlooking %} class="active"{% endif %}><a href="{{url('forwardlooking.html')}}">Forward Looking</a></li>
+      {% endif %}
       </ul>
     </div><!--/.nav-collapse -->
     </div>

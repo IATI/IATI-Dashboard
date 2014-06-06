@@ -85,6 +85,9 @@ urls = {
         '6.4': 'Results data (structured)'
         
     }),
+    'coverage.html': iati_stats_page('coverage.html', coverage=True),
+    'timeliness.html': iati_stats_page('timeliness.html', timeliness=True),
+    'forwardlooking.html': iati_stats_page('forwardlooking.html', forwardlooking=True),
     'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
     'activities.html': iati_stats_page('activities.html', activities=True),
     'download.html': iati_stats_page('download.html', download=True),
