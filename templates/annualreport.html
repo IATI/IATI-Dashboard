@@ -34,11 +34,11 @@
                 <td>{{publisher_stats.bottom_hierarchy.activities}}</td>
                 {% for methodlogy_id in current_stats.aggregated.annualreport %}
                 {% if methodlogy_id in publisher_stats.bottom_hierarchy.annualreport and publisher_stats.bottom_hierarchy.annualreport_denominator[methodlogy_id] %}
-                    <td>{{(publisher_stats.bottom_hierarchy.annualreport[methodlogy_id]/publisher_stats.bottom_hierarchy.activities*100)|round|int}}</td>
+                    <td>{{(publisher_stats.bottom_hierarchy.annualreport[methodlogy_id]/publisher_stats.bottom_hierarchy.annualreport_denominator[methodlogy_id]*100)|round|int}}</td>
                 {% elif methodlogy_id in publisher_stats.annualreport_textual %}
                     <td>{{publisher_stats.annualreport_textual[methodlogy_id]}}</td>
                 {% elif publisher_stats.annualreport_denominator[methodlogy_id] %}
-                    <td>{{(publisher_stats.publisher_unique_identifiers/activities*100)|round|int}}</td>
+                    <td>{{(publisher_stats.publisher_unique_identifiers/publisher_stats.annualreport_denominator[methodlogy_id]*100)|round|int}}</td>
                 {% else %}
                     <td></td>
                 {% endif %}
