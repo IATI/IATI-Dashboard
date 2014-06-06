@@ -115,6 +115,7 @@ def publisher(publisher):
     return iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
+        publisher_stats=get_publisher_stats(publisher),
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
         publisher_licenses=licenses.licenses_for_publisher(publisher)
         )()
@@ -142,7 +143,6 @@ def element(slug):
         element=element,
         publishers=publishers,
         file_grouped=file_grouped,
-        get_publisher_stats=get_publisher_stats,
         url=lambda x: '../'+x,
         elements=True)()
 
