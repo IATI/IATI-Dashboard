@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block title %}
+{{ super () }} - Reporting Orgs
+{% endblock %}
+{% block content %}
+    <div class="page-header">
+      <h1>Reporting Orgs</h1>
+      <p>The Reporting Org listed on the registry should match the one used in the data.</p>
+    </div>
+
+    <h2>Reporting Orgs which don't match</h2>
+
+    <div class="panel panel-default">
+    <table class="table table-striped">
+      <thead><tr>
+        <th>Publisher</th>
+        <th>Reporting Org on Registry</th>
+        <th>Reporting Orgs in Data (count)</th>
+        <th>Reporting Orgs in Data</th>
+      </tr></thead>
+      <tbody>
+        {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+        {% set publisher_stats = get_publisher_stats(publisher) %}
+        {% if publisher_stats.reporting_orgs|count != 1 or publisher_stats.reporting_orgs.keys()[0] != ckan_publishers[publisher].result.publisher_iati_id %}
+        <tr>
+            <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+            <td><code>{{ckan_publishers[publisher].result.publisher_iati_id}}</code></td>
+            <td>{{publisher_stats.reporting_orgs|length}}</td>
+            <td>{% for ro in publisher_stats.reporting_orgs%}<code>{{ro}}</code> {% endfor %}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    </div> 
+{% endblock %}
+

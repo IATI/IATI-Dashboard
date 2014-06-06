@@ -22,6 +22,7 @@ def iati_stats_page(template, **kwargs):
             ckan_publishers=ckan_publishers,
             publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()},
             data_tickets=data_tickets,
+            get_publisher_stats=get_publisher_stats,
             **kwargs) 
     return f
 
@@ -59,9 +60,9 @@ app.jinja_env.globals['slugs'] = slugs
 from vars import expected_versions
 import github.web, licenses
 urls = {
-    'index.html': iati_stats_page('index.html', index=True, get_publisher_stats=get_publisher_stats),
-    'publishers.html': iati_stats_page('publishers.html', publisher=True, get_publisher_stats=get_publisher_stats),
-    'annualreport.html': iati_stats_page('annualreport.html', annualreport=True, get_publisher_stats=get_publisher_stats, annualreport_columns = {
+    'index.html': iati_stats_page('index.html', index=True),
+    'publishers.html': iati_stats_page('publishers.html', publisher=True),
+    'annualreport.html': iati_stats_page('annualreport.html', annualreport=True, annualreport_columns = {
         '1.1': 'Timeliness of transaction data',
         '1.2': 'Frequency of updates',
         '1.3': 'Activity Forward Planning',
@@ -85,18 +86,19 @@ urls = {
         '6.4': 'Results data (structured)'
         
     }),
-    'coverage.html': iati_stats_page('coverage.html', coverage=True, get_publisher_stats=get_publisher_stats),
-    'timeliness.html': iati_stats_page('timeliness.html', timeliness=True, get_publisher_stats=get_publisher_stats),
-    'forwardlooking.html': iati_stats_page('forwardlooking.html', forwardlooking=True, get_publisher_stats=get_publisher_stats),
+    'coverage.html': iati_stats_page('coverage.html', coverage=True),
+    'timeliness.html': iati_stats_page('timeliness.html', timeliness=True),
+    'forwardlooking.html': iati_stats_page('forwardlooking.html', forwardlooking=True),
     'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
     'activities.html': iati_stats_page('activities.html', activities=True),
     'download.html': iati_stats_page('download.html', download=True),
     'xml.html': iati_stats_page('xml.html', xml=True),
     'validation.html': iati_stats_page('validation.html', validation=True),
     'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
-    'rulesets.html': iati_stats_page('rulesets.html', versions=True, expected_versions=expected_versions),
+    'rulesets.html': iati_stats_page('rulesets.html', rulesets=True, expected_versions=expected_versions),
     'licenses.html': licenses.main,
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
+    'reporting_orgs.html': iati_stats_page('reporting_orgs.html', reporting_orgs=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
     'codelists.html': iati_stats_page('codelists.html', codelists=True, codelist_mapping=codelist_mapping, codelist_sets=codelist_sets),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
@@ -113,7 +115,6 @@ def publisher(publisher):
     return iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
-        publisher_stats=get_publisher_stats(publisher),
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
         publisher_licenses=licenses.licenses_for_publisher(publisher)
         )()
