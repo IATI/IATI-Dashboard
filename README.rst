@@ -56,13 +56,8 @@ To install:
 
     mkdir out
     python plots.py
+    python make_csv.py
     python make_html.py
-
-If you want to used the gh-pages branch as the output directory:
-
-.. code-block:: bash
-
-    git clone -b gh-pages git@github.com:Bjwebb/IATI-Dashboard.git out
 
 Look into ``git.sh`` for doing the full update of an output git repository.
 
@@ -82,8 +77,8 @@ License
 
 ::
 
-    Copyright (C) 2013 Ben Webb <bjwebb67@googlemail.com>
-    Copyright (C) 2013 David Carpenter <caprenter@gmail.com>
+    Copyright (C) 2013-2014 Ben Webb <bjwebb67@googlemail.com>
+    Copyright (C) 2013-2014 David Carpenter <caprenter@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
