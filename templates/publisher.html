@@ -62,6 +62,13 @@
                 {%endfor%}
                 </td>
             </tr><tr>
+                <td>Hierarchies</td>
+                <td>
+                {%for hierarchy in publisher_stats.hierarchies %}
+                <code>{{hierarchy}}</code>
+                {%endfor%}
+                </td>
+            </tr><tr>
                 <td>Licenses</td>
                 <td>
                 {%for license in publisher_licenses %}

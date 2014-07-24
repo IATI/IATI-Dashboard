@@ -23,6 +23,7 @@
                 <th>Organisations <a href="{{stats_url}}/current/inverted-publisher/organisations.json">(J)</a></th>
                 <th>Files <a href="#files_note">(*)</a></th>
                 <th>Total File Size <a href="{{stats_url}}/current/inverted-publisher/file_size.json">(J)</a></th>
+                <th>Hierarchies <a href="{{stats_url}}/current/inverted-publisher/hierarchies.json">(J)</a></th>
                 <th>Reporting Orgs <a href="{{stats_url}}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
                 <th>Data Tickets</th>
             </tr>
@@ -37,6 +38,7 @@
                 <td>{{publisher_stats.organisations}}</td>
                 <td>{{current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher)}}</td>
                 <td data-bytes="{{current_stats.inverted_publisher.file_size.get(publisher)}}">{{current_stats.inverted_publisher.file_size.get(publisher)|filesizeformat}}</td>
+                <td>{{publisher_stats.hierarchies|length}}</td>
                 <td>{{publisher_stats.reporting_orgs|length}}</td>
                 <td>{{data_tickets[publisher]|count}}</td>
             </tr>
