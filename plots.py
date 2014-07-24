@@ -68,6 +68,7 @@ for stat_path in [
         'failed_downloads',
         'invalidxml',
         'nonstandardroots',
+        'unique_identifiers',
         ('validation', lambda x: x=='fail', ''),
         ('publishers_validation', lambda x: x=='fail', ''),
         ('publisher_has_org_file', lambda x: x=='no', ''),

@@ -8,6 +8,7 @@
 
     <div class="row">
       {{boxes.box('Activities', current_stats.aggregated.activities, 'activities.png', 'activities.json')}}
+      {{boxes.box('Unique Activities', current_stats.aggregated.unique_identifiers, 'unique_identifiers.png', 'unique_identifiers.json')}}
       {{boxes.box('Activities by publisher type', '', 'activities_per_publisher_type.png', None, 'activities_per_publisher_type_legend.png')}}
     </div>
 {% endblock %}
