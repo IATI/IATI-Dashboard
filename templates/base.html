@@ -71,7 +71,7 @@ html,body{height:100%;}
       <ul class="nav navbar-nav">
       <li {% if index or publisher or files
           %}class="active"{%endif%}><a href="{{url('index.html')}}">Headlines</a></li>
-      <li {% if download or xml or validation or versions or licenses or organisation or rulesets or reporting_orgs
+      <li {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs
           %}class="active"{% endif %}><a href="{{url('download.html')}}">Data Quality</a></li>
       <li {% if elements or codelists or booleans
           %}class="active"{% endif %}><a href="{{url('elements.html')}}">Exploring Data</a></li>
@@ -87,7 +87,7 @@ html,body{height:100%;}
       <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
       <li{% if activities %} class="active"{% endif %}><a href="{{url('activities.html')}}">Activities</a></li>
       {% endif %}
-      {% if download or xml or validation or versions or licenses or organisation or rulesets or reporting_orgs %}
+      {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs %}
       <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>
       <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>
       <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
@@ -95,6 +95,7 @@ html,body{height:100%;}
       <li{% if rulesets %} class="active"{% endif %}><a href="{{url('rulesets.html')}}">Rulesets</a></li>
       <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>
       <li{% if organisation %} class="active"{% endif %}><a href="{{url('organisation.html')}}">Organisation XML</a></li>
+      <li{% if identifiers %} class="active"{% endif %}><a href="{{url('identifiers.html')}}">Duplicate Identifiers</a></li>
       <li{% if reporting_orgs %} class="active"{% endif %}><a href="{{url('reporting_orgs.html')}}">Reporting Orgs</a></li>
       {% endif %}
       {% if elements or codelists or booleans %}

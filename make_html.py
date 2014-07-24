@@ -98,6 +98,7 @@ urls = {
     'rulesets.html': iati_stats_page('rulesets.html', rulesets=True, expected_versions=expected_versions),
     'licenses.html': licenses.main,
     'organisation.html': iati_stats_page('organisation.html', organisation=True),
+    'identifiers.html': iati_stats_page('identifiers.html', identifiers=True),
     'reporting_orgs.html': iati_stats_page('reporting_orgs.html', reporting_orgs=True),
     'elements.html': iati_stats_page('elements.html', elements=True),
     'codelists.html': iati_stats_page('codelists.html', codelists=True, codelist_mapping=codelist_mapping, codelist_sets=codelist_sets),
