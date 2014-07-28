@@ -92,4 +92,7 @@ codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_
 codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
 
 codelist_sets = { cname:set(c['code'] for c in codelist['data']) for cname,codelist in JSONDir('data/IATI-Codelists/out/clv2/json/en/').items() }
- 
+
+import csv
+from decimal import Decimal
+dac2012 = {x[0]:Decimal(x[1].replace(',','')) for x in csv.reader(open('data/dac2012.csv'))}
