@@ -10,11 +10,9 @@
         <thead>
             <tr>
                 <td>Publisher Name</td>
-                <td>2013</td>
                 <td>2014</td>
                 <td>2015</td>
                 <td>2016</td>
-                <td>2017</td>
             </tr>
         </thead>
         <tbody>
@@ -22,13 +20,6 @@
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
                 <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2013' in publisher_stats.forwardlooking_currency_year %}
-                    {% for k,v in publisher_stats.forwardlooking_currency_year['2013'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
                 <td>
                     {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
                     {% for k,v in publisher_stats.forwardlooking_currency_year['2014'].items() %}
@@ -46,13 +37,6 @@
                 <td>
                     {% if publisher_stats.forwardlooking_currency_year and '2016' in publisher_stats.forwardlooking_currency_year %}
                     {% for k,v in publisher_stats.forwardlooking_currency_year['2016'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2017' in publisher_stats.forwardlooking_currency_year %}
-                    {% for k,v in publisher_stats.forwardlooking_currency_year['2017'].items() %}
                     {{v}} {{k}}</br>
                     {% endfor %}
                     {% endif %}
