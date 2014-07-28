@@ -3,12 +3,13 @@
 {% block content %}
     <div class="page-header">
       <h1>Forward Looking</h1>
-      <p class="lead">NOTE: This page is a work in progress.</p>
+      <p class="lead">NOTE: This page is a work in progress. Spend is the sum of all disbrusements and expenditure.</p>
     </div>
 
     <table class="table table-striped">
         <thead>
             <tr>
+                <td>2013 Spend</td>
                 <td>Publisher Name</td>
                 <td>2014</td>
                 <td>2015</td>
@@ -19,6 +20,13 @@
             {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
+                <td>
+                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
+                    {% for k,v in publisher_stats.spend_currency_year['2013'].items() %}
+                    {{v}} {{k}}</br>
+                    {% endfor %}
+                    {% endif %}
+                </td>
                 <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
                 <td>
                     {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
