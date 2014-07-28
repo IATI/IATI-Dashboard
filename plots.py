@@ -109,7 +109,9 @@ for stat_path in [
         for key in keys:
             plots[key], = ax.plot(x_values, [ y.get(key) or 0 for y in y_values ])
         if stat_name in ['publisher_types', 'activities_per_publisher_type']:
-            fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=1)
+            # Sort by the most recent value for the key
+            sorted_items = sorted(plots.items(), key=lambda x: y_values[-1][x[0]], reverse=True)
+            fig_legend.legend([x[1] for x in sorted_items], [x[0] for x in sorted_items], 'center', ncol=1)
             fig_legend.set_size_inches(600.0/dpi, 300.0/dpi)
         else:
             fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
