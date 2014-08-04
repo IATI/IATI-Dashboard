@@ -9,9 +9,22 @@
 
     <p><a href="{{element|xpath_to_url}}">Documentation for {{element}}</a></p>
 
-    <p>Should be on <a href="http://iatistandard.org/codelists/{{codelist_mapping.get(element)}}/">{{codelist_mapping.get(element)}}</a> codelist.</p>
 
-    <p>(<a href="{{stats_url}}/current/inverted-publisher/elements.json">This page in JSON format</a>)</p>
+    <p>Should be on <a href="http://iatistandard.org/codelists/{{codelist_mapping.get(element)}}/">{{codelist_mapping.get(element)}}</a> codelist.
+    {% with elements=reverse_codelist_mapping[codelist_mapping[element]] %}
+    {% if elements|count > 1 %}
+    Other elements/attributes on this codelist: 
+    <ul>
+    {% for el in elements%}
+    {% if el!=element%}<li><a href="{{slugs.codelist.by_i[current_stats.inverted_publisher.codelist_values.keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
+    {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}</p>
+
+    <p>&nbsp;</p>
+
+    <p>(<a href="{{stats_url}}/current/inverted-publisher/codelist_values.json">This page in JSON format</a>)</p>
 
     <div class="row">
     <div class="col-md-6">

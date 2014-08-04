@@ -1,6 +1,7 @@
 import sys, os, re
 import subprocess
 import urllib
+from collections import defaultdict
 
 from flask import Flask, render_template, redirect, Response
 app = Flask(__name__)
@@ -8,6 +9,12 @@ app = Flask(__name__)
 print 'Doing initial data import'
 from data import *
 print 'Initial data import finished'
+
+def dictinvert(d):
+    inv = defaultdict(list)
+    for k, v in d.iteritems():
+        inv[v].append(k)
+    return inv
 
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
@@ -143,6 +150,7 @@ def codelist(slug):
         element=element,
         values=values,
         codelist_mapping=codelist_mapping,
+        reverse_codelist_mapping=dictinvert(codelist_mapping),
         codelist_sets=codelist_sets,
         url=lambda x: '../'+x,
         codelists=True)()
