@@ -164,6 +164,11 @@ def image_development(image):
     print image
     return Response(open(os.path.join('out', image+'.png')).read(), mimetype='image/png')
 
+@app.route('/publisher_imgs/<image>.png')
+def image_development_publisher(image):
+    print image
+    return Response(open(os.path.join('out', 'publisher_imgs', image+'.png')).read(), mimetype='image/png')
+
 make_html(urls)
 
 if __name__ == '__main__':

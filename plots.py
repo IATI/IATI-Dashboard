@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from collections import defaultdict
 
+import os
 import csv
 failed_downloads = csv.reader(open('data/downloads/history.csv'))
 import json
@@ -55,31 +56,12 @@ class AugmentedJSONDir(data.JSONDir):
             return out
         else: 
             return super(AugmentedJSONDir, self).__getitem__(key)
-git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
 
 
 from vars import expected_versions
 
-for stat_path in [
-        'activities',
-        'publishers',
-        'activity_files',
-        'file_size',
-        'failed_downloads',
-        'invalidxml',
-        'nonstandardroots',
-        'unique_identifiers',
-        ('validation', lambda x: x=='fail', ''),
-        ('publishers_validation', lambda x: x=='fail', ''),
-        ('publisher_has_org_file', lambda x: x=='no', ''),
-        ('versions', lambda x: x in expected_versions, '_expected'),
-        ('versions', lambda x: x not in expected_versions, '_other'),
-        ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
-        ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
-        ('file_size_bins', lambda x: True, ''),
-        ('publisher_types', lambda x: True, '' ),
-        ('activities_per_publisher_type', lambda x: True, '' )
-        ]:
+
+def make_plot(stat_path, git_stats, img_prefix=''):
     if type(stat_path) == tuple:
         stat_name = stat_path[0]
     else:
@@ -140,6 +122,44 @@ for stat_path in [
     # axes up to make room for them
     fig.autofmt_xdate()
 
-    fig.savefig('out/{0}{1}.png'.format(stat_name,stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
-    plt.close()
+    fig.savefig('out/{0}{1}{2}.png'.format(img_prefix,stat_name,stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
+    plt.close('all')
+
+git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
+
+"""
+for stat_path in [
+        'activities',
+        'publishers',
+        'activity_files',
+        'file_size',
+        'failed_downloads',
+        'invalidxml',
+        'nonstandardroots',
+        'unique_identifiers',
+        ('validation', lambda x: x=='fail', ''),
+        ('publishers_validation', lambda x: x=='fail', ''),
+        ('publisher_has_org_file', lambda x: x=='no', ''),
+        ('versions', lambda x: x in expected_versions, '_expected'),
+        ('versions', lambda x: x not in expected_versions, '_other'),
+        ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
+        ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
+        ('file_size_bins', lambda x: True, ''),
+        ('publisher_types', lambda x: True, '' ),
+        ('activities_per_publisher_type', lambda x: True, '' )
+        ]:
+    make_plot(stat_path, git_stats)
+"""
+
+git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
+for publisher, git_stats_publisher in git_stats_publishers.items():
+    print publisher
+    make_plot('activities', git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+
+try:
+    os.makedirs('out/publisher_imgs')
+except OSError:
+    pass
+
+git_stats_publisher = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/dfid')
 

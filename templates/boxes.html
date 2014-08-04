@@ -1,4 +1,4 @@
-{% macro box(title, number, image, json, legend) %}
+{% macro box(title, number, image, json, legend, folderextra) %}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -7,7 +7,7 @@
               <span class="title-text">{{title}}</span>
             </h3>
             {% if json %}
-            <a href="{{stats_url}}/gitaggregate-dated/{{json}}" style="float:right">(J)</a>
+            <a href="{{stats_url}}/gitaggregate{{folderextra}}-dated/{{json}}" style="float:right">(J)</a>
             {% endif %}
             <br clear="all"/>
           </div>
