@@ -21,7 +21,7 @@
     <div class="row">
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><a href="publisher/{{publisher}}.html" id="list_{{publisher}}">{{publisher}}</a> ({{datasets|length}})</div>
+          <div class="panel-heading"><a href="publisher/{{publisher}}.html" id="list_{{publisher}}">{{publisher_name[publisher]}}</a> ({{datasets|length}})</div>
           <!--<div class="panel-body">
             <p>...</p>
           </div>-->
@@ -63,7 +63,7 @@
           <tbody>
             {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
             <tr>
-              <td><a href="#list_{{publisher}}">{{publisher}}</a></td>
+              <td><a href="#list_{{publisher}}">{{publisher_name[publisher]}}</a></td>
               <td>{{datasets|length}}</td>
             </tr>
             {% endfor%}

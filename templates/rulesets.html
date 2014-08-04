@@ -18,7 +18,7 @@
       <tbody>
         {% for publisher, passes in current_stats.inverted_publisher.ruleset_passes.standard.items() %}
         <tr>
-          <td class="break"><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+          <td class="break"><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
           <td><a href="publisher/{{publisher}}.html#p_files">{{100.0*passes/(current_stats.inverted_publisher.activities[publisher]+current_stats.inverted_publisher.organisations[publisher])}}</a></td>
         </tr>
         {% endfor%}

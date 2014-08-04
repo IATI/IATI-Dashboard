@@ -46,7 +46,7 @@
         <tbody>
             {% for package, activities in current_stats.inverted_file.activities.items() %}
             <tr>
-                <td class="break"><a href="publisher/{{package|dataset_to_publisher}}.html">{{package|dataset_to_publisher}}</a></td>
+                <td class="break"><a href="publisher/{{package|dataset_to_publisher}}.html">{{publisher_name[package|dataset_to_publisher]}}</a></td>
                 <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
