@@ -32,7 +32,17 @@ def firstint(s):
     m = re.search('\d+', s[0])
     return int(m.group(0))
 
+def xpath_to_url(path):
+    path = path.strip('./')
+    if path.startswith('iati-activity'):
+        return 'http://iatistandard.org/activity-standard/iati-activities/'+path.split('@')[0]
+    elif path.startswith('iati-organisation'):
+        return 'http://iatistandard.org/activity-standard/iati-organisations/'+path.split('@')[0]
+    else:
+        return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
+
+app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: x

@@ -6,6 +6,8 @@
 {% block content %}
   <h1>Element - {{element}}</h1>
 
+  <p><a href="{{element|xpath_to_url}}">Documentation for {{element}}</a></p>
+
   <h2>Publishers</h2>
 
   <p>(<a href="{{stats_url}}/current/inverted-publisher/elements.json">In JSON format</a>)</p>

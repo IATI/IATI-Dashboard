@@ -19,7 +19,7 @@
         {% for boolean, values in current_stats.inverted_publisher.boolean_values.items() %}
             {% for value, publishers in values.items()%}
                 <tr>
-                    <td>{{boolean}}</td>
+                    <td><a href="{{boolean|xpath_to_url}}">{{boolean}}</a></td>
                     <td>{{value}}</td>
                     <td>{%for publisher in publishers%}{{publisher}} {%endfor%}</td>
                 </tr>
