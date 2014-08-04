@@ -117,6 +117,7 @@
                 <li><a href="#h_dataquality">Exploring Data</a>
                     <ul>
                         <li><a href="#p_files">Files</a>
+                        <li><a href="#p_codelists">Codelist values</a>
                         <li><a href="#p_elements">Elements and Attributes published</a>
                     </ul>
                 </li>
@@ -269,6 +270,36 @@
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
                 <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()[0]}}</td>
                 <td>{% if package in current_stats.inverted_file.ruleset_passes.standard and current_stats.inverted_file.activities[package] > 0 %}{{100.0*current_stats.inverted_file.ruleset_passes.standard[package]/current_stats.inverted_file.activities[package]}}{% endif %}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="panel panel-default" id="p_codelists">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/aggregated/{{publisher}}/codelist_values.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Codelist Values</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Element/Attribute</th>
+                <th>Codelist</th>
+                <th>Values on Codelist</th>
+                <th>Values not on Codelist</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for element, values in publisher_stats.codelist_values.items() %}
+            <tr>
+            {% with element_i=current_stats.inverted_publisher.codelist_values.keys().index(element) %}
+                <td><a href="{{url('codelist/{0}.html'.format(slugs.codelist.by_i[element_i]))}}">{{element}}</a></td>
+                <td><a href="http://iatistandard.org/codelists/{{codelist_mapping.get(element)}}">{{codelist_mapping.get(element)}}</a></td>
+                <td>{{codelist_sets.get(codelist_mapping.get(element)).intersection(values.keys())|count}}</td>
+                <td>{{set(values.keys()).difference(codelist_sets.get(codelist_mapping.get(element)))|count}}</td>
+            {% endwith %}
             </tr>
             {% endfor %}
         </tbody>

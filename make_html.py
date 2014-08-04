@@ -23,6 +23,7 @@ def iati_stats_page(template, **kwargs):
             publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()},
             data_tickets=data_tickets,
             get_publisher_stats=get_publisher_stats,
+            set=set,
             **kwargs) 
     return f
 
@@ -118,7 +119,9 @@ def publisher(publisher):
         publisher=publisher,
         publisher_stats=get_publisher_stats(publisher),
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
-        publisher_licenses=licenses.licenses_for_publisher(publisher)
+        publisher_licenses=licenses.licenses_for_publisher(publisher),
+        codelist_mapping=codelist_mapping,
+        codelist_sets=codelist_sets
         )()
 
 @app.route('/codelist/<slug>.html')
