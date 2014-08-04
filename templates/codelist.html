@@ -23,12 +23,7 @@
         {% for value, publishers in values.items() %}
             {% if value in codelist_sets.get(codelist_mapping.get(element)) %}
             <tr><td>{{value}}</td><td>
-                {% if publishers|length < 20 %}
-                    <abbr title="{% for publisher in sorted(publishers) %}{{publisher}}{% if not loop.last %}
-{% endif %}{% endfor %}">{{publishers|length}}</abbr>
-                {% else %}
-                    {{publishers|length}}
-                {% endif %}
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
@@ -48,12 +43,7 @@
         {% for value, publishers in values.items() %}
             {% if not value in codelist_sets.get(codelist_mapping.get(element)) %}
             <tr><td>{{value}}</td><td>
-                {% if publishers|length < 20 %}
-                    <abbr title="{% for publisher in sorted(publishers) %}{{publisher}}{% if not loop.last %}
-{% endif %}{% endfor %}">{{publishers|length}}</abbr>
-                {% else %}
-                    {{publishers|length}}
-                {% endif %}
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
@@ -63,4 +53,12 @@
     </div>
     </div>
 
+{% endblock %}
+
+{% block extrafooter %}
+    <script>
+$('.popover-html').popover({
+  html: true
+})
+    </script>
 {% endblock %}
