@@ -8,10 +8,10 @@
 
     <div class="row">
       {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png', 'activity_files.json')}}
-      {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png', 'file_size.json')}}
+      {{boxes.box('Organisation XML Files', current_stats.aggregated.organisation_files, 'organisation_files.png', 'organisation_files.json')}}
     </div>
-
     <div class="row">
+      {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png', 'file_size.json')}}
       <div class="col-md-6">
         <div class="panel panel-default">
         <div class="panel-heading">

@@ -127,11 +127,11 @@ def make_plot(stat_path, git_stats, img_prefix=''):
 
 git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
 
-"""
 for stat_path in [
         'activities',
         'publishers',
         'activity_files',
+        'organisation_files',
         'file_size',
         'failed_downloads',
         'invalidxml',
@@ -149,7 +149,6 @@ for stat_path in [
         ('activities_per_publisher_type', lambda x: True, '' )
         ]:
     make_plot(stat_path, git_stats)
-"""
 
 git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.items():
