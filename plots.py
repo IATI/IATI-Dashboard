@@ -150,15 +150,13 @@ for stat_path in [
         ]:
     make_plot(stat_path, git_stats)
 
-git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
-for publisher, git_stats_publisher in git_stats_publishers.items():
-    print publisher
-    make_plot('activities', git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
-
 try:
     os.makedirs('out/publisher_imgs')
 except OSError:
     pass
 
-git_stats_publisher = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/dfid')
+git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
+for publisher, git_stats_publisher in git_stats_publishers.items():
+    print publisher
+    make_plot('activities', git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
 
