@@ -35,7 +35,7 @@
           <tbody>
             {% if 'true' in current_stats.inverted_file_grouped.version_mismatch %}
             {% for publisher,files in current_stats.inverted_file_grouped.version_mismatch.true.items() %}
-                <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td><td>
+                <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher_name[publisher]}}</a></td><td>
                 {% for file in files %}
                     <a href="http://iatiregistry.org/dataset/{{file}}">{{file}}</a>
                 {% endfor %}
@@ -65,7 +65,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
                 </tr>
                 {% endfor %}
               </table>
@@ -91,7 +91,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
                 </tr>
                 {% endfor %}
               </table>

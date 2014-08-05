@@ -13,15 +13,19 @@
       {{boxes.box('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png', 'publisher_has_org_file.json')}}
       <div class="col-md-6">
         <div class="panel panel-default">
-        <a href="{{stats_url}}/current/inverted-publisher/publisher_has_org_file.json">(J)</a>
-        <table class="table table-bordered">
-        <tr>
-        {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              <span class="title-text">List of publishers without an Organisation File</span>
+            </h3>
+            <a href="{{stats_url}}/current/inverted-publisher/publisher_has_org_file.json" style="float:right">(J)</a>
+            <br clear="all"/>
+          </div>
+          <ul>
+          {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
             {{ loop.cycle('</tr><tr>'|safe, '', '', '') }}
-            <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
-        {% endfor %}
-        </tr>
-        </table>
+            <li><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></li>
+          {% endfor %}
+          </ul>
         </div>
       </div>
     </div>
