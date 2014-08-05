@@ -16,7 +16,9 @@
     Other elements/attributes on this codelist: 
     <ul>
     {% for el in elements%}
+    {% if el in current_stats.inverted_publisher.codelist_values.keys() %}
     {% if el!=element%}<li><a href="{{slugs.codelist.by_i[current_stats.inverted_publisher.codelist_values.keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
+    {% endif %}
     {% endfor %}
     </ul>
     {% endif %}
