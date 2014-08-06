@@ -98,7 +98,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         else:
             fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
             fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
-        fig_legend.savefig('out/{0}{1}_legend.png'.format(stat_name,stat_path[2]))
+        fig_legend.savefig('out/{0}{1}{2}_legend.png'.format(img_prefix,stat_name,stat_path[2]))
     else:
         ax.plot(x_values, y_values)
 
@@ -114,8 +114,9 @@ def make_plot(stat_path, git_stats, img_prefix=''):
 
     # format the coords message box
     #def price(x): return '$%1.2f'%x
-    ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
     #ax.format_ydata = price
+    ax.xaxis_date()
+    ax.format_xdata = mdates.DateFormatter('%Y-%m-%d')
     ax.grid(True)
 
     # rotates and right aligns the x labels, and moves the bottom of the
@@ -158,5 +159,16 @@ except OSError:
 git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.items():
     print publisher
-    make_plot('activities', git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+    for stat_path in [
+            'activities',
+            'activity_files',
+            'organisation_files',
+            'file_size',
+            'invalidxml',
+            'nonstandardroots',
+            'publisher_unique_identifiers',
+            ('validation', lambda x: x=='fail', ''),
+            ('versions', lambda x: True, ''),
+            ]:
+        make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
 

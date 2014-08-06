@@ -11,6 +11,42 @@
       <p class="lead"></p>
     </div>
 
+    <div class="row">
+    <div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Table of Contents</h3></div>
+        <div class="panel-body">
+            <ul>
+                <li><a href="#h_headlines">Headlines</a>
+                <li><a href="#h_dataquality">Data Quality</a>
+                    <ul>
+                        {% if publisher in data_tickets and data_tickets[publisher]|count %}
+                        <li><a href="#p_datatickets">Data Tickets</a>
+                        {% endif %}
+                        {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+                        <li><a href="#p_validation">Files Failing Validation</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.invalidxml.values() %}
+                        <li><a href="#p_invalid">Invalid XML Files</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.nonstandardroots.values() %}
+                        <li><a href="#p_nonstandardroots">Files with non-standard roots</a>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li><a href="#h_exploringdata">Exploring Data</a>
+                    <ul>
+                        <li><a href="#p_files">Files</a>
+                        <li><a href="#p_codelists">Codelist values</a>
+                        <li><a href="#p_elements">Elements and Attributes published</a>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+
     <h2 id="h_headlines">Headlines</h2>
 
     <div class="row">
@@ -93,38 +129,18 @@
     </div>
 
     <div class="row">
-    <div class="col-md-6">
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Table of Contents</h3></div>
-        <div class="panel-body">
-            <ul>
-                <li><a href="#h_dataquality">Data Quality</a>
-                    <ul>
-                        {% if publisher in data_tickets and data_tickets[publisher]|count %}
-                        <li><a href="#p_datatickets">Data Tickets</a>
-                        {% endif %}
-                        {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
-                        <li><a href="#p_validation">Files Failing Validation</a>
-                        {% endif %}
-                        {% if 1 in publisher_inverted.invalidxml.values() %}
-                        <li><a href="#p_invalid">Invalid XML Files</a>
-                        {% endif %}
-                        {% if 1 in publisher_inverted.nonstandardroots.values() %}
-                        <li><a href="#p_nonstandardroots">Files with non-standard roots</a>
-                        {% endif %}
-                    </ul>
-                </li>
-                <li><a href="#h_dataquality">Exploring Data</a>
-                    <ul>
-                        <li><a href="#p_files">Files</a>
-                        <li><a href="#p_codelists">Codelist values</a>
-                        <li><a href="#p_elements">Elements and Attributes published</a>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+        {{boxes.box('Activity Files', publisher_stats.activity_files, '../publisher_imgs/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher')}}
+        {{boxes.box('Organisation Files', publisher_stats.organisation_files, '../publisher_imgs/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher')}}
     </div>
+
+    <div class="row">
+        {{boxes.box('Versions per file', '', '../publisher_imgs/'+publisher+'_versions.png', publisher+'/versions.json', '../publisher_imgs/'+publisher+'_versions_legend.png', '-publisher')}}
+        {{boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, '../publisher_imgs/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher')}}
     </div>
+
+    <div class="row">
+        {{boxes.box('Files failing validation', publisher_stats.validation.fail, '../publisher_imgs/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher')}}
+        {{boxes.box('Invalid XML Files', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher')}}
     </div>
 
     <h2 id="h_dataquality">Data Quality</h2>
