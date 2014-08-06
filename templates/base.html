@@ -69,7 +69,7 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      <li {% if index or publisher or files
+      <li {% if index or publisher or files or activities
           %}class="active"{%endif%}><a href="{{url('index.html')}}">Headlines</a></li>
       <li {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs
           %}class="active"{% endif %}><a href="{{url('download.html')}}">Data Quality</a></li>
