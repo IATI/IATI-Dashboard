@@ -73,7 +73,7 @@ html,body{height:100%;}
           %}class="active"{%endif%}><a href="{{url('index.html')}}">Headlines</a></li>
       <li {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs
           %}class="active"{% endif %}><a href="{{url('download.html')}}">Data Quality</a></li>
-      <li {% if elements or codelists or booleans
+      <li {% if elements or codelists or booleans or dates
           %}class="active"{% endif %}><a href="{{url('elements.html')}}">Exploring Data</a></li>
       <li {% if github
           %}class="active"{% endif %}><a href="{{url('github.html')}}">Github</a></li>
@@ -98,10 +98,11 @@ html,body{height:100%;}
       <li{% if identifiers %} class="active"{% endif %}><a href="{{url('identifiers.html')}}">Duplicate Identifiers</a></li>
       <li{% if reporting_orgs %} class="active"{% endif %}><a href="{{url('reporting_orgs.html')}}">Reporting Orgs</a></li>
       {% endif %}
-      {% if elements or codelists or booleans %}
+      {% if elements or codelists or booleans or dates %}
       <li{% if elements %} class="active"{% endif %}><a href="{{url('elements.html')}}">Elements</a></li>
       <li{% if codelists %} class="active"{% endif %}><a href="{{url('codelists.html')}}">Codelists</a></li>
       <li{% if booleans %} class="active"{% endif %}><a href="{{url('booleans.html')}}">Booleans</a></li>
+      <li{% if dates %} class="active"{% endif %}><a href="{{url('dates.html')}}">Dates</a></li>
       {% endif %}
       {% if github %}
       <li{% if github_overview %} class="active"{% endif %}><a href="{{url('github.html')}}">Overview</a></li>

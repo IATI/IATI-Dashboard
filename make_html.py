@@ -120,6 +120,7 @@ urls = {
     'elements.html': iati_stats_page('elements.html', elements=True),
     'codelists.html': iati_stats_page('codelists.html', codelists=True, codelist_mapping=codelist_mapping, codelist_sets=codelist_sets),
     'booleans.html': iati_stats_page('booleans.html', booleans=True),
+    'dates.html': iati_stats_page('dates.html', dates=True),
     'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
     'github.html': github.web.main,
     'milestones.html': github.web.milestones,
