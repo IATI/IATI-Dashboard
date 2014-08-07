@@ -34,6 +34,7 @@
                         {% endif %}
                     </ul>
                 </li>
+                <li><a href="#h_financial">Financial</a></li>
                 <li><a href="#h_exploringdata">Exploring Data</a>
                     <ul>
                         <li><a href="#p_files">Files</a>
@@ -259,6 +260,51 @@
     {% endif %}
 
     </div><!-- .row -->
+
+    <h2 id="h_financial">Financial</h2>
+
+    {% macro currency_value(d) %}
+    {% if d %}
+    {% for currency, value in d.items() %}
+    {% if value!=None %}
+    {{value}} {{currency}}</br>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endmacro %}
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Budgets</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Count (all)</th>
+                <th>Sum (all)</th>
+                <th>Count (Original)</th>
+                <th>Sum (Original)</th>
+                <th>Count (Revised)</th>
+                <th>Sum (Revised)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in budget_table %}
+            <tr>
+                <td>{{row.year}}</td>
+                <td>{% if row.count_total %}{{row.count_total}}{% endif %}</td>
+                <td>{% if row.sum_total %}{{currency_value(row.sum_total)}}{% endif %}</td>
+                <td>{% if row.count_original %}{{row.count_original}}{% endif %}</td>
+                <td>{{currency_value(row.sum_original)}}</td>
+                <td>{% if row.count_revised %}{{row.count_revised}}{% endif %}</td>
+                <td>{{currency_value(row.sum_revised)}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
 
     <h2 id="h_exploringdata">Exploring Data</h2>
 

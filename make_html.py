@@ -48,7 +48,6 @@ def xpath_to_url(path):
     else:
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
-
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
@@ -131,14 +130,35 @@ app.route('/')(lambda: redirect('index.html'))
 
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):
+    publisher_stats = get_publisher_stats(publisher)
+    budget_table = [ {
+            'year': 'Total',
+            'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
+            'sum_total': { currency:sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
+            'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+            'sum_original': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+            'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+            'sum_revised': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['count_budgets_by_type_by_year'] else None
+        } ] + [
+            {
+                'year': year,
+                'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
+                'sum_total': { currency:sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
+                'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                'sum_original': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                'sum_revised': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['count_budgets_by_type_by_year'] else None
+            } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
+        ]
     return iati_stats_page('publisher.html',
         url=lambda x: '../'+x,
         publisher=publisher,
-        publisher_stats=get_publisher_stats(publisher),
+        publisher_stats=publisher_stats,
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
         publisher_licenses=licenses.licenses_for_publisher(publisher),
         codelist_mapping=codelist_mapping,
-        codelist_sets=codelist_sets
+        codelist_sets=codelist_sets,
+        budget_table=budget_table
         )()
 
 @app.route('/codelist/<slug>.html')
