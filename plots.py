@@ -68,8 +68,11 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         stat_name = stat_path
     
     print stat_name
-
-    items = sorted(git_stats.get(stat_name).items())
+   
+    stat_dict = git_stats.get(stat_name)
+    if not stat_dict:
+        return
+    items = sorted(stat_dict.items())
     x_values = [ datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x,y in items ]
     if type(stat_path) == tuple:
         y_values = [ dict((k,v) for k,v in y.items() if stat_path[1](k)) for x,y in items ]
