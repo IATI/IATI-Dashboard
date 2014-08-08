@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
+{% block page_header %}
+<h1>{{license_names[license]}}</h1>
+<p class="lead">License id: <code>{{license}}</code></p>
+{% endblock %}
+
 {% block content %}
-    <div class="page-header">
-      <h1>{{license_names[license]}}</h1>
-      <p class="lead">License id: <code>{{license}}</code></p>
-    </div>
 
     <div class="panel panel-default">
       <table class="table table-striped">

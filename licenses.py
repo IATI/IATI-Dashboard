@@ -95,6 +95,7 @@ def main():
         license_count = dict((x,licenses.count(x)) for x in set(licenses)),
         publisher_license_count = dict((x,licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
         sorted=sorted,
+        page='licenses',
         licenses=True)
 
 def individual_license(license):
@@ -107,4 +108,5 @@ def individual_license(license):
         license=license,
         license_names=license_names,
         publisher_counts=publisher_counts,
+        page='licenses',
         licenses=True)

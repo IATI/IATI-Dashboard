@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
-{% block title %}
-{{ super () }} - Download Errors
-{% endblock %}
 {% block content %}
-    <div class="page-header">
-      <h1>Download Errors</h1>
-      <p class="lead"></p>
-    </div>
-
     <div class="row">
       {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png')}}
     </div>

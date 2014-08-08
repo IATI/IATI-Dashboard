@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
-{% block title %}
-{{ super () }} - Validation
-{% endblock %}
 {% block content %}
-    <div class="page-header">
-      <h1>Validation Against the Schema</h1>
-      <p>Files validated against the appropriate schema (based on version and whether it's an activity/organisation file).</p>
-    </div>
-
     <div class="row">
       {{boxes.box('IATI Files on the registry don\'t validate', current_stats.aggregated.validation.fail, 'validation.png', 'validation.json')}}
       {{boxes.box('Publishers have files that don\'t validate', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png', 'publishers_validation.json')}}

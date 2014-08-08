@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
-{% block title %}
-{{ super () }} - Organisation XML
-{% endblock %}
 {% block content %}
-    <div class="page-header">
-      <h1>Organisation XML Files</h1>
-      <p class="lead"></p>
-    </div>
-
     <div class="row">
       {{boxes.box('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png', 'publisher_has_org_file.json')}}
       <div class="col-md-6">

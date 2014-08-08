@@ -1,15 +1,12 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
-{% block title %}
-{{ super () }} - Booleans
+
+{% block page_header %}
+{{ super () }}
+<p>List of values actually used by publishers for attributes that should be booleans (ie. <code>true</code>, <code>false</code>, <code>0</code> or <code>1</code>).</p>
 {% endblock %}
+
 {% block content %}
-
-<div class="page-header">
-  <h1>Booleans</h1>
-  <p>List of values actually used by publishers for attributes that should be booleans (ie. <code>true</code>, <code>false</code>, <code>0</code> or <code>1</code>).</p>
-</div>
-
     <p>(<a href="{{stats_url}}/current/inverted-publisher/reporting_orgs.json">This table as JSON</a>)</p>
 
     <div class="panel panel-default">

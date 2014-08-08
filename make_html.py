@@ -1,4 +1,4 @@
-import sys, os, re
+import sys, os, re, copy
 import subprocess
 import urllib
 from collections import defaultdict
@@ -9,6 +9,76 @@ app = Flask(__name__)
 print 'Doing initial data import'
 from data import *
 print 'Initial data import finished'
+
+top_titles = {
+    'index': 'Home',
+    'headlines': 'Headlines',
+    'data_quality': 'Data Quality',
+    'exploring_data': 'Exploring Data',
+    'github': 'GitHub',
+}
+
+page_titles = {
+    'index': 'IATI Dashboard',
+    'headlines': 'Headlines',
+    'data_quality': 'Data Quality',
+    'exploring_data': 'Exploring Data',
+    'publishers': 'Publishers',
+    'files': 'Files',
+    'activities': 'Activities',
+    'download' : 'Download Errors',
+    'xml' : 'XML Errors',
+    'validation' : 'Validation Against the Schema',
+    'versions' : 'Versions',
+    'rulesets' : 'Rulesets',
+    'licenses' : 'Licenses listed on the Registry',
+    'organisation' : 'Organisation XML Files',
+    'identifiers' : 'Duplicate Activity Identifiers',
+    'reporting_orgs' : 'Reporting Orgs',
+    'elements' : 'Elements',
+    'codelists' : 'Codelists',
+    'booleans' : 'Booleans',
+    'dates' : 'Dates',
+    'github': 'GitHub Overview',
+    'milestones' : 'Github Milestones',
+    'milestones-completed' : 'Github Milestones (Completed)',
+    'annualreport' : 'Annual Report Stats',
+    'coverage' : 'Coverage',
+    'timeliness' : 'Timeliness',
+    'forwardlooking' : 'Forward Looking'
+}
+
+page_leads = {
+    'index': 'The IATI Dashboard provides statistics, charts and metrics on data accessed via the IATI Registry.',
+    'validation': 'Files validated against the appropriate schema (based on version and whether it\'s an activity/organisation file).',
+    'reporting_orgs': 'The Reporting Org listed on the registry should match the one used in the data.',
+    'github': 'Various numbers from the <a href="https://github.com/IATI">IATI github organisation</a>.',
+    'annualreport': 'NOTE: This page is very much a work in progress, and currently the methodology differs subtly from the Annual Report.',
+    'coverage': 'NOTE: This page is a work in progress. Currently publishers using non-USD or multiple currencies will have no perenctage calculated.',
+    'timeliness': 'NOTE: This page is a work in progress.',
+    'forwardlooking': 'NOTE: This page is a work in progress. Spend is the sum of all disbrusements and expenditure. * indicates that a result is missing because mutiple/different currencies have been used, but currency conversion is not yet implemented.'
+}
+
+short_page_titles = copy.copy(page_titles)
+short_page_titles.update({
+    'validation': 'Validation',
+    'licenses' : 'Licenses',
+    'organisation' : 'Organisation XML',
+    'identifiers' : 'Duplicate Identifiers',
+    'github': 'Overview',
+    'milestones' : 'Milestones',
+    'milestones-completed' : 'Completed Milestones',
+    'annualreport' : 'Overview',
+})
+
+top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github']
+navigation = {
+    'headlines': [ 'publishers', 'files', 'activities'],
+    'data_quality': ['download', 'xml', 'validation', 'versions', 'rulesets', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
+    'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
+    'github': ['github', 'milestones', 'milestones-completed'],
+    'annualreport': ['annualreport', 'coverage', 'timeliness', 'forwardlooking']
+}
 
 def dictinvert(d):
     inv = defaultdict(list)
@@ -58,6 +128,14 @@ app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
 #app.jinja_env.globals['stats_url'] = 'http://localhost:8001'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
+app.jinja_env.globals['top_titles'] = top_titles 
+app.jinja_env.globals['page_titles'] = page_titles 
+app.jinja_env.globals['short_page_titles'] = short_page_titles 
+app.jinja_env.globals['page_leads'] = page_leads
+app.jinja_env.globals['top_navigation'] = top_navigation
+app.jinja_env.globals['navigation'] = navigation
+app.jinja_env.globals['navigation_reverse'] = { page:k for k,pages in navigation.items() for page in pages }
+app.jinja_env.globals['navigation_reverse'].update({ k:k for k in navigation})
 
 def make_slugs(keys):
     out = {'by_slug':{}, 'by_i':{}}
@@ -77,9 +155,12 @@ app.jinja_env.globals['slugs'] = slugs
 from vars import expected_versions
 import github.web, licenses
 urls = {
-    'index.html': iati_stats_page('index.html', index=True),
-    'publishers.html': iati_stats_page('publishers.html', publisher=True),
-    'annualreport.html': iati_stats_page('annualreport.html', annualreport=True, annualreport_columns = {
+    'index.html': iati_stats_page('index.html', page='index'),
+    'headlines.html': iati_stats_page('headlines.html', page='headlines'),
+    'data_quality.html': iati_stats_page('data_quality.html', page='data_quality'),
+    'exploring_data.html': iati_stats_page('exploring_data.html', page='exploring_data'),
+    'publishers.html': iati_stats_page('publishers.html', page='publishers'),
+    'annualreport.html': iati_stats_page('annualreport.html', page='annualreport', annualreport_columns = {
         '1.1': 'Timeliness of transaction data',
         '1.2': 'Frequency of updates',
         '1.3': 'Activity Forward Planning',
@@ -103,24 +184,25 @@ urls = {
         '6.4': 'Results data (structured)'
         
     }),
-    'coverage.html': iati_stats_page('coverage.html', coverage=True, dac2012=dac2012, float=float),
-    'timeliness.html': iati_stats_page('timeliness.html', timeliness=True),
-    'forwardlooking.html': iati_stats_page('forwardlooking.html', forwardlooking=True),
-    'files.html': iati_stats_page('files.html', files=True, firstint=firstint),
-    'activities.html': iati_stats_page('activities.html', activities=True),
-    'download.html': iati_stats_page('download.html', download=True),
-    'xml.html': iati_stats_page('xml.html', xml=True),
-    'validation.html': iati_stats_page('validation.html', validation=True),
-    'versions.html': iati_stats_page('versions.html', versions=True, expected_versions=expected_versions),
-    'rulesets.html': iati_stats_page('rulesets.html', rulesets=True, expected_versions=expected_versions),
+    'headlines.html': iati_stats_page('headlines.html', page='headlines'),
+    'coverage.html': iati_stats_page('coverage.html', page='coverage', dac2012=dac2012, float=float),
+    'timeliness.html': iati_stats_page('timeliness.html', page='timeliness'),
+    'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking'),
+    'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
+    'activities.html': iati_stats_page('activities.html', page='activities'),
+    'download.html': iati_stats_page('download.html', page='download'),
+    'xml.html': iati_stats_page('xml.html', page='xml'),
+    'validation.html': iati_stats_page('validation.html', page='validation'),
+    'versions.html': iati_stats_page('versions.html', page='versions', expected_versions=expected_versions),
+    'rulesets.html': iati_stats_page('rulesets.html', page='rulesets', expected_versions=expected_versions),
     'licenses.html': licenses.main,
-    'organisation.html': iati_stats_page('organisation.html', organisation=True),
-    'identifiers.html': iati_stats_page('identifiers.html', identifiers=True),
-    'reporting_orgs.html': iati_stats_page('reporting_orgs.html', reporting_orgs=True),
-    'elements.html': iati_stats_page('elements.html', elements=True),
-    'codelists.html': iati_stats_page('codelists.html', codelists=True, codelist_mapping=codelist_mapping, codelist_sets=codelist_sets),
-    'booleans.html': iati_stats_page('booleans.html', booleans=True),
-    'dates.html': iati_stats_page('dates.html', dates=True),
+    'organisation.html': iati_stats_page('organisation.html', page='organisation'),
+    'identifiers.html': iati_stats_page('identifiers.html', page='identifiers'),
+    'reporting_orgs.html': iati_stats_page('reporting_orgs.html', page='reporting_orgs'),
+    'elements.html': iati_stats_page('elements.html', page='elements'),
+    'codelists.html': iati_stats_page('codelists.html', page='codelists', codelist_mapping=codelist_mapping, codelist_sets=codelist_sets),
+    'booleans.html': iati_stats_page('booleans.html', page='booleans'),
+    'dates.html': iati_stats_page('dates.html', page='dates'),
     'data/download_errors.json': lambda: Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
     'github.html': github.web.main,
     'milestones.html': github.web.milestones,
@@ -174,7 +256,7 @@ def codelist(slug):
         reverse_codelist_mapping=dictinvert(codelist_mapping),
         codelist_sets=codelist_sets,
         url=lambda x: '../'+x,
-        codelists=True)()
+        page='codelists')()
 
 @app.route('/element/<slug>.html')
 def element(slug):
@@ -187,7 +269,7 @@ def element(slug):
         publishers=publishers,
         file_grouped=file_grouped,
         url=lambda x: '../'+x,
-        elements=True)()
+        page='elements')()
 
 app.route('/license/<license>.html')(licenses.individual_license)
 

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="icon" type="image/png" href="{{url('favicon.png')}}" />
-  <title>{% block title %}IATI Dashboard{% endblock %}</title>
+  <title>{% block title %}IATI Dashboard - {{page_titles[page]}}{% endblock %}</title>
   <style>
     .big-number {
       font-size: 100px;
@@ -69,58 +69,29 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      <li {% if index or publisher or files or activities
-          %}class="active"{%endif%}><a href="{{url('index.html')}}">Headlines</a></li>
-      <li {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs
-          %}class="active"{% endif %}><a href="{{url('download.html')}}">Data Quality</a></li>
-      <li {% if elements or codelists or booleans or dates
-          %}class="active"{% endif %}><a href="{{url('elements.html')}}">Exploring Data</a></li>
-      <li {% if github
-          %}class="active"{% endif %}><a href="{{url('github.html')}}">Github</a></li>
+      {% for item in top_navigation %}
+          <li {% if item==page or page in navigation[item]%}class="active"{%endif%}><a href="{{url(item+'.html')}}">{{top_titles[item]}}</a></li>
+      {% endfor %}
       </ul>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      {% if index or publisher or files or activities %}
-      <li{% if index %} class="active"{% endif %}><a href="{{url('index.html')}}">Home</a></li>
-      <li{% if publisher %} class="active"{% endif %}><a href="{{url('publishers.html')}}">Publishers</a></li>
-      <li{% if files %} class="active"{% endif %}><a href="{{url('files.html')}}">Files</a></li>
-      <li{% if activities %} class="active"{% endif %}><a href="{{url('activities.html')}}">Activities</a></li>
-      {% endif %}
-      {% if download or xml or validation or versions or licenses or organisation or rulesets or identifiers or reporting_orgs %}
-      <li{% if download %} class="active"{% endif %}><a href="{{url('download.html')}}">Download Errors</a></li>
-      <li{% if xml %} class="active"{% endif %}><a href="{{url('xml.html')}}">XML Errors</a></li>
-      <li{% if validation %} class="active"{% endif %}><a href="{{url('validation.html')}}">Validation</a></li>
-      <li{% if versions %} class="active"{% endif %}><a href="{{url('versions.html')}}">Versions</a></li>
-      <li{% if rulesets %} class="active"{% endif %}><a href="{{url('rulesets.html')}}">Rulesets</a></li>
-      <li{% if licenses %} class="active"{% endif %}><a href="{{url('licenses.html')}}">Licenses</a></li>
-      <li{% if organisation %} class="active"{% endif %}><a href="{{url('organisation.html')}}">Organisation XML</a></li>
-      <li{% if identifiers %} class="active"{% endif %}><a href="{{url('identifiers.html')}}">Duplicate Identifiers</a></li>
-      <li{% if reporting_orgs %} class="active"{% endif %}><a href="{{url('reporting_orgs.html')}}">Reporting Orgs</a></li>
-      {% endif %}
-      {% if elements or codelists or booleans or dates %}
-      <li{% if elements %} class="active"{% endif %}><a href="{{url('elements.html')}}">Elements</a></li>
-      <li{% if codelists %} class="active"{% endif %}><a href="{{url('codelists.html')}}">Codelists</a></li>
-      <li{% if booleans %} class="active"{% endif %}><a href="{{url('booleans.html')}}">Booleans</a></li>
-      <li{% if dates %} class="active"{% endif %}><a href="{{url('dates.html')}}">Dates</a></li>
-      {% endif %}
-      {% if github %}
-      <li{% if github_overview %} class="active"{% endif %}><a href="{{url('github.html')}}">Overview</a></li>
-      <li{% if milestones %} class="active"{% endif %}><a href="{{url('milestones.html')}}">Milestones</a></li>
-      <li{% if milestones_completed %} class="active"{% endif %}><a href="{{url('milestones-completed.html')}}">Completed Milestones</a></li>
-      {% endif %}
-      {% if annualreport or coverage or timeliness or forwardlooking %}
-      <li{% if annualreport %} class="active"{% endif %}><a href="{{url('annualreport.html')}}">Overview</a></li>
-      <li{% if coverage %} class="active"{% endif %}><a href="{{url('coverage.html')}}">Coverage</a></li>
-      <li{% if timeliness %} class="active"{% endif %}><a href="{{url('timeliness.html')}}">Timeliness</a></li>
-      <li{% if forwardlooking %} class="active"{% endif %}><a href="{{url('forwardlooking.html')}}">Forward Looking</a></li>
-      {% endif %}
+      {% for item in navigation[navigation_reverse[page]] %}
+          <li{% if item==page %} class="active"{% endif %}><a href="{{url(item+'.html')}}">{{short_page_titles[item]}}</a></li>
+      {% endfor %}
       </ul>
     </div><!--/.nav-collapse -->
     </div>
   </div>
 
   <div class="container">
+    <div class="page-header">
+      {% block page_header %}
+      <h1>{{page_titles[page]}}</h1>
+      <p class="lead">{{page_leads[page]|safe}}</p>
+      {% endblock %}
+    </div>
+
     {% block content %}
     {% endblock %}
   </div><!-- /.container -->

@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}
-{{ super () }} - Github Milestones
+
+{% block page_header %}
+{{ super () }}
+<p>Calendar of the due dates of all CLOSED GitHub milestones in all the repositories belonging to the <a href="http://github.com/IATI">IATI organisation on GitHub</a>.</p>
 {% endblock %}
 
 {% block content %}
-
-<div class="page-header">
-  <h1>Github Milestones (Completed)</h1>
-  <p>Calendar of the due dates of all CLOSED GitHub milestones in all the repositories belonging to the <a href="http://github.com/IATI">IATI organisation on GitHub</a>.</p>
-</div>
-
 
 {% for year, year_cal in sorted(milestones_closed_calendar.items()) %}
     <h2>{{year}}</h2>

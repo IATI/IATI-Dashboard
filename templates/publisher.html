@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block title %}
-{{ super () }} - Validation
+{{ super () }} Publisher: {{publisher_name[publisher]}}
 {% endblock %}
+{% block page_header %}
+<a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/" style="float:right">(Publisher Stats JSON)</a>
+<h1>Publisher: {{publisher_name[publisher]}}</h1>
+<p class="lead"></p>
+{% endblock %}
+
 {% block content %}
-    <a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/" style="float:right">(Publisher Stats JSON)</a>
-
-    <div class="page-header">
-      <h1>Publisher: {{publisher_name[publisher]}}</h1>
-      <p class="lead"></p>
-    </div>
-
     <div class="row">
     <div class="col-md-6">
     <div class="panel panel-default">

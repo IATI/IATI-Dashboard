@@ -9,7 +9,7 @@ def main():
     github_stats = {
         'open_issues': sum([x['open_issues_count'] for x in repos]),
     }
-    return render_template('github.html', github=True, github_overview=True, repos=repos, github_stats=github_stats)
+    return render_template('github.html', page='github', repos=repos, github_stats=github_stats)
 
 def milestones():
     milestones_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -39,7 +39,7 @@ def milestones():
         no_open_issues.append(fname[:-5])
         
 
-    return render_template('milestones.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, github=True, milestones=True, no_open_issues=no_open_issues)
+    return render_template('milestones.html', milestones_calendar=milestones_calendar, milestones_nodate=milestones_nodate, no_milestone=no_milestone, sorted=sorted, page='milestones', no_open_issues=no_open_issues)
 
 def milestones_closed():
     milestones_closed_calendar = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -58,5 +58,5 @@ def milestones_closed():
                     #print('   ', milestone['title'], '---', milestone['due_on'], '---', str(milestone['open_issues'])+'/'+str(milestone['closed_issues']))
         
 
-    return render_template('milestones-completed.html', milestones_closed_calendar=milestones_closed_calendar, milestones_nodate=milestones_nodate, sorted=sorted, github=True, milestones_completed=True)
+    return render_template('milestones-completed.html', milestones_closed_calendar=milestones_closed_calendar, milestones_nodate=milestones_nodate, sorted=sorted, page='milestones-completed')
 

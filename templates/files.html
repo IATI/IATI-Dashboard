@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
-    <div class="page-header">
-      <h1>Files</h1>
-      <p class="lead"></p>
-    </div>
-
     <div class="row">
       {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png', 'activity_files.json')}}
       {{boxes.box('Organisation XML Files', current_stats.aggregated.organisation_files, 'organisation_files.png', 'organisation_files.json')}}
