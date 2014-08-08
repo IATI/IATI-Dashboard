@@ -1,31 +1,19 @@
-{% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
-{% block content %}
-    <div class="row">
-
-    <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-            About
-        </h3>
-      </div>
-      <div class="panel-body">
-        <p>The dashboard is generated nightly from the IATI data on the registry. Specifics of the timing can be seen in the page footer, and <a href="https://github.com/IATI/IATI-Dashboard/blob/master/README.rst">technical details can be found on in the README</a>.</p>
-        <p>Many of the tables in the dashboard are sortable by clicking on the headers.</p>
-        <p>Many of the datasets in the dashboard are available in machine readable JSON format. Some links to JSON are abbreviated to <code>(J)</code>.</p>
-      </div>
-    </div>
-    </div>
-
-    <div class="col-md-6">
-    <div class="panel panel-default">
-    <table class="table table-striped">
+{% extends 'section_index.html' %}
+{% block about %}
+<p>The dashboard is generated nightly from the IATI data on the registry. Specifics of the timing can be seen in the page footer, and <a href="https://github.com/IATI/IATI-Dashboard/blob/master/README.rst">technical details can be found on in the README</a>.</p>
+<p>Many of the tables in the dashboard are sortable by clicking on the headers.</p>
+<p>Many of the datasets in the dashboard are available in machine readable JSON format. Some links to JSON are abbreviated to <code>(J)</code>.</p>
+{% endblock %}
+{% block lhs_column %}
+{{ super () }}
+    
+<div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
             Overview
         </h3>
       </div>
+    <table class="table table-striped">
         <tbody>
             <tr>
                 <td>
@@ -125,7 +113,6 @@
             </tr>
         </body>
     </table>
-    </div>
-    </div>
-    </div>
+</div>
+
 {% endblock %}

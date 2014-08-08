@@ -1,1 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'section_index.html' %}
+{% block about %}
+<p>This section of the IATI dashboard tracks published IATI data around a series of quality measures.</p> 
+<p>These are specifically technical measures - schema validation, download issues, XML formatting, etc - that can be easily rectified by publishers.  No attempt is made to evaluate the actual content of the data - the dashboard should be used for sense checking and technical fixes.</p>
+{% endblock about %}
+{% block publisher_page_hash %}#h_dataquality{% endblock %}

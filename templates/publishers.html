@@ -2,13 +2,18 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png', 'publishers.json')}}
-      {{boxes.box('Publishers by type', '', 'publisher_types.png', None, 'publisher_types_legend.png')}}
+      {{boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png', 'publishers.json',
+        description='This graph shows the number of organisations publishing IATI data over time.')}}
+      {{boxes.box('Publishers by type', '', 'publisher_types.png', None, 'publisher_types_legend.png',
+        description='This graph show the various types of organisations publishing IATI data.')}}
     </div>
 
-    <p><a href="{{url('publishers.csv')}}">This table as CSV</a></p>
 
     <div class="panel panel-default">
+    <div class="panel-body">
+        <p style="float:right"><a href="{{url('publishers.csv')}}">(This table as CSV)</a></p>
+        <p>List of current active IATI publishers,  Click on the publisher name for more details.</p>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>

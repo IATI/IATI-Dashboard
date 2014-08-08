@@ -1,4 +1,4 @@
-{% macro box(title, number, image, json, legend, folderextra) %}
+{% macro box(title, number, image, json, legend, folderextra, description) %}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -12,6 +12,7 @@
             <br clear="all"/>
           </div>
           <div class="panel-body">
+            <p>{{description|safe}}</p>
             <img src="{{image}}" width="100%" />
             {% if legend %}
             <img src="{{legend}}" width="100%" />

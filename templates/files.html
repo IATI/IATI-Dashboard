@@ -2,8 +2,10 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Activity XML Files', current_stats.aggregated.activity_files, 'activity_files.png', 'activity_files.json')}}
-      {{boxes.box('Organisation XML Files', current_stats.aggregated.organisation_files, 'organisation_files.png', 'organisation_files.json')}}
+      {{boxes.box('Total activity files', current_stats.aggregated.activity_files, 'activity_files.png', 'activity_files.json',
+        description='Count of total number of activity files over time.')}}
+      {{boxes.box('Total organisation files', current_stats.aggregated.organisation_files, 'organisation_files.png', 'organisation_files.json',
+        description='Count of total number of organisation files, over time.')}}
     </div>
     <div class="row">
       {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png', 'file_size.json')}}

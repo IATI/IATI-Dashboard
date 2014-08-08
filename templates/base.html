@@ -88,7 +88,8 @@ html,body{height:100%;}
     <div class="page-header">
       {% block page_header %}
       <h1>{{page_titles[page]}}</h1>
-      <p class="lead">{{page_leads[page]|safe}}</p>
+      {% if page in page_leads %}<p class="lead">{{page_leads[page]|safe}}</p>{% endif %}
+      {% if page in page_sub_leads %}<p>{{page_sub_leads[page]|safe}}</p>{% endif %}
       {% endblock %}
     </div>
 
