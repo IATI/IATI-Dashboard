@@ -2,15 +2,19 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'validation.png', 'validation.json')}}
-      {{boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png', 'publishers_validation.json')}}
+      {{boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'validation.png', 'validation.json',
+        description='Count of files that do not validate against the relevant schema, over time.')}}
+      {{boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png', 'publishers_validation.json',
+        description='Count of publishers that have at least one invalid file, over time')}}
     </div>
 
     <h2>Breakdown By Publisher</h2>
 
     <div class="col-md-6">
+        
+        <h3>List of files that fail validation, grouped by publisher</h3>
+
     {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
-    <div class="row">
         <div class="panel panel-default">
           <!-- Default panel contents -->
           <div class="panel-heading"><a href="publisher/{{publisher}}.html" id="list_{{publisher}}">{{publisher_name[publisher]}}</a> ({{datasets|length}})</div>
@@ -41,11 +45,13 @@
             {% endfor %}
           </ul>
         </div>
-    </div>
     {% endfor%}
     </div>
     
     <div class="col-md-6">
+
+      <h3>Count of files that fail validation, per publisher.</h3>
+
       <div class="panel panel-default">
         <table class="table table-striped">
           <thead><tr>

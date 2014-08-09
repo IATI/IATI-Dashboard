@@ -1,15 +1,10 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
-{% block title %}
-{{ super () }} - Rulesets
-{% endblock %}
 {% block content %}
-    <div class="page-header">
-      <h1>Rulesets</h1>
-      <p></p>
-    </div>
-
     <div class="panel panel-default">
+    <div class="panel-body">
+        <p>Percentage of activities per publisher that pass the IATI Ruleset.</p>
+    </div>
     <table class="table table-striped">
       <thead><tr>
         <th>Publisher</th>

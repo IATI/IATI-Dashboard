@@ -3,15 +3,16 @@
 
 {% block page_header %}
 {{ super () }}
-<p>Note that "Invalid XML" here means XML that is not even well formed, not <a href="validation.html">validation against the schema</a>.</p>
-<p>Files with non-standard roots are those where the root XML element is not <code>iati-activities</code> or <code>iati-organisation</code> as we would expect.</p>
+
 {% endblock %}
 
 {% block content %}
 
     <div class="row">
-      {{boxes.box('Invalid XML files', current_stats.aggregated.invalidxml, 'invalidxml.png', 'invalidxml.json')}}
-      {{boxes.box('Files with non-standard roots', current_stats.aggregated.nonstandardroots, 'nonstandardroots.png', 'nonstandardroots.json')}}
+      {{boxes.box('Invalid XML files', current_stats.aggregated.invalidxml, 'invalidxml.png', 'invalidxml.json',
+        description='Count of files where the XML that is not well-formed, over time. Note: this is different from <a href="validation.html">validation against the schema</a>.')}}
+      {{boxes.box('Files with non-standard roots', current_stats.aggregated.nonstandardroots, 'nonstandardroots.png', 'nonstandardroots.json',
+        description='Count of files with non-standard root, over time. Note: Files with non-standard roots are those where the root XML element is not <code>iati-activities</code> or <code>iati-organisation</code> as we would expect.</p>')}}
     </div>
 
     <div class="row">

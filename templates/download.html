@@ -2,7 +2,8 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png')}}
+      {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png',
+        description='Count of files that fail to download, over time.')}}
     </div>
 
     <p><a href="https://gist.github.com/Bjwebb/6726204/revisions">History of Download Errors</a></p>
@@ -10,6 +11,9 @@
     <p><a href="{{url('data/download_errors.json')}}">This table as JSON</a></p>
 
     <div class="panel panel-default">
+    <div class="panel-body">
+        <p>List of files that fail to download.</p>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>

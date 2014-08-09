@@ -2,7 +2,8 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png', 'publisher_has_org_file.json')}}
+      {{boxes.box('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'publisher_has_org_file.png', 'publisher_has_org_file.json',
+        description='Count of publishers without an organisation file, over time.')}}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -12,11 +13,14 @@
             <a href="{{stats_url}}/current/inverted-publisher/publisher_has_org_file.json" style="float:right">(J)</a>
             <br clear="all"/>
           </div>
-          <ul>
-          {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
-            <li><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></li>
-          {% endfor %}
-          </ul>
+          <div class="panel-body">
+            <p>The following publishers do not have an organisation file listed on the IATI Registry.</p>
+            <ul>
+            {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
+              <li><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></li>
+            {% endfor %}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

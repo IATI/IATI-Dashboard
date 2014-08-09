@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
-    <h2>Reporting Orgs which don't match</h2>
-
     <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Inconsistent Reporting Org references
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>List of Publishers where the reporting-org element does not match the reporting-org field in the IATI Registry.</p>
+    </div>
     <table class="table table-striped">
       <thead><tr>
         <th>Publisher</th>

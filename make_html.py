@@ -16,6 +16,7 @@ top_titles = {
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
     'github': 'GitHub',
+    'faq': 'FAQ'
 }
 
 page_titles = {
@@ -23,6 +24,7 @@ page_titles = {
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
+    'faq': 'IATI Dashboard Frequently Asked Questions',
     'publishers': 'IATI Publishers',
     'files': 'IATI Files',
     'activities': 'IATI Activities',
@@ -113,7 +115,7 @@ short_page_titles.update({
     'annualreport' : 'Overview',
 })
 
-top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github']
+top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github', 'faq']
 navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'rulesets', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
@@ -250,6 +252,7 @@ urls = {
     'github.html': github.web.main,
     'milestones.html': github.web.milestones,
     'milestones-completed.html': github.web.milestones_closed,
+    'faq.html': iati_stats_page('faq.html', page='faq'),
 }
 
 app.route('/')(lambda: redirect('index.html'))
