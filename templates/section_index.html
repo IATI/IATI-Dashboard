@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+
+    <div class="col-md-6">
+    {% block lhs_column %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            About
+        </h3>
+      </div>
+      <div class="panel-body">
+        {% block about %}
+        {% endblock %}
+      </div>
+    </div>
+    {% endblock %}
+    </div>
+
+    <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            Contents
+        </h3>
+      </div>
+      <ul class="list-group">
+      {% for item in (top_navigation if page=='index' else navigation[navigation_reverse[page]]) %}
+        {% if item!='index' %}
+          <li class="list-group-item">
+          <h4><a href="{{url(item+'.html')}}">{{page_titles[item]}}</a></h4>
+          <p>{{page_leads[item]|safe}}</p>
+          </li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+    </div>
+    </div>
+
+    </div>
+
+<h3>Publishers</h3>
+{% for publisher in current_stats.inverted_publisher.activities %}
+<li><a href="publisher/{{publisher}}.html{% block publisher_page_hash%}{% endblock %}">{{publisher_name[publisher]}}</a></li>
+{% endfor %}
+
+{% endblock content %}
