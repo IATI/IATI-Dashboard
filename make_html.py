@@ -36,6 +36,7 @@ page_titles = {
     'licenses' : 'Licenses listed on the Registry',
     'organisation' : 'Organisation XML Files',
     'identifiers' : 'Duplicate Activity Identifiers',
+    'registration_agencies' : 'Registration Agencies',
     'reporting_orgs' : 'Reporting Orgs',
     'elements' : 'Elements',
     'codelists' : 'Codelists',
@@ -161,6 +162,11 @@ def xpath_to_url(path):
         return 'http://iatistandard.org/activity-standard/iati-organisations/'+path.split('@')[0]
     else:
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
+
+def registration_agency(orgid):
+    for code in codelist_sets['OrganisationRegistrationAgency']:
+        if orgid.startswith(code):
+            return code
 
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
@@ -318,6 +324,24 @@ def element(slug):
         page='elements')()
 
 app.route('/license/<license>.html')(licenses.individual_license)
+
+@app.route('/registration_agencies.html')
+def registration_agencies():
+    registration_agencies = defaultdict(int)
+    registration_agencies_publishers = defaultdict(list)
+    nonmatching = []
+    for orgid, publishers in current_stats['inverted_publisher']['reporting_orgs'].items():
+        reg_ag = registration_agency(orgid)
+        if reg_ag:
+            registration_agencies[reg_ag] += 1
+            registration_agencies_publishers[reg_ag] += publishers.keys()
+        else:
+            nonmatching.append((orgid, publishers))
+    return iati_stats_page('registration_agencies.html',
+        page='registration_agencies',
+        registration_agencies=registration_agencies,
+        registration_agencies_publishers=registration_agencies_publishers,
+        nonmatching=nonmatching)()
 
 def make_html(urls, outdir=''):
     for url, f in urls.items():

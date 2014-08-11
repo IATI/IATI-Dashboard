@@ -69,7 +69,7 @@
                 <td>Reporting Org(s) in Data</td>
                 <td>
                 {% for org in publisher_stats.reporting_orgs%}
-                <code>{{org|replace(' ', '&nbsp;')|safe}}</code>
+                <code>{{org|replace(' ', ' ')}}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
