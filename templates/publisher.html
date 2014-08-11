@@ -331,12 +331,12 @@
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
                 <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()[0]}}</td>
                 <td>
-                    {% if package in current_stats.inverted_file.ruleset_passes.standard and current_stats.inverted_file.activities[package] > 0 %}
-                      {% if publisher in ckan and dataset in ckan[publisher] %}
+                    {% if package in current_stats.inverted_file.ruleset_passes.standard and (current_stats.inverted_file.activities[package]+current_stats.inverted_file.organisations[package]) > 0 %}
+                      {% if publisher in ckan and package in ckan[publisher] %}
                         <a href="http://dev.validator.iatistandard.org/?test=rulesets&url={{ckan[publisher][package].resource.url|urlencode}}">
                       {% endif %}
-                        {{100.0*current_stats.inverted_file.ruleset_passes.standard[package]/current_stats.inverted_file.activities[package]}}
-                      {% if publisher in ckan and dataset in ckan[publisher] %}
+                        {{100.0*current_stats.inverted_file.ruleset_passes.standard[package]/(current_stats.inverted_file.activities[package]+current_stats.inverted_file.organisations[package])}}
+                      {% if publisher in ckan and package in ckan[publisher] %}
                         </a>
                       {% endif %}
                     {% endif %}
