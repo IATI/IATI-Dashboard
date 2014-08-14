@@ -22,10 +22,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% for publisher_title,publisher in publishers_ordered_by_title %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 <td>{{publisher_stats.bottom_hierarchy.activities}}</td>
                 {% for methodlogy_id in current_stats.aggregated.annualreport %}
                 {% if methodlogy_id in publisher_stats.bottom_hierarchy.annualreport and publisher_stats.bottom_hierarchy.annualreport_denominator[methodlogy_id] %}

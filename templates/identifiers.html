@@ -21,11 +21,11 @@
         <th>Instances of duplicate identifiers</th>
       </tr></thead>
       <tbody>
-        {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+        {% for publisher_title,publisher in publishers_ordered_by_title %}
         {% set publisher_stats = get_publisher_stats(publisher) %}
         {% if publisher_stats.publisher_duplicate_identifiers|count != 0 %}
         <tr>
-            <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+            <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
             <td><a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/publisher_duplicate_identifiers.json">{{publisher_stats.publisher_duplicate_identifiers|length}}</td>
             <td><a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/publisher_duplicate_identifiers.json">{{publisher_stats.publisher_duplicate_identifiers.values()|sum}}</td>
         </tr>

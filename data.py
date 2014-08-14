@@ -94,6 +94,14 @@ codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.ite
 
 codelist_sets = { cname:set(c['code'] for c in codelist['data']) for cname,codelist in JSONDir('data/IATI-Codelists/out/clv2/json/en/').items() }
 
+
+#Simple look up to map publisher id to a publishers given name (title)
+publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()}
+#Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
+publishers_ordered_by_title = [ (publisher_name[publisher],publisher) for publisher in current_stats['inverted_publisher']['activities'] ]
+publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
+
+
 import csv
 from decimal import Decimal
 try:

@@ -11,10 +11,10 @@
         <th>Latest Actual End</th>
       </tr></thead>
       <tbody>
-        {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+        {% for publisher_title,publisher in publishers_ordered_by_title %}
         {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 <td>{% if publisher_stats.date_extremes.min.overall %}{{publisher_stats.date_extremes.min.overall}}{% endif %}</td>
                 <td>{% if publisher_stats.date_extremes.max.overall %}{{publisher_stats.date_extremes.max.overall}}{% endif %}</td>
                 <td>{% if publisher_stats.date_extremes.max.by_type['start-actual'] %}{{publisher_stats.date_extremes.max.by_type['start-actual'] }}{% endif %}</td>

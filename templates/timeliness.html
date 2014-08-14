@@ -30,7 +30,7 @@
             {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -54,10 +54,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% for publisher_title,publisher in publishers_ordered_by_title %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 <td>{{publisher_stats.transaction_timing['30']}}</td>
                 <td>{{publisher_stats.transaction_timing['60']}}</td>
                 <td>{{publisher_stats.transaction_timing['90']}}</td>

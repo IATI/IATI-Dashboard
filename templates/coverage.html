@@ -11,10 +11,10 @@
             </tr>
         </thead>
         <tbody>
-            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
+            {% for publisher_title,publisher in publishers_ordered_by_title %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 <td>
                     {% if publisher_stats.spend_currency_year and '2012' in publisher_stats.spend_currency_year %}
                     {% for k,v in publisher_stats.spend_currency_year['2012'].items() %}
