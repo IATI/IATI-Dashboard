@@ -96,4 +96,8 @@ codelist_sets = { cname:set(c['code'] for c in codelist['data']) for cname,codel
 
 import csv
 from decimal import Decimal
-dac2012 = {x[0]:Decimal(x[1].replace(',','')) for x in csv.reader(open('data/dac2012.csv'))}
+try:
+    dac2012 = {x[0]:Decimal(x[1].replace(',','')) for x in csv.reader(open('data/dac2012.csv'))}
+except IOError:
+    dac2012 = {}
+
