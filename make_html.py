@@ -119,7 +119,7 @@ short_page_titles.update({
 top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github', 'faq']
 navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
-    'data_quality': ['download', 'xml', 'validation', 'versions', 'rulesets', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
+    'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'github': ['github', 'milestones', 'milestones-completed'],
     'annualreport': ['annualreport', 'coverage', 'timeliness', 'forwardlooking']
@@ -245,7 +245,6 @@ urls = {
     'xml.html': iati_stats_page('xml.html', page='xml'),
     'validation.html': iati_stats_page('validation.html', page='validation'),
     'versions.html': iati_stats_page('versions.html', page='versions', expected_versions=expected_versions),
-    'rulesets.html': iati_stats_page('rulesets.html', page='rulesets', expected_versions=expected_versions),
     'licenses.html': licenses.main,
     'organisation.html': iati_stats_page('organisation.html', page='organisation'),
     'identifiers.html': iati_stats_page('identifiers.html', page='identifiers'),
