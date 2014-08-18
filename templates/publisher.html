@@ -26,7 +26,7 @@
                         <li><a href="#p_validation">Files Failing Validation</a>
                         {% endif %}
                         {% if 1 in publisher_inverted.invalidxml.values() %}
-                        <li><a href="#p_invalid">Invalid XML Files</a>
+                        <li><a href="#p_invalid">Files where XML is not well-formed</a>
                         {% endif %}
                         {% if 1 in publisher_inverted.nonstandardroots.values() %}
                         <li><a href="#p_nonstandardroots">Files with non-standard roots</a>
@@ -140,7 +140,7 @@
 
     <div class="row">
         {{boxes.box('Files failing validation', publisher_stats.validation.fail, '../publisher_imgs/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher')}}
-        {{boxes.box('Invalid XML Files', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher')}}
+        {{boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher')}}
     </div>
 
     <h2 id="h_dataquality">Data Quality</h2>
@@ -208,7 +208,7 @@
     <div class="panel panel-default" id="p_invalid">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/invalidxml.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Invalid XML Files</h3>
+        <h3 class="panel-title">Files where XML is not well-formed</h3>
     </div>
     <table class="table table-striped">
         <thead>
