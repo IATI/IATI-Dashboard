@@ -20,8 +20,8 @@ import matplotlib.dates as mdates
 from collections import defaultdict
 
 import os
-import csv
-failed_downloads = csv.reader(open('data/downloads/history.csv'))
+import unicodecsv
+failed_downloads = unicodecsv.reader(open('data/downloads/history.csv'))
 import json
 organisation_type_codelist = json.load(open('data/OrganisationType.json'))
 organisation_type_dict = {c['code']:c['name'] for c in organisation_type_codelist['data']}
@@ -103,6 +103,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
             fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
         fig_legend.savefig('out/{0}{1}{2}_legend.png'.format(img_prefix,stat_name,stat_path[2]))
     else:
+        keys = None
         ax.plot(x_values, y_values)
 
 
@@ -128,6 +129,20 @@ def make_plot(stat_path, git_stats, img_prefix=''):
 
     fig.savefig('out/{0}{1}{2}.png'.format(img_prefix,stat_name,stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
     plt.close('all')
+
+    fn = 'out/{0}{1}.csv'.format(img_prefix,stat_name)
+    with open(fn, 'w') as fp:
+        writer = unicodecsv.writer(fp)
+        if keys:
+            sorted_keys = sorted(list(keys))
+            writer.writerow(['date'] + sorted_keys)
+        else:
+            writer.writerow(['date', 'value'])
+        for k,v in items:
+            if keys:
+                writer.writerow([k] + [ v.get(key) for key in sorted_keys ])
+            else:
+                writer.writerow([k,v])
 
 git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
 
