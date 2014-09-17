@@ -40,9 +40,11 @@
 
     </div>
 
+{% block publishers %}
 <h3>Publishers</h3>
 {% for publisher_title,publisher in publishers_ordered_by_title %}
 <li><a href="publisher/{{publisher}}.html{% block publisher_page_hash%}{% endblock %}">{{publisher_title}}</a></li>
 {% endfor %}
+{% endblock %}
 
 {% endblock content %}

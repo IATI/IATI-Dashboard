@@ -16,6 +16,7 @@ top_titles = {
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
     'github': 'GitHub',
+    'publishing_stats': 'Publishing Statistics',
     'faq': 'FAQ'
 }
 
@@ -45,7 +46,7 @@ page_titles = {
     'github': 'GitHub Overview',
     'milestones' : 'GitHub Milestones',
     'milestones-completed' : 'GitHub Milestones (Completed)',
-    'annualreport' : 'Annual Report Stats',
+    'publishing_stats': 'Publishing Statistics',
     'coverage' : 'Coverage',
     'timeliness' : 'Timeliness',
     'forwardlooking' : 'Forward Looking'
@@ -116,13 +117,13 @@ short_page_titles.update({
     'annualreport' : 'Overview',
 })
 
-top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github', 'faq']
+top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github', 'publishing_stats', 'faq']
 navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'github': ['github', 'milestones', 'milestones-completed'],
-    'annualreport': ['annualreport', 'coverage', 'timeliness', 'forwardlooking']
+    'publishing_stats': ['timeliness'] #, 'forwardlooking', 'comprehensiveness', 'coverage' ]
 }
 
 def dictinvert(d):
@@ -212,33 +213,33 @@ urls = {
     'data_quality.html': iati_stats_page('data_quality.html', page='data_quality'),
     'exploring_data.html': iati_stats_page('exploring_data.html', page='exploring_data'),
     'publishers.html': iati_stats_page('publishers.html', page='publishers'),
-    'annualreport.html': iati_stats_page('annualreport.html', page='annualreport', annualreport_columns = {
-        '1.1': 'Timeliness of transaction data',
-        '1.2': 'Frequency of updates',
-        '1.3': 'Activity Forward Planning',
-        '1.4': 'Transaction Alignment with Recipient Financial Year',
-        '1.5': 'Budget Alignment with Recipient Financial Year',
-        '2.1': 'Unique identifier',
-        '2.2': 'Use of Recipient language',
-        '2.3': 'Start Date',
-        '2.4': 'End Date',
-        '2.5': 'Implementing Organisation',
-        '2.6': 'Accountable Organisation',
-        '3.1': 'Sub-national Geography (text)',
-        '3.2': 'Sub-national Geography (geocoding)',
-        '3.3': 'CRS Sector',
-        '5.1': 'Commitments',
-        '5.2': 'Disbursements and Expenditure',
-        '5.3': 'Traceable Income and Disbursements',
-        '6.1': 'Activity Documents',
-        '6.2': 'Text of Conditions',
-        '6.3': 'Results data (text)',
-        '6.4': 'Results data (structured)'
-        
-    }),
-    'coverage.html': iati_stats_page('coverage.html', page='coverage', dac2012=dac2012, float=float),
+    'publishing_stats.html': iati_stats_page('publishing_stats.html', page='publishing_stats'),
+#    'annualreport.html': iati_stats_page('annualreport.html', page='annualreport', annualreport_columns = {
+#        '1.1': 'Timeliness of transaction data',
+#        '1.2': 'Frequency of updates',
+#        '1.3': 'Activity Forward Planning',
+#        '1.4': 'Transaction Alignment with Recipient Financial Year',
+#        '1.5': 'Budget Alignment with Recipient Financial Year',
+#        '2.1': 'Unique identifier',
+#        '2.2': 'Use of Recipient language',
+#        '2.3': 'Start Date',
+#        '2.4': 'End Date',
+#        '2.5': 'Implementing Organisation',
+#        '2.6': 'Accountable Organisation',
+#        '3.1': 'Sub-national Geography (text)',
+#        '3.2': 'Sub-national Geography (geocoding)',
+#        '3.3': 'CRS Sector',
+#        '5.1': 'Commitments',
+#        '5.2': 'Disbursements and Expenditure',
+#        '5.3': 'Traceable Income and Disbursements',
+#        '6.1': 'Activity Documents',
+#        '6.2': 'Text of Conditions',
+#        '6.3': 'Results data (text)',
+#        '6.4': 'Results data (structured)'
+#    }),
+#    'coverage.html': iati_stats_page('coverage.html', page='coverage', dac2012=dac2012, float=float),
     'timeliness.html': iati_stats_page('timeliness.html', page='timeliness'),
-    'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking'),
+#    'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking'),
     'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
     'activities.html': iati_stats_page('activities.html', page='activities'),
     'download.html': iati_stats_page('download.html', page='download'),
