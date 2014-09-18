@@ -6,6 +6,8 @@ wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned
 
 wget "http://iatistandard.org/codelists/downloads/clv2/mapping.json" -O data/mapping.json
 wget "http://iatistandard.org/codelists/downloads/clv2/json/en/OrganisationType.json" -O data/OrganisationType.json
+wget "http://iatistandard.org/codelists/downloads/clv2/json/en/Country.json" -O data/Country.json
+wget "http://iatistandard.org/codelists/downloads/clv2/json/en/Region.json" -O data/Region.json
 
 rm -r data/github/
 python fetch_data.py
