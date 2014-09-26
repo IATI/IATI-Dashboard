@@ -1,3 +1,4 @@
+from __future__ import print_function
 import json
 import data
 import unicodecsv
@@ -24,8 +25,10 @@ for publisher, publisher_data in aggregated_publisher.items():
         publishers_by['type'][organisation_type_dict[organization_type]] += 1
 
         publisher_country_code = data.ckan_publishers[publisher]['result']['publisher_country']
-        if publisher_country_code in country_dict:
-            publishers_by['country'][country_dict.get(publisher_country_code)] += 1
+        if publisher_country_code in country_dict or publisher_country_code in region_dict:
+            publishers_by['country'][country_dict.get(publisher_country_code) or region_dict.get(publisher_country_code)] += 1
+        else:
+            print('Unrecognised registry publisher_country code: ', publisher_country_code)
         activity_countries = publisher_data['codelist_values'].get('.//recipient-country/@code')
         if activity_countries:
             for code, count in activity_countries.items():
@@ -37,7 +40,7 @@ for publisher, publisher_data in aggregated_publisher.items():
                 if code and code in region_dict:
                     activities_by['region'][region_dict.get(code)] += count
     else:
-        print 'Publisher not matched:', publisher
+        print('Publisher not matched:', publisher)
 
 fieldnames = ['publisher_type', 'publishers_by_type', '', 'publisher_country', 'publishers_by_country', '', 'date', 'publishers_quarterly', '', 'activity_country', 'activities_by_country', '', 'activity_region', 'activities_by_region' ]
 
