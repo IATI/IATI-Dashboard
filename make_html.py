@@ -1,7 +1,6 @@
 import sys, os, re, copy
 import subprocess
 import urllib
-import datetime
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, Response
@@ -206,19 +205,8 @@ slugs = {
 }
 app.jinja_env.globals['slugs'] = slugs
 
-def previous_months_generator(d):
-    year = d.year
-    month = d.month
-    for i in range(0,12):
-        month -= 1
-        if month <= 0:
-            year -= 1
-            month = 12
-        yield '{}-{}'.format(year,str(month).zfill(2))
-previous_months = list(previous_months_generator(datetime.date.today()))
-
 from vars import expected_versions
-import github.web, licenses
+import github.web, licenses, timeliness
 urls = {
     'index.html': iati_stats_page('index.html', page='index'),
     'headlines.html': iati_stats_page('headlines.html', page='headlines'),
@@ -250,7 +238,7 @@ urls = {
 #        '6.4': 'Results data (structured)'
 #    }),
 #    'coverage.html': iati_stats_page('coverage.html', page='coverage', dac2012=dac2012, float=float),
-    'timeliness.html': iati_stats_page('timeliness.html', page='timeliness', previous_months=previous_months),
+    'timeliness.html': iati_stats_page('timeliness.html', page='timeliness', previous_months=list(reversed(timeliness.previous_months)), publisher_frequency=timeliness.publisher_frequency),
 #    'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking'),
     'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
     'activities.html': iati_stats_page('activities.html', page='activities'),

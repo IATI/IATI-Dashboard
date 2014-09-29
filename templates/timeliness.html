@@ -20,21 +20,20 @@
         <thead>
             <tr>
                 <td>Publisher Name</td>
-                <td>Month 1</td>
-                <td>Month 2</td>
-                <td>etc.</td>
+                {% for month in previous_months %}
+                <td>{{month}}</td>
+                {% endfor %}
                 <td>Assesment</td>
             </tr>
         </thead>
         <tbody>
-            {% for publisher, activities in current_stats.inverted_publisher.activities.items() %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% for publisher, updates_per_month, frequency in publisher_frequency() %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                {% for month in previous_months %}
+                <td>{{updates_per_month[month]}}</td>
+                {% endfor %}
+                <td>{{frequency}}</td>
             </tr>
             {% endfor %}
         </tbody>
