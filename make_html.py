@@ -271,18 +271,18 @@ def publisher(publisher):
             'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
             'sum_total': { currency:sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
             'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_original': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+            'sum_original': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
             'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_revised': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['count_budgets_by_type_by_year'] else None
+            'sum_revised': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
         } ] + [
             {
                 'year': year,
                 'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
                 'sum_total': { currency:sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
                 'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_original': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                'sum_original': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
                 'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_revised': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['count_budgets_by_type_by_year'] else None
+                'sum_revised': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
             } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
         ]
     return iati_stats_page('publisher.html',
