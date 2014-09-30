@@ -71,3 +71,22 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
     for publisher_json in data.ckan_publishers.values():
         writer.writerow({x:publisher_json['result'].get(x) for x in keys})
 
+
+
+
+import timeliness
+previous_months = list(reversed(timeliness.previous_months))
+
+with open(os.path.join('out', 'timeliness_frequency.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
+    for publisher,updates_per_month,assessment in timeliness.publisher_frequency():
+        writer.writerow([publisher, publisher_name.get(publisher)] + [updates_per_month.get(x) for x in previous_months] + [assessment])
+
+with open(os.path.join('out', 'timeliness_timelag.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
+    for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
+        publisher_stats = data.get_publisher_stats(publisher) 
+        writer.writerow([publisher, publisher_name.get(publisher)] + [publisher_stats['transaction_months_with_year'].get(x) for x in previous_months] + [assessment])
+
