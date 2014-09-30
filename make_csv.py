@@ -75,18 +75,14 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 
 
 import timeliness
-previous_months = list(reversed(timeliness.previous_months))
+previous_months = timeliness.previous_months_reversed
 
-with open(os.path.join('out', 'timeliness_frequency.csv'), 'w') as fp:
-    writer = unicodecsv.writer(fp)
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
-    for publisher,updates_per_month,assessment in timeliness.publisher_frequency():
-        writer.writerow([publisher, publisher_name.get(publisher)] + [updates_per_month.get(x) for x in previous_months] + [assessment])
-
-with open(os.path.join('out', 'timeliness_timelag.csv'), 'w') as fp:
-    writer = unicodecsv.writer(fp)
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
-    for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
-        publisher_stats = data.get_publisher_stats(publisher) 
-        writer.writerow([publisher, publisher_name.get(publisher)] + [publisher_stats['transaction_months_with_year'].get(x) for x in previous_months] + [assessment])
-
+for fname, f, assessment_label in (
+    ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Assessment'),
+    ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Assessment (Arrears)')
+    ):
+    with open(os.path.join('out', fname), 'w') as fp:
+        writer = unicodecsv.writer(fp)
+        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
+        for publisher_title, publisher, per_month,assessment in f():
+            writer.writerow([publisher_title, publisher] + [per_month.get(x) for x in previous_months] + [assessment])

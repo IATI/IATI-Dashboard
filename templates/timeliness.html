@@ -20,20 +20,20 @@
         <thead>
             <tr>
                 <td>Publisher Name</td>
-                {% for month in previous_months %}
+                {% for month in timeliness.previous_months_reversed %}
                 <td>{{month}}</td>
                 {% endfor %}
                 <td>Assessment</td>
             </tr>
         </thead>
         <tbody>
-            {% for publisher, updates_per_month, frequency in publisher_frequency() %}
+            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_frequency_sorted() %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
-                {% for month in previous_months %}
-                <td>{{updates_per_month[month]}}</td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                {% for month in timeliness.previous_months_reversed %}
+                <td>{{per_month[month]}}</td>
                 {% endfor %}
-                <td>{{frequency}}</td>
+                <td>{{assessment}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -44,21 +44,20 @@
         <thead>
             <tr>
                 <td>Publisher Name</td>
-                {% for month in previous_months %}
+                {% for month in timeliness.previous_months_reversed %}
                 <td>{{month}}</td>
                 {% endfor %}
                 <td>Assessment (Arrears)</td>
             </tr>
         </thead>
         <tbody>
-            {% for publisher_title,publisher in publishers_ordered_by_title %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
             <tr>
                 <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                {% for month in previous_months %}
-                <td>{{publisher_stats.transaction_months_with_year[month]}}</td>
+                {% for month in timeliness.previous_months_reversed %}
+                <td>{{per_month[month]}}</td>
                 {% endfor %}
-                <td>{{publisher_stats.timelag}}</td>
+                <td>{{assessment}}</td>
             </tr>
             {% endfor %}
         </tbody>

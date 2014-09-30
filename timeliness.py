@@ -1,5 +1,5 @@
 from __future__ import print_function
-from data import JSONDir
+from data import JSONDir, publisher_name
 import datetime
 from collections import defaultdict
 
@@ -14,6 +14,7 @@ def previous_months_generator(d):
         yield year,month
 
 previous_months = ['{}-{}'.format(year,str(month).zfill(2)) for year,month in previous_months_generator(datetime.date.today())]
+previous_months_reversed=list(reversed(previous_months))
 
 previous_month_starts = [datetime.date(year,month,1) for year,month in previous_months_generator(datetime.date.today()) ]
 
@@ -54,5 +55,18 @@ def publisher_frequency():
                 frequency = 'Six-Monthly'
             else:
                 frequency = 'Less than Annual'
-        yield publisher, updates_per_month, frequency
+        yield publisher, publisher_name.get(publisher), updates_per_month, frequency
+
+def publisher_frequency_sorted():
+    return sorted(publisher_frequency(), key=lambda (publisher, publisher_title , _, frequency): (
+        ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency),
+        publisher_title
+        ))
+
+def publisher_timelag_sorted():
+    publisher_timelags = [ (publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag']) for publisher,agg in JSONDir('./stats-calculated/current/aggregated-publisher').items() ]
+    return sorted(publisher_timelags, key=lambda (publisher, publisher_title, _, timelag): (
+        ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag),
+        publisher_title
+        ))
 
