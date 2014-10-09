@@ -34,7 +34,7 @@
             <tr>
                 <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 {% for month in timeliness.previous_months_reversed %}
-                <td>{{per_month[month]}}</td>
+                <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
                 <td>{{assessment}}</td>
             </tr>
@@ -61,7 +61,7 @@
             <tr>
                 <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 {% for month in timeliness.previous_months_reversed %}
-                <td>{{per_month[month]}}</td>
+                <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
                 <td>{{assessment}}</td>
             </tr>
