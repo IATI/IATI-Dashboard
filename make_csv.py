@@ -69,7 +69,7 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
     writer = unicodecsv.DictWriter(fp, keys)
     writer.writeheader()
     for publisher_json in data.ckan_publishers.values():
-        writer.writerow({x:publisher_json['result'].get(x) for x in keys})
+        writer.writerow({x:publisher_json['result'].get(x) or 0 for x in keys})
 
 
 
@@ -85,4 +85,4 @@ for fname, f, assessment_label in (
         writer = unicodecsv.writer(fp)
         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
         for publisher_title, publisher, per_month,assessment in f():
-            writer.writerow([publisher_title, publisher] + [per_month.get(x) for x in previous_months] + [assessment])
+            writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
