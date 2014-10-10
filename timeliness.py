@@ -21,6 +21,7 @@ def previous_months_generator(d):
 
 previous_months = ['{}-{}'.format(year,str(month).zfill(2)) for year,month in previous_months_generator(datetime.date.today())]
 previous_months_reversed=list(reversed(previous_months))
+this_month = '{}-{}'.format(year,str(month).zfill(2))
 
 previous_month_starts = [datetime.date(year,month,1) for year,month in previous_months_generator(datetime.date.today()) ]
 

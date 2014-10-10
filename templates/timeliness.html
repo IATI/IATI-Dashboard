@@ -15,23 +15,25 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td>Publisher Name</td>
+                <td style="border: 1px solid gray;">Publisher Name</td>
                 {% for month in timeliness.previous_months_reversed %}
-                <td>{{month}}</td>
+                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{month}}</td>
                 {% endfor %}
-                <td>Future Transactions</td>
-                <td>Frequency</td>
+                <td style="border: 1px solid gray;">{{timeliness.this_month}}</td>
+                <td style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;"></td>
+                <td style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;">Time lag</td>
             </tr>
         </thead>
         <tbody>
-            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_frequency_sorted() %}
+            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 {% for month in timeliness.previous_months_reversed %}
                 <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
-                <td>?</td>
-                <td>{{assessment}}</td>
+                <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
+                <td style="border-left: 1px solid gray">?</td>
+                <td style="border-right: 1px solid gray">{{assessment}}</td>
             </tr>
             {% endfor %}
         </tbody>
