@@ -98,6 +98,34 @@
     </div>
     </div>
 
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        Summary
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Frequency</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set summary = timeliness.publisher_timelag_summary() %}
+        {% for assessment, count in summary.items() %}
+            <tr>
+                <td>{{assessment}}</td>
+                <td>{{count}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{summary.values()|sum}}</td>
+            </tr>
+    </table>
+    </div>
+
     <p style="float:right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></p>
 
     <table class="table table-striped">

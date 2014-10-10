@@ -1,7 +1,7 @@
 from __future__ import print_function
 from data import JSONDir, publisher_name, get_publisher_stats
 import datetime
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 def short_month(month_str):
     short_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -82,6 +82,9 @@ def publisher_frequency_sorted():
         publisher_title
         ))
 
+def publisher_frequency_summary():
+    return Counter(frequency for _,_,_,frequency in publisher_frequency())
+
 def timelag_index(timelag):
     return ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag)
 
@@ -91,6 +94,9 @@ def publisher_timelag_sorted():
         timelag_index(timelag),
         publisher_title
         ))
+
+def publisher_timelag_summary():
+    return Counter(timelag for _,_,_,timelag in publisher_timelag_sorted())
 
 def has_future_transactions(publisher):
     publisher_stats = get_publisher_stats(publisher)
