@@ -356,8 +356,11 @@ def make_html(urls, outdir=''):
 # Server an image through the development server (--live)
 @app.route('/<image>.png')
 def image_development(image):
-    print image
     return Response(open(os.path.join('out', image+'.png')).read(), mimetype='image/png')
+
+@app.route('/<name>.csv')
+def csv_development(name):
+    return Response(open(os.path.join('out', name+'.csv')).read(), mimetype='text/csv')
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
