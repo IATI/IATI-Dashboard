@@ -239,6 +239,7 @@ urls = {
 #    }),
 #    'coverage.html': iati_stats_page('coverage.html', page='coverage', dac2012=dac2012, float=float),
     'timeliness.html': iati_stats_page('timeliness.html', page='timeliness', timeliness=timeliness),
+    'timeliness_timelag.html': iati_stats_page('timeliness_timelag.html', page='timeliness', timeliness=timeliness),
 #    'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking'),
     'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
     'activities.html': iati_stats_page('activities.html', page='activities'),
