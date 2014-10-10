@@ -78,11 +78,11 @@ import timeliness
 previous_months = timeliness.previous_months_reversed
 
 for fname, f, assessment_label in (
-    ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Assessment'),
-    ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Assessment (Arrears)')
+    ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Frequency'),
+    ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Time lag')
     ):
     with open(os.path.join('out', fname), 'w') as fp:
         writer = unicodecsv.writer(fp)
-        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Assessment'])
+        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
         for publisher_title, publisher, per_month,assessment in f():
             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
