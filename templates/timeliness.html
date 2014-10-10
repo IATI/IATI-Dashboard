@@ -15,17 +15,21 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td style="border: 1px solid gray;">Publisher Name</td>
+                <td style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
+                <td style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                <td style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                <td style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2>"</td>
+                <td style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Frequency</td>
+            </tr>
+            <tr>
                 {% for month in timeliness.previous_months_reversed %}
-                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{month}}</td>
+                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
                 {% endfor %}
-                <td style="border: 1px solid gray;">{{timeliness.this_month}}</td>
-                <td style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;"></td>
-                <td style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;">Time lag</td>
+                <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
             </tr>
         </thead>
         <tbody>
-            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
+            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_frequency_sorted() %}
             <tr>
                 <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
                 {% for month in timeliness.previous_months_reversed %}

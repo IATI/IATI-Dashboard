@@ -3,6 +3,10 @@ from data import JSONDir, publisher_name, get_publisher_stats
 import datetime
 from collections import defaultdict
 
+def short_month(month_str):
+    short_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return short_months[int(month_str.split('-')[1]) - 1]
+
 def parse_iso_date(d):
     try:
         return datetime.date(int(d[:4]), int(d[5:7]), int(d[8:10]))
@@ -24,6 +28,10 @@ previous_months_reversed=list(reversed(previous_months))
 this_month = '{}-{}'.format(year,str(month).zfill(2))
 
 previous_month_starts = [datetime.date(year,month,1) for year,month in previous_months_generator(datetime.date.today()) ]
+
+this_month_number = datetime.datetime.today().month
+this_year = datetime.datetime.today().year
+
 
 def publisher_frequency():
     gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
