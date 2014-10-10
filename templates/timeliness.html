@@ -19,6 +19,7 @@
                 {% for month in timeliness.previous_months_reversed %}
                 <td>{{month}}</td>
                 {% endfor %}
+                <td>Future Transactions</td>
                 <td>Frequency</td>
             </tr>
         </thead>
@@ -29,6 +30,7 @@
                 {% for month in timeliness.previous_months_reversed %}
                 <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
+                <td>?</td>
                 <td>{{assessment}}</td>
             </tr>
             {% endfor %}

@@ -207,6 +207,7 @@ app.jinja_env.globals['slugs'] = slugs
 
 from vars import expected_versions
 import github.web, licenses, timeliness
+app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 urls = {
     'index.html': iati_stats_page('index.html', page='index'),
     'headlines.html': iati_stats_page('headlines.html', page='headlines'),

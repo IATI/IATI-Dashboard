@@ -1,7 +1,13 @@
 from __future__ import print_function
-from data import JSONDir, publisher_name
+from data import JSONDir, publisher_name, get_publisher_stats
 import datetime
 from collections import defaultdict
+
+def parse_iso_date(d):
+    try:
+        return datetime.date(int(d[:4]), int(d[5:7]), int(d[8:10]))
+    except ValueError:
+        return None
 
 def previous_months_generator(d):
     year = d.year
@@ -30,7 +36,7 @@ def publisher_frequency():
                 previous_transaction_date = transaction_date
                 updates_per_month[gitdate[:7]] += 1
         first_published_string = sorted(agg['most_recent_transaction_date'])[0]
-        first_published = datetime.date(int(first_published_string[:4]), int(first_published_string[5:7]), int(first_published_string[8:10]))
+        first_published = parse_iso_date(first_published_string)
         if first_published >= previous_month_starts[2]:
             #if True in [ x in updates_per_month for x in previous_months[:3] ]:
             frequency = 'Annual'
@@ -69,4 +75,14 @@ def publisher_timelag_sorted():
         ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag),
         publisher_title
         ))
+
+def has_future_transactions(publisher):
+    print(publisher)
+    publisher_stats = get_publisher_stats(publisher)
+    for transaction_type, transaction_counts in publisher_stats['transaction_dates'].items():
+        for transaction_date_string, count in transaction_counts.items():
+            transaction_date = parse_iso_date(transaction_date_string)
+            if transaction_date and transaction_date > datetime.date.today():
+                return True
+    return False
 
