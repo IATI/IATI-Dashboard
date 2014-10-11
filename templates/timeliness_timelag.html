@@ -8,9 +8,86 @@
 
     <h2 id="h_timelag">Time lag</h2>
 
-    <p>The number of transactions currently reported for each of the last 12 months, and an assessment of the Time lag calculated from these.</p>
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        Narrative
+    </div>
+    <div class="panel-body">
+        <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date.</p>
 
-    <p id="future_transactions">An explanation of future transactions.</p>
+        <p>Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment.</p>
+
+        <p>The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is excluded.</p>
+
+        <p>This calculation is redone in its entirety each night so is always relative to 'today'.</p>
+    </div>
+    </div>
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        Assessment
+    </div>
+    <div class="panel-body">
+        <p>These statistics are assessed as follows:</p>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <td>Transactions reported for ...</td>
+        <td>Assessment</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>2 of the last 3 months</td>
+        <td>One month in arrears</td>
+        </tr>
+        <tr>
+        <td>1 of the last 3 months</td>
+        <td>A quarter in arrears</td>
+        </tr>
+        <tr>
+        <td>Any of the last 6 months</td>
+        <td>Six months in arrears</td>
+        </tr>
+        <tr>
+        <td>1 of the last 12 months</td>
+        <td>One year in arrears</td>
+        </tr>
+        <tr>
+        <td>None of the last 12 months</td>
+        <td>More than one year in arrears</td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+
+    <div class="panel panel-default" id="future_transactions">
+    <div class="panel-heading">
+        Exceptions
+    </div>
+    <div class="panel-body">
+        <p>Future transaction dates are not allowed in IATI and disrupt these statistics. For example a publisher might today have a transaction date reported for each month going forward for a year and never refresh their data. The statistics would, over the next year, as each of these future dates move into the past, assess the publisher to have a time-lag assessment of one month in arrears. For this reason not only are all future dates excluded, but the activities in which they are reported are excluded from future assessment until such time that a publisher's entire portfolio no longer contains any future dates.</p>
+    </div>
+    </div>
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        Comparison with Global Partnership Indicator methodology
+    </div>
+    <div class="panel-body">
+        <p>No change.</p>
+    </div>
+    </div>
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        Pseudocode
+    </div>
+    <div class="panel-body">
+        <p></p>
+    </div>
+    </div>
 
     <p style="float:right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></p>
 
