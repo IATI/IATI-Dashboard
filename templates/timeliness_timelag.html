@@ -82,6 +82,15 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
+        Comment
+    </div>
+    <div class="panel-body">
+        <p>To comment on this methodology, please use <a href="http://support.iatistandard.org/entries/59969665-Time-lag">this page on the support forum</a>.</p>
+    </div>
+    </div>
+
+    <div class="panel panel-default">
+    <div class="panel-heading">
         Pseudocode
     </div>
     <div class="panel-body">
@@ -94,11 +103,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
-                <td style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
-                <td style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
-                <td style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
-                <td style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Time lag</td>
+                <th style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
+                <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
+                <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Time lag</td>
             </tr>
             <tr>
                 {% for month in timeliness.previous_months_reversed %}
