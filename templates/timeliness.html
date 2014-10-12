@@ -186,7 +186,7 @@
                 <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
                 <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
-                <td style="border-left: 1px solid gray">?</td>
+                <td style="border-left: 1px solid gray" {% if publisher|has_future_transactions %}class="danger"><a href="#future_transactions">*</a>{% else %}>{% endif %}</td>
                 <td style="border-right: 1px solid gray">{{assessment}}</td>
             </tr>
             {% endfor %}

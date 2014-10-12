@@ -87,12 +87,12 @@ def publisher_timelag_sorted():
         ))
 
 def has_future_transactions(publisher):
-    print(publisher)
     publisher_stats = get_publisher_stats(publisher)
-    for transaction_type, transaction_counts in publisher_stats['transaction_dates'].items():
-        for transaction_date_string, count in transaction_counts.items():
-            transaction_date = parse_iso_date(transaction_date_string)
-            if transaction_date and transaction_date > datetime.date.today():
-                return True
+    if 'transaction_dates' in publisher_stats:
+        for transaction_type, transaction_counts in publisher_stats['transaction_dates'].items():
+            for transaction_date_string, count in transaction_counts.items():
+                transaction_date = parse_iso_date(transaction_date_string)
+                if transaction_date and transaction_date > datetime.date.today():
+                    return True
     return False
 
