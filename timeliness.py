@@ -10,7 +10,7 @@ def short_month(month_str):
 def parse_iso_date(d):
     try:
         return datetime.date(int(d[:4]), int(d[5:7]), int(d[8:10]))
-    except ValueError:
+    except (ValueError, TypeError):
         return None
 
 def previous_months_generator(d):
@@ -39,9 +39,10 @@ def publisher_frequency():
         if not 'most_recent_transaction_date' in agg:
             continue
         updates_per_month = defaultdict(int)
-        previous_transaction_date = ''
-        for gitdate, transaction_date in sorted(agg['most_recent_transaction_date'].items()):
-            if transaction_date != previous_transaction_date:
+        previous_transaction_date = datetime.date(1,1,1)
+        for gitdate, transaction_date_str in sorted(agg['most_recent_transaction_date'].items()):
+            transaction_date = parse_iso_date(transaction_date_str)
+            if transaction_date is not None and transaction_date > previous_transaction_date:
                 previous_transaction_date = transaction_date
                 updates_per_month[gitdate[:7]] += 1
         first_published_string = sorted(agg['most_recent_transaction_date'])[0]
