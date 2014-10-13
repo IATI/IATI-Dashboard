@@ -173,7 +173,7 @@
         </thead>
         <tbody>
         {% set summary = timeliness.publisher_frequency_summary() %}
-        {% for assessment, count in summary.items() %}
+        {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.frequency_index) %}
             <tr>
                 <td>{{assessment}}</td>
                 <td>{{count}}</td>
@@ -191,7 +191,7 @@
     <p style="float:right"><a href="{{url('timeliness_frequency.csv')}}">(This table as CSV)</a></p>
 
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="main_table">
         <thead>
             <tr>
                 <td style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
@@ -224,3 +224,5 @@
 {% endblock %}
 
 {% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+

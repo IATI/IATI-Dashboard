@@ -108,3 +108,6 @@ def has_future_transactions(publisher):
                     return True
     return False
 
+def sort_first(list_, key):
+    return sorted(list_, key=lambda x: key(x[0]))
+
