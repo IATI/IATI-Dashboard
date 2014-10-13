@@ -156,10 +156,10 @@
         <h3 class="panel-title">Pseudocode</h3>
     </div>
     <div class="panel-body">
-        <p>To get a count of updates by calendar month:</p>
+        <p>To get a count of updates by calendar month (for a given publisher):</p>
 <pre>
 For data captured each day over the past year
-    For each transaction (of any type) in a publisher's data
+    For each transaction (of any type) in the publisher's data
         Check if the activity is blacklisted [TODO]
         Get the transaction date as follows:
             If transaction-date exists
