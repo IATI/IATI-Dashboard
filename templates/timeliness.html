@@ -156,7 +156,32 @@
         <h3 class="panel-title">Pseudocode</h3>
     </div>
     <div class="panel-body">
-        <p></p>
+        <p>To get a count of updates by calendar month:</p>
+<pre>
+For data captured each day over the past year
+    For each transaction (of any type) in a publisher's data
+        Check if the activity is blacklisted [TODO]
+        Get the transaction date as follows:
+            If transaction-date exists
+                If transaction-date/@iso-date exists
+                    Use transaction-date/@iso-date
+                Else
+                    Use transaction-date/text()
+            Else if value/@value-date exists
+                Use value/@value-date
+            Else the transaction is ignore
+        Parse the start of the transaction date as an iso date (yyyy-mm-dd...).
+            If it does not match, the transaction is ignored.
+        Store a record of this transaction date.
+    Of the recorded dates, find the latest date that is on or before the date the data was captured.
+    Record this date against the date of data capture
+previous transaction date = 0001-01-01
+Loop over the list of dates
+    If transaction date > previous transaction date
+        previous transaction date = transaction date
+        Record an update as having happened on this day
+Count the updates by calendar month
+</pre>
     </div>
     </div>
 
