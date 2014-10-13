@@ -10,7 +10,7 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Narrative
+        <h3 class="panel-title">Narrative</h3>
     </div>
     <div class="panel-body">
         <p>The frequency statistics attempt to assess how often any part of a publisher's data is substantively updated.</p>
@@ -23,10 +23,10 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Assessment
+        <h3 class="panel-title">Assessment</h3>
     </div>
     <div class="panel-body">
-        <p>For publishers of 1 year or more</p>
+        <h4>For publishers of 1 year or more</h4>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -57,7 +57,7 @@
         </tr>
         </tbody>
         </table>
-        <p>For publishers of six months or more</p>
+        <h4>For publishers of six months or more</h4>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -80,7 +80,7 @@
         </tr>
         </tbody>
         </table>
-        <p>For publishers of three months or more</p>
+        <h4>For publishers of three months or more</h4>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -99,7 +99,7 @@
         </tr>
         </tbody>
         </table>
-        <p>For publishers of less than 3 months</p>
+        <h4>For publishers of less than 3 months</h4>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -119,7 +119,7 @@
 
     <div class="panel panel-default" id="future_transactions">
     <div class="panel-heading">
-        Exceptions
+        <h3 class="panel-title">Exceptions</h3>
     </div>
     <div class="panel-body">
         <p>Future transaction dates are not allowed in IATI and disrupt these statistics. For example a publisher might today have a transaction date reported for each month going forward for a year and never refresh their data. The statistics would, over the next year, as each of these future dates move into the past, assess the publisher to have a time-lag assessment of one month in arrears. For this reason not only are all future dates excluded, but the activities in which they are reported are excluded from future assessment until such time that a publisher's entire portfolio no longer contains any future dates.</p>
@@ -128,7 +128,7 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Comparison with Global Partnership Indicator methodology
+        <h3 class="panel-title">Comparison with Global Partnership Indicator methodology</h3>
     </div>
     <div class="panel-body">
         <p>This methodology is substantially different.
@@ -144,7 +144,7 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Comment
+        <h3 class="panel-title">Comment</h3>
     </div>
     <div class="panel-body">
         <p>To comment on this methodology, please use <a href="http://support.iatistandard.org/entries/59975175-Frequency">this page on the support forum</a>.</p>
@@ -153,7 +153,7 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Pseudocode
+        <h3 class="panel-title">Pseudocode</h3>
     </div>
     <div class="panel-body">
         <p></p>
@@ -162,7 +162,7 @@
 
     <div class="panel panel-default">
     <div class="panel-heading">
-        Summary
+        <h3 class="panel-title">Summary</h3>
     </div>
     <table class="table table-striped">
         <thead>
@@ -194,11 +194,11 @@
     <table class="table table-striped" id="main_table">
         <thead>
             <tr>
-                <td style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
-                <td style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
-                <td style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
-                <td style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2>"</td>
-                <td style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Frequency</td>
+                <th style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
+                <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2>"</td>
+                <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Frequency</td>
             </tr>
             <tr>
                 {% for month in timeliness.previous_months_reversed %}
