@@ -187,11 +187,11 @@
                 {% endfor %}
                 <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
                 <td style="border-left: 1px solid gray" {% if publisher|has_future_transactions %}class="danger"><a href="#future_transactions">*</a>{% else %}>{% endif %}</td>
-                <td style="border-right: 1px solid gray">{{assessment}}</td>
+                <td style="border-right: 1px solid gray" data-index="{{timeliness.frequency_index(assessment)}}">{{assessment}}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 {% endblock %}
 
-{% block tablesorteroptions %}{ widgets: ['stickyHeaders'] }{% endblock %}
+{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}

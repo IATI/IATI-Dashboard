@@ -73,16 +73,22 @@ def publisher_frequency():
                 frequency = 'Less than Annual'
         yield publisher, publisher_name.get(publisher), updates_per_month, frequency
 
+def frequency_index(frequency):
+    return ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency)
+
 def publisher_frequency_sorted():
     return sorted(publisher_frequency(), key=lambda (publisher, publisher_title , _, frequency): (
-        ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency),
+        frequency_index(frequency),
         publisher_title
         ))
+
+def timelag_index(timelag):
+    return ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag)
 
 def publisher_timelag_sorted():
     publisher_timelags = [ (publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag']) for publisher,agg in JSONDir('./stats-calculated/current/aggregated-publisher').items() ]
     return sorted(publisher_timelags, key=lambda (publisher, publisher_title, _, timelag): (
-        ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag),
+        timelag_index(timelag),
         publisher_title
         ))
 
