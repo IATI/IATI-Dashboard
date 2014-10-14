@@ -78,7 +78,6 @@ page_leads = {
     'dates': 'What date ranges do publishers publish data for?',
     'annualreport': 'NOTE: This page is very much a work in progress, and currently the methodology differs subtly from the Annual Report.',
     'coverage': 'NOTE: This page is a work in progress. Currently publishers using non-USD or multiple currencies will have no perenctage calculated.',
-    'timeliness': 'NOTE: This page is a work in progress.',
     'forwardlooking': 'NOTE: This page is a work in progress. Spend is the sum of all disbrusements and expenditure. * indicates that a result is missing because mutiple/different currencies have been used, but currency conversion is not yet implemented.'
 }
 page_sub_leads = {

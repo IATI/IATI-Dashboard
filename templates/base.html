@@ -88,6 +88,7 @@ html,body{height:100%;}
   </div>
 
   <div class="container">
+    {% block container %}
     <div class="page-header">
       {% block page_header %}
       <h1>{{page_titles[page]}}</h1>
@@ -97,6 +98,7 @@ html,body{height:100%;}
     </div>
 
     {% block content %}
+    {% endblock %}
     {% endblock %}
   </div><!-- /.container -->
 

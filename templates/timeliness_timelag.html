@@ -1,14 +1,80 @@
-{% extends 'base.html' %}
+{% extends 'timeliness_base.html' %}
 {% import 'boxes.html' as boxes %}
+
+{% block timelag_li %} class="active"{% endblock %}
+
 {% block content %}
-    <ul class="nav nav-tabs" role="tablist">
-      <li><a href="timeliness.html">Frequency</a></li>
-      <li class="active"><a href="timeliness_timelag.html">Time lag</a></li>
-    </ul>
+    <div class="panel panel-default" id="h_table">
+    <div class="panel-heading">
+        <span class="pull-right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></span>
+        <h3 class="panel-title">Table of Time lag calculations</h3>
+    </div>
+    <table class="table table-striped" id="main_table">
+        <thead>
+            <tr>
+                <th style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
+                <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
+                <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Time lag</td>
+            </tr>
+            <tr>
+                {% for month in timeliness.previous_months_reversed %}
+                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
+                {% endfor %}
+                <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
+            <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                {% for month in timeliness.previous_months_reversed %}
+                <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
+                {% endfor %}
+                <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
+                <td style="border-left: 1px solid gray" {% if publisher|has_future_transactions %}class="danger"><a href="#h_exceptions">*</a>{% else %}>{% endif %}</td>
+                <td style="border-right: 1px solid gray" data-index="{{timeliness.timelag_index(assessment)}}">{{assessment}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-    <h2 id="h_timelag">Time lag</h2>
 
-    <div class="panel panel-default">
+
+
+    <div class="panel panel-default" id="h_summary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Summary</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Frequency</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% set summary = timeliness.publisher_timelag_summary() %}
+        {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.timelag_index) %}
+            <tr>
+                <td>{{assessment}}</td>
+                <td>{{count}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{summary.values()|sum}}</td>
+            </tr>
+    </table>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_narrative">
     <div class="panel-heading">
         <h3 class="panel-title">Narrative</h3>
     </div>
@@ -23,7 +89,11 @@
     </div>
     </div>
 
-    <div class="panel panel-default">
+
+
+
+
+    <div class="panel panel-default" id="h_assesment">
     <div class="panel-heading">
         <h3 class="panel-title">Assessment</h3>
     </div>
@@ -62,7 +132,10 @@
     </div>
     </div>
 
-    <div class="panel panel-default" id="future_transactions">
+
+
+
+    <div class="panel panel-default" id="h_exceptions">
     <div class="panel-heading">
         <h3 class="panel-title">Exceptions</h3>
     </div>
@@ -71,7 +144,10 @@
     </div>
     </div>
 
-    <div class="panel panel-default">
+
+
+
+    <div class="panel panel-default" id="h_comparison">
     <div class="panel-heading">
         <h3 class="panel-title">Comparison with Global Partnership Indicator methodology</h3>
     </div>
@@ -80,7 +156,10 @@
     </div>
     </div>
 
-    <div class="panel panel-default">
+
+
+
+    <div class="panel panel-default" id="h_comment">
     <div class="panel-heading">
         <h3 class="panel-title">Comment</h3>
     </div>
@@ -89,7 +168,10 @@
     </div>
     </div>
 
-    <div class="panel panel-default">
+
+
+
+    <div class="panel panel-default" id="h_pseudocode">
     <div class="panel-heading">
         <h3 class="panel-title">Pseudocode</h3>
     </div>
@@ -113,67 +195,6 @@ For each transaction (of any type) in the publisher's data:
 </pre>
     </div>
     </div>
-
-    <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Summary</h3>
-    </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Frequency</th>
-                <th>Count</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set summary = timeliness.publisher_timelag_summary() %}
-        {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.timelag_index) %}
-            <tr>
-                <td>{{assessment}}</td>
-                <td>{{count}}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>Total</td>
-                <td>{{summary.values()|sum}}</td>
-            </tr>
-    </table>
-    </div>
-
-    <p style="float:right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></p>
-
-    <table class="table table-striped" id="main_table">
-        <thead>
-            <tr>
-                <th style="border: 1px solid gray;" rowspan="2">Publisher Name</td>
-                <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
-                <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
-                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
-                <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2">Time lag</td>
-            </tr>
-            <tr>
-                {% for month in timeliness.previous_months_reversed %}
-                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
-                {% endfor %}
-                <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
-            <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                {% for month in timeliness.previous_months_reversed %}
-                <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
-                {% endfor %}
-                <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
-                <td style="border-left: 1px solid gray" {% if publisher|has_future_transactions %}class="danger"><a href="#future_transactions">*</a>{% else %}>{% endif %}</td>
-                <td style="border-right: 1px solid gray" data-index="{{timeliness.timelag_index(assessment)}}">{{assessment}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
 {% endblock %}
 
 {% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
