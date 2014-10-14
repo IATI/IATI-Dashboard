@@ -33,7 +33,8 @@
                 <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
                 <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{per_month[timeliness.this_month] or 0}}</td>
-                <td style="border-left: 1px solid gray" {% set hft=publisher|has_future_transactions %} data-severity="{{hft}}" {% if hft %}class="{{ 'danger' if hft==2 else 'warning'}}"><a href="#h_exceptions">*</a>{% else %}>{% endif %}</td>
+                {% set hft=publisher|has_future_transactions %}
+                <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa'}}{% endif %}" data-severity="{{hft}}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
                 <td style="border-right: 1px solid gray" data-index="{{timeliness.timelag_index(assessment)}}">{{assessment}}</td>
             </tr>
             {% endfor %}
@@ -141,7 +142,7 @@
     </div>
     <div class="panel-body">
         <p>Future transaction dates are not allowed in IATI and disrupt these statistics. For example a publisher might today have a transaction date reported for each month going forward for a year and never refresh their data. The statistics would, over the next year, as each of these future dates move into the past, assess the publisher to have a time-lag assessment of one month in arrears.</p>
-        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2dede">red flag</span> next to their assessment. A <span style="background-color: #fcf8e3">yellow flag</span> indicates that although a publisher does not currently have future transactions, they have reported future transaction dates previously (since September 2013).</p>
+        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they have reported future transaction dates previously (since September 2013).</p>
         <p>In our further work on this dashboard page, we plan to exclude activities in which future transactions dates are reported from future assessment until such time that a publisher's entire portfolio no longer contains any future dates.</s></p>
     </div>
     </div>
