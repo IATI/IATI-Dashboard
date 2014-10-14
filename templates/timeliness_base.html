@@ -29,6 +29,6 @@
     {% endblock %}
 {% endblock %}
 
-{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
+{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{14: function(node,table,cellIndex) { return $(node).attr('data-severity'); }, 15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
 {% block tablesortertarget %}table#main_table{% endblock %}
 

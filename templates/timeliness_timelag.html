@@ -33,7 +33,7 @@
                 <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
                 {% endfor %}
                 <td style="border-left: 1px solid gray">{{per_month[timeliness.this_month]}}</td>
-                <td style="border-left: 1px solid gray" {% if publisher|has_future_transactions %}class="danger"><a href="#h_exceptions">*</a>{% else %}>{% endif %}</td>
+                <td style="border-left: 1px solid gray" {% set hft=publisher|has_future_transactions %} data-severity="{{hft}}" {% if hft %}class="{{ 'danger' if hft==2 else 'warning'}}"><a href="#h_exceptions">*</a>{% else %}>{% endif %}</td>
                 <td style="border-right: 1px solid gray" data-index="{{timeliness.timelag_index(assessment)}}">{{assessment}}</td>
             </tr>
             {% endfor %}
@@ -196,6 +196,3 @@ For each transaction (of any type) in the publisher's data:
     </div>
     </div>
 {% endblock %}
-
-{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
-{% block tablesortertarget %}table#main_table{% endblock %}

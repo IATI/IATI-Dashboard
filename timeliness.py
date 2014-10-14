@@ -98,15 +98,29 @@ def publisher_timelag_sorted():
 def publisher_timelag_summary():
     return Counter(timelag for _,_,_,timelag in publisher_timelag_sorted())
 
+blacklist_publisher = JSONDir('./stats-blacklist/gitaggregate-publisher-dated')
+
 def has_future_transactions(publisher):
+    """
+        returns 0, 1 or 2
+        Returns 2 if the most recent data for a publisher has future transactions.
+        Returns 1 if the publisher has ever had future transactions.
+        Returns -1 if the publisher has not been checked for some reason.
+        Returns 0 otherwise.
+    """
     publisher_stats = get_publisher_stats(publisher)
     if 'transaction_dates' in publisher_stats:
         for transaction_type, transaction_counts in publisher_stats['transaction_dates'].items():
             for transaction_date_string, count in transaction_counts.items():
                 transaction_date = parse_iso_date(transaction_date_string)
                 if transaction_date and transaction_date > datetime.date.today():
-                    return True
-    return False
+                    return 2
+    if publisher not in blacklist_publisher:
+        return -1
+    for date, activity_blacklist in blacklist_publisher[publisher]['activities_with_future_transactions'].items():
+        if activity_blacklist:
+            return 1
+    return 0
 
 def sort_first(list_, key):
     return sorted(list_, key=lambda x: key(x[0]))
