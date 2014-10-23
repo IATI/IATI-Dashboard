@@ -4,12 +4,26 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <td></td>
+                <td style="border-left: 1px solid gray;"></td>
+                <td colspan="3" style="border-left: 1px solid gray;">Current activities</td>
+                <td colspan="3" style="border-left: 1px solid gray;">Activities with budgets</td>
+                <td colspan="3" style="border-left: 1px solid gray;">Value of budgets</td>
+                <td colspan="3" style="border-left: 1px solid gray;">Percentage of activities with budgets</td>
+            </tr>
+            <tr>
                 <td>2013 Spend</td>
-                <td>Publisher Name</td>
-                <td>2014 (%)</td>
-                <td>2015 (%)</td>
-                <td>2016 (%)</td>
-                <td>2014</td>
+                <td style="border-left: 1px solid gray;">Publisher Name</td>
+                <td style="border-left: 1px solid gray;">2014</td>
+                <td>2015</td>
+                <td>2016</td>
+                <td style="border-left: 1px solid gray;">2014</td>
+                <td>2015</td>
+                <td>2016</td>
+                <td style="border-left: 1px solid gray;">2014</td>
+                <td>2015</td>
+                <td>2016</td>
+                <td style="border-left: 1px solid gray;">2014</td>
                 <td>2015</td>
                 <td>2016</td>
             </tr>
@@ -25,47 +39,14 @@
                     {% endfor %}
                     {% endif %}
                 </td>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
-                    {% with keys=publisher_stats.forwardlooking_currency_year['2014'].keys() %}
-                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
-                    {% if keys|count == 1 and keys == publisher_stats.spend_currency_year['2013'].keys() %}
-                    {{(publisher_stats.forwardlooking_currency_year['2014'][keys[0]]/publisher_stats.spend_currency_year['2013'][keys[0]]*100) | round(1)}}
-                    {% else %}
-                    *
-                    {% endif %}
-                    {% endif %}
-                    {% endwith %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2015' in publisher_stats.forwardlooking_currency_year %}
-                    {% with keys=publisher_stats.forwardlooking_currency_year['2015'].keys() %}
-                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
-                    {% if keys|count == 1 and keys == publisher_stats.spend_currency_year['2013'].keys() %}
-                    {{(publisher_stats.forwardlooking_currency_year['2015'][keys[0]]/publisher_stats.spend_currency_year['2013'][keys[0]]*100) | round(1)}}
-                    {% else %}
-                    *
-                    {% endif %}
-                    {% endif %}
-                    {% endwith %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2016' in publisher_stats.forwardlooking_currency_year %}
-                    {% with keys=publisher_stats.forwardlooking_currency_year['2016'].keys() %}
-                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
-                    {% if keys|count == 1 and keys == publisher_stats.spend_currency_year['2013'].keys() %}
-                    {{(publisher_stats.forwardlooking_currency_year['2016'][keys[0]]/publisher_stats.spend_currency_year['2013'][keys[0]]*100) | round(1)}}
-                    {% else %}
-                    *
-                    {% endif %}
-                    {% endif %}
-                    {% endwith %}
-                    {% endif %}
-                </td>
-                <td>
+                <td style="border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                <td style="border-left: 1px solid gray;"></td>
+                <td></td>
+                <td></td>
+                <td style="border-left: 1px solid gray;"></td>
+                <td></td>
+                <td></td>
+                <td style="border-left: 1px solid gray;">
                     {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
                     {% for k,v in publisher_stats.forwardlooking_currency_year['2014'].items() %}
                     {{v}} {{k}}</br>
@@ -86,6 +67,9 @@
                     {% endfor %}
                     {% endif %}
                 </td>
+                <td style="border-left: 1px solid gray;"></td>
+                <td></td>
+                <td></td>
             </tr>
             {% endfor %}
         </tbody>
