@@ -5,15 +5,13 @@
         <thead>
             <tr>
                 <td></td>
-                <td style="border-left: 1px solid gray;"></td>
                 <td colspan="3" style="border-left: 1px solid gray;">Current activities</td>
                 <td colspan="3" style="border-left: 1px solid gray;">Activities with budgets</td>
                 <td colspan="3" style="border-left: 1px solid gray;">Value of budgets</td>
                 <td colspan="3" style="border-left: 1px solid gray;">Percentage of activities with budgets</td>
             </tr>
             <tr>
-                <td>2013 Spend</td>
-                <td style="border-left: 1px solid gray;">Publisher Name</td>
+                <td>Publisher Name</td>
                 {% for i in range(0,4) %}
                 {% for year in years %}
                 <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>{{year}}</td>
@@ -25,14 +23,7 @@
             {% for publisher_title,publisher in publishers_ordered_by_title %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td>
-                    {% if publisher_stats.spend_currency_year and '2013' in publisher_stats.spend_currency_year %}
-                    {% for k,v in publisher_stats.spend_currency_year['2013'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td style="border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
 
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
