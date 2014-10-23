@@ -14,18 +14,11 @@
             <tr>
                 <td>2013 Spend</td>
                 <td style="border-left: 1px solid gray;">Publisher Name</td>
-                <td style="border-left: 1px solid gray;">2014</td>
-                <td>2015</td>
-                <td>2016</td>
-                <td style="border-left: 1px solid gray;">2014</td>
-                <td>2015</td>
-                <td>2016</td>
-                <td style="border-left: 1px solid gray;">2014</td>
-                <td>2015</td>
-                <td>2016</td>
-                <td style="border-left: 1px solid gray;">2014</td>
-                <td>2015</td>
-                <td>2016</td>
+                {% for i in range(0,4) %}
+                {% for year in years %}
+                <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>{{year}}</td>
+                {% endfor %}
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
@@ -40,38 +33,34 @@
                     {% endif %}
                 </td>
                 <td style="border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                <td style="border-left: 1px solid gray;">{{publisher_stats.forwardlooking_activities_current['2014']}}</td>
-                <td>{{publisher_stats.forwardlooking_activities_current['2015']}}</td>
-                <td>{{publisher_stats.forwardlooking_activities_current['2016']}}</td>
-                <td style="border-left: 1px solid gray;">{{publisher_stats.forwardlooking_activities_with_budgets['2014']}}</td>
-                <td>{{publisher_stats.forwardlooking_activities_with_budgets['2015']}}</td>
-                <td>{{publisher_stats.forwardlooking_activities_with_budgets['2016']}}</td>
-                <td style="border-left: 1px solid gray;">
-                    {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
-                    {% for k,v in publisher_stats.forwardlooking_currency_year['2014'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2015' in publisher_stats.forwardlooking_currency_year %}
-                    {% for k,v in publisher_stats.forwardlooking_currency_year['2015'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.forwardlooking_currency_year and '2016' in publisher_stats.forwardlooking_currency_year %}
-                    {% for k,v in publisher_stats.forwardlooking_currency_year['2016'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td style="border-left: 1px solid gray;">{% if not publisher_stats.forwardlooking_activities_current.get('2014') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2014']/publisher_stats.forwardlooking_activities_current['2014']}}{%endif%}</td>
-                <td>{% if not publisher_stats.forwardlooking_activities_current.get('2015') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2015']/publisher_stats.forwardlooking_activities_current['2015']}}{%endif%}</td>
-                <td>{% if not publisher_stats.forwardlooking_activities_current.get('2016') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2016']/publisher_stats.forwardlooking_activities_current['2016']}}{%endif%}</td>
-                <td></td>
-                <td></td>
+
+                {% for year in years %}
+                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                        {{publisher_stats.forwardlooking_activities_current[year]}}
+                    </td>
+                {% endfor %}
+
+                {% for year in years %}
+                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                        {{publisher_stats.forwardlooking_activities_with_budgets[year]}}
+                    </td>
+                {% endfor %}
+
+                {% for year in years %}
+                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                        {% if publisher_stats.forwardlooking_currency_year and year in publisher_stats.forwardlooking_currency_year %}
+                        {% for k,v in publisher_stats.forwardlooking_currency_year[year].items() %}
+                        {{v}} {{k}}</br>
+                        {% endfor %}
+                        {% endif %}
+                    </td>
+                {% endfor %}
+
+                {% for year in years %}
+                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                        {% if not publisher_stats.forwardlooking_activities_current.get(year) %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets[year]/publisher_stats.forwardlooking_activities_current[year]*100}}{%endif%}
+                    </td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
