@@ -1,6 +1,24 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <!--<li><a href="#h_summary">Summary</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_assesment">Assessment</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comparison">Comparison with Global Partnership Indicator methodology</a></li>
+        <li>|</li>-->
+        <li><a href="#h_comment">Comment</a><li>
+        <li>|</li>
+        <li><a href="#h_pseudocode">Pseudocode</a></li>
+    </ul>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -57,4 +75,69 @@
         </tbody>
     </table>
 
+
+
+    <div class="panel panel-default" id="h_comment">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comment</h3>
+    </div>
+    <div class="panel-body">
+        <p>To comment on this methodology, please use <a href="http://support.iatistandard.org/entries/61004309-Forward-looking">this page on the support forum</a>.</p>
+    </div>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_pseudocode">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pseudocode</h3>
+    </div>
+    <div class="panel-body">
+
+    <p>To test whether an activity is current in a given year:</p>
+
+<pre>
+For each activity-date of type end-planned or end-actual
+    date =
+        Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
+        If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
+        If neither work, continue
+    If date year >= given year
+        The activity is current
+    Else continue
+Otherwise the activity is not current
+</pre>
+
+    <p>To find the year for a budget:</p>
+
+<pre>
+start = 
+    Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
+    Otherwise null
+end =
+    Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
+    Otherwise null
+
+If start and end are both not null 
+    If (end - start <= 370 days)
+        If end month >= 7
+            budget year = end year
+        Else
+            budget year = end year - 1
+    Else ignore the budget
+Else budget year is null
+</pre>
+    
+    <p>To calculate the "Current activities" column, count each activity that is current (as described above).</p>
+    <p>To calculate the "Activities with budgets" column, count the number of current activities that are:
+        <ul>
+        <li>current</li>
+        <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</p>
+        </ul>
+    </p>
+
+    </div>
+    </div>
 {% endblock %}
