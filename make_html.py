@@ -195,6 +195,8 @@ def make_slugs(keys):
         slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_'))).strip('_')
         while slug in out:
             slug += '_'
+        if slug in out['by_slug']:
+            slug += '_'
         out['by_slug'][slug] = i
         out['by_i'][i] = slug
     return out
