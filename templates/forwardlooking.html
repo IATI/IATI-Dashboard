@@ -40,12 +40,12 @@
                     {% endif %}
                 </td>
                 <td style="border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                <td style="border-left: 1px solid gray;"></td>
-                <td></td>
-                <td></td>
-                <td style="border-left: 1px solid gray;"></td>
-                <td></td>
-                <td></td>
+                <td style="border-left: 1px solid gray;">{{publisher_stats.forwardlooking_activities_current['2014']}}</td>
+                <td>{{publisher_stats.forwardlooking_activities_current['2015']}}</td>
+                <td>{{publisher_stats.forwardlooking_activities_current['2016']}}</td>
+                <td style="border-left: 1px solid gray;">{{publisher_stats.forwardlooking_activities_with_budgets['2014']}}</td>
+                <td>{{publisher_stats.forwardlooking_activities_with_budgets['2015']}}</td>
+                <td>{{publisher_stats.forwardlooking_activities_with_budgets['2016']}}</td>
                 <td style="border-left: 1px solid gray;">
                     {% if publisher_stats.forwardlooking_currency_year and '2014' in publisher_stats.forwardlooking_currency_year %}
                     {% for k,v in publisher_stats.forwardlooking_currency_year['2014'].items() %}
@@ -67,7 +67,9 @@
                     {% endfor %}
                     {% endif %}
                 </td>
-                <td style="border-left: 1px solid gray;"></td>
+                <td style="border-left: 1px solid gray;">{% if not publisher_stats.forwardlooking_activities_current.get('2014') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2014']/publisher_stats.forwardlooking_activities_current['2014']}}{%endif%}</td>
+                <td>{% if not publisher_stats.forwardlooking_activities_current.get('2015') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2015']/publisher_stats.forwardlooking_activities_current['2015']}}{%endif%}</td>
+                <td>{% if not publisher_stats.forwardlooking_activities_current.get('2016') %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets['2016']/publisher_stats.forwardlooking_activities_current['2016']}}{%endif%}</td>
                 <td></td>
                 <td></td>
             </tr>
