@@ -11,6 +11,7 @@ you.  The dates module provides several converter functions date2num
 and num2date
 
 """
+from __future__ import print_function
 import datetime
 import numpy as np
 import matplotlib as mpl
@@ -42,7 +43,7 @@ class AugmentedJSONDir(data.JSONDir):
                     for datestring,count in publisher_data['activities'].items():
                         out[datestring][organisation_type_dict[organization_type]] += 1
                 else:
-                    print 'Publisher not matched:', publisher
+                    print('Publisher not matched:', publisher)
             return out
         elif key == 'activities_per_publisher_type':
             out = defaultdict(lambda: defaultdict(int))
@@ -52,7 +53,7 @@ class AugmentedJSONDir(data.JSONDir):
                     for datestring,count in publisher_data['activities'].items():
                         out[datestring][organisation_type_dict[organization_type]] += count 
                 else:
-                    print 'Publisher not matched:', publisher
+                    print('Publisher not matched:', publisher)
             return out
         else: 
             return super(AugmentedJSONDir, self).__getitem__(key)
@@ -67,7 +68,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     else:
         stat_name = stat_path
     
-    print stat_name
+    print(stat_name)
    
     stat_dict = git_stats.get(stat_name)
     if not stat_dict:
@@ -176,7 +177,7 @@ except OSError:
 
 git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.items():
-    print publisher
+    print(publisher)
     for stat_path in [
             'activities',
             'activity_files',
