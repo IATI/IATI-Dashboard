@@ -56,7 +56,7 @@
 
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if not publisher_stats.forwardlooking_activities_current.get(year) %}n/a{%else%}{{publisher_stats.forwardlooking_activities_with_budgets[year]/publisher_stats.forwardlooking_activities_current[year]*100}}{%endif%}
+                        {% if not publisher_stats.forwardlooking_activities_current.get(year) %}-{%else%}{{publisher_stats.forwardlooking_activities_with_budgets[year]/publisher_stats.forwardlooking_activities_current[year]*100}}{%endif%}
                     </td>
                 {% endfor %}
             </tr>
