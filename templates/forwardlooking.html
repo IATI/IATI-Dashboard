@@ -25,12 +25,11 @@
                 <td></td>
                 <td colspan="3" style="border-left: 1px solid gray;">Current activities</td>
                 <td colspan="3" style="border-left: 1px solid gray;">Activities with budgets</td>
-                <td colspan="3" style="border-left: 1px solid gray;">Value of budgets</td>
                 <td colspan="3" style="border-left: 1px solid gray;">Percentage of activities with budgets</td>
             </tr>
             <tr>
                 <td>Publisher Name</td>
-                {% for i in range(0,4) %}
+                {% for i in range(0,3) %}
                 {% for year in years %}
                 <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>{{year}}</td>
                 {% endfor %}
@@ -52,16 +51,6 @@
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
                         {{publisher_stats.forwardlooking_activities_with_budgets[year]}}
-                    </td>
-                {% endfor %}
-
-                {% for year in years %}
-                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if publisher_stats.forwardlooking_currency_year and year in publisher_stats.forwardlooking_currency_year %}
-                        {% for k,v in publisher_stats.forwardlooking_currency_year[year].items() %}
-                        {{v}} {{k}}</br>
-                        {% endfor %}
-                        {% endif %}
                     </td>
                 {% endfor %}
 
