@@ -1,1 +1,1 @@
-expected_versions = [ 'null', '1.01', '1.02', '1.03', '1.04' ]
+expected_versions = [ 'null', '1.01', '1.02', '1.03', '1.04', '1.05' ]
