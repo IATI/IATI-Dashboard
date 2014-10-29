@@ -86,3 +86,12 @@ for fname, f, assessment_label in (
         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
         for publisher_title, publisher, per_month,assessment in f():
             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
+
+
+import forwardlooking
+
+with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    writer.writerow(['Publisher Name'] + [ '{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
+    for row in forwardlooking.table():
+        writer.writerow([row['publisher_title']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])

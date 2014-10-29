@@ -19,56 +19,45 @@
         <li><a href="#h_pseudocode">Pseudocode</a></li>
     </ul>
 
+    <div class="panel panel-default" id="h_table">
+    <div class="panel-heading">
+        <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
+        <h3 class="panel-title">Table of Forward Looking calculations</h3>
+    </div>
     <table class="table table-striped" id="main_table">
         <thead>
             <tr>
                 <td></td>
-                <td colspan="3" style="border-left: 1px solid gray;">Current activities</td>
-                <td colspan="3" style="border-left: 1px solid gray;">Activities with budgets</td>
-                <td colspan="3" style="border-left: 1px solid gray;">Percentage of activities with budgets</td>
+                {% for column_header in forwardlooking.column_headers %}
+                <td colspan="3" style="border-left: 1px solid gray;">{{column_header}}</td>
+                {% endfor %}
             </tr>
             <tr>
                 <td>Publisher Name</td>
                 {% for i in range(0,3) %}
-                {% for year in years %}
+                {% for year in forwardlooking.years %}
                 <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>{{year}}</td>
                 {% endfor %}
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
-            {% for publisher_title,publisher in publishers_ordered_by_title %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% for row in forwardlooking.table() %}
             <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                <td><a href="publisher/{{publisher}}.html">{{row.publisher_title}}</a></td>
 
-                {% for year in years %}
-                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if 'forwardlooking_activities_current' in publisher_stats.bottom_hierarchy %}
-                        {{publisher_stats.bottom_hierarchy.forwardlooking_activities_current[year]}}
-                        {% endif %}
-                    </td>
-                {% endfor %}
-
-                {% for year in years %}
-                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if 'forwardlooking_activities_with_budgets' in publisher_stats.bottom_hierarchy %}
-                        {{publisher_stats.bottom_hierarchy.forwardlooking_activities_with_budgets[year]}}
-                        {% endif %}
-                    </td>
-                {% endfor %}
-
-                {% for year in years %}
-                    <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if 'forwardlooking_activities_current' in publisher_stats.bottom_hierarchy and 'forwardlooking_activities_with_budgets' in publisher_stats.bottom_hierarchy %}
-                        {% if not publisher_stats.bottom_hierarchy.forwardlooking_activities_current.get(year) %}-{%else%}{{(publisher_stats.bottom_hierarchy.forwardlooking_activities_with_budgets[year]/publisher_stats.bottom_hierarchy.forwardlooking_activities_current[year]*100)|round|int}}{%endif%}
-                        {% endif %}
-                    </td>
+                {% for column in row.year_columns %}
+                    {% for year in forwardlooking.years %}
+                        <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                            {{column[year]}}
+                        </td>
+                    {% endfor %}
                 {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
+    </div>
 
 
 
