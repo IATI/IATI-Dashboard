@@ -44,19 +44,25 @@
 
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {{publisher_stats.forwardlooking_activities_current[year]}}
+                        {% if 'forwardlooking_activities_current' in publisher_stats.bottom_hierarchy %}
+                        {{publisher_stats.bottom_hierarchy.forwardlooking_activities_current[year]}}
+                        {% endif %}
                     </td>
                 {% endfor %}
 
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {{publisher_stats.forwardlooking_activities_with_budgets[year]}}
+                        {% if 'forwardlooking_activities_with_budgets' in publisher_stats.bottom_hierarchy %}
+                        {{publisher_stats.bottom_hierarchy.forwardlooking_activities_with_budgets[year]}}
+                        {% endif %}
                     </td>
                 {% endfor %}
 
                 {% for year in years %}
                     <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
-                        {% if not publisher_stats.forwardlooking_activities_current.get(year) %}-{%else%}{{(publisher_stats.forwardlooking_activities_with_budgets[year]/publisher_stats.forwardlooking_activities_current[year]*100)|round|int}}{%endif%}
+                        {% if 'forwardlooking_activities_current' in publisher_stats.bottom_hierarchy and 'forwardlooking_activities_with_budgets' in publisher_stats.bottom_hierarchy %}
+                        {% if not publisher_stats.bottom_hierarchy.forwardlooking_activities_current.get(year) %}-{%else%}{{(publisher_stats.bottom_hierarchy.forwardlooking_activities_with_budgets[year]/publisher_stats.bottom_hierarchy.forwardlooking_activities_current[year]*100)|round|int}}{%endif%}
+                        {% endif %}
                     </td>
                 {% endfor %}
             </tr>
