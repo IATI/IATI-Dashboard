@@ -19,7 +19,7 @@
         <li><a href="#h_pseudocode">Pseudocode</a></li>
     </ul>
 
-    <table class="table table-striped">
+    <table class="table table-striped" id="main_table">
         <thead>
             <tr>
                 <td></td>
@@ -130,3 +130,23 @@ Else budget year is null
     </div>
     </div>
 {% endblock %}
+
+{% block tablesorteroptions %}{
+    widgets: ['stickyHeaders'],
+    textExtraction:{
+        7: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        },
+        8: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        },
+        9: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        }
+    }
+}{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+
