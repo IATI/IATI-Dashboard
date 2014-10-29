@@ -49,7 +49,8 @@ page_titles = {
     'publishing_stats': 'Publishing Statistics',
     'coverage' : 'Coverage',
     'timeliness' : 'Timeliness',
-    'forwardlooking' : 'Forward Looking'
+    'forwardlooking' : 'Forward Looking',
+    'comprehensiveness': 'Comprehensiveness'
 }
 
 page_leads = {
@@ -78,7 +79,8 @@ page_leads = {
     'dates': 'What date ranges do publishers publish data for?',
     'annualreport': 'NOTE: This page is very much a work in progress, and currently the methodology differs subtly from the Annual Report.',
     'coverage': 'NOTE: This page is a work in progress. Currently publishers using non-USD or multiple currencies will have no perenctage calculated.',
-    'forwardlooking': 'NOTE: This page is a work in progress.'
+    'forwardlooking': 'NOTE: This page is a work in progress.',
+    'comprehensiveness': 'NOTE: This page is a work in progress.',
 }
 page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
@@ -122,7 +124,7 @@ navigation = {
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'github': ['github', 'milestones', 'milestones-completed'],
-    'publishing_stats': ['timeliness', 'forwardlooking'] # 'comprehensiveness', 'coverage' ]
+    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness'] #, 'coverage' ]
 }
 
 def dictinvert(d):
@@ -241,6 +243,7 @@ urls = {
     'timeliness.html': iati_stats_page('timeliness.html', page='timeliness', timeliness=timeliness),
     'timeliness_timelag.html': iati_stats_page('timeliness_timelag.html', page='timeliness', timeliness=timeliness),
     'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking', forwardlooking=forwardlooking),
+    'comprehensiveness.html': iati_stats_page('comprehensiveness.html', page='comprehensiveness'),
     'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
     'activities.html': iati_stats_page('activities.html', page='activities'),
     'download.html': iati_stats_page('download.html', page='download'),
