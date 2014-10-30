@@ -13,6 +13,7 @@ def table():
     for publisher_title, publisher in publishers_ordered_by_title:
         publisher_stats = get_publisher_stats(publisher)
         row = {}
+        row['publisher'] = publisher
         row['publisher_title'] = publisher_title
         row['year_columns'] = [{},{},{}]
 

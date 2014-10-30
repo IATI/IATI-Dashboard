@@ -92,6 +92,6 @@ import forwardlooking
 
 with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
-    writer.writerow(['Publisher Name'] + [ '{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [ '{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
     for row in forwardlooking.table():
-        writer.writerow([row['publisher_title']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
+        writer.writerow([row['publisher_title'], row['publisher']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
