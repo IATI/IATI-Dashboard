@@ -27,28 +27,28 @@
     <table class="table table-striped" id="main_table">
         <thead>
             <tr>
-                <td></td>
+                <th rowspan="2" style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
                 {% for column_header in forwardlooking.column_headers %}
-                <td colspan="3" style="border-left: 1px solid gray;">{{column_header}}</td>
+                <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
                 {% endfor %}
             </tr>
             <tr>
-                <td>Publisher Name</td>
+                <!--<td>Publisher Name</td>-->
                 {% for i in range(0,3) %}
                 {% for year in forwardlooking.years %}
-                <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>{{year}}</td>
+                <th style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</th>
                 {% endfor %}
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% for row in forwardlooking.table() %}
-            <tr>
-                <td><a href="publisher/{{publisher}}.html">{{row.publisher_title}}</a></td>
+            <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{row.publisher_title}}</a></td>
 
                 {% for column in row.year_columns %}
                     {% for year in forwardlooking.years %}
-                        <td{% if loop.first %} style="border-left: 1px solid gray;"{% endif %}>
+                        <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
                             {{column[year]}}
                         </td>
                     {% endfor %}
