@@ -17,6 +17,15 @@ def table():
         row['publisher_title'] = publisher_title
         row['year_columns'] = [{},{},{}]
 
+        by_hierarchy = publisher_stats['by_hierarchy']
+        nonzero_budgets_by_hierachy = [
+            (h, stats['forwardlooking_activities_with_budgets']) for h, stats in by_hierarchy.items()
+            if not all(x==0 for x in stats['forwardlooking_activities_with_budgets'].values())
+        ]
+        # Flag if the list is not empty, and it contains more than the bottom hierarchy
+        row['flag'] = (nonzero_budgets_by_hierachy != []) and (nonzero_budgets_by_hierachy[0][0] != max(by_hierarchy.keys()))
+
+
         for year in years:
             if 'forwardlooking_activities_current' in publisher_stats['bottom_hierarchy'] and 'forwardlooking_activities_with_budgets' in publisher_stats['bottom_hierarchy'] :
                 row['year_columns'][0][year] = publisher_stats['bottom_hierarchy']['forwardlooking_activities_current'].get(year) or 0
