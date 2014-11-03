@@ -31,7 +31,7 @@
                 {% for column_header in forwardlooking.column_headers %}
                 <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
                 {% endfor %}
-                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
+                <th style="border: 1px solid gray;" rowspan="2"></td>
             </tr>
             <tr>
                 {% for i in range(0,3) %}
@@ -53,7 +53,7 @@
                         </td>
                     {% endfor %}
                 {% endfor %}
-                <td style="border-left: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
+                <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>
