@@ -143,15 +143,18 @@
     <p>To test whether an activity is current in a given year:</p>
 
 <pre>
-For each activity-date of type end-planned or end-actual
-    date =
+end dates =
+    For each activity-date of type end-planned or end-actual
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
-        If neither work, continue
-    If date year >= given year
+        If neither work, ignore this activity-date
+If no end dates were successfully parsed
+    The activity is current
+Else
+    If there is an end date where (date year >= given year)
         The activity is current
-    Else continue
-Otherwise the activity is not current
+    Else
+        The activity is not current
 </pre>
 
     <p>To find the year for a budget:</p>
