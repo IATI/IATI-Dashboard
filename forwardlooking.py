@@ -5,8 +5,8 @@ this_year = datetime.date.today().year
 years = map(str, range(this_year, this_year+3))
 column_headers = [ 
     'Current activities',
-    'Activities with budgets',
-    'Percentage of activities with budgets'
+    'Current activities with budgets',
+    'Percentage of current activities with budgets'
 ]
 
 def table():
