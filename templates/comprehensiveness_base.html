@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+
+{% block container %}
+    <ul class="nav nav-tabs" role="tablist">
+      <li{% block core_li %}{% endblock %}><a href="comprehensiveness.html">Core</a></li>
+      <li{% block financials_li %}{% endblock %}><a href="comprehensiveness_financials.html">Financials</a></li>
+      <li{% block valueadded_li %}{% endblock %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
+    </ul>
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_summary">Summary</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_assesment">Assessment</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comparison">Comparison with Global Partnership Indicator methodology</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a><li>
+        <li>|</li>
+        <li><a href="#h_pseudocode">Pseudocode</a></li>
+    </ul>
+
+    {% block content %}
+    {% endblock %}
+{% endblock %}
+
+{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{14: function(node,table,cellIndex) { return $(node).attr('data-severity'); }, 15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+
