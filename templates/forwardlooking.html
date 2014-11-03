@@ -140,6 +140,26 @@
 
     <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
 
+    <p>To determine the lowest hierarchy:</p>
+<pre>
+Lowest hierarchy =
+   Largest integer reported in the hierarchy attribute of any iati-activity element 
+</pre>
+
+    <p>To determine whether an activity is at the lowest hierarchical level:</p>
+
+<pre>
+If the @hierarchy attribute is missing
+    If the lowest hierarchical level is 1
+        Activity is at lowest hierarchical level
+    Else
+        Activity is NOT at lowest hierarchical level
+Else if the @hierarchy attribute == lowest hierarchy
+    Activity is at lowest hierarchical level
+Else
+    Activity is NOT at lowest hierarchical level
+</pre>
+
     <p>To test whether an activity is current in a given year:</p>
 
 <pre>
@@ -154,7 +174,7 @@ Else
     If there is an end date where (date year >= given year)
         The activity is current
     Else
-        The activity is not current
+        The activity is not currenthttp://localhost:5000/forwardlooking.html#h_comment
 </pre>
 
     <p>To find the year for a budget:</p>
@@ -179,10 +199,15 @@ If start and end are both not null
 Else budget year is null
 </pre>
     
-    <p>To calculate the "Current activities" column, count each activity that is current (as described above).</p>
-    <p>To calculate the "Activities with budgets" column, count the number of current activities that are:
+    <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>
-        <li>current</li>
+        <li>at the lowest hierarchical level
+        <li>AND current</li>
+        </ul>
+    <p>To calculate the "Current activities with budgets" column, count the number of activities that are:
+        <ul>
+        <li>at the lowest hierarchical level
+        <li>AND current</li>
         <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</p>
         </ul>
     </p>
