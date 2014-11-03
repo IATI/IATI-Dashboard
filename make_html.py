@@ -244,6 +244,8 @@ urls = {
     'timeliness_timelag.html': iati_stats_page('timeliness_timelag.html', page='timeliness', timeliness=timeliness),
     'forwardlooking.html': iati_stats_page('forwardlooking.html', page='forwardlooking', forwardlooking=forwardlooking),
     'comprehensiveness.html': iati_stats_page('comprehensiveness.html', page='comprehensiveness'),
+    'comprehensiveness_financials.html': iati_stats_page('comprehensiveness_financials.html', page='comprehensiveness'),
+    'comprehensiveness_valueadded.html': iati_stats_page('comprehensiveness_valueadded.html', page='comprehensiveness'),
     'files.html': iati_stats_page('files.html', page='files', firstint=firstint),
     'activities.html': iati_stats_page('activities.html', page='activities'),
     'download.html': iati_stats_page('download.html', page='download'),
