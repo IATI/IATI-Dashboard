@@ -12,6 +12,7 @@ import github.web
 import licenses
 import timeliness
 import forwardlooking
+import comprehensiveness
 from vars import expected_versions
 import text
 
@@ -123,9 +124,16 @@ def basic_page(page_name):
         kwargs = {}
         if page_name.startswith('timeliness'):
             kwargs['timeliness'] = timeliness
-        if page_name.startswith('forwardlooking'):
+            parent_page_name = 'timeliness'
+        elif page_name.startswith('forwardlooking'):
             kwargs['forwardlooking'] = forwardlooking
-        return render_template(page_name+'.html', page=page_name, **kwargs)
+            parent_page_name = 'forwardlooking'
+        elif page_name.startswith('comprehensiveness'):
+            kwargs['comprehensiveness'] = comprehensiveness
+            parent_page_name = 'comprehensiveness'
+        else:
+            parent_page_name = page_name
+        return render_template(page_name+'.html', page=parent_page_name, **kwargs)
     else:
         abort(404)
 

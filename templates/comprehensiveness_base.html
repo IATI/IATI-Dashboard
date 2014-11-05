@@ -3,9 +3,9 @@
 
 {% block container %}
     <ul class="nav nav-tabs" role="tablist">
-      <li{% block core_li %}{% endblock %}><a href="comprehensiveness.html">Core</a></li>
-      <li{% block financials_li %}{% endblock %}><a href="comprehensiveness_financials.html">Financials</a></li>
-      <li{% block valueadded_li %}{% endblock %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
+      <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness.html">Core</a></li>
+      <li{% if tab=='financials' %} class="active"{% endif %}><a href="comprehensiveness_financials.html">Financials</a></li>
+      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
     </ul>
 
     <ul class="list-inline" style="padding: 1em">
@@ -27,6 +27,24 @@
     </ul>
 
     {% block content %}
+    <table class="table table-striped" id="main_table">
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                {% for column_header in comprehensiveness.column_headers[tab] %}
+                <th>{{column_header}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in comprehensiveness.table(tab) %}
+            <tr>
+                <td><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
     {% endblock %}
 {% endblock %}
 
