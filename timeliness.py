@@ -118,8 +118,10 @@ def has_future_transactions(publisher):
                     return 2
     if publisher not in blacklist_publisher:
         return -1
+    today = datetime.date.today()
+    mindate = datetime.date(today.year-1, today.month, 1)
     for date, activity_blacklist in blacklist_publisher[publisher]['activities_with_future_transactions'].items():
-        if activity_blacklist:
+        if parse_iso_date(date) >= mindate and activity_blacklist:
             return 1
     return 0
 
