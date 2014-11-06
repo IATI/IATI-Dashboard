@@ -1,43 +1,47 @@
-from data import publishers_ordered_by_title#, get_publisher_stats
+from data import publishers_ordered_by_title, get_publisher_stats
 
-column_headers = {
+columns = {
     'core': [
-        'Version',
-        'Reporting-Org',
-        'Iati-identifier',
-        'Participating Organisation',
-        'Title',
-        'Description',
-        'Status',
-        'Activity Date',
-        'Sector',
-        'Country or Region'
+        ('version', 'Version'),
+        ('reporting-org', 'Reporting-Org'),
+        ('iati-identifier', 'Iati-identifier'),
+        ('participating-org', 'Participating Organisation'),
+        ('title', 'Title'),
+        ('description', 'Description'),
+        ('activity-status', 'Status'),
+        ('activity-date', 'Activity Date'),
+        ('sector', 'Sector'),
+        ('country_or_region', 'Country or Region'),
     ],
-    'financials':[
-        'Transaction - Commitment',
-        'Transaction - Disbursement or Expenditure',
-        'Transaction - Traceability',
-        'Budget'
+    'financials': [
+        ('transaction_commitment', 'Transaction - Commitment'),
+        ('transaction_spend', 'Transaction - Disbursement or Expenditure'),
+        ('transaction_traceability', 'Transaction - Traceability'),
+        ('budget', 'Budget'),
     ],
     'valueadded':[
-        'Contacts',
-        'Location Details',
-        'Geographic Coordinates',
-        'DAC Sectors',
-        'Economic Classification',
-        'Activity Documents',
-        'Activity Website',
-        'Recipient Language',
-        'Conditions Attached',
-        'Result/Indicator'
+        ('contact-info', 'Contacts'),
+        ('location', 'Location Details'),
+        ('location_point_pos', 'Geographic Coordinates'),
+        ('sector_dac', 'DAC Sectors'),
+        ('economic-classification', 'Economic Classification'),
+        ('document-link', 'Activity Documents'),
+        ('activity-website', 'Activity Website'),
+        ('title_recipient_language', 'Recipient Language'),
+        ('conditions_attached', 'Conditions Attached'),
+        ('result_indicator', 'Result/Indicator)'),
     ]}
+column_headers = {tabname:[x[1] for x in values] for tabname, values in columns.items()}
+column_slugs = {tabname:[x[0] for x in values] for tabname, values in columns.items()}
 
 
-def table(tab):
+def table():
     for publisher_title, publisher in publishers_ordered_by_title:
-        #publisher_stats = get_publisher_stats(publisher)
+        publisher_stats = get_publisher_stats(publisher)
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
+        denominator = int(publisher_stats['comprehensiveness_denominator'])
+        row.update({k:int(float(v)/denominator*100) for k,v in publisher_stats['comprehensiveness'].items()})
         yield row
 

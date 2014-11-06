@@ -37,9 +37,12 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in comprehensiveness.table(tab) %}
+            {% for row in comprehensiveness.table() %}
             <tr>
                 <td><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                {% for column_slug in comprehensiveness.column_slugs[tab] %}
+                <td>{% if column_slug in row %}{{row[column_slug]}}{% else %}-{% endif %}</td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
