@@ -84,6 +84,8 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+app.jinja_env.globals['float'] = float
+app.jinja_env.globals['dac2012'] = dac2012
 
 app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
@@ -102,6 +104,7 @@ basic_page_names = [
         'comprehensiveness',
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
+        'coverage',
         'files',
         'activities',
         'download',
