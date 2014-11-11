@@ -36,7 +36,7 @@
             <tr>
                 {% for i in range(0,3) %}
                 {% for year in forwardlooking.years %}
-                <th style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</th>
+                <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</td>
                 {% endfor %}
                 {% endfor %}
             </tr>
