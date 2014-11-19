@@ -1,4 +1,4 @@
-| For general guidence on contributing to IATI Code please see 
+| For general guidance on contributing to IATI Code please see
 | http://iatistandard.org/developer/contribute/
 
 If you would like to contribute to the IATI Dashboard project....
@@ -10,7 +10,7 @@ If you would like to contribute to the IATI Dashboard project....
 
 Deployment
 ----------
-If you find any issues in deploying your own version fo the code we'd love to hear about it and try to improve our documentation.
+If you find any issues in deploying your own version of the code we'd love to hear about it and try to improve our documentation.
 
 User Interface
 --------------
