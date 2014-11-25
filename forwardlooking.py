@@ -4,8 +4,8 @@ import datetime
 this_year = datetime.date.today().year
 years = map(str, range(this_year, this_year+3))
 column_headers = [ 
-    'Current activities',
-    'Current activities with budgets',
+    'Current activities at the start of each year',
+    'Current activities with budgets for each year',
     'Percentage of current activities with budgets'
 ]
 
