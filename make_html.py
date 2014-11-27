@@ -77,8 +77,7 @@ page_leads = {
     'milestones-completed': 'What has been done by the IATI team in GitHub?',
     'dates': 'What date ranges do publishers publish data for?',
     'annualreport': 'NOTE: This page is very much a work in progress, and currently the methodology differs subtly from the Annual Report.',
-    'coverage': 'NOTE: This page is a work in progress. Currently publishers using non-USD or multiple currencies will have no perenctage calculated.',
-    'forwardlooking': 'NOTE: This page is a work in progress.'
+    'coverage': 'NOTE: This page is a work in progress. Currently publishers using non-USD or multiple currencies will have no perenctage calculated.'
 }
 page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
