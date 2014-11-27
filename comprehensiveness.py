@@ -41,7 +41,11 @@ def table():
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
-        denominator = int(publisher_stats['comprehensiveness_denominator'])
-        row.update({k:int(float(v)/denominator*100) for k,v in publisher_stats['comprehensiveness'].items()})
+        def denominator(key):
+            if key in publisher_stats['comprehensiveness_denominators']:
+                return int(publisher_stats['comprehensiveness_denominators'][key])
+            else:
+                return int(publisher_stats['comprehensiveness_denominator_default'])
+        row.update({k:int(float(v)/denominator(k)*100) for k,v in publisher_stats['comprehensiveness'].items()})
         yield row
 
