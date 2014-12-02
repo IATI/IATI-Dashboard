@@ -24,7 +24,7 @@ columns = {
         ('location', 'Location Details'),
         ('location_point_pos', 'Geographic Coordinates'),
         ('sector_dac', 'DAC Sectors'),
-        ('economic-classification', 'Economic Classification'),
+        ('capital-spend', 'Capital Spend'),
         ('document-link', 'Activity Documents'),
         ('activity-website', 'Activity Website'),
         ('title_recipient_language', 'Recipient Language'),
