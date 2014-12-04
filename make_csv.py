@@ -95,3 +95,14 @@ with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [ '{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
     for row in forwardlooking.table():
         writer.writerow([row['publisher_title'], row['publisher']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
+
+
+import comprehensiveness
+
+for tab in comprehensiveness.columns.keys():
+    with open(os.path.join('out', 'comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
+        writer = unicodecsv.writer(fp)
+        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + comprehensiveness.column_headers[tab])
+        for row in comprehensiveness.table():
+            writer.writerow([row['publisher_title'], row['publisher']] + [ row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab] ])
+

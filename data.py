@@ -109,3 +109,22 @@ try:
 except IOError:
     dac2012 = {}
 
+
+
+
+def make_slugs(keys):
+    out = {'by_slug':{}, 'by_i':{}}
+    for i,key in enumerate(keys):
+        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_'))).strip('_')
+        while slug in out['by_slug']:
+            slug += '_'
+        out['by_slug'][slug] = i
+        out['by_i'][i] = slug
+    return out
+
+slugs = {
+    'codelist': make_slugs(current_stats['inverted_publisher']['codelist_values'].keys()),
+    'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
+}
+
+

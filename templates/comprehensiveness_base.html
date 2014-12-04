@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+
+{% block container %}
+    <ul class="nav nav-tabs" role="tablist">
+      <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness.html">Core</a></li>
+      <li{% if tab=='financials' %} class="active"{% endif %}><a href="comprehensiveness_financials.html">Financials</a></li>
+      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
+    </ul>
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_summary">Summary</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_assesment">Assessment</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comparison">Comparison with Global Partnership Indicator methodology</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a><li>
+        <li>|</li>
+        <li><a href="#h_pseudocode">Pseudocode</a></li>
+    </ul>
+
+    {% block content %}
+    <div class="panel panel-default" id="h_table">
+    <div class="panel-heading">
+        <span class="pull-right"><a href="{{url('comprehensiveness_'+tab+'.csv')}}">(This table as CSV)</a></span>
+        <h3 class="panel-title">Table of Comprehensiveness values</h3>
+    </div>
+    <table class="table table-striped" id="main_table">
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                {% for column_header in comprehensiveness.column_headers[tab] %}
+                <th>{{column_header}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in comprehensiveness.table() %}
+            <tr>
+                <td><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                {% for column_slug in comprehensiveness.column_slugs[tab] %}
+                <td>{% if column_slug in row %}
+                    {{row[column_slug+'_valid']}}
+                    {% if row[column_slug+'_valid'] != row[column_slug] %}
+                    <span class="text-muted">({{row[column_slug]}})</td>
+                    {% endif %}
+                    {% else %}-{% endif %}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{14: function(node,table,cellIndex) { return $(node).attr('data-severity'); }, 15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+
