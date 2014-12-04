@@ -46,6 +46,8 @@ def table():
                 return int(publisher_stats['comprehensiveness_denominators'][key])
             else:
                 return int(publisher_stats['comprehensiveness_denominator_default'])
-        row.update({k:int(float(v)/denominator(k)*100) for k,v in publisher_stats['comprehensiveness'].items()})
+        for k,v in publisher_stats['comprehensiveness'].items():
+            if denominator(k) != 0:
+                row[k] = int(float(v)/denominator(k)*100)
         yield row
 
