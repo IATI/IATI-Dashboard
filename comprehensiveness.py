@@ -49,5 +49,9 @@ def table():
         for k,v in publisher_stats['comprehensiveness'].items():
             if denominator(k) != 0:
                 row[k] = int(float(v)/denominator(k)*100)
+
+        for k,v in publisher_stats['comprehensiveness_with_validation'].items():
+            if denominator(k) != 0:
+                row[k+'_valid'] = int(float(v)/denominator(k)*100)
         yield row
 

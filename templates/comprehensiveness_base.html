@@ -46,7 +46,12 @@
             <tr>
                 <td><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
                 {% for column_slug in comprehensiveness.column_slugs[tab] %}
-                <td>{% if column_slug in row %}{{row[column_slug]}}{% else %}-{% endif %}</td>
+                <td>{% if column_slug in row %}
+                    {{row[column_slug+'_valid']}}
+                    {% if row[column_slug+'_valid'] != row[column_slug] %}
+                    <span class="text-muted">({{row[column_slug]}})</td>
+                    {% endif %}
+                    {% else %}-{% endif %}</td>
                 {% endfor %}
             </tr>
             {% endfor %}
