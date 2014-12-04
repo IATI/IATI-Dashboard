@@ -1,6 +1,6 @@
 rm -rf out
 mkdir out
-./fetch_data.sh || exit 1
+./fetch_data.sh &> fetch_data.log || exit 1
 python plots.py || exit 1
 python make_csv.py || exit 1
 python speakers_kit.py || exit 1
