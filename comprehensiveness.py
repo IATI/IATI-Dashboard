@@ -45,24 +45,43 @@ column_headers = {tabname:[x[1] for x in values] for tabname, values in columns.
 column_slugs = {tabname:[x[0] for x in values] for tabname, values in columns.items()}
 
 
+def denominator(key, stats):
+    if not stats:
+        return 0
+    if key in stats['comprehensiveness_denominators']:
+        return int(stats['comprehensiveness_denominators'][key])
+    else:
+        return int(stats['comprehensiveness_denominator_default'])
+
+
 def table():
     for publisher_title, publisher in publishers_ordered_by_title:
         publisher_stats = get_publisher_stats(publisher)
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
-        def denominator(key):
-            if key in publisher_stats['comprehensiveness_denominators']:
-                return int(publisher_stats['comprehensiveness_denominators'][key])
-            else:
-                return int(publisher_stats['comprehensiveness_denominator_default'])
+
         for k,v in publisher_stats['comprehensiveness'].items():
-            if denominator(k) != 0:
-                row[k] = int(float(v)/denominator(k)*100)
+            if k not in column_slugs['financials']:
+                if denominator(k, publisher_stats) != 0:
+                    row[k] = int(float(v)/denominator(k, publisher_stats)*100)
+        # https://github.com/IATI/IATI-Dashboard/issues/278
+        if 'comprehensiveness' in publisher_stats['bottom_hierarchy']:
+            for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness'].items():
+                if k in column_slugs['financials']:
+                    if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
+                        row[k] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
         for k,v in publisher_stats['comprehensiveness_with_validation'].items():
-            if denominator(k) != 0:
-                row[k+'_valid'] = int(float(v)/denominator(k)*100)
+            if k not in column_slugs['financials']:
+                if denominator(k, publisher_stats) != 0:
+                    row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats)*100)
+        # https://github.com/IATI/IATI-Dashboard/issues/278
+        if 'comprehensiveness_with_validation' in publisher_stats['bottom_hierarchy']:
+            for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness_with_validation'].items():
+                if k in column_slugs['financials']:
+                    if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
+                        row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
         for page in ['core', 'financials', 'valueadded', 'summary']: 
             # summary must be last to use calculations from others
