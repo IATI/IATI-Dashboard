@@ -162,134 +162,134 @@ Else
       <tr>
         <td>Core</td>
         <td>Version</th>
-        <td>Inspect the file-level version for each activity and count for each activity</th>
-        <td>Codelist (even if still publishing v1.xx)</th>
+        <td>iati-activities/@version must exist for the file the activity is in</th>
+        <td>iati-activities/@version must be on the <a href="http://iatistandard.org/codelists/Version/">Version codelist</a></th>
       </tr>
       <tr>
         <td>Core</td>
         <td>Reporting-Org</td>
-        <td>Activity must contain @ref AND name</td>
+        <td>reporting-org/@ref and must exist and reporting-org must have textual content</td>
         <td></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Iati-identifier</td>
-        <td>Activity must contain identifier</td>
-        <td>Must have reporting-org prefix</td>
+        <td>Activity must contain a nonempty iati-identifier</td>
+        <td>iati-identifier must have start with the value in reporting-org/@ref</td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Participating Organisation</td>
         <td>Activity must contain at least 1 participating-org</td>
-        <td>1 must be "funding"</td>
+        <td>At least one participating-org must have @role <code>Funding</code></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Title</td>
-        <td>Activity must contain title</td>
+        <td>Activity must contain a non-empty title element</td>
         <td></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Description</td>
-        <td>Activity must contain description</td>
+        <td>Activity must contain a non-empty description element</td>
         <td></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Status</td>
-        <td>Activity must contain activity-status</td>
-        <td>Codelist</td>
+        <td>Activity must contain an activity-status element</td>
+        <td>activity-status/@code must be on the <a href="http://iatistandard.org/codelists/ActivityStatus/">ActivityStats codelist</a></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Activity Date</td>
-        <td>Activity must contain at least 1 activity-date</td>
-        <td>Start-planned OR start-actual must be presentValid date</td>
+        <td>Activity must contain at least 1 activity-date element</td>
+        <td>At least 1 activity-date element in the activity must have @type equal to <code>start-planned</code> or <code>start-actual</code></td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Sector</td>
-        <td>At least one present at activity level OR all transactions</td>
-        <td>If activity level AND more than 1 per vocab, percentage must add up per vocab </td>
+        <td>At least one sector element present at activity level OR in all transactions</td>
+        <td>If activity level AND more than 1 per vocab, percentage must add up per vocab</td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Country or Region</td>
-        <td>(Country OR Region) at activity level OR on all transactions</td>
+        <td>(<code>recipient-country</code> OR <code>recipient-region</code>) at activity level OR on all transactions</td>
         <td>If activity level AND more than 1 THEN  percentages must add up</td>
       </tr>
       <tr>
         <td>Financials</td>
-        <td>Transaction - Commitment</th>
-        <td>Activity must have at least 1 commitment transaction</th>
-        <td>Transaction must have valid type AND valid value AND valid (transaction-date OR value-date)</th>
+        <td>transaction - Commitment</th>
+        <td>Activity must have at least 1 transaction with @type <code>C</code></td>
+        <td>All transactions of @type <code>C</code> must have <code>@type</code> on the <a href="http://iatistandard.org/codelists/TransactionType/">TransactionType codelist</a> AND a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
-        <td>Transaction - Disbursement or Expenditure</td>
-        <td>Activity must have at least 1 disbursement OR expenditure transaction</td>
-        <td>Transaction must have valid type AND valid value AND valid (transaction-date OR value-date)</td>
+        <td>transaction - Disbursement or Expenditure</td>
+        <td>Activity must have at least 1 transaction with @type <code>D</code> or <code>E</code></td>
+        <td>All transactions of @type <code>D</code> or <code>E</code> must have <code>@type</code> on the <a href="http://iatistandard.org/codelists/TransactionType/">TransactionType codelist</a> AND a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
         <td>Transaction - Currency</td>
-        <td>All transactions must have currency OR activity default currencyAll transactions must have value-date</td>
-        <td>Currency and date must be valid</td>
+        <td>All transactions must have value/@currency OR the activity must have a @default-currency attribute. All transactions must have value/@value-date</td>
+        <td>All currency values must be on the <a href="http://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code>xs:date</code>.</td>
       </tr>
       <tr>
         <td>Financials</td>
         <td>Transaction - Traceability</td>
-        <td>All IF transactions must contain provider-activity-id</td>
+        <td>All transactions of @type=IF must contain provider-org/@provider-activity-id</td>
         <td></td>
       </tr>
       <tr>
         <td>Financials</td>
         <td>Budget</td>
-        <td>Activity must have at least 1 budget</td>
-        <td>Each budget must contain valid period-start AND valid period-end AND valid value AND valid value-date</td>
+        <td>Activity must have at least 1 budget element</td>
+        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code>xs:date</code>s AND a value element that is a valid <code>xs:decimal</code></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Contacts</th>
-        <td>Activity must contain 1 email address</th>
+        <td>Activity must contain 1 contact-info/email element</th>
         <td></th>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Location Details</td>
-        <td>Activity must contain (location name) OR (location description) OR (location-administrative) Or point/pos</td>
+        <td>Activity must contain location/name OR location/description OR location/location-administrative) OR location/point/pos</td>
         <td></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Geographic Coordinates</td>
-        <td>Activity must contain point/pos</td>
-        <td>Must be valid coordsMust not be 0,0</td>
+        <td>Activity must contain location/point/pos</td>
+        <td>location/point/pos must contain valid coordinates (two space separated decimals), and not be <code>0 0</code></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>DAC Sectors</td>
-        <td>Activity must contain at least 1 sector with vocab DAC or DAC-3</td>
-        <td>Must be valid code</td>
+        <td>Activity must contain at least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> or there is no @vocabulary attribute (in which case DAC is assumed).</td>
+        <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Capital Spend</td>
-        <td>Activity must contain capital-spend with percentage</td>
+        <td>Activity must contain the capital-spend/@percentage attribute</td>
         <td></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Activity Documents</td>
         <td>Activity must contain at least 1 document-link</td>
-        <td>document-link must contain valid document category code and valid url</td>
+        <td>Each document-link must contain valid document category code and a url that is a valid <code>xs:anyURI</code> and contains the string <code>//</code>.</td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Activity Website</td>
-        <td>Activity must contain activity-website OR document-link with category= A12</td>
-        <td>valid url</td>
+        <td>Activity must contain activity-website element or a document-link element where @category=A12</td>
+        <td>The url must be a valid <code>xs:anyURI</code> and contain the string <code>//</code>.</td>
       </tr>
       <tr>
         <td>Value added</td>
@@ -300,17 +300,18 @@ Else
       <tr>
         <td>Value added</td>
         <td>Conditions Attached</td>
-        <td>Activity must contain conditions/@attached</td>
+        <td>Activity must contain the conditions/@attached attribute</td>
         <td></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Result/Indicator</td>
-        <td>Activity must contain result/indicator</td>
+        <td>Activity must contain the result/indicator element</td>
         <td></td>
       </tr>
     </table>
 
+    <p>Where the Validation Methodology column is blank, no extra conditions are imposed over the basic methodology.</p>
     <p>The main percentage is the percentage of relevant activities that satisfy the basic and validation methodology for the given Comprehensiveness Test and publisher.</p>
     <p>The bracketed percentage is the percentage of relevant activities that satisfy the basic methodology for the given Comprehensiveness Test and publisher. This is only shown if it is different to the main percentage.</p>
     </div>
