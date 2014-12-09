@@ -59,6 +59,263 @@
         </tbody>
     </table>
     </div>
+
+
+    <div class="panel panel-default" id="h_pseudocode">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pseudocode</h3>
+    </div>
+    <div class="panel-body">
+
+    <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
+
+    <p>To determine the lowest hierarchy:</p>
+<pre>
+Lowest hierarchy =
+   Largest integer reported in the hierarchy attribute of any iati-activity element 
+</pre>
+
+    <p>To determine whether an activity is at the lowest hierarchical level:</p>
+
+<pre>
+If the @hierarchy attribute is missing
+    If the lowest hierarchical level is 1
+        Activity is at lowest hierarchical level
+    Else
+        Activity is NOT at lowest hierarchical level
+Else if the @hierarchy attribute == lowest hierarchy
+    Activity is at lowest hierarchical level
+Else
+    Activity is NOT at lowest hierarchical level
+</pre>
+
+    <p>To test whether an activity is current:</p>
+
+<pre>
+end dates =
+    For each activity-date of type end-planned or end-actual
+        Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
+        If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
+        If neither work, ignore this activity-date
+
+If activity-status/@code exists
+    If activity-status/@code is 2 exists
+        The activity is current
+    Else
+        The activity is current
+Else
+    If end dates (see above) is empty
+        The activity is current
+    Else
+        If there is an end date where (date year >= current year)
+            The activity is current
+        Else
+            The activity is not current
+    
+</pre>
+
+    <p>To determine whether we use an activity is relevant for a given comprehensiveness test.</p>
+
+<pre>
+start date =
+    If activity-date[@type="start-actual"] exists
+        Parse activity-date[@type="start-actual"]/@iso_date as an iso date ('yyyy-mm-dd...')
+            If this works, we have the start date, else null
+    Else If activity-date[@type="start-planned"] exists
+        Parse activity-date[@type="start-planned"]/@iso_date as an iso date ('yyyy-mm-dd...')
+            If this works, we have the start date, else null
+    Else
+        null
+
+If the activity is current
+    If we are on the financials tab
+        If hierarchy = lowest level
+            If the comprehensivness test is 'Transaction - Disbursement or Expenditure'
+                If (start date isn't null
+                        and start date &lt; today
+                        and today - start date &lt; 365 days)
+                    Use activity
+                Else
+                    Ignore activity
+            Else If the comprehensivness test is 'Transaction - Traceability'
+                If transaction/transaction-type/[@code="IF"] exists
+                    Use activity
+                Else
+                    Ignore activity
+            Else
+                Use activity
+        Else
+            Ignore activity
+    Else
+        Use activity
+Else
+    Ignore activity
+</pre>
+
+    <table class="table">
+      <tr>
+        <th>Tab</td>
+        <th>Comprehensiveness Test</td>
+        <th>Basic Methodology</td>
+        <th>Validation Methodology</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Version</th>
+        <td>Inspect the file-level version for each activity and count for each activity</th>
+        <td>Codelist (even if still publishing v1.xx)</th>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Reporting-Org</td>
+        <td>Activity must contain @ref AND name</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Iati-identifier</td>
+        <td>Activity must contain identifier</td>
+        <td>Must have reporting-org prefix</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Participating Organisation</td>
+        <td>Activity must contain at least 1 participating-org</td>
+        <td>1 must be "funding"</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Title</td>
+        <td>Activity must contain title</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Description</td>
+        <td>Activity must contain description</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Status</td>
+        <td>Activity must contain activity-status</td>
+        <td>Codelist</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Activity Date</td>
+        <td>Activity must contain at least 1 activity-date</td>
+        <td>Start-planned OR start-actual must be presentValid date</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Sector</td>
+        <td>At least one present at activity level OR all transactions</td>
+        <td>If activity level AND more than 1 per vocab, percentage must add up per vocab </td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Country or Region</td>
+        <td>(Country OR Region) at activity level OR on all transactions</td>
+        <td>If activity level AND more than 1 THEN  percentages must add up</td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Commitment</th>
+        <td>Activity must have at least 1 commitment transaction</th>
+        <td>Transaction must have valid type AND valid value AND valid (transaction-date OR value-date)</th>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Disbursement or Expenditure</td>
+        <td>Activity must have at least 1 disbursement OR expenditure transaction</td>
+        <td>Transaction must have valid type AND valid value AND valid (transaction-date OR value-date)</td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Currency</td>
+        <td>All transactions must have currency OR activity default currencyAll transactions must have value-date</td>
+        <td>Currency and date must be valid</td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Traceability</td>
+        <td>All IF transactions must contain provider-activity-id</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Budget</td>
+        <td>Activity must have at least 1 budget</td>
+        <td>Each budget must contain valid period-start AND valid period-end AND valid value AND valid value-date</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Contacts</th>
+        <td>Activity must contain 1 email address</th>
+        <td></th>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Location Details</td>
+        <td>Activity must contain (location name) OR (location description) OR (location-administrative) Or point/pos</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Geographic Coordinates</td>
+        <td>Activity must contain point/pos</td>
+        <td>Must be valid coordsMust not be 0,0</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>DAC Sectors</td>
+        <td>Activity must contain at least 1 sector with vocab DAC or DAC-3</td>
+        <td>Must be valid code</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Capital Spend</td>
+        <td>Activity must contain capital-spend with percentage</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Activity Documents</td>
+        <td>Activity must contain at least 1 document-link</td>
+        <td>document-link must contain valid document category code and valid url</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Activity Website</td>
+        <td>Activity must contain activity-website OR document-link with category= A12</td>
+        <td>valid url</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Recipient Language</td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Conditions Attached</td>
+        <td>Activity must contain conditions/@attached</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Result/Indicator</td>
+        <td>Activity must contain result/indicator</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <p>The main percentage is the percentage of relevant activities that satisfy the basic and validation methodology for the given Comprehensiveness Test and publisher.</p>
+    <p>The bracketed percentage is the percentage of relevant activities that satisfy only the basic methodology for the given Comprehensiveness Test and publisher. This is only shown if it is different to the main percentage.</p>
+    </div>
+
+
     </div>
     {% endblock %}
 {% endblock %}
