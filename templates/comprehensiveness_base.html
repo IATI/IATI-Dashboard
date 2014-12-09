@@ -3,7 +3,8 @@
 
 {% block container %}
     <ul class="nav nav-tabs" role="tablist">
-      <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness.html">Core</a></li>
+      <li{% if tab=='summary' %} class="active"{% endif %}><a href="comprehensiveness.html">Summary</a></li>
+      <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness_core.html">Core</a></li>
       <li{% if tab=='financials' %} class="active"{% endif %}><a href="comprehensiveness_financials.html">Financials</a></li>
       <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
     </ul>

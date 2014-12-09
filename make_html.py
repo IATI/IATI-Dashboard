@@ -100,6 +100,7 @@ basic_page_names = [
         'timeliness_timelag',
         'forwardlooking',
         'comprehensiveness',
+        'comprehensiveness_core',
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
         'files',
