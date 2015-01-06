@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir -p data/downloads/
-wget "https://gist.github.com/Bjwebb/6726204/raw/errors" -O data/downloads/errors
+wget "https://gist.github.com/iati-bot/4f86dc7b36562c8b2b21/raw/errors" -O data/downloads/errors
 
 wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned&status=new&status=reopened&format=csv&col=id&col=summary&col=status&col=owner&col=component&col=element&col=data_provider_regisrty_id&order=priority" -O data/issues.csv
 
@@ -13,10 +13,10 @@ rm -r data/github/
 python fetch_data.py
 
 cd data/downloads
-if [ ! -d ./6726204 ]; then
-    git clone https://gist.github.com/6726204.git
+if [ ! -d ./4f86dc7b36562c8b2b21 ]; then
+    git clone https://gist.github.com/4f86dc7b36562c8b2b21.git
 fi
-cd ./6726204
+cd ./4f86dc7b36562c8b2b21
 git checkout master > /dev/null
 git pull > /dev/null
 for commit in `git log --format=format:%H`; do
