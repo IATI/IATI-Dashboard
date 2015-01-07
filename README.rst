@@ -103,7 +103,7 @@ For development, you can use the live Flask development server, instead of Froze
 
     python make_html.py --live
 
-Using the live development server is highly recommended, because it displays full bracktrackes for 500 errors, whereas frozen flask does not.
+Using the live development server is highly recommended, because it displays full bracktraces for 500 errors, whereas frozen flask does not.
 
 License
 ^^^^^^^
