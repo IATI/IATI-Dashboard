@@ -70,6 +70,8 @@ def publisher_frequency():
                 frequency = 'Quarterly'
             elif any([ x in updates_per_month for x in previous_months[:6] ]) and any([ x in updates_per_month for x in previous_months[6:12] ]):
                 frequency = 'Six-Monthly'
+            elif any([ x in updates_per_month for x in previous_months[:12] ]):
+                frequency = 'Annual'
             else:
                 frequency = 'Less than Annual'
         yield publisher, publisher_name.get(publisher), updates_per_month, frequency
