@@ -8,6 +8,8 @@ IATI Dashboard
     :alt: Requirements Status
 .. image:: https://coveralls.io/repos/IATI/IATI-Dashboard/badge.png?branch=master
     :target: https://coveralls.io/r/IATI/IATI-Dashboard?branch=master
+.. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
+    :target: https://github.com/IATI/IATI-Dashboard/blob/master/GPL.md
 
 Introduction
 ------------
