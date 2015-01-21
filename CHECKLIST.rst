@@ -41,23 +41,19 @@ currently isn’t.
 It should make sense in the way people access our tools/code
 ------------------------------------------------------------
 
-At 
-`http://dashboard.iatistandard.org <http://dashboard.iatistandard.org>`__
+At http://dashboard.iatistandard.org
 
 Our code should be on our servers - we should be able to monitor the performance of those servers
 -------------------------------------------------------------------------------------------------
 
-All the nightly processes being used to generate for this are currently
-on Ben’s server. However, the hosting of the dashboard is on Github
-pages.
+All the code for this is now on IATI servers.
+
+We don't have any particular performance monitoring set up.
 
 We should know how our code is being used - logs!
 -------------------------------------------------
 
-Is a static site, so only logs are web logs. Currently we do not analyse
-these.
-
-When we ‘release’ it, we should probably put google analytics on it.
+We have google analytics, and the server has web logs for page accesses, and logs of the nightly process.
 
 Our code will need to adapt with schema changes and changes to external systems upon which it relies
 ----------------------------------------------------------------------------------------------------
@@ -89,7 +85,9 @@ We should be able to communicate with the users of our code.
 
 There is room on the homepage for notices.
 
-Nothing else is in place.
+There is a forum on support.iatistandard.org for consultation about the Dashboard Publishing Statistics tabs - http://support.iatistandard.org/forums/21204695-Dashboard-Publishing-Statistics
+
+Nothing more general is in place.
 
 Users should be able to communicate with us about our code
 ----------------------------------------------------------
@@ -125,21 +123,18 @@ Our code should be secure
 The dashboard doesn’t pose any new security concerns because it’s all a
 static site.
 
-We should know that our code is working properly
+We should know that our deployed code is working properly
+---------------------------------------------------------
 
 As this is a static site it is either there or it is not.
 
-Currently there is not a pingdom type service monitoring it for up time.
+If any of scripts return a non-zero exit status the site will not be updated.
+So at worst an out of date site will be displayed, but not a broken site.
+
+We use travis to check whether is has updated by noon in a given day -
+https://github.com/IATI/IATI-Website-Tests
 
 There is a concern for knowing that the dashboard is accurately
 displaying what we think it should. As it relies on number of other
-services it could displaying inaccurate data.
-
-Currently no automated testing of the output, but if any of scripts
-return a non-zero exit status the site will not be updated. So at worst
-an out of date site will be displayed, but not a broken site.
-
-Also, the log output of the nightly scripts is emailed to Ben, so he can
-be alerted to problems.
-
+services it could be displaying inaccurate data.
 
