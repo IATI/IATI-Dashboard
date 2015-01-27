@@ -27,6 +27,13 @@ def dictinvert(d):
         inv[v].append(k)
     return inv
 
+def nested_dictinvert(d):
+    inv = defaultdict(lambda: defaultdict(int))
+    for k, v in d.iteritems():
+        for k2, v2 in v.iteritems():
+            inv[k2][k] += v2
+    return inv
+
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
@@ -184,13 +191,13 @@ def publisher(publisher):
 @app.route('/codelist/<major_version>/<slug>.html')
 def codelist(major_version, slug):
     i = slugs['codelist'][major_version]['by_slug'][slug]
-    element = current_stats['inverted_publisher']['codelist_values'].keys()[i]
-    values = current_stats['inverted_publisher']['codelist_values'].values()[i]
+    element = current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys()[i]
+    values = nested_dictinvert(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values()[i])
     return render_template('codelist.html',
         element=element,
         values=values,
         reverse_codelist_mapping={ major_version:dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
-        url=lambda x: '../'+x,
+        url=lambda x: '../../'+x,
         major_version=major_version,
         page='codelists')
 
