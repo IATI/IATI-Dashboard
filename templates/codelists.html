@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
-    <div class="panel panel-default">
-    <div class="panel-body">
       <p>Count of the different values used by all publishers, per codelist.</p> 
       <p>Note: some Elements/Attributes may use the same codelist.  In each case, the values counted are different for each use.</p>
-    </div>
 
     {% for major_version in MAJOR_VERSIONS %}
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Codelists for version {{major_version}}.xx</h3>
+    </div>
     {% if major_version not in current_stats.inverted_publisher.codelist_values_by_major_version %}
         There are no publishers using {{ major_version }}.xx codelists yet.
     {% else %}
@@ -37,8 +38,8 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
     {% endif %}
     {% endfor %}
-    </div>
 
 {% endblock %}

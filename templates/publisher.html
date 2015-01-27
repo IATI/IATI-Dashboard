@@ -335,14 +335,14 @@
     </table>
     </div>
 
+    {% for major_version in MAJOR_VERSIONS %}
+    {% if major_version in publisher_stats.codelist_values_by_major_version %}
     <div class="panel panel-default" id="p_codelists">
     <table class="table table-striped">
     <div class="panel-heading">
         <a href="{{stats_url}}/current/aggregated/{{publisher}}/codelist_values.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Codelist Values</h3>
+        <h3 class="panel-title">Codelist Values (version {{major_version}}.xx)</h3>
     </div>
-    {% for major_version in MAJOR_VERSIONS %}
-    {% if major_version in publisher_stats.codelist_values_by_major_version %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -374,9 +374,9 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
     {% endif %}
     {% endfor %}
-    </div>
 
     <div class="panel panel-default" id="p_elements">
     <table class="table table-striped">
