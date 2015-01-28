@@ -170,7 +170,7 @@ Else
 
 <pre>
 end dates =
-    For each activity-date of type end-planned or end-actual
+    For each activity-date that desribes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
         If neither work, ignore this activity-date
