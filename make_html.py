@@ -27,6 +27,13 @@ def dictinvert(d):
         inv[v].append(k)
     return inv
 
+def nested_dictinvert(d):
+    inv = defaultdict(lambda: defaultdict(int))
+    for k, v in d.iteritems():
+        for k2, v2 in v.iteritems():
+            inv[k2][k] += v2
+    return inv
+
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
@@ -48,7 +55,7 @@ def xpath_to_url(path):
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
 def registration_agency(orgid):
-    for code in codelist_sets['OrganisationRegistrationAgency']:
+    for code in codelist_sets['2']['OrganisationRegistrationAgency']:
         if orgid.startswith(code):
             return code
 
@@ -84,6 +91,7 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+app.jinja_env.globals['MAJOR_VERSIONS'] = MAJOR_VERSIONS
 
 app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
@@ -180,16 +188,17 @@ def publisher(publisher):
         budget_table=budget_table
         )
 
-@app.route('/codelist/<slug>.html')
-def codelist(slug):
-    i = slugs['codelist']['by_slug'][slug]
-    element = current_stats['inverted_publisher']['codelist_values'].keys()[i]
-    values = current_stats['inverted_publisher']['codelist_values'].values()[i]
+@app.route('/codelist/<major_version>/<slug>.html')
+def codelist(major_version, slug):
+    i = slugs['codelist'][major_version]['by_slug'][slug]
+    element = current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys()[i]
+    values = nested_dictinvert(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values()[i])
     return render_template('codelist.html',
         element=element,
         values=values,
-        reverse_codelist_mapping=dictinvert(codelist_mapping),
-        url=lambda x: '../'+x,
+        reverse_codelist_mapping={ major_version:dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
+        url=lambda x: '../../'+x,
+        major_version=major_version,
         page='codelists')
 
 @app.route('/element/<slug>.html')
@@ -256,8 +265,12 @@ if __name__ == '__main__':
                 yield 'publisher', {'publisher': publisher}
             for slug in slugs['element']['by_slug']: 
                 yield 'element', {'slug': slug}
-            for slug in slugs['codelist']['by_slug']: 
-                yield 'codelist', {'slug': slug}
+            for major_version, codelist_slugs in slugs['codelist'].items(): 
+                for slug in codelist_slugs['by_slug']:
+                    yield 'codelist', {
+                        'slug': slug,
+                        'major_version': major_version
+                    }
             for license in licenses.licenses: 
                 if license == None:
                     license = 'None'

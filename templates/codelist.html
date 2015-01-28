@@ -6,21 +6,22 @@
 
 {% block page_header %}
 <h1>Codelist values used for <code>{{element}}</code></h1>
-<p class="lead">Who uses <code>{{codelist_mapping.get(element)}}</code> in <code><a href="{{element|xpath_to_url}}">{{element}}</a></code>?</p>
+<p class="lead">Who uses <code>{{codelist_mapping[major_version].get(element)}}</code> in <code><a href="{{element|xpath_to_url}}">{{element}}</a></code>?</p>
+<p class="lead">(for files published to version {{major_version}}.xx of the standard)</p>
 <p style="float:right">(<a href="{{stats_url}}/current/inverted-publisher/codelist_values.json">This page in JSON format</a>)</p>
-<p>Values should be on the <code><a href="http://iatistandard.org/codelists/{{codelist_mapping.get(element)}}/">{{codelist_mapping.get(element)}}</a></code> codelist.</p>
+<p>Values should be on the <code><a href="http://iatistandard.org/{% if major_version=='1' %}105/{%endif%}codelists/{{codelist_mapping[major_version].get(element)}}/">{{codelist_mapping[major_version].get(element)}}</a></code> codelist.</p>
 {% endblock %}
 
 {% block content %}
 
     <p>
-    {% with elements=reverse_codelist_mapping[codelist_mapping[element]] %}
+    {% with elements=reverse_codelist_mapping[major_version][codelist_mapping[element]] %}
     {% if elements|count > 1 %}
     Other elements/attributes on this codelist: 
     <ul>
     {% for el in elements%}
-    {% if el in current_stats.inverted_publisher.codelist_values.keys() %}
-    {% if el!=element%}<li><a href="{{slugs.codelist.by_i[current_stats.inverted_publisher.codelist_values.keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
+    {% if el in current_stats.inverted_publisher.codelist_values[major_version].keys() %}
+    {% if el!=element%}<li><a href="{{slugs.codelist[major_version].by_i[current_stats.inverted_publisher.codelist_values[major_version].keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
     {% endif %}
     {% endfor %}
     </ul>
@@ -34,15 +35,15 @@
         <h3 class="panel-title">On Codelist</h3>
     </div>
     <div class="panel-body">
-        <p>Codes that are on the <code>{{codelist_mapping.get(element)}}</code> codelist.</p>
+        <p>Codes that are on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
     </div>
     <table class="table table-striped">
       <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
       <tbody>
         {% for value, publishers in values.items() %}
-            {% if value in codelist_sets.get(codelist_mapping.get(element)) %}
+            {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
             <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
@@ -57,15 +58,15 @@
         <h3 class="panel-title">Not On Codelist</h3>
     </div>
     <div class="panel-body">
-        <p>Codes that are not on the <code>{{codelist_mapping.get(element)}}</code> codelist.</p>
+        <p>Codes that are not on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
     </div>
     <table class="table table-striped">
       <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
       <tbody>
         {% for value, publishers in values.items() %}
-            {% if not value in codelist_sets.get(codelist_mapping.get(element)) %}
+            {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
             <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
