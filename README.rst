@@ -112,7 +112,7 @@ License
 
 ::
 
-    Copyright (C) 2013-2014 Ben Webb <bjwebb67@googlemail.com>
+    Copyright (C) 2013-2015 Ben Webb <bjwebb67@googlemail.com>
     Copyright (C) 2013-2014 David Carpenter <caprenter@gmail.com>
 
     This program is free software: you can redistribute it and/or modify
