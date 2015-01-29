@@ -24,7 +24,7 @@ import os
 import unicodecsv
 failed_downloads = unicodecsv.reader(open('data/downloads/history.csv'))
 import json
-organisation_type_codelist = json.load(open('data/OrganisationType.json'))
+organisation_type_codelist = json.load(open('data/IATI-Codelists-2/out/clv2/json/en/OrganisationType.json'))
 organisation_type_dict = {c['code']:c['name'] for c in organisation_type_codelist['data']}
 
 import data
