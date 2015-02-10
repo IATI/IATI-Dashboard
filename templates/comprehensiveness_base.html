@@ -138,7 +138,7 @@ If the activity is current
                 Else
                     Ignore activity
             Else If the comprehensivness test is 'Transaction - Traceability'
-                If transaction/transaction-type/[@code="IF"] exists
+                If transaction/transaction-type[@code="IF"] exists (1.xx) or transaction/transaction-type[@code="1"] exists (2.xx)
                     Use activity
                 Else
                     Ignore activity
@@ -181,7 +181,7 @@ Else
         <td>Core</td>
         <td>Participating Organisation</td>
         <td>Activity must contain at least 1 participating-org</td>
-        <td>At least one participating-org must have @role <code>Funding</code></td>
+        <td>At least one participating-org must have @role <code>Funding</code> (1.xx) or <code>1</code> (2.xx)</td>
       </tr>
       <tr>
         <td>Core</td>
@@ -205,7 +205,7 @@ Else
         <td>Core</td>
         <td>Activity Date</td>
         <td>Activity must contain at least 1 activity-date element</td>
-        <td>At least 1 activity-date element in the activity must have @type equal to <code>start-planned</code> or <code>start-actual</code></td>
+        <td>At least 1 activity-date element in the activity must have @type equal to <code>start-planned</code> or <code>start-actual</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx)</td>
       </tr>
       <tr>
         <td>Core</td>
@@ -216,20 +216,20 @@ Else
       <tr>
         <td>Core</td>
         <td>Country or Region</td>
-        <td>(<code>recipient-country</code> OR <code>recipient-region</code>) at activity level OR on all transactions</td>
+        <td>(<code>recipient-country</code> OR <code>recipient-region</code>) at activity level OR (2.xx only) on all transactions</td>
         <td>If activity level AND more than 1 THEN  percentages must add up</td>
       </tr>
       <tr>
         <td>Financials</td>
         <td>transaction - Commitment</th>
-        <td>Activity must have at least 1 transaction with @type <code>C</code></td>
-        <td>All transactions of @type <code>C</code> must have <code>@type</code> on the <a href="http://iatistandard.org/codelists/TransactionType/">TransactionType codelist</a> AND a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
+        <td>Activity must have at least 1 transaction with @type <code>C</code> (1.xx) or <code>2</code> (2.xx)</td>
+        <td>All transactions of this @type must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
         <td>transaction - Disbursement or Expenditure</td>
-        <td>Activity must have at least 1 transaction with @type <code>D</code> or <code>E</code></td>
-        <td>All transactions of @type <code>D</code> or <code>E</code> must have <code>@type</code> on the <a href="http://iatistandard.org/codelists/TransactionType/">TransactionType codelist</a> AND a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
+        <td>Activity must have at least 1 transaction with @type <code>D</code> or <code>E</code> (1.xx) or <code>3</code> or <code>4</code> (2.xx)</td>
+        <td>All transactions of these @type's must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
@@ -240,7 +240,7 @@ Else
       <tr>
         <td>Financials</td>
         <td>Transaction - Traceability</td>
-        <td>All transactions of @type=IF must contain provider-org/@provider-activity-id</td>
+        <td>All transactions of @type=IF (1.xx) or @type=1 (2.xx) must contain provider-org/@provider-activity-id</td>
         <td></td>
       </tr>
       <tr>
@@ -270,7 +270,7 @@ Else
       <tr>
         <td>Value added</td>
         <td>DAC Sectors</td>
-        <td>Activity must contain at least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> or there is no @vocabulary attribute (in which case DAC is assumed).</td>
+        <td>Activity must contain at least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx), or there is no @vocabulary attribute (in which case DAC/1 is assumed).</td>
         <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
       </tr>
       <tr>
@@ -288,7 +288,7 @@ Else
       <tr>
         <td>Value added</td>
         <td>Activity Website</td>
-        <td>Activity must contain activity-website element or a document-link element where @category=A12</td>
+        <td>Activity must contain activity-website element (1.xx) or a document-link element where @category=A12 (2.xx)</td>
         <td>The url must be a valid <code>xs:anyURI</code> and contain the string <code>//</code>.</td>
       </tr>
       <tr>
