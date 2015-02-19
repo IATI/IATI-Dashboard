@@ -311,7 +311,7 @@
     <div class="panel-heading">
         <h3 class="panel-title">Files</h3>
     </div>
-    <table class="table table-striped">
+    <table class="table table-striped exploring-data">
         <thead>
             <tr>
                 <th>Package</th>
@@ -414,5 +414,11 @@ $('.popover-html').popover({
   html: true
 })
     </script>
+{% endblock %}
+
+
+{% block tablesorterscript %}
+<script>$(function() { $("table.table:not(.exploring-data)").tablesorter(); });</script>
+<script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}); });</script>
 {% endblock %}
 
