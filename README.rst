@@ -45,6 +45,7 @@ Installation
 Requirements:
 
 * Unix based setup (e.g. Linux, Mac OS X) with bash etc.
+* wget and curl installed
 * Python 2.7
 * python-virtualenv (optional)
 * Development files for libfreetype, libpng, libxml and libxslt e.g. ``libfreetype6-dev libpng-dev libxml2-dev libxslt-dev``.
@@ -56,6 +57,10 @@ Requirements:
 To install:
 
 .. code-block:: bash
+
+    ## Get the code
+    git clone https://github.com/IATI/IATI-Dashboard.git
+    cd IATI-Dashboard
 
     ## Set up a virtual environment (recommended)
     # Create a virtual environment
