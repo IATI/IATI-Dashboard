@@ -74,7 +74,8 @@ def publisher_frequency():
                 frequency = 'Annual'
             else:
                 frequency = 'Less than Annual'
-        yield publisher, publisher_name.get(publisher), updates_per_month, frequency
+        if publisher in publisher_name: # Only display current publishers
+            yield publisher, publisher_name.get(publisher), updates_per_month, frequency
 
 def frequency_index(frequency):
     return ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency)
