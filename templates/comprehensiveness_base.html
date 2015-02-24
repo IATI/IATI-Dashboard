@@ -321,6 +321,55 @@ Else
     {% endblock %}
 {% endblock %}
 
-{% block tablesorteroptions %}{ widgets: ['stickyHeaders'], textExtraction:{14: function(node,table,cellIndex) { return $(node).attr('data-severity'); }, 15: function(node,table,cellIndex) { return $(node).attr('data-index'); }}}{% endblock %}
+{% block tablesorteroptions %}{
+    widgets: ['stickyHeaders'],
+    textExtraction:{
+        1: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        2: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        3: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        4: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        5: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        6: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        7: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        8: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        9: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        10: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        11: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        }
+    }
+}
+{% endblock %}
 {% block tablesortertarget %}table#main_table{% endblock %}
 
