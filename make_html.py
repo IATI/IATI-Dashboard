@@ -95,6 +95,7 @@ app.jinja_env.globals['MAJOR_VERSIONS'] = MAJOR_VERSIONS
 
 app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
+app.jinja_env.globals['codelist_conditions'] = codelist_conditions
 app.jinja_env.globals['codelist_sets'] = codelist_sets
 
 basic_page_names = [

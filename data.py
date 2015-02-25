@@ -86,17 +86,23 @@ with open('./data/issues.csv') as fp:
     for issue in reader:
         data_tickets[issue['data_provider_regisrty_id']].append(issue)
 
-def create_codelist_mapping(major_version):
-    codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
+def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
     codelist_mapping = {k:v for k,v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
     codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items() }
     codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
     return codelist_mapping
 
+def create_codelist_mapping(major_version):
+    codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
+    return transform_codelist_mapping_keys(codelist_mapping)
+
 MAJOR_VERSIONS = ['1', '2']
 
 codelist_mapping = { v:create_codelist_mapping(v) for v in MAJOR_VERSIONS }
+codelist_conditions = { 
+    major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
+    for major_version in MAJOR_VERSIONS }
 
 codelist_sets = { 
     major_version: {
