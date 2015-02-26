@@ -79,7 +79,7 @@
         <li>For any given future year all current activities should contain a budget.</li>
         <li><strong>Activities are deemed to be current in any given year if their end date is reported to be in this year or beyond (or if there is no end date)</strong></li>
         <li>Counting the number of activities that contain budgets provides a fairer result that summing the value of these budgets. The proportion of a publisher's total commitment for a future year that has already been committed to existing projects may vary greatly. (i.e you may have earmarked an amount to spend in three-years time, but not yet agreed on how to spend it.)</li>
-        <li>For publisher's reporting multiple hierarchical levels ONLY the lowest level is used in this calculation.</li>
+        <li>For publisher's reporting multiple hierarchical levels ONLY the level that budgets are reported at is used in this calculation. However if budgets are reported at multiple levels, all activities are counted, and the publisher is marked with a red flag.</li>
         </ul>
     </div>
     </div>
@@ -105,7 +105,7 @@
         <h4>Dashes</h4>
         <p>Where a percentage can not be calculated, because the denominator is zero, a dash is used.</p>
         <h4>Red Flags</h4>
-        <p>Publishers who publish forward looking budgets at hierarchical levels other than the lowest are marked with a red flag.</p>
+        <p>Publishers who publish forward looking budgets at more than one hierarchical level.</p>
     </div>
     </div>
 
@@ -146,31 +146,11 @@
 
     <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
 
-    <p>To determine the lowest hierarchy:</p>
-<pre>
-Lowest hierarchy =
-   Largest integer reported in the hierarchy attribute of any iati-activity element 
-</pre>
-
-    <p>To determine whether an activity is at the lowest hierarchical level:</p>
-
-<pre>
-If the @hierarchy attribute is missing
-    If the lowest hierarchical level is 1
-        Activity is at lowest hierarchical level
-    Else
-        Activity is NOT at lowest hierarchical level
-Else if the @hierarchy attribute == lowest hierarchy
-    Activity is at lowest hierarchical level
-Else
-    Activity is NOT at lowest hierarchical level
-</pre>
-
     <p>To test whether an activity is current in a given year:</p>
 
 <pre>
 end dates =
-    For each activity-date that desribes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
+    For each activity-date that describes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
         If neither work, ignore this activity-date
@@ -204,17 +184,29 @@ If start and end are both not null
     Else ignore the budget
 Else budget year is null
 </pre>
+
+    <p>The relevant hierarchical level is:</p>
+
+<pre>
+If the @hierarchy attribute is missing the hierarchy value is 1
+Else the hierarchy value is the value of the @hierarchy attribute
+
+If all budgets for current activities in the given years have the same hierarchy value
+    Only activities with that hierarchy value are at a relevant hierarchical level
+Else
+    All activities are considered to be at a relevant hierarchical level
+</pre>
     
     <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>
-        <li>at the lowest hierarchical level
+        <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
         </ul>
     <p>To calculate the "Current activities with budgets" column, count the number of activities that are:
         <ul>
-        <li>at the lowest hierarchical level
+        <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
-        <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</p>
+        <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</li>
         </ul>
     </p>
 
