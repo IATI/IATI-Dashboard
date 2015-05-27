@@ -2,7 +2,7 @@ Jinja2==2.7.3
 matplotlib==1.4.3
 requests==2.7.0
 Frozen-Flask==0.11
-unicodecsv==0.12.0
+unicodecsv==0.13.0
 lxml==3.4.4
 pytz==2015.4
 
