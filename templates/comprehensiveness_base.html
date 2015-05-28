@@ -12,17 +12,13 @@
     <ul class="list-inline" style="padding: 1em">
         <li><a href="#h_table">Table</a></li>
         <li>|</li>
-        <li><a href="#h_summary">Summary</a></li>
-        <li>|</li>
         <li><a href="#h_narrative">Narrative</a></li>
         <li>|</li>
-        <li><a href="#h_assesment">Assessment</a></li>
+        <li><a href="#h_assessment">Assessment</a></li>
         <li>|</li>
         <li><a href="#h_exceptions">Exceptions</a></li>
         <li>|</li>
         <li><a href="#h_comparison">Comparison with Global Partnership Indicator methodology</a></li>
-        <li>|</li>
-        <li><a href="#h_comment">Comment</a><li>
         <li>|</li>
         <li><a href="#h_pseudocode">Pseudocode</a></li>
     </ul>
@@ -32,6 +28,7 @@
     <div class="panel-heading">
         <span class="pull-right"><a href="{{url('comprehensiveness_'+tab+'.csv')}}">(This table as CSV)</a></span>
         <h3 class="panel-title">Table of Comprehensiveness values</h3>
+        {% block table_header_detail %}{% endblock %}
     </div>
     <table class="table table-striped" id="main_table">
         <thead>
@@ -59,6 +56,56 @@
         </tbody>
     </table>
     </div>
+
+
+    {% block narrative %}
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            {% block narrative_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block assessment %}
+    <div class="panel panel-default" id="h_assessment">
+        <div class="panel-heading">
+            <h3 class="panel-title">Assessment</h3>
+        </div>
+        <div class="panel-body">
+            {% block assessment_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block exceptions %}
+    <div class="panel panel-default" id="h_exceptions">
+        <div class="panel-heading">
+            <h3 class="panel-title">Exceptions</h3>
+        </div>
+        <div class="panel-body">
+            {% block exceptions_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block comparison %}
+    <div class="panel panel-default" id="h_comparison">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comparison with Global Partnership Indicator methodology</h3>
+        </div>
+        <div class="panel-body">
+            {% block comparison_text %}
+            <span style="background-color: #fcf8aa">Text on Comparison with Global Partnership Indicator methodology to follow</span></p>
+            {% endblock %}
+        </div>
+    </div>
+    {% endblock %}
 
 
     <div class="panel panel-default" id="h_pseudocode">
