@@ -1,3 +1,31 @@
 {% set tab='summary' %}
 {% extends 'comprehensiveness_base.html' %}
 
+{% block table_header_detail %}
+	<p>Averages of comprehensiveness calculations of core, financial and value-added elements as defined in associated tabs.</p>
+{% endblock %}
+
+{% block narrative_text %}
+	<h4>Overview</h4>
+	<p>To assess comprehensiveness the usage of selected elements of the standard have been aggregated into three sections: "Core" are the mandatory fields specified by version 2.01 of the Activity Standard. Financials cover the reporting of both financial transactions and budgets. Value Added </p>
+
+	<h4>Core Average</h4>
+	<p>An average of the percentages assigned to the ten mandatory activity elements as specified on the Core tab.</p>
+	
+	<h4>Financials Average</h4>
+	<p>An average of the percentages assigned to four financial facets as specified on the Financials tab.</p>
+	
+	<h4>Value Added Average</h4>
+	<p>An average of the percentages assigned to the ten most useful recommended (non-mandatory) facets as specified on the Value Added tab.</p>
+
+	<h4>Average</h4>
+	<p>An average of the Core, Financials and Value-Added averages.</p>
+{% endblock %}
+
+{% block assessment_text %}
+	<p>No assesments or weightings are currently employed.</p>
+{% endblock %}
+
+{% block exceptions_text %}
+	<p>See, where applicable, the exceptions for each individual element on the associated tabs.</p>
+{% endblock %}

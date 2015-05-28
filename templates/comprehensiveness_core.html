@@ -1,3 +1,50 @@
 {% set tab='core' %}
 {% extends 'comprehensiveness_base.html' %}
 
+{% block table_header_detail %}
+	<p>Percentage of activities where elements are populated with valid data. (Values in parentheses indicate percentage of activities where lements are populated with any data.)</p>
+{% endblock %}
+
+{% block narrative_text %}
+	<h4>Overview</h4>
+	<p>Version 2.01 introduced a more stringent approach to the way in which data can be validated (through the requirement that elements are published in a specified order) and as a result ten elments are mandatory for all activities under all conditions. This tab measures how comprehensively publishers are meeting these requirements, irrespective of whether they are using V2.01 or not.</p>
+
+	<h4>Details</h4>
+	<h5>Version</h5>
+	<p>Percentage of all current activities which contain a valid version number in the <code>&lt;iati-activities&gt;</code> file header element</p>
+
+	<h5>Reporting-Org</h5>
+	<p>Percentage of all current activities which contain both a name and an identifier for the reporting organisation. (In future this will also check that the identifier contains a valid prefix identifying a registration agency.)</p>
+
+	<h5>Iati-identifier</h5>
+	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with the identifier reported for the reporting organisation. (In future this will also check that each identifier is globally unique.)</p>
+
+	<h5>Participating Organisation</h5>
+	<p>Percentage of all current activities that contain a participating organisation of type <code>funding</code>.</p>
+
+	<h5>Title</h5>
+	<p>Percentage of all current activities that contain a title.</p>
+
+	<h5>Description</h5>
+	<p>Percentage of all current activities that contain a description.</p>
+
+	<h5>Status</h5>
+	<p>Percentage of all current activities that contain a validly coded activity status.</p>
+
+	<h5>Activity Date</h5>
+	<p>Percentage of all current activities that contain a valid planned or actual start date.</p>
+
+	<h5>Sector</h5>
+	<p>Percentage of all current activities that EITHER contain at least one valid <code>activity-level</code> sector element OR all transactions contain a valid sector element. If multiple sectors are reported per vocabulary at activity level reported percentages must add up to 100% for the activity to be assessed as valid.</p>
+
+	<h5>Country or Region</h5>
+	<p>Percentage of all current activities that EITHER contain at least one valid activity level recipient country or region OR all transactions containing only one valid country or region. If more than one country and/or region is reported at activity then they must all contain percentages adding up to 100%.</p>
+{% endblock %}
+
+{% block assessment_text %}
+	<p>Only elements containing valid data are counted. Where applicable a total including invalid data is provided in parentheses.</p>
+{% endblock %}
+
+{% block exceptions_text %}
+	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date.</p>
+{% endblock %}
