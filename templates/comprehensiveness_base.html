@@ -2,6 +2,11 @@
 {% import 'boxes.html' as boxes %}
 
 {% block container %}
+    
+    {% block page_header_div %}
+        {{ super() }}
+    {% endblock %}
+
     <ul class="nav nav-tabs" role="tablist">
       <li{% if tab=='summary' %} class="active"{% endif %}><a href="comprehensiveness.html">Summary</a></li>
       <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness_core.html">Core</a></li>

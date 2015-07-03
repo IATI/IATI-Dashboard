@@ -51,8 +51,8 @@
 }
 html,body{height:100%;}
 #wrap{min-height:100%;height:auto;margin:0 auto -60px;padding:0 0 60px;}
-#footer{height:80px;background-color:#f5f5f5;}
-.container .text-muted{margin: 20px 0 0 0;}
+#footer{background-color:#f5f5f5;}
+.container .text-muted{margin: 20px 0;}
   </style>
   {% block extrahead %}{% endblock %}
 </head>
@@ -89,13 +89,15 @@ html,body{height:100%;}
 
   <div class="container">
     {% block container %}
-    <div class="page-header">
-      {% block page_header %}
-      <h1>{{page_titles[page]}}</h1>
-      {% if page in page_leads %}<p class="lead">{{page_leads[page]|safe}}</p>{% endif %}
-      {% if page in page_sub_leads %}<p>{{page_sub_leads[page]|safe}}</p>{% endif %}
+      {% block page_header_div %}
+        <div class="page-header">
+          {% block page_header %}
+          <h1>{{page_titles[page]}}</h1>
+          {% if page in page_leads %}<p class="lead">{{page_leads[page]|safe}}</p>{% endif %}
+          {% if page in page_sub_leads %}<p>{{page_sub_leads[page]|safe}}</p>{% endif %}
+          {% endblock %}
+        </div>
       {% endblock %}
-    </div>
 
     {% block content %}
     {% endblock %}
