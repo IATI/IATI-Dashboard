@@ -109,5 +109,5 @@ navigation = {
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'github': ['github', 'milestones', 'milestones-completed'],
-    'publishing_stats': ['timeliness', 'forwardlooking']#, 'comprehensiveness'] #, 'coverage' ]
+    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness'] #, 'coverage' ]
 }
