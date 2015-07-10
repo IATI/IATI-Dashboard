@@ -28,27 +28,24 @@ class GroupFiles(object, UserDict.DictMixin):
                         pass # FIXME
             else:
                 out[k2] = v2
+        
         self.cache[key] = out
         return out
 
 class JSONDir(object, UserDict.DictMixin):
     def __init__(self, folder):
         self.folder = folder
-        self.cache = {}
 
     def __getitem__(self, key):
-        if key in self.cache:
-            return self.cache[key]
+        if os.path.exists(os.path.join(self.folder, key)):
+            value = JSONDir(os.path.join(self.folder, key))
+        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+            with open(os.path.join(self.folder, key+'.json')) as fp:
+                value = json.load(fp, object_pairs_hook=OrderedDict)
         else:
-            if os.path.exists(os.path.join(self.folder, key)):
-                value = JSONDir(os.path.join(self.folder, key))
-            elif os.path.exists(os.path.join(self.folder, key+'.json')):
-                with open(os.path.join(self.folder, key+'.json')) as fp:
-                    value = json.load(fp, object_pairs_hook=OrderedDict)
-            else:
-                raise KeyError, key
-            self.cache[key] = value
-            return value
+            raise KeyError, key
+
+        return value
 
     def keys(self):
         return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
