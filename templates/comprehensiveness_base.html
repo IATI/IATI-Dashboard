@@ -182,14 +182,14 @@ start date =
 If the activity is current
     If we are on the financials tab
         If hierarchy = lowest level
-            If the comprehensivness test is 'Transaction - Disbursement or Expenditure'
+            If the comprehensiveness test is 'Transaction - Disbursement or Expenditure'
                 If (start date isn't null
                         and start date &lt; today
                         and today - start date &lt; 365 days)
                     Use activity
                 Else
                     Ignore activity
-            Else If the comprehensivness test is 'Transaction - Traceability'
+            Else If the comprehensiveness test is 'Transaction - Traceability'
                 If transaction/transaction-type[@code="IF"] exists (1.xx) or transaction/transaction-type[@code="1"] exists (2.xx)
                     Use activity
                 Else
