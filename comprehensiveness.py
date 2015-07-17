@@ -36,9 +36,9 @@ columns = {
         ('capital-spend', 'Capital Spend', 1),
         ('document-link', 'Activity Documents', 1),
         ('activity-website', 'Activity Website', 1),
-        ('title_recipient_language', 'Recipient Language', 1),
+        ('title_recipient_language', 'Recipient Language (TBC)', 0),
         ('conditions_attached', 'Conditions Attached', 1),
-        ('result_indicator', 'Result/Indicator', 1),
+        ('result_indicator', 'Result/ Indicator', 1),
         ('valueadded_average', 'Average', 0), # don't include the average in the average
     ]}
 column_headers = {tabname:[x[1] for x in values] for tabname, values in columns.items()}
