@@ -57,16 +57,20 @@ def denominator(key, stats):
 def table():
     for publisher_title, publisher in publishers_ordered_by_title:
         publisher_stats = get_publisher_stats(publisher)
+        # Data structure that gets passed to the table
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
-
+        
+        # This for loop is for non-financials
         for k,v in publisher_stats['comprehensiveness'].items():
             if k not in column_slugs['financials']:
                 if denominator(k, publisher_stats) != 0:
                     row[k] = int(float(v)/denominator(k, publisher_stats)*100)
+                    
         # https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness' in publisher_stats['bottom_hierarchy']:
+            # This loop covers the financials: everything that is low in the hierarchy-attribute of an activity element
             for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness'].items():
                 if k in column_slugs['financials']:
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
