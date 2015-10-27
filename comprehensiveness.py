@@ -1,12 +1,15 @@
+# This file converts raw comprehensiveness data to percentages, and calculates averages.
+
 from data import publishers_ordered_by_title, get_publisher_stats
 
 columns = {
     'summary': [
-        # (slug, header, weighting)
+        # Format for elements within this list - and similar lists below ('core', 'financials', etc): 
+        # slug, header, weighting when calculating average
         ('core_average', 'Core Average', 1),
         ('financials_average', 'Financials Average', 1),
         ('valueadded_average', 'Value Added Average', 1),
-        ('summary_average', 'Average', 0), # don't include the average in the average
+        ('summary_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ],
     'core': [
         ('version', 'Version', 1),
@@ -19,14 +22,14 @@ columns = {
         ('activity-date', 'Activity Date', 1),
         ('sector', 'Sector', 1),
         ('country_or_region', 'Country or Region', 1),
-        ('core_average', 'Average', 0), # don't include the average in the average
+        ('core_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ],
     'financials': [
         ('transaction_commitment', 'Transaction - Commitment', 1),
         ('transaction_spend', 'Transaction - Disbursement or Expenditure', 1),
         ('transaction_traceability', 'Transaction - Traceability', 1),
         ('budget', 'Budget', 1),
-        ('financials_average', 'Average', 0), # don't include the average in the average
+        ('financials_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ],
     'valueadded':[
         ('contact-info', 'Contacts', 1),
@@ -36,39 +39,58 @@ columns = {
         ('capital-spend', 'Capital Spend', 1),
         ('document-link', 'Activity Documents', 1),
         ('activity-website', 'Activity Website', 1),
-        ('title_recipient_language', 'Recipient Language (TBC)', 0),
+        ('title_recipient_language', 'Recipient Language (TBC)', 0), # i.e. this is TBC so don't include within the calculation of the average
         ('conditions_attached', 'Conditions Attached', 1),
         ('result_indicator', 'Result/ Indicator', 1),
-        ('valueadded_average', 'Average', 0), # don't include the average in the average
+        ('valueadded_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ]}
+
+# Build dictionaries for all the column_headers and column_slugs defined above 
 column_headers = {tabname:[x[1] for x in values] for tabname, values in columns.items()}
 column_slugs = {tabname:[x[0] for x in values] for tabname, values in columns.items()}
 
 
 def denominator(key, stats):
+    """Return the appropriate denominator value for a given key.
+    Returns either the specifc demominator calculated, or a default denominator value.
+    """
+
+    # If stats not pased to this function, return zero
     if not stats:
         return 0
+
+    # If there is a specific denominator for the given key, return this 
     if key in stats['comprehensiveness_denominators']:
         return int(stats['comprehensiveness_denominators'][key])
+    
+    # Otherwise, return the default denominator
     else:
         return int(stats['comprehensiveness_denominator_default'])
 
 
+
 def table():
+    """Generate the comprehensiveness table
+    """
+
+    # Loop over the data for each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
         publisher_stats = get_publisher_stats(publisher)
-        # Data structure that gets passed to the table
+        
+        # Set an inital dictionary, which will later be populated further
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
         
-        # This for loop is for non-financials
+        # This for loop is for non-financial data
         for k,v in publisher_stats['comprehensiveness'].items():
             if k not in column_slugs['financials']:
                 if denominator(k, publisher_stats) != 0:
+                    # Populate the row with the %age
                     row[k] = int(float(v)/denominator(k, publisher_stats)*100)
                     
-        # https://github.com/IATI/IATI-Dashboard/issues/278
+        # Ensure that only lowest hierarchy is used for financial calculations
+        # Arises from https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness' in publisher_stats['bottom_hierarchy']:
             # This loop covers the financials: everything that is low in the hierarchy-attribute of an activity element
             for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness'].items():
@@ -76,21 +98,26 @@ def table():
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
+        # Calculate percentages for publisher data which is considered valid
         for k,v in publisher_stats['comprehensiveness_with_validation'].items():
             if k not in column_slugs['financials']:
                 if denominator(k, publisher_stats) != 0:
                     row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats)*100)
-        # https://github.com/IATI/IATI-Dashboard/issues/278
+        
+        # Ensure that only lowest hierarchy is used for financial calculations
+        # Arises from https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness_with_validation' in publisher_stats['bottom_hierarchy']:
             for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness_with_validation'].items():
                 if k in column_slugs['financials']:
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
+        # Calculate the average for each grouping, and the overall 'summary' average
         for page in ['core', 'financials', 'valueadded', 'summary']: 
-            # summary must be last to use calculations from others
+            # Note that the summary must be last, so that it can use the average calculations from the other groupings
             row[page+'_average'] = sum((row.get(x[0]) or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
             row[page+'_average_valid'] = sum((row.get(x[0]+'_valid') or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
-
+        
+        # Generate a row object
         yield row
 
