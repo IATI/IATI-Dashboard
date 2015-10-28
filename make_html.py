@@ -1,3 +1,7 @@
+# Script to generate static HTML pages
+# This uses Jinja templating to render the HTML templates in the 'templates' folder 
+# Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
+
 from __future__ import print_function
 import sys
 import os
