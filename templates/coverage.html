@@ -1,50 +1,55 @@
 {% extends 'base.html' %}
 {% import 'boxes.html' as boxes %}
 {% block content %}
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <td>Publisher Name</td>
-                <td>IATI 2012 Spend</td>
-                <td>DAC ODA 2012</td>
-                <td>Percentage</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for publisher_title,publisher in publishers_ordered_by_title %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
-            <tr>
-                <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                <td>
-                    {% if publisher_stats.spend_currency_year and '2012' in publisher_stats.spend_currency_year %}
-                    {% for k,v in publisher_stats.spend_currency_year['2012'].items() %}
-                    {{v}} {{k}}</br>
-                    {% endfor %}
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher in dac2012 %}
-                    {{dac2012[publisher]*1000000}} USD
-                    {% else %}
-                    -
-                    {% endif %}
-                </td>
-                <td>
-                    {% if publisher_stats.spend_currency_year and '2012' in publisher_stats.spend_currency_year %}
-                    {% if publisher in dac2012 %}
-                    {% if publisher_stats.spend_currency_year['2012'].keys() == ['USD'] %}
-                    {{(publisher_stats.spend_currency_year['2012']['USD']/(float(dac2012[publisher])*1000000)*100) | round(1)}}%
-                    {% else %}
-                    Currency conversion not implemented
-                    {% endif %}
-                    {% else %}
-                    -
-                    {% endif %}
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        <div class="panel-heading">
+            <h3 class="panel-title">Table of Coverage values</h3>     
+        </div>
+        
+        
+        <div class="panel-body">
+            <p>The coverage value for each publisher has been manually set at 100% for consultation purposes.  When sifficient data on each publisher's total spend has been gathered, a calculation for the percentage of spending reported to IATI can be calculated.</p>
+        </div>
+        
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">IATI Spend</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Total Spend</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Percentage</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher_title,publisher in publishers_ordered_by_title %}
+                {% set publisher_stats = get_publisher_stats(publisher) %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ publisher_stats.coverage }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            To follow.
+        </div>
+    </div>
+
 
 {% endblock %}
