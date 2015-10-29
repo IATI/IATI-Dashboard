@@ -1,3 +1,5 @@
+# Script to generate CSV files from data in the 'stats-calculated' folder, and extra logic in other files in this repository
+
 import unicodecsv
 import os
 import data
@@ -73,7 +75,7 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 
 
 
-
+# Timeliness CSV files (frequency and timelag)
 import timeliness
 previous_months = timeliness.previous_months_reversed
 
@@ -88,6 +90,8 @@ for fname, f, assessment_label in (
             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
 
+
+# Forward-looking CSV file
 import forwardlooking
 
 with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
@@ -97,6 +101,8 @@ with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
         writer.writerow([row['publisher_title'], row['publisher']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
 
 
+
+# Comprehensiveness CSV files ('summary', 'core', 'financials' and 'valueadded')
 import comprehensiveness
 
 for tab in comprehensiveness.columns.keys():

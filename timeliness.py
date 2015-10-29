@@ -1,19 +1,31 @@
+# This file converts raw timeliness data into the associated Dashboard assessments
+
 from __future__ import print_function
 from data import JSONDir, publisher_name, get_publisher_stats
 import datetime
 from collections import defaultdict, Counter
 
+
 def short_month(month_str):
+    """Return the 'short month' represeentation of a date which is inputted as a string, seperated with dashes
+       For example '01-03-2012' returns 'Mar'
+    """
     short_months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     return short_months[int(month_str.split('-')[1]) - 1]
 
+
 def parse_iso_date(d):
+    """Parse a string representation of a date into a datetime object
+    """
     try:
         return datetime.date(int(d[:4]), int(d[5:7]), int(d[8:10]))
     except (ValueError, TypeError):
         return None
 
+
 def previous_months_generator(d):
+    """Returns a generator object with the previous month for a given datetime object
+    """
     year = d.year
     month = d.month
     for i in range(0,12):
@@ -23,40 +35,66 @@ def previous_months_generator(d):
             month = 12
         yield year,month
 
+# Store lists of previous months
 previous_months = ['{}-{}'.format(year,str(month).zfill(2)) for year,month in previous_months_generator(datetime.date.today())]
 previous_months_reversed=list(reversed(previous_months))
+
+# Store the current month as a string
 today = datetime.date.today()
 this_month = '{}-{}'.format(today.year, str(today.month).zfill(2))
 
+# Store a list of monthly start dates
 previous_month_starts = [datetime.date(year,month,1) for year,month in previous_months_generator(datetime.date.today()) ]
 
+# Store the current month and year numbers
 this_month_number = datetime.datetime.today().month
 this_year = datetime.datetime.today().year
 
 
 def publisher_frequency():
+    """Generate the publisher frequency data
+    """
+
+    # Load all the data from 'gitaggregate-publisher-dated' into memory
     gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+    
+    # Loop over each publisher - i.e. a publisher folder within 'gitaggregate-publisher-dated'
     for publisher, agg in gitaggregate_publisher.items():
+        
+        # Skip to the next publisher if there is no data for 'most_recent_transaction_date' for this publisher
         if not 'most_recent_transaction_date' in agg:
             continue
+
         updates_per_month = defaultdict(int)
         previous_transaction_date = datetime.date(1,1,1)
+        
+        # Find the most recent transaction date and parse into a datetime object
         for gitdate, transaction_date_str in sorted(agg['most_recent_transaction_date'].items()):
             transaction_date = parse_iso_date(transaction_date_str)
+
+            # If transaction date has increased 
             if transaction_date is not None and transaction_date > previous_transaction_date:
                 previous_transaction_date = transaction_date
                 updates_per_month[gitdate[:7]] += 1
+        
+        # Find the first date that this publisher made data available, and parse into a datetime object
         first_published_string = sorted(agg['most_recent_transaction_date'])[0]
         first_published = parse_iso_date(first_published_string)
+        
+        # Implement the assessment logic on http://dashboard.iatistandard.org/timeliness.html#h_assesment
+
         if first_published >= previous_month_starts[2]:
+            # This is a publisher of less than 3 months
             #if True in [ x in updates_per_month for x in previous_months[:3] ]:
             frequency = 'Annual'
         elif first_published >= previous_month_starts[5]:
+            # This is a publisher of less than 6 months
             if all([ x in updates_per_month for x in previous_months[:3] ]):
                 frequency = 'Monthly'
             else:
                 frequency = 'Annual'
         elif first_published >= previous_month_starts[11]:
+            # This is a publisher of less than 12 months
             if [ x in updates_per_month for x in previous_months[:6] ].count(True) >= 4:
                 frequency = 'Monthly'
             elif any([ x in updates_per_month for x in previous_months[:3] ]) and any([ x in updates_per_month for x in previous_months[3:6] ]):
@@ -64,18 +102,27 @@ def publisher_frequency():
             else:
                 frequency = 'Annual'
         else:
+            # This is a publisher of 1 year or more
             if [ x in updates_per_month for x in previous_months[:12] ].count(True) >= 9:
+                # There has been an update in 9 of the last 12 months
                 frequency = 'Monthly'
             elif [ any([ x in updates_per_month for x in previous_months[start:end] ]) for start,end in [(0,3),(3,6),(6,9),(9,12)] ].count(True) >= 3:
+                # There has been an update in 3 of the last 4 quarters
                 frequency = 'Quarterly'
             elif any([ x in updates_per_month for x in previous_months[:6] ]) and any([ x in updates_per_month for x in previous_months[6:12] ]):
+                # There has been an update in 2 of the last 6 month periods
                 frequency = 'Six-Monthly'
             elif any([ x in updates_per_month for x in previous_months[:12] ]):
+                # There has been an update in 1 of the last 12 months
                 frequency = 'Annual'
             else:
+                # There has been an update in none of the last 12 months
                 frequency = 'Less than Annual'
-        if publisher in publisher_name: # Only display current publishers
+
+        # If the publisher is in the list of current publishers, return a generator object
+        if publisher in publisher_name: 
             yield publisher, publisher_name.get(publisher), updates_per_month, frequency
+
 
 def frequency_index(frequency):
     return ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency)
