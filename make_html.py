@@ -120,6 +120,7 @@ basic_page_names = [
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
         'coverage',
+        'transparency_indicator',
         'files',
         'activities',
         'download',

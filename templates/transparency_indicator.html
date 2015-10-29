@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        <div class="panel-heading">
+            <h3 class="panel-title">Transparency indicator</h3>     
+        </div>
+        
+        
+        <div class="panel-body">
+            <p>The transparency indicator is calculated using timeliness, forward-looking, comprehensiveness and coverage data.</p>
+        </div>
+        
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Timeliness</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Forward looking</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Comprehensive</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Score</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage-adjusted score</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher_title,publisher in publishers_ordered_by_title %}
+                {% set publisher_stats = get_publisher_stats(publisher) %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ publisher_stats.coverage }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            <h4>Overview</h4>
+                <p>Text to follow.</p>
+
+            <h4>Details</h4>
+                <h5>Timeliness</h5>
+                <p>This is calculated using the assessments made on the <a href="timeliness.html">frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages. Each assessment is given a numerical score: </p>
+
+                <h6>Frequency assessments</h6>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Frequency assessment</th>
+                        <th>Score</th>
+                    </thead>
+                    <tr>
+                        <td>Monthly</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>Quarterly</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Six-Monthly</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>Annual</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Less than Annual</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+
+
+                <h6>Time lag assessments</h6>
+                <table class="table table-striped">
+                    <thead>
+                        <th>Time lag assessment</th>
+                        <th>Score</th>
+                    </thead>
+                    <tr>
+                        <td>One month</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>A quarter</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>Six months</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>One year</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>More than one year</td>
+                        <td>0</td>
+                    </tr>
+                </table>
+
+                <p>This total value is then divided by 8 (i.e. the maximum possible score for both the frequency and time lag assessments). The result is then expressed as a percentage.</p>
+
+                <h5>Forward looking</h5>
+                <p>The mean average percentage of current activities with budgets (2015-16) for this publisher. The component values are displayed on the <a href="forwardlooking.html">forward looking</a> page.</p>
+
+                <h5>Comprehensive</h5>
+                <p>The mean average of <a href="comprehensiveness.html">comprehensiveness</a> average values for core, financials and value-added.  The core average has a double-weighting for this calculation.</p>
+
+                <h5>Score</h5>
+                <p>The mean average of the three values above.</p>
+
+                <h5>Coverage</h5>
+                <p>The value expressed in the <a href="coverage.html">Coverage tab</a>. (N.B. In practice the coverage value for each publisher has been manually set at 100% for consultation purposes.  When sufficient data on each publisher's total spend has been gathered, a calculation for the percentage of spending reported to IATI can be calculated.)</p>
+
+                <h5>Coverage-adjusted score</h5>
+                <p>The score is multiplied by the coverage percentage to create a new score adjusted for the amount of data published to IATI vs. total spending.</p>
+        </div>
+    </div>
+
+
+{% endblock %}
