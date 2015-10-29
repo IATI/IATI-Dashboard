@@ -9,9 +9,9 @@ def codelist_dict(codelist_path):
     codelist_json = json.load(open(codelist_path))
     return {c['code']:c['name'] for c in codelist_json['data']}
 
-organisation_type_dict = codelist_dict('data/OrganisationType.json')
-country_dict = codelist_dict('data/Country.json')
-region_dict = codelist_dict('data/Region.json')
+organisation_type_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/OrganisationType.json')
+country_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/Country.json')
+region_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/Region.json')
 
 aggregated_publisher = data.JSONDir('./stats-calculated/current/aggregated-publisher/')
 

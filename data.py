@@ -28,27 +28,24 @@ class GroupFiles(object, UserDict.DictMixin):
                         pass # FIXME
             else:
                 out[k2] = v2
+        
         self.cache[key] = out
         return out
 
 class JSONDir(object, UserDict.DictMixin):
     def __init__(self, folder):
         self.folder = folder
-        self.cache = {}
 
     def __getitem__(self, key):
-        if key in self.cache:
-            return self.cache[key]
+        if os.path.exists(os.path.join(self.folder, key)):
+            value = JSONDir(os.path.join(self.folder, key))
+        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+            with open(os.path.join(self.folder, key+'.json')) as fp:
+                value = json.load(fp, object_pairs_hook=OrderedDict)
         else:
-            if os.path.exists(os.path.join(self.folder, key)):
-                value = JSONDir(os.path.join(self.folder, key))
-            elif os.path.exists(os.path.join(self.folder, key+'.json')):
-                with open(os.path.join(self.folder, key+'.json')) as fp:
-                    value = json.load(fp, object_pairs_hook=OrderedDict)
-            else:
-                raise KeyError, key
-            self.cache[key] = value
-            return value
+            raise KeyError, key
+
+        return value
 
     def keys(self):
         return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
@@ -86,13 +83,28 @@ with open('./data/issues.csv') as fp:
     for issue in reader:
         data_tickets[issue['data_provider_regisrty_id']].append(issue)
 
-codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/mapping.json'))}
-# Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
-codelist_mapping = {k:v for k,v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
-codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items() }
-codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
+def transform_codelist_mapping_keys(codelist_mapping):
+    # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
+    codelist_mapping = {k:v for k,v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
+    codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items() }
+    codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
+    return codelist_mapping
 
-codelist_sets = { cname:set(c['code'] for c in codelist['data']) for cname,codelist in JSONDir('data/IATI-Codelists/out/clv2/json/en/').items() }
+def create_codelist_mapping(major_version):
+    codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
+    return transform_codelist_mapping_keys(codelist_mapping)
+
+MAJOR_VERSIONS = ['1', '2']
+
+codelist_mapping = { v:create_codelist_mapping(v) for v in MAJOR_VERSIONS }
+codelist_conditions = { 
+    major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
+    for major_version in MAJOR_VERSIONS }
+
+codelist_sets = { 
+    major_version: {
+        cname:set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+    } for major_version in MAJOR_VERSIONS }
 
 
 #Simple look up to map publisher id to a publishers given name (title)
@@ -123,7 +135,11 @@ def make_slugs(keys):
     return out
 
 slugs = {
-    'codelist': make_slugs(current_stats['inverted_publisher']['codelist_values'].keys()),
+    'codelist': { major_version:(
+            make_slugs(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys())
+            if major_version in current_stats['inverted_publisher']['codelist_values_by_major_version']
+            else make_slugs([])
+        ) for major_version in MAJOR_VERSIONS },
     'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
 }
 

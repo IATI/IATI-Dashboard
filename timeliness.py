@@ -70,9 +70,12 @@ def publisher_frequency():
                 frequency = 'Quarterly'
             elif any([ x in updates_per_month for x in previous_months[:6] ]) and any([ x in updates_per_month for x in previous_months[6:12] ]):
                 frequency = 'Six-Monthly'
+            elif any([ x in updates_per_month for x in previous_months[:12] ]):
+                frequency = 'Annual'
             else:
                 frequency = 'Less than Annual'
-        yield publisher, publisher_name.get(publisher), updates_per_month, frequency
+        if publisher in publisher_name: # Only display current publishers
+            yield publisher, publisher_name.get(publisher), updates_per_month, frequency
 
 def frequency_index(frequency):
     return ['Monthly', 'Quarterly', 'Six-Monthly', 'Annual', 'Less than Annual'].index(frequency)
@@ -118,8 +121,10 @@ def has_future_transactions(publisher):
                     return 2
     if publisher not in blacklist_publisher:
         return -1
+    today = datetime.date.today()
+    mindate = datetime.date(today.year-1, today.month, 1)
     for date, activity_blacklist in blacklist_publisher[publisher]['activities_with_future_transactions'].items():
-        if activity_blacklist:
+        if parse_iso_date(date) >= mindate and activity_blacklist:
             return 1
     return 0
 
