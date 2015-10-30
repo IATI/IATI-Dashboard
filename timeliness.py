@@ -133,6 +133,13 @@ def publisher_frequency_sorted():
         publisher_title
         ))
 
+def publisher_frequency_dict():
+    publisher_data_list = sorted(publisher_frequency(), key=lambda publisher: publisher[0] )
+    data = {}
+    for v in publisher_data_list: 
+        data[v[0]] = v
+    return data
+
 def publisher_frequency_summary():
     return Counter(frequency for _,_,_,frequency in publisher_frequency())
 
@@ -145,6 +152,13 @@ def publisher_timelag_sorted():
         timelag_index(timelag),
         publisher_title
         ))
+
+def publisher_timelag_dict():
+    publisher_timelags = [ (publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag']) for publisher,agg in JSONDir('./stats-calculated/current/aggregated-publisher').items() ]
+    data = {}
+    for v in publisher_timelags: 
+        data[v[0]] = v
+    return data
 
 def publisher_timelag_summary():
     return Counter(timelag for _,_,_,timelag in publisher_timelag_sorted())
@@ -177,4 +191,3 @@ def has_future_transactions(publisher):
 
 def sort_first(list_, key):
     return sorted(list_, key=lambda x: key(x[0]))
-
