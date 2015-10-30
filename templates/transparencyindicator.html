@@ -34,12 +34,12 @@
                 {% for row in transparencyindicator.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{row.publisher_title}}</a></td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.timeliness}}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.forwardlooking}}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.comprehensive}}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.score}}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.coverage}}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.score_coverage_adjusted}}</td>
                 </tr>
                 {% endfor %}
             </tbody>
