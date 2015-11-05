@@ -17,6 +17,7 @@ import licenses
 import timeliness
 import forwardlooking
 import comprehensiveness
+import coverage
 import transparencyindicator
 from vars import expected_versions
 import text
@@ -151,6 +152,9 @@ def basic_page(page_name):
         elif page_name.startswith('comprehensiveness'):
             kwargs['comprehensiveness'] = comprehensiveness
             parent_page_name = 'comprehensiveness'
+        elif page_name.startswith('coverage'):
+            kwargs['coverage'] = coverage
+            parent_page_name = 'coverage'
         elif page_name.startswith('transparencyindicator'):
             kwargs['transparencyindicator'] = transparencyindicator
             parent_page_name = 'transparencyindicator'
