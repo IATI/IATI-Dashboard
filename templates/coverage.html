@@ -22,19 +22,18 @@
             <thead>
                 <tr>
                     <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">IATI Spend</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">IATI Spend (USD)</td>
                     <td style="vertical-align:middle; border: 1px solid gray;">Total Spend</td>
                     <td style="vertical-align:middle; border: 1px solid gray;">Percentage</td>
                 </tr>
             </thead>
             <tbody>
-                {% for publisher_title,publisher in publishers_ordered_by_title %}
-                {% set publisher_stats = get_publisher_stats(publisher) %}
+                {% for row in coverage.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend|round(2) }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ publisher_stats.coverage }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_score }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
