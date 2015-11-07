@@ -4,6 +4,7 @@ from data import publishers_ordered_by_title, get_publisher_stats
 import timeliness
 import forwardlooking
 import comprehensiveness
+import coverage
 
 
 def is_number(s):
@@ -35,6 +36,7 @@ def table():
     # Store generator objects for the data that we are receiving
     forwardlooking_data = forwardlooking.table()
     comprehensiveness_data = comprehensiveness.table()
+    coverage_data = coverage.table()
 
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
@@ -98,8 +100,14 @@ def table():
         # Compute score
         row['score'] = int( (row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3 )
 
+        
+        # Get coverage statistic
+        # Get the coverage data for this publisher 
+        publisher_coverage_data = coverage_data.next()
+
         # Store the coverage data
-        row['coverage'] = int(publisher_stats['coverage'])
+        row['coverage'] = int(publisher_coverage_data['coverage_score'])
+
 
         # Compute Coverage-adjusted score
         row['score_coverage_adjusted'] = int( row['score'] * int(row['coverage'] / 100) ) 
