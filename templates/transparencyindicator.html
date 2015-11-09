@@ -10,12 +10,19 @@
 
     <div class="panel panel-default" id="h_table">
         <div class="panel-heading">
-            <h3 class="panel-title">Transparency indicator table</h3>     
+            <h3 class="panel-title">GPEDC Transparency Indicator (Proposed methodology)</h3>     
         </div>
         
         
         <div class="panel-body">
-            <p>This table is a consultative version of the IATI Secretariat’s proposal to the Global Partnership for Effective Development Cooperation for its revised Transparency Indicator. The indicator assesses all IATI publishers by scoring three dimensions – Timeliness, Forward-looking and Comprehensiveness – and then adjusting this score by the proportion (by value) of a publisher’s activities covered in their IATI data. The methodology is explained below the table.</p>
+            <p>This table is a consultative version of the IATI Secretariat’s proposal to the Global 
+            Partnership for Effective Development Cooperation for its revised Transparency Indicator. 
+            The indicator assesses <span style="text-decoration: underline;">all</span> IATI publishers by 
+            scoring three dimensions – Timeliness, Forward-looking and Comprehensiveness – and then 
+            adjusting this score by the proportion (by value) of a publisher’s activities covered in
+            their IATI data. The methodology is explained below the table and in the related Publisher Statistics pages. Please note that all Coverage values are currently set to 100% as the logic for these calculations is still being finalised. In summary:</p>
+
+            <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensive} ) / 3 &nbsp; and &nbsp;&nbsp;<strong>{Coverage-adjusted Score}</strong> = {Score} * {Coverage} / 100</p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum</a></p>
         </div>
         
         <table class="table table-striped" id="main_table">
@@ -52,86 +59,98 @@
             <h3 class="panel-title">Narrative</h3>
         </div>
         <div class="panel-body">
-            <h4>Overview</h4>
-                <p>Text to follow.</p>
+            <h4>Timeliness</h5>
+            <p>This is calculated by scoring the assessments made on the <a href="timeliness.html">
+               frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages on a scale of 
+               0 to 4 (as below), dividing the sum of the twoscores 8 and expressing the result as 
+               a percentage. The methodology used in making the assesments is detailed on the <a href="timeliness.html">frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages.
+            </p>
 
-            <h4>Details</h4>
-                <h5>Timeliness</h5>
-                <p>This is calculated using the assessments made on the <a href="timeliness.html">frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages. Each assessment is given a numerical score: </p>
+            <table class="table table-striped">
+                <thead>
+                    <th>Frequency assessment</th>
+                    <th>Score</th>
+                </thead>
+                <tr>
+                    <td>Monthly</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Quarterly</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Six-Monthly</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Annual</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Less than Annual</td>
+                    <td>0</td>
+                </tr>
+            </table>
 
-                <h6>Frequency assessments</h6>
-                <table class="table table-striped">
-                    <thead>
-                        <th>Frequency assessment</th>
-                        <th>Score</th>
-                    </thead>
-                    <tr>
-                        <td>Monthly</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>Quarterly</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Six-Monthly</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>Annual</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>Less than Annual</td>
-                        <td>0</td>
-                    </tr>
-                </table>
+            <table class="table table-striped">
+                <thead>
+                    <th>Time lag assessment</th>
+                    <th>Score</th>
+                </thead>
+                <tr>
+                    <td>One month</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>A quarter</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Six months</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>One year</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>More than one year</td>
+                    <td>0</td>
+                </tr>
+            </table>
+  
+
+            <h4>Forward looking</h4>
+            <p>The average percentage of current activities with budgets for each of the years 2015 - 2017.
+               The component values and a detailed methodology are displayed on the <a href="forwardlooking.html">forward looking</a> page.
+            </p>
 
 
-                <h6>Time lag assessments</h6>
-                <table class="table table-striped">
-                    <thead>
-                        <th>Time lag assessment</th>
-                        <th>Score</th>
-                    </thead>
-                    <tr>
-                        <td>One month</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>A quarter</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>Six months</td>
-                        <td>2</td>
-                    </tr>
-                    <tr>
-                        <td>One year</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td>More than one year</td>
-                        <td>0</td>
-                    </tr>
-                </table>
+            <h4>Comprehensive</h4>
+            <p>The average of <a href="comprehensiveness.html">comprehensiveness</a> averages for core, financials and value-added. The core average has a double-weighting.</p>
 
-                <p>This total value is then divided by 8 (i.e. the maximum possible score for both the frequency and time lag assessments). The result is then expressed as a percentage.</p>
 
-                <h5>Forward looking</h5>
-                <p>The mean average percentage of current activities with budgets (2015-16) for this publisher. The component values are displayed on the <a href="forwardlooking.html">forward looking</a> page.</p>
+            <h4>Score</h4>
+            <p>The mean average of the three values above.</p>
 
-                <h5>Comprehensive</h5>
-                <p>The mean average of <a href="comprehensiveness.html">comprehensiveness</a> average values for core, financials and value-added.  The core average has a double-weighting for this calculation.</p>
+            <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensive} ) / 3</p>
 
-                <h5>Score</h5>
-                <p>The mean average of the three values above.</p>
 
-                <h5>Coverage</h5>
-                <p>The value expressed in the <a href="coverage.html">Coverage tab</a>. (N.B. In practice the coverage value for each publisher has been manually set at 100% for consultation purposes.  When sufficient data on each publisher's total spend has been gathered, a calculation for the percentage of spending reported to IATI can be calculated.)</p>
+            <h4>Coverage</h4>
+            <p>The percentage expressed in the <a href="coverage.html">Coverage tab</a> which reflects 
+               the proportion of a publisher's total spend that is reported in IATI format.</p>
 
-                <h5>Coverage-adjusted score</h5>
-                <p>The score is multiplied by the coverage percentage to create a new score adjusted for the amount of data published to IATI vs. total spending.</p>
+            <p>N.B. This value is currently set to 100% for all publishers as a consistent methodology 
+               that accounts for all organisation types reporting to IATI is still being finalised.</p>
+
+
+            <h4>Coverage-adjusted score</h4>
+            <p>The <strong>Score</strong> is multiplied by the <strong>Coverage</strong> to create an adjusted score reflecting the amount of a publisher's data reported through IATI.</p>
+
+            <p><strong>{Coverage-adjusted Score}</strong> = {Score} * {Coverage} / 100</p>
+
+
         </div>
     </div>
 
