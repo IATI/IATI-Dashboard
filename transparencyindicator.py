@@ -93,8 +93,8 @@ def table():
         # Get the comprehensiveness data for this publisher 
         publisher_comprehensiveness_data = comprehensiveness_data.next()
 
-        # Compute and store the mean average for the average fields. Note 'core_average' has a double weighting
-        row['comprehensive'] = ( (convert_to_int(publisher_comprehensiveness_data['core_average']) * 2) + publisher_comprehensiveness_data['financials_average'] + publisher_comprehensiveness_data['valueadded_average'] ) / 4
+        # Set the comprehensive value to be the summary average for valid data
+        row['comprehensive'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
 
 
         # Compute score
