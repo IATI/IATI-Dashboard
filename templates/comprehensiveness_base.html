@@ -32,12 +32,12 @@
     <div class="panel panel-default" id="h_table">
     <div class="panel-heading">
         <span class="pull-right"><a href="{{url('comprehensiveness_'+tab+'.csv')}}">(This table as CSV)</a></span>
-        <h3 class="panel-title">Table of Comprehensiveness values</h3>     
+        <h3 class="panel-title">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h3>     
     </div>
     
     {% if self.heading_detail() %}
     <div class="panel-body">
-        <p>{% block heading_detail %}{% endblock %}</p>
+        {% block heading_detail %}{% endblock %}
     </div>
     {% endif %}
 
@@ -112,7 +112,7 @@
         </div>
         <div class="panel-body">
             {% block comparison_text %}
-            <span style="background-color: #fcf8aa">Text on Comparison with Global Partnership Indicator methodology to follow</span></p>
+            <p>These tests are more targeted than the original methodology which merely checked for the existence of all fields.</p>
             {% endblock %}
         </div>
     </div>
@@ -210,13 +210,18 @@ Else
     Ignore activity
 </pre>
 
+    {% block table_test_methodology_full %}
     <table class="table">
+      {% block table_test_methodology_header %}
       <tr>
         <th>Tab</td>
         <th>Comprehensiveness Test</td>
         <th>Basic Methodology</td>
         <th>Validation Methodology</td>
       </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_core %}
       <tr>
         <td>Core</td>
         <td>Version</th>
@@ -277,6 +282,9 @@ Else
         <td>(<code>recipient-country</code> OR <code>recipient-region</code>) at activity level OR (2.xx only) on all transactions</td>
         <td>If activity level AND more than 1 THEN  percentages must add up</td>
       </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_financials %}
       <tr>
         <td>Financials</td>
         <td>transaction - Commitment</th>
@@ -307,6 +315,9 @@ Else
         <td>Activity must have at least 1 budget element</td>
         <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code>xs:date</code>s AND a value element that is a valid <code>xs:decimal</code></td>
       </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_valueadded %}
       <tr>
         <td>Value added</td>
         <td>Contacts</th>
@@ -367,7 +378,10 @@ Else
         <td>Activity must contain the result/indicator element</td>
         <td></td>
       </tr>
+      {% endblock %}
+
     </table>
+    {% endblock %}
 
     <p>Where the Validation Methodology column is blank, no extra conditions are imposed over the basic methodology.</p>
     <p>The main percentage is the percentage of relevant activities that satisfy the basic and validation methodology for the given Comprehensiveness Test and publisher.</p>
