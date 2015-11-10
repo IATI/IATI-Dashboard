@@ -106,11 +106,11 @@ def table():
         publisher_coverage_data = coverage_data.next()
 
         # Store the coverage data
-        row['coverage'] = int(publisher_coverage_data['coverage_score'])
+        row['coverage_adjustment'] = int(publisher_coverage_data['coverage_adjustment'])
 
 
         # Compute Coverage-adjusted score
-        row['score_coverage_adjusted'] = int( row['score'] * int(row['coverage'] / 100) ) 
+        row['score_coverage_adjusted'] = int( row['score'] * int(row['coverage_adjustment'] / 100) ) 
 
 
         # Return a generator object

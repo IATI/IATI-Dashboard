@@ -15,16 +15,19 @@
         
         
         <div class="panel-body">
-            <p>The coverage value for each publisher has been manually set at 100% for consultation purposes.  When sifficient data on each publisher's total spend has been gathered, a calculation for the percentage of spending reported to IATI can be calculated.</p>
+            <p>When assessing the overall quality of a publisher's data it is necessary to judge both breadth and depth. The Coverage dimension covered by this table assesses what proportion of an organisation's total output is published through IATI. This is done by comparing a publisher's total 'IATI' spend for a given year  with an external source. As IATI is a multi-stakeholder initiative representing a range of organistion types there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements.</p>
+
+            <p>The IATI technical team is still working on pulling these disparate sources together into a single table for use here. For the moment it is acting as a placeholder, with all publishers assessed at 100%.</p>
         </div>
         
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
                     <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">IATI Spend (USD)</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Total Spend</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Percentage</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">IATI 2014 Spend<br/> (US $m)</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Reference 2014 Spend<br/> (US $m)</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</td>
+                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</td>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +36,8 @@
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend|round(2) }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_score }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -46,7 +50,18 @@
             <h3 class="panel-title">Narrative</h3>
         </div>
         <div class="panel-body">
-            To follow.
+            <h5>IATI Spend (US $m)</h5>
+            <p>The total reported spend (disbursements and expenditure) across all activities for the given year.</p>
+
+
+            <h5>Reference Spend (US $m)</h5>
+            <p>The total spend reported to an external source. For the foreseeable future this data will be collected manually and stored in a reference table on this dashboard.</p>
+
+            <h5>Spend Ratio (%)</h5>
+            <p>The IATI Spend as a percentage of the reference spend. </p>
+            
+            <h5>Coverage (%)</h5>
+            <p>As it is impossible to create an exacting methodology applied to disparate comparisons, the percentage coverage applied to the overall score uses a broader framework. The IATI reporting scores will be adjusted for the ratios of the financial flows reported using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
         </div>
     </div>
 

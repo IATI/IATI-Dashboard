@@ -57,9 +57,23 @@ def table():
         row['iati_spend'] = float( iati_spend_total / 1000000)
 
 
-        # Compute coverage score
-        row['coverage_score'] = 100
+        # Set spend ratio score
+        # This is manually set at 100% for now. The IATI technical team is still working on compiling reference spend data from disparate sources, in order to assess the spend ratio.
+        row['spend_ratio'] = 100
 
+
+        # Compute coverage score
+        if row['spend_ratio'] >= 80:
+            row['coverage_adjustment'] = 100
+
+        elif row['spend_ratio'] >= 60:
+            row['coverage_adjustment'] = 80
+
+        elif row['spend_ratio'] >= 40:
+            row['coverage_adjustment'] = 60
+
+        else:
+            row['coverage_adjustment'] = 40
 
 
         # Return a generator object
