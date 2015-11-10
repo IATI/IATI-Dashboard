@@ -103,11 +103,11 @@ def publisher_frequency():
                 frequency = 'Annual'
         else:
             # This is a publisher of 1 year or more
-            if [ x in updates_per_month for x in previous_months[:12] ].count(True) >= 9:
-                # There has been an update in 9 of the last 12 months
+            if ([ x in updates_per_month for x in previous_months[:12] ].count(True) >= 7) and ([ x in updates_per_month for x in previous_months[:2] ].count(True) >= 1):
+                # Data updated in 7 or more of past 12 full months AND data updated at least once in last 2 full months. 
                 frequency = 'Monthly'
-            elif [ any([ x in updates_per_month for x in previous_months[start:end] ]) for start,end in [(0,3),(3,6),(6,9),(9,12)] ].count(True) >= 3:
-                # There has been an update in 3 of the last 4 quarters
+            elif ([ x in updates_per_month for x in previous_months[:12] ].count(True) >= 3) and ([ x in updates_per_month for x in previous_months[:4] ].count(True) >= 1):
+                # Data updated in 3 or more of past 12 full months AND data updated at least once in last 4 full months.
                 frequency = 'Quarterly'
             elif any([ x in updates_per_month for x in previous_months[:6] ]) and any([ x in updates_per_month for x in previous_months[6:12] ]):
                 # There has been an update in 2 of the last 6 month periods
@@ -133,6 +133,13 @@ def publisher_frequency_sorted():
         publisher_title
         ))
 
+def publisher_frequency_dict():
+    publisher_data_list = sorted(publisher_frequency(), key=lambda publisher: publisher[0] )
+    data = {}
+    for v in publisher_data_list: 
+        data[v[0]] = v
+    return data
+
 def publisher_frequency_summary():
     return Counter(frequency for _,_,_,frequency in publisher_frequency())
 
@@ -145,6 +152,13 @@ def publisher_timelag_sorted():
         timelag_index(timelag),
         publisher_title
         ))
+
+def publisher_timelag_dict():
+    publisher_timelags = [ (publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag']) for publisher,agg in JSONDir('./stats-calculated/current/aggregated-publisher').items() ]
+    data = {}
+    for v in publisher_timelags: 
+        data[v[0]] = v
+    return data
 
 def publisher_timelag_summary():
     return Counter(timelag for _,_,_,timelag in publisher_timelag_sorted())
@@ -177,4 +191,3 @@ def has_future_transactions(publisher):
 
 def sort_first(list_, key):
     return sorted(list_, key=lambda x: key(x[0]))
-

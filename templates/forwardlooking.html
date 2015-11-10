@@ -20,49 +20,52 @@
     </ul>
 
     <div class="panel panel-default" id="h_table">
-    <div class="panel-heading">
-        <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
-        <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
-    </div>
-    <div class="panel-body">
-        <p>
-            The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year. ('Current' is calculated from the planned end date).
-        </p>
-    </div>
-    <table class="table table-striped" id="main_table">
-        <thead>
-            <tr>
-                <th rowspan="2" style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
-                {% for column_header in forwardlooking.column_headers %}
-                <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
-                {% endfor %}
-                <th style="border: 1px solid gray;" rowspan="2"></td>
-            </tr>
-            <tr>
-                {% for i in range(0,3) %}
-                {% for year in forwardlooking.years %}
-                <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</td>
-                {% endfor %}
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in forwardlooking.table() %}
-            <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+        
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
+        </div>
 
-                {% for column in row.year_columns %}
-                    {% for year in forwardlooking.years %}
-                        <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
-                            {{column[year]}}
-                        </td>
+        <div class="panel-body">
+            <p>
+                The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year.  The first block shows the number of activities that are, or will be, current in this and the next two years. The second block shows how many of these activities contain a budget for the corresponding year. The third block expresses this as a percentage. 
+            </p>
+        </div>
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    {% for column_header in forwardlooking.column_headers %}
+                    <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
                     {% endfor %}
+                    <th style="border: 1px solid gray;" rowspan="2"></td>
+                </tr>
+                <tr>
+                    {% for i in range(0,3) %}
+                    {% for year in forwardlooking.years %}
+                    <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</td>
+                    {% endfor %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in forwardlooking.table() %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+
+                    {% for column in row.year_columns %}
+                        {% for year in forwardlooking.years %}
+                            <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
+                                {{column[year]}}
+                            </td>
+                        {% endfor %}
+                    {% endfor %}
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
+                </tr>
                 {% endfor %}
-                <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     </div>
 
 
@@ -118,7 +121,7 @@
     <div class="panel-body">
         <p>This methodology differs substantially from the GP Indicator in two ways.</p>
         <ul>
-        <li><strong><em>All</em> current</strong></em> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many publishers, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
+        <li><strong><em>All</em> current</strong></em> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many IATI publishers, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
         <li>As explained above the <em><strong>number of activities</strong></em> with budgets, NOT the value of budgets is counted.</li>
         </ul>
     </div>
@@ -132,7 +135,7 @@
         <h3 class="panel-title">Comment</h3>
     </div>
     <div class="panel-body">
-        <p>To comment on this methodology, please use <a href="http://support.iatistandard.org/entries/61004309-Forward-looking">this page on the support forum</a>.</p>
+        <p>To comment on this methodology, please use <a href="http://discuss.iatistandard.org/c/consultations">this page on the support forum</a>.</p>
     </div>
     </div>
 

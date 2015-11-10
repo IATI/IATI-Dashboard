@@ -1,28 +1,44 @@
 {% set tab='financials' %}
 {% extends 'comprehensiveness_base.html' %}
 
+
+{% block table_title %}
+Table of Financial values
+{% endblock %}
+
+
+{% block heading_detail %}
+	<p>Four aspects of financial reporting are tracked: the reporting of commitments and spend, the ability to track funds across activities and organisations, and the existence of activity budgets (which are also given added weight in the forward-looking component). Only <strong><em>current</em></strong> activities are assessed.</p>
+{% endblock %}
+
+
 {% block narrative_text %}
-	<h4>Details</h4>
 	<h5>Transaction - Commitment</h5>
-	<p>Percentage of all current activities that contain at least one transaction of type "Commitment"</p>
+	<p>The percentage of all current activities that contain at least one transaction of type "Commitment"</p>
 
 	<h5>Transaction - Disbursement or Expenditure</h5>
-	<p>Percentage of current activities with a start date more than one year ago that contain at least one transaction of type <code>Disbursement</code> or <code>Expenditure</code>. (NB activities less than one year old are excluded from the calculation)</p>
+	<p>The percentage of current activities with a start date more than one year ago that contain at least one transaction of type <code>Disbursement</code> or <code>Expenditure</code>. (NB activities less than one year old are excluded from the calculation as it is fair to assume that disbursements are not always made in the early stages of an activity's development)</p>
 
-	<h5>Transaction - Currency</h5>
-	<p>Percentage of all current activities that contain EITHER a valid default currency OR all transactions contain a valid currency AND all transactions contain a valid value date (This is the date to be used for currency exchange which is reported separately from the transaction date)</p>
 
 	<h5>Transaction - Traceability</h5>
-	<p>Percentage of current activities containing a transaction of type <code>Incoming Funds</code> that also contain a transaction provider activity identifier. (NB that activities that do not contain incoming funds transactions are excluded from the calculation.) (In future the syntax of the provider-activity-id will also be validated)</p>
+	<p>The percentage of current activities containing a transaction of type <code>Incoming Funds</code> that also contain a transaction provider activity identifier. This links the funds disbursed by one organisation and received by another. (NB that activities that do not contain incoming funds transactions are excluded from the calculation.) (In future the syntax of the provider-activity-id will also be validated)</p>
 
 	<h5>Budget</h5>
 	<p>Percentage of all current activities that contain at least one valid budget entry. A valid budget entry must contain a valid <code>period-start</code> AND a valid <code>period-end</code> AND a valid <code>value</code> AND a valid <code>value-date</code>.</p>
 {% endblock %}
 
+
 {% block assessment_text %}
 	<p>Only elements containing valid data are counted. Where applicable a total including invalid data is provided in parentheses.</p>
 {% endblock %}
 
+
 {% block exceptions_text %}
-	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date.</p>
+	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date. For disbursements and expenditure activities less than one year old (based on activity start date) are also excluded.</p>
+{% endblock %}
+
+
+{% block table_test_methodology_core %}
+{% endblock %}
+{% block table_test_methodology_valueadded %}
 {% endblock %}

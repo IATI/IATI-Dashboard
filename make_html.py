@@ -17,6 +17,8 @@ import licenses
 import timeliness
 import forwardlooking
 import comprehensiveness
+import coverage
+import transparencyindicator
 from vars import expected_versions
 import text
 
@@ -95,6 +97,9 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+# Following variables set in coverage branch but not in master
+# app.jinja_env.globals['float'] = float
+# app.jinja_env.globals['dac2012'] = dac2012
 app.jinja_env.globals['MAJOR_VERSIONS'] = MAJOR_VERSIONS
 
 app.jinja_env.globals['slugs'] = slugs
@@ -116,6 +121,8 @@ basic_page_names = [
         'comprehensiveness_core',
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
+        'coverage',
+        'transparencyindicator',
         'files',
         'activities',
         'download',
@@ -145,6 +152,12 @@ def basic_page(page_name):
         elif page_name.startswith('comprehensiveness'):
             kwargs['comprehensiveness'] = comprehensiveness
             parent_page_name = 'comprehensiveness'
+        elif page_name.startswith('coverage'):
+            kwargs['coverage'] = coverage
+            parent_page_name = 'coverage'
+        elif page_name.startswith('transparencyindicator'):
+            kwargs['transparencyindicator'] = transparencyindicator
+            parent_page_name = 'transparencyindicator'
         else:
             parent_page_name = page_name
         return render_template(page_name+'.html', page=parent_page_name, **kwargs)

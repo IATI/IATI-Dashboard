@@ -5,49 +5,57 @@
 
 {% block content %}
     <div class="panel panel-default" id="h_table">
-    <div class="panel-heading">
-        <span class="pull-right"><a href="{{url('timeliness_frequency.csv')}}">(This table as CSV)</a></span>
-        <h3 class="panel-title">Table of Frequency assessments (calculated from number of days in each of the last 12 months on which data was updated)</h3>
-    </div>
-    <table class="table table-striped" id="main_table">
-        <thead>
-            <tr>
-                <th style="border: 1px solid gray; vertical-align:middle;" rowspan="2">Publisher Name</td>
-                <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
-                <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
-                <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
-                <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray; vertical-align:middle;" rowspan="2">Frequency</td>
-            </tr>
-            <tr>
-                {% for month in timeliness.previous_months_reversed %}
-                <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
-                {% endfor %}
-                <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_frequency_sorted() %}
-            <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
-                {% for month in timeliness.previous_months_reversed %}
-                <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
-                {% endfor %}
-                <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{per_month[timeliness.this_month] or 0}}</td>
-                {% set hft=publisher|has_future_transactions %}
-                <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa'}}{% endif %}" data-severity="{{hft}}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
-                <td style="border-right: 1px solid gray" data-index="{{timeliness.frequency_index(assessment)}}">{{assessment}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
+    
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('timeliness_frequency.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">Table of Frequency assessments</h3>
+        </div>
 
 
+
+        <div class="panel-body">
+            <p>This table seeks to measure how often a publisher updates their data. There is no simple answer as to what constitutes an update. Can any trivial edit be regarded as an update? As transactions are the most numerous element reported in IATI the adopted methodology assumes that a publisher has updated their data if a transaction with a more recent transaction date than previously published is detected across the publisher's entire portfolio. The table records how many times in each of the last twelve months such changes have been detected.</p>
+
+            <p>You are invited to participate in the ongoing consultation on publisher statistics and the transparency indicator which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum</a></p>
+        </div>
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid gray; vertical-align:middle;" rowspan="2">Publisher Name</td>
+                    <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                    <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                    <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
+                    <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray; vertical-align:middle;" rowspan="2">Frequency</td>
+                </tr>
+                <tr>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
+                    {% endfor %}
+                    <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_frequency_sorted() %}
+                <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
+                    {% endfor %}
+                    <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{per_month[timeliness.this_month] or 0}}</td>
+                    {% set hft=publisher|has_future_transactions %}
+                    <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa'}}{% endif %}" data-severity="{{hft}}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td style="border-right: 1px solid gray" data-index="{{timeliness.frequency_index(assessment)}}">{{assessment}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 
     <div class="panel panel-default" id="h_summary">
     <div class="panel-heading">
-        <h3 class="panel-title">Summary</h3>
+        <h3 class="panel-title">Summary of Publisher Performance</h3>
     </div>
     <table class="table table-striped">
         <thead>
@@ -75,7 +83,6 @@
 
 
 
-
     <div class="panel panel-default" id="h_narrative">
     <div class="panel-heading">
         <h3 class="panel-title">Narrative</h3>
@@ -83,11 +90,13 @@
     <div class="panel-body">
         <p>The frequency statistics attempt to assess how often any part of a publisher's data is substantively updated.</p>
 
-        <p>For the purposes of these statistics an update is assumed to have taken place on any given day when the most recently recorded transaction date (across a publisher's entire portfolio) is observed to have changed to a more recent date. This approach has been adopted as transactions are the most numerous and most frequently updated elements in the reporting of activities.</p> 
+        <p>For the purposes of these statistics an update is assumed to have taken place on any given day when the most recently recorded transaction date across a publisher's entire portfolio is observed to have changed to a more recent date. This approach has been adopted as transactions are the most numerous and most frequently updated elements in the reporting of activities.</p> 
 
         <p>The table of statistics records the number of days in each of the last twelve calendar months (the current month is also displayed for informational purposes, but is not used in the assessment) on which the most recently recorded transaction date was observed to have changed. The dashboard maintains a statistical snapshot of each day, and has been doing so for over a year, which allows for this data to be recalculated on a nightly basis using historical recordings.</p>
     </div>
     </div>
+
+
 
     <div class="panel panel-default" id="h_assesment">
     <div class="panel-heading">
@@ -107,11 +116,11 @@
         </thead>
         <tbody>
         <tr>
-        <td>9 of the last 12 months</td>
+        <td>7 or more of the past 12 full months AND data updated at least once in last 2 full months</td>
         <td>Monthly</td>
         </tr>
         <tr>
-        <td>3 of the last 4 quarters</td>
+        <td>3 or more of the past 12 full months AND data updated at least once in last 4 full months</td>
         <td>Quarterly</td>
         </tr>
         <tr>
@@ -208,20 +217,14 @@
 
     <div class="panel panel-default" id="h_comparison">
     <div class="panel-heading">
-        <h3 class="panel-title">Comparison with Global Partnership Indicator methodology</h3>
+        <h3 class="panel-title">Comparison with original Global Partnership Indicator methodology</h3>
     </div>
     <div class="panel-body">
         <p>This methodology is substantially different.
 
-        <p>In the Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed for two reasons:</p>
-
-        <ul>
-        <li>Firstly, following an upgrade to the underlying software platform on which the IATI Registry is hosted it was no longer possible for a machine to reliably calculate when data were actually updated.</li>
-        <li>Secondly, the Registry would log any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible one night, its reappearance the following night would count as an update.</li>
-        </ul>
+        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach is flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible one night, its reappearance the following night would count as an update.</p>
     </div>
     </div>
-
 
 
 
@@ -230,10 +233,9 @@
         <h3 class="panel-title">Comment</h3>
     </div>
     <div class="panel-body">
-        <p>To comment on this methodology, please use <a href="http://support.iatistandard.org/entries/59975175-Frequency">this page on the support forum</a>.</p>
+        <p>To comment on this methodology, please use <a href="http://discuss.iatistandard.org/c/consultations">this page on the support forum</a>.</p>
     </div>
     </div>
-
 
 
 

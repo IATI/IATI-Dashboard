@@ -86,7 +86,7 @@ for fname, f, assessment_label in (
     with open(os.path.join('out', fname), 'w') as fp:
         writer = unicodecsv.writer(fp)
         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
-        for publisher_title, publisher, per_month,assessment in f():
+        for publisher, publisher_title, per_month,assessment in f():
             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
 

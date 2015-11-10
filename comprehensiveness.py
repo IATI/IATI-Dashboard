@@ -6,10 +6,10 @@ columns = {
     'summary': [
         # Format for elements within this list - and similar lists below ('core', 'financials', etc): 
         # slug, header, weighting when calculating average
-        ('core_average', 'Core Average', 1),
+        ('core_average', 'Core Average', 2),
         ('financials_average', 'Financials Average', 1),
         ('valueadded_average', 'Value Added Average', 1),
-        ('summary_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
+        ('summary_average', 'Weighted Average', 0), # i.e. don't include the average within the calculation of the average
     ],
     'core': [
         ('version', 'Version', 1),
@@ -39,7 +39,6 @@ columns = {
         ('capital-spend', 'Capital Spend', 1),
         ('document-link', 'Activity Documents', 1),
         ('activity-website', 'Activity Website', 1),
-        ('title_recipient_language', 'Recipient Language (TBC)', 0), # i.e. this is TBC so don't include within the calculation of the average
         ('conditions_attached', 'Conditions Attached', 1),
         ('result_indicator', 'Result/ Indicator', 1),
         ('valueadded_average', 'Average', 0), # i.e. don't include the average within the calculation of the average

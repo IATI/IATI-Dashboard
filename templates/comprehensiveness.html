@@ -1,13 +1,22 @@
 {% set tab='summary' %}
 {% extends 'comprehensiveness_base.html' %}
 
-{% block heading_detail %}
-	<p>Averages of comprehensiveness calculations of core, financial and value-added elements as defined in associated tabs.</p>
+
+{% block table_title %}
+Summary Table of Comprehensiveness Values
 {% endblock %}
+
+
+{% block heading_detail %}
+	<p>Averages of comprehensiveness calculations of core, financial and value-added elements as defined in associated tabs. The Weighted Average gives a double weighting to the Core Average as these are essential for IATI data to be valid for use. The unparenthesised values count valid data while those in parenthesis count all populated elements.</p>
+
+	<p><strong>{Weighted Average}</strong> = (({Core Average} * 2) + {Financials Average} + {Value Added Average}) / 4</p>
+{% endblock %}
+
 
 {% block narrative_text %}
 	<h4>Overview</h4>
-	<p>To assess comprehensiveness the usage of selected elements of the standard have been aggregated into three sections: "Core" are the mandatory fields specified by version 2.01 of the Activity Standard. Financials cover the reporting of both financial transactions and budgets. Value Added </p>
+	<p>To assess comprehensiveness the usage of selected elements of the standard have been aggregated into three sections: "Core" are the mandatory fields specified by version 2.01 of the Activity Standard. Financials cover the reporting of both financial transactions and budgets. Value Added are optional elements of widespread benefit to users.</p>
 
 	<h4>Core Average</h4>
 	<p>An average of the percentages assigned to the ten mandatory activity elements as specified on the Core tab.</p>
@@ -18,14 +27,21 @@
 	<h4>Value Added Average</h4>
 	<p>An average of the percentages assigned to the ten most useful recommended (non-mandatory) facets as specified on the Value Added tab.</p>
 
-	<h4>Average</h4>
-	<p>An average of the Core, Financials and Value-Added averages.</p>
+	<h4>Weighted Average</h4>
+	<p>The average of twice the Core plus Financials and Value-Added averages.</p>
 {% endblock %}
 
+
 {% block assessment_text %}
-	<p>No assessments or weightings are currently employed.</p>
+	<p>No assessments are currently employed.</p>
 {% endblock %}
+
 
 {% block exceptions_text %}
 	<p>See, where applicable, the exceptions for each individual element on the associated tabs.</p>
+{% endblock %}
+
+
+{% block comparison_text %}
+	<p>The original methodology counted all IATI elements. This approach is more selective, is fairer to publishers and places more emphasis on mandatory fields.</p>
 {% endblock %}
