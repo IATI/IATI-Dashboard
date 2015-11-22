@@ -32,5 +32,32 @@
       </tbody>
     </table>
     </div> 
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Consistent Reporting Org references
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>List of Publishers where only one reporting-org-ref is listed and this matches the reporting-org field in the IATI Registry.</p>
+    </div>
+    <table class="table table-striped">
+      <thead><tr>
+        <th>Publisher</th>
+        <th>Reporting Orgs on Registry and in Data</th>
+      </tr></thead>
+      <tbody>
+        {% for publisher_title,publisher in publishers_ordered_by_title %}
+        {% set publisher_stats = get_publisher_stats(publisher) %}
+        {% if publisher_stats.reporting_orgs|count == 1 and publisher_stats.reporting_orgs.keys()[0] == ckan_publishers[publisher].result.publisher_iati_id %}
+        <tr>
+            <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+            <td>{% for ro in publisher_stats.reporting_orgs%}<code>{{ro}}</code> {% endfor %}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>    
+    </div>     
 {% endblock %}
 
