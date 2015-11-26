@@ -14,7 +14,13 @@
 
 
         <div class="panel-body">
-            <p>This table seeks to measure how often a publisher updates their data. There is no simple answer as to what constitutes an update. Can any trivial edit be regarded as an update? As transactions are the most numerous element reported in IATI the adopted methodology assumes that a publisher has updated their data if a transaction with a more recent transaction date than previously published is detected across the publisher's entire portfolio. The table records how many times in each of the last twelve months such changes have been detected.</p>
+            <p>This table seeks to measure how often a publisher updates their data. There is no simple answer as to what constitutes an update. Can any trivial edit be regarded as an update? As transactions are the most numerous element reported in IATI the adopted methodology assumes that a publisher has updated their data if a transaction with a more recent transaction date than previously published is detected across the publisher's entire portfolio. </p>
+
+            <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
+
+            <p><strong>Key:</strong><br/>
+            <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/> 
+            <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             <p>You are invited to participate in the ongoing consultation on publisher statistics and the transparency indicator which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum</a></p>
         </div>
@@ -203,14 +209,16 @@
 
 
     <div class="panel panel-default" id="h_exceptions">
-    <div class="panel-heading">
-        <h3 class="panel-title">Exceptions</h3>
-    </div>
-    <div class="panel-body">
-        <p>Future transaction dates are not allowed in IATI and disrupt these statistics. For example a publisher might today have a transaction date reported for each month going forward for a year and never refresh their data. The statistics would, over the next year, as each of these future dates move into the past, assess the publisher to have a frequency assessment of monthly.</p>
-        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
-        <p>In our further work on this dashboard page, we plan to exclude activities in which future transactions dates are reported from future assessment until such time that a publisher's entire portfolio no longer contains any future dates.</s></p>
-    </div>
+        <div class="panel-heading">
+            <h3 class="panel-title">Exceptions</h3>
+        </div>
+        <div class="panel-body">
+            <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a frequency assessment of monthly, even though they did not refresh their data.</p>
+            
+            <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
+            
+            <p>In our further work on this dashboard page, we plan to exclude activities in which future transactions dates are reported from these assessments until such time that a publisher's entire portfolio no longer contains any future dates.</s></p>
+        </div>
     </div>
 
 
@@ -222,7 +230,7 @@
     <div class="panel-body">
         <p>This methodology is substantially different.
 
-        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach is flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible one night, its reappearance the following night would count as an update.</p>
+        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible one night, its reappearance the following night would count as an update.</p>
     </div>
     </div>
 
