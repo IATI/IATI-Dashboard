@@ -30,13 +30,13 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Timeliness</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Forward looking</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Comprehensive</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Score</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage-adjusted score</td>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Timeliness</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Forward looking</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Comprehensive</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Score</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Coverage</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Coverage-adjusted score</th>
                 </tr>
             </thead>
             <tbody>
@@ -167,4 +167,10 @@
     </div>
 
 
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders']
+}
 {% endblock %}

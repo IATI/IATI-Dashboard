@@ -27,11 +27,11 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Publisher Name</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">IATI 2014 Spend<br/> (US $m)</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Reference 2014 Spend<br/> (US $m)</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</td>
-                    <td style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</td>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">IATI 2014 Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Reference 2014 Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,4 +80,10 @@
     </div>
 
 
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders']
+}
 {% endblock %}
