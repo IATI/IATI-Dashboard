@@ -22,18 +22,11 @@ from collections import defaultdict
 
 import os
 import unicodecsv
-import json
+import common
 import data
 
 #  Import failed_downloads as a global
 failed_downloads = unicodecsv.reader(open('data/downloads/history.csv'))
-
-#  Import organisation_type_codelist as a global, then delete when used to save memory
-with open('data/IATI-Codelists-2/out/clv2/json/en/OrganisationType.json') as fh:
-    organisation_type_codelist = json.load(fh)
-organisation_type_dict = {c['code']:c['name'] for c in organisation_type_codelist['data']}
-del organisation_type_codelist
-
 
 gitaggregate_publisher = data.JSONDir('./stats-calculated/gitaggregate-publisher-dated')
 
@@ -45,9 +38,8 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
-                    organization_type = data.ckan_publishers[publisher]['result']['publisher_organization_type']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][organisation_type_dict[organization_type]] += 1
+                        out[datestring][common.get_publisher_type(publisher)['name']] += 1
                 else:
                     print('Publisher not matched:', publisher)
             return out
@@ -55,9 +47,8 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
-                    organization_type = data.ckan_publishers[publisher]['result']['publisher_organization_type']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][organisation_type_dict[organization_type]] += count 
+                        out[datestring][common.get_publisher_type(publisher)['name']] += count 
                 else:
                     print('Publisher not matched:', publisher)
             return out
