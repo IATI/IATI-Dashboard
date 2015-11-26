@@ -31,6 +31,7 @@
             <thead>
                 <tr>
                     <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Type</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Timeliness</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Forward looking</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Comprehensive</th>
@@ -43,6 +44,7 @@
                 {% for row in transparencyindicator.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.publisher_type.name}}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.timeliness}}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.forwardlooking}}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row.comprehensive}}</td>

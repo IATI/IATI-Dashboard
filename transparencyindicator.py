@@ -1,6 +1,7 @@
 # This file converts a range of transparency data to percentages
 
 from data import publishers_ordered_by_title, get_publisher_stats
+import common
 import timeliness
 import forwardlooking
 import comprehensiveness
@@ -48,6 +49,7 @@ def table():
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
+        row['publisher_type'] = common.get_publisher_type(publisher)
 
         # Compute timeliness statistic
         # Assign frequency score
