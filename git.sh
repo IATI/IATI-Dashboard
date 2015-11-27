@@ -18,7 +18,7 @@ echo "make_html.py"
 python make_html.py || exit 1
 
 echo "Copying favicon and moving to the web directory"
-cp favicon.png out/
+cp static/img/favicon.png out/
 mv web web.1
 mv out web
 rm -rf web.1
