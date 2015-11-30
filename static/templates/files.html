@@ -15,6 +15,7 @@
             <a href="{{stats_url}}/current/aggregated/file_size_bins.json" style="float:right">(J)</a> 
             <h3 class="panel-title">File Sizes</h3>
         </div>
+        {% include 'tablesorter_instructions.html' %}
         <table class="table table-striped">
             <tbody>
             {% for bin,freq in sorted(current_stats.aggregated.file_size_bins.items(), key=firstint) %}

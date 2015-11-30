@@ -40,6 +40,7 @@
     {% if self.heading_detail() %}
     <div class="panel-body">
         {% block heading_detail %}{% endblock %}
+        {% include 'tablesorter_instructions.html' %}
     </div>
     {% endif %}
 
