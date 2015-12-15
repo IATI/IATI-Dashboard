@@ -1,7 +1,7 @@
 # This file converts raw timeliness data into the associated Dashboard assessments
 
 from __future__ import print_function
-from data import JSONDir, publisher_name, get_publisher_stats
+from data import JSONDir, publisher_name, get_publisher_stats, get_gitaggregate_publisher_stats
 import datetime
 from collections import defaultdict, Counter
 
@@ -56,7 +56,7 @@ def publisher_frequency():
     """
 
     # Load all the data from 'gitaggregate-publisher-dated' into memory
-    gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+    gitaggregate_publisher = get_gitaggregate_publisher_stats()
     
     # Loop over each publisher - i.e. a publisher folder within 'gitaggregate-publisher-dated'
     for publisher, agg in gitaggregate_publisher.items():

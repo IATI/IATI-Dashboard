@@ -2,6 +2,7 @@ import json
 from collections import OrderedDict, defaultdict
 import sys, os, re, copy, datetime, unicodecsv
 import UserDict
+import csv
 
 publisher_re = re.compile('(.*)\-[^\-]')
 
@@ -58,6 +59,85 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
         return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
     except IOError:
         return {}
+
+
+def get_registry_id_matches():
+    """Returns a dictionary of publishers who have modified their registry ID
+    Returns: Dictionary, where the key is the old registry ID, and the corresponding 
+             value is the registry ID that data should be mapped to
+    """
+
+    # Load registry IDs for publishers who have changed their registry ID
+    reader = csv.DictReader(open('registry_id_relationships.csv', 'rU'), delimiter=',')
+    
+    # Load this data into a dictonary
+    registry_matches = {}
+    for row in reader:
+        registry_matches[row['previous_registry_id']] = row['current_registry_id']
+
+    return registry_matches
+
+
+def deep_merge(obj1, obj2):
+    """Merges two OrderedDict objects with an unknown number of nested levels
+    Input: obj1 - OrderedDict to be used as the base object
+    Input: obj2 - OrderedDict to be merged into obj1
+    Returns: Nothing, but obj1 will contain the full data
+    """
+
+    # Iterate through keys
+    for key in obj1:
+        # If this is value, we've hit the bottom, copy all of obj2 into obj1
+        if type(obj1[key]) is not OrderedDict:
+            for key2 in obj2:
+                # If there exists a dict at that key, make sure it's not erased
+                if key2 in obj1:
+                    if type(obj1[key2]) is not OrderedDict:
+                        # You can change behavior here to determine
+                        # How duplicate keys are handled
+                        obj1[key2] = obj2[key2]
+                else:
+                    obj1[key2] = obj2[key2]
+
+        # If it's a dictionary we need to go deeper, by running this function recursively
+        else:
+            if key in obj2:
+                deep_merge(obj1[key],obj2[key])
+
+
+def get_gitaggregate_publisher_stats():
+    """Merges two OrderedDict objects with an unknown number of nested levels
+    """
+    
+    # Get registry IDs for publishers who have changed their registry ID
+    registry_matches = get_registry_id_matches()
+
+    # Load aggregated publisher data as a JSONDir object
+    gitaggregate_data = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+    
+    # Copy aggregated publisher data from a JSONDir object to a standard OrderedDict object
+    # This is a lot of data, so takes some time. Also a possible cause of any memory problems
+    output_data = OrderedDict()
+    for publisher, agg in gitaggregate_data.items():
+        output_data_sub = OrderedDict()
+        for k,v in agg.items():
+           output_data_sub.update({k: v})
+        output_data.update({publisher: output_data_sub})
+
+    
+    for publisher, agg in output_data.items():
+        # Check that the current publisher is not one of those that have changed their registry ID 
+        # since they started publishing
+        if publisher in registry_matches.keys():
+            # This is a publisher that has since updated their Registry ID
+            # Need to merge the data in this list to the corresponding object for their new Registry ID
+            deep_merge(output_data[registry_matches[publisher]], output_data[publisher])
+
+            # Delete the old key within the dictionary
+            del output_data[publisher]
+
+    # Return merged data
+    return output_data
 
 
 current_stats = {
