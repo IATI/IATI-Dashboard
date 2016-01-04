@@ -33,11 +33,23 @@ class GroupFiles(object, UserDict.DictMixin):
         self.cache[key] = out
         return out
 
+
 class JSONDir(object, UserDict.DictMixin):
+    """Produces an object, to be used to access JSON-formatted publisher data and return 
+       this as an ordered dictionary (with nested dictionaries, if appropriate). 
+       Use of this class removes the need to load large amounts of data into memory.
+    """
+
     def __init__(self, folder):
+        """Set the path of the folder being accessed as an attribute to an instance of 
+           the object.
+        """
         self.folder = folder
 
     def __getitem__(self, key):
+        """Define how variables are gathered from the raw JSON files and then parsed into 
+           the OrderedDict that will be returned.
+        """
         if os.path.exists(os.path.join(self.folder, key)):
             value = JSONDir(os.path.join(self.folder, key))
         elif os.path.exists(os.path.join(self.folder, key+'.json')):
@@ -49,12 +61,23 @@ class JSONDir(object, UserDict.DictMixin):
         return value
 
     def keys(self):
+        """Method to return a list of keys that are contained within the data folder that 
+           is being accessed within this instance.
+        """
         return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
 
     def __iter__(self):
+        """Custom iterable, to iterate over the keys that are contained within the data 
+        folder that is being accessed within this instance.
+        """
         return iter(self.keys())
 
+
 def get_publisher_stats(publisher, stats_type='aggregated'):
+    """Function to obtain current data for a given publisher.
+    Returns: A JSONDir object for the publisher, or an empty dictionary if the publisher 
+             is not found.
+    """
     try:
         return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
     except IOError:
