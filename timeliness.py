@@ -1,9 +1,9 @@
 # This file converts raw timeliness data into the associated Dashboard assessments
 
 from __future__ import print_function
-from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches, deep_merge
+from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
-from collections import defaultdict, Counter, OrderedDict
+from collections import defaultdict, Counter
 
 
 def short_month(month_str):
@@ -65,57 +65,9 @@ def publisher_frequency():
         if not 'most_recent_transaction_date' in agg:
             continue
 
-        # Process to sort out publishers who have changed their registry ID in the past
-
-        def JSONDir_to_memory(JSONDir_obj):
-            """Copies data from a JSONDir object to an in-memory OrderedDict. 
-               Use sparingly due to the memory that copying publisher data consumes!
-            Input: JSONDir_obj - a JSONDir object
-            Returns: An in-memory OrderedDict
-            """
-
-            output_data = OrderedDict()
-
-            # Loop over data within the JSONDir_obj and add to output data
-            for publisher, agg in JSONDir_obj.items():
-                output_data_sub = OrderedDict()
-                for k,v in agg.items():
-                   output_data_sub.update({k: v})
-                output_data.update({publisher: output_data_sub})
-                
-            return output_data
-
-        # Get a list of old registry IDs (key), mapped to their current registry ID (value)
-        registry_matches = get_registry_id_matches()
-
         # Skip if this publisher appears in the list of publishers who have since changed their Registry ID
-        if publisher in registry_matches.keys():
+        if publisher in get_registry_id_matches().keys():
             continue
-
-        # If this publisher has had a previous registry ID, combine their data with the corresponding new ID
-        if publisher in registry_matches.values():
-            # Copy aggregated data for the new publisher from a JSONDir object to a standard in-memory OrderedDict object
-            # This could be a lot of data, so may take some time. Also a possible cause of any memory problems
-            current_id_agg_data = JSONDir_to_memory(agg)
-
-            # Build a list of previous registry IDs for this publisher
-            old_ids_for_publisher = []
-            for previous_id, current_id in registry_matches.items():
-                if current_id == publisher:
-                    old_ids_for_publisher.append(previous_id)
-
-            # Loop over this list and merge into aggregaed data for the new publisher ID
-            for old_id in old_ids_for_publisher:
-                # Perform the merging
-                # Copy aggregated data for the old publisher ID from a JSONDir object to a standard in-memory OrderedDict object
-                old_id_agg_data = JSONDir_to_memory(gitaggregate_publisher[old_id])
-                deep_merge(current_id_agg_data, old_id_agg_data)
-
-            # Reset aggregated data to be OrderedDict which contains the merged data
-            agg = current_id_agg_data
-
-
-
 
         updates_per_month = defaultdict(int)
         previous_transaction_date = datetime.date(1,1,1)

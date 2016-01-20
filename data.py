@@ -33,6 +33,24 @@ class GroupFiles(object, UserDict.DictMixin):
         self.cache[key] = out
         return out
 
+def JSONDir_to_memory(JSONDir_obj):
+    """Copies data from a JSONDir object to an in-memory OrderedDict. 
+       Use sparingly due to the memory that copying publisher data consumes!
+    Input: JSONDir_obj - a JSONDir object
+    Returns: An in-memory OrderedDict
+    """
+
+    output_data = OrderedDict()
+
+    # Loop over data within the JSONDir_obj and add to output data
+    for publisher, agg in JSONDir_obj.items():
+        output_data_sub = OrderedDict()
+        for k,v in agg.items():
+           output_data_sub.update({k: v})
+        output_data.update({publisher: output_data_sub})
+        
+    return output_data
+
 
 class JSONDir(object, UserDict.DictMixin):
     """Produces an object, to be used to access JSON-formatted publisher data and return 
@@ -50,15 +68,35 @@ class JSONDir(object, UserDict.DictMixin):
         """Define how variables are gathered from the raw JSON files and then parsed into 
            the OrderedDict that will be returned.
         """
-        if os.path.exists(os.path.join(self.folder, key)):
-            value = JSONDir(os.path.join(self.folder, key))
-        elif os.path.exists(os.path.join(self.folder, key+'.json')):
-            with open(os.path.join(self.folder, key+'.json')) as fp:
-                value = json.load(fp, object_pairs_hook=OrderedDict)
-        else:
-            raise KeyError, key
 
-        return value
+        if os.path.exists(os.path.join(self.folder, key)):
+            # The data being sought is a directory
+            data = JSONDir(os.path.join(self.folder, key))
+        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+            # The data being sought is a json file
+            with open(os.path.join(self.folder, key+'.json')) as fp:
+                data = json.load(fp, object_pairs_hook=OrderedDict)
+
+            # Deal with publishers who had an old registry ID
+            # If this publisher had at least one old ID in the past
+            if (self.get_publisher_name() in get_registry_id_matches().values()) and ('gitaggregate' in self.folder):
+                # Perform the merging
+                # Look over the set of changed registry IDs
+                for previous_id, current_id in get_registry_id_matches().items():
+                    
+                    #  If this publisher has had an old ID
+                    if current_id == self.get_publisher_name():
+                        folder = self.folder
+                        # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
+                        with open(os.path.join(folder.replace(current_id,previous_id), key+'.json')) as old_fp:
+                            old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
+                            deep_merge(data, old_pub_data)
+                            # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
+        else:
+            # No value found as either a folder or json file
+            raise KeyError, key
+        
+        return data
 
     def keys(self):
         """Method to return a list of keys that are contained within the data folder that 
@@ -71,6 +109,24 @@ class JSONDir(object, UserDict.DictMixin):
         folder that is being accessed within this instance.
         """
         return iter(self.keys())
+
+    def get_publisher_name(self):
+        """Find the name of the publisher that this data relates to.
+           Note, this is a super hacky way to do this, prize available if a better way is found to do this!
+        """
+
+        # Get a list of the parts that are contained within this filepath
+        path = os.path.normpath(self.folder)
+        path_components = path.split(os.sep)
+
+        # Loop over this list and return the publisher name if it is found within the historic list of publishers
+        for x in path_components:
+            if x in JSONDir('./stats-calculated/gitaggregate-publisher-dated').keys():
+                return x
+
+        # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
+        return None
+
 
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
@@ -126,41 +182,6 @@ def deep_merge(obj1, obj2):
         else:
             if key in obj2:
                 deep_merge(obj1[key],obj2[key])
-
-
-def get_gitaggregate_publisher_stats():
-    """Merges two OrderedDict objects with an unknown number of nested levels
-    """
-    
-    # Get registry IDs for publishers who have changed their registry ID
-    registry_matches = get_registry_id_matches()
-
-    # Load aggregated publisher data as a JSONDir object
-    gitaggregate_data = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
-    
-    # Copy aggregated publisher data from a JSONDir object to a standard OrderedDict object
-    # This is a lot of data, so takes some time. Also a possible cause of any memory problems
-    output_data = OrderedDict()
-    for publisher, agg in gitaggregate_data.items():
-        output_data_sub = OrderedDict()
-        for k,v in agg.items():
-           output_data_sub.update({k: v})
-        output_data.update({publisher: output_data_sub})
-
-    
-    for publisher, agg in output_data.items():
-        # Check that the current publisher is not one of those that have changed their registry ID 
-        # since they started publishing
-        if publisher in registry_matches.keys():
-            # This is a publisher that has since updated their Registry ID
-            # Need to merge the data in this list to the corresponding object for their new Registry ID
-            deep_merge(output_data[registry_matches[publisher]], output_data[publisher])
-
-            # Delete the old key within the dictionary
-            del output_data[publisher]
-
-    # Return merged data
-    return output_data
 
 
 current_stats = {
