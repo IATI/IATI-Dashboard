@@ -1,7 +1,7 @@
 # This file converts raw timeliness data into the associated Dashboard assessments
 
 from __future__ import print_function
-from data import JSONDir, publisher_name, get_publisher_stats
+from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
 from collections import defaultdict, Counter
 
@@ -63,6 +63,10 @@ def publisher_frequency():
         
         # Skip to the next publisher if there is no data for 'most_recent_transaction_date' for this publisher
         if not 'most_recent_transaction_date' in agg:
+            continue
+
+        # Skip if this publisher appears in the list of publishers who have since changed their Registry ID
+        if publisher in get_registry_id_matches().keys():
             continue
 
         updates_per_month = defaultdict(int)
