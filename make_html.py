@@ -273,6 +273,8 @@ if __name__ == '__main__':
         from flask_frozen import Freezer
         app.config['FREEZER_DESTINATION'] = 'out'
         app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+        # app.debug = False    # Uncomment for debugging
+        # app.testing = True   # Uncomment for debugging
         freezer = Freezer(app)
 
         @freezer.register_generator
