@@ -30,8 +30,11 @@
             <thead>
                 <tr>
                     <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
-                    <th style="vertical-align:middle; border: 1px solid gray;">IATI 2014 Spend<br/> (US $m)</th>
-                    <th style="vertical-align:middle; border: 1px solid gray;">Reference 2014 Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>IATI Spend (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>IATI Spend (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>Reference Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Reference Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Official Forecast<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</th>
                 </tr>
@@ -40,7 +43,10 @@
                 {% for row in coverage.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend|round(2) }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2014|round(2) }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2015|round(2) }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">[TBC]</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
