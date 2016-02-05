@@ -225,6 +225,7 @@ codelist_conditions = {
     major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
     for major_version in MAJOR_VERSIONS }
 
+# Create a big dictionary of all codelist values by version and codelist name
 codelist_sets = { 
     major_version: {
         cname:set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
