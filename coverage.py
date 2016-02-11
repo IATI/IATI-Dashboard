@@ -1,10 +1,14 @@
 # This file converts a range coverage data to variables which can be outputted on the coverage page
 
-from data import publishers_ordered_by_title, get_publisher_stats
+from data import publishers_ordered_by_title
+from data import get_publisher_stats
 
 
 def is_number(s):
-    """ @todo Document this function
+    """ Tests if a variable is a number.
+        Input: s - a variable
+        Return: True if v is a number
+                False if v is not a number
     """
     try:
         float(s)
@@ -13,7 +17,9 @@ def is_number(s):
         return False
 
 def convert_to_int(x):
-    """ @todo Document this function
+    """ Converts a variable to an integer value, or 0 if it cannot be converted to an integer.
+        Input: x - a variable
+        Return: x as an integer, or zero if x is not a number
     """
     if is_number(x):
         return int(x)
