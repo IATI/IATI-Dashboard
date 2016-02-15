@@ -112,7 +112,7 @@ def table():
 
 
         # Compute Coverage-adjusted score
-        row['score_coverage_adjusted'] = int( row['score'] * int(row['coverage_adjustment'] / 100) ) 
+        row['score_coverage_adjusted'] = int( row['score'] * (row['coverage_adjustment'] / float(100)) ) 
 
 
         # Return a generator object

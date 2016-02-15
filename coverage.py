@@ -82,15 +82,23 @@ def table():
         row['iati_spend_2015'] = float( iati_2015_spend_total / 1000000)
 
 
-        # Set spend ratio score
-        """This is manually set at 100% for now. The IATI technical team is still working 
-           on compiling reference spend data from disparate sources, in order to assess 
-           the spend ratio. See: https://github.com/IATI/IATI-Dashboard/issues/374
+        # Get reference data 
+        # Get data from stats files. Set as zero if the keys do not exist
+        data_2014 = publisher_stats['reference_spend_data_usd'].get('2014', {'ref_spend': 0})
+        data_2015 = publisher_stats['reference_spend_data_usd'].get('2015', {'ref_spend': 0, 'official_forecast': 0})
 
-           spend_ratio calculation to be modified when this data has been gathered, see:
-           https://github.com/IATI/IATI-Dashboard/issues/375
-        """
-        row['spend_ratio'] = 100
+        # Compute reference data as $USDm
+        row['reference_spend_2014'] = float(data_2014['ref_spend'] / 1000000)
+        row['reference_spend_2015'] = float(data_2015['ref_spend'] / 1000000)
+        row['official_forecast_2015'] = float(data_2015['official_forecast'] / 1000000)
+
+
+        # Compute spend ratio score
+        spend_ratio = max([(row['iati_spend_2014'] / row['reference_spend_2014']) if row['reference_spend_2014'] > 0 else 0, 
+                           (row['iati_spend_2015'] / row['reference_spend_2015']) if row['reference_spend_2015'] > 0 else 0,
+                           (row['iati_spend_2015'] / row['reference_spend_2014']) if row['reference_spend_2014'] > 0 else 0,
+                           (row['iati_spend_2015'] / row['official_forecast_2015']) if row['official_forecast_2015'] > 0 else 0])
+        row['spend_ratio'] = int(spend_ratio * 100)
 
 
         # Compute coverage score and raise to the top of its quintile
