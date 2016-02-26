@@ -41,6 +41,7 @@ def table():
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
+        row['no_data_flag'] = 0
 
 
         # Compute 2014 IATI spend
@@ -60,7 +61,7 @@ def table():
             iati_2014_spend_total += transactions_usd['E']['USD']['2014']
 
         # Convert to millions USD 
-        row['iati_spend_2014'] = float( iati_2014_spend_total / 1000000)
+        row['iati_spend_2014'] = round(float( iati_2014_spend_total / 1000000), 2)
 
 
         # Compute 2015 IATI spend
@@ -79,7 +80,7 @@ def table():
             iati_2015_spend_total += transactions_usd['E']['USD']['2015']
 
         # Convert to millions USD 
-        row['iati_spend_2015'] = float( iati_2015_spend_total / 1000000)
+        row['iati_spend_2015'] = round(float( iati_2015_spend_total / 1000000), 2)
 
 
         # Get reference data 
@@ -88,21 +89,26 @@ def table():
         data_2015 = publisher_stats['reference_spend_data_usd'].get('2015', {'ref_spend': 0, 'official_forecast': 0})
 
         # Compute reference data as $USDm
-        row['reference_spend_2014'] = float(data_2014['ref_spend'] / 1000000)
-        row['reference_spend_2015'] = float(data_2015['ref_spend'] / 1000000)
-        row['official_forecast_2015'] = float(data_2015['official_forecast'] / 1000000)
+        row['reference_spend_2014'] = round((float(data_2014['ref_spend']) / 1000000), 2) if is_number(data_2014['ref_spend']) else '-'
+        row['reference_spend_2015'] = round((float(data_2015['ref_spend']) / 1000000), 2) if is_number(data_2015['ref_spend']) else '-'
+        row['official_forecast_2015'] = round((float(data_2015['official_forecast']) / 1000000), 2) if is_number(data_2015['official_forecast']) else '-'
 
 
         # Compute spend ratio score
-        spend_ratio = max([(row['iati_spend_2014'] / row['reference_spend_2014']) if row['reference_spend_2014'] > 0 else 0, 
-                           (row['iati_spend_2015'] / row['reference_spend_2015']) if row['reference_spend_2015'] > 0 else 0,
-                           (row['iati_spend_2015'] / row['reference_spend_2014']) if row['reference_spend_2014'] > 0 else 0,
-                           (row['iati_spend_2015'] / row['official_forecast_2015']) if row['official_forecast_2015'] > 0 else 0])
+        spend_ratio = max([(row['iati_spend_2014'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0, 
+                           (row['iati_spend_2015'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0,
+                           (row['iati_spend_2015'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0,
+                           (row['iati_spend_2015'] / row['official_forecast_2015']) if (row['official_forecast_2015'] > 0) and is_number(row['official_forecast_2015']) else 0])
         row['spend_ratio'] = int(spend_ratio * 100)
 
 
         # Compute coverage score and raise to the top of its quintile
-        if row['spend_ratio'] >= 80:
+        # For publishers with no data found, set their score to 50%
+        if all([row['reference_spend_2014'] == '-', row['reference_spend_2015'] == '-', row['official_forecast_2015'] == '-']):
+            row['coverage_adjustment'] = 50
+            row['no_data_flag'] = 1
+
+        elif row['spend_ratio'] >= 80:
             row['coverage_adjustment'] = 100
 
         elif row['spend_ratio'] >= 60:

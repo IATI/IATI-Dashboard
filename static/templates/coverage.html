@@ -19,9 +19,10 @@
         <div class="panel-body">
             <p>When assessing the overall quality of a publisher's data it is necessary to judge both breadth and depth. The previous dimensions have assessed the breadth. The Coverage dimension in this table assesses the depth by showing what proportion of an organisation's total output is published through IATI. For each publisher, the total spend published to IATI for a given year is compared with an external source. The resulting spend ratios are used to adjust the scores for the other dimensions using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
 
-            <p>As IATI is a multi-stakeholder initiative representing a range of organisation types, there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements.</p>
+            <p>As IATI is a multi-stakeholder initiative representing a range of organisation types, there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements. The IATI technical team has been working to pull these disparate sources together into a single table for use here.</p>
 
-            <p>The IATI technical team is still working on pulling these disparate sources together into a single table for use here. For the moment it is acting as a placeholder, with all publishers assessed at 100%.</p>
+            <p><strong>Key:</strong><br/>
+            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have not yet located reference data for this publisher. Therefore they have been given a coverage ratio of 50%.</p>
 
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -37,19 +38,21 @@
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Official Forecast<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for row in coverage.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2014|round(2) }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2015|round(2) }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2014|round(2) }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2015|round(2) }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015|round(2) }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2014 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2014 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if row.no_data_flag %}; background-color: #f2aaaa{% endif %}" data-severity="{{row.no_data_flag}}"></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -101,6 +104,7 @@
 
 {% block tablesorteroptions %}
 {
-    widgets: ['stickyHeaders']
+    widgets: ['stickyHeaders'],
+    textExtraction: { 8: function(node,table,cellIndex) { return $(node).attr('data-severity'); } }
 }
 {% endblock %}
