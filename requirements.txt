@@ -4,7 +4,7 @@ requests==2.9.1
 Frozen-Flask==0.12
 unicodecsv==0.14.1
 lxml==3.6.0
-pytz==2016.1
+pytz==2016.2
 
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
 Flask==0.10.1
