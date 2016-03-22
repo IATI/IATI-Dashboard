@@ -180,8 +180,8 @@ start =
     If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
 end =
-    Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
-    If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
+    Parse period-end/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-end/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
 
 If start and end are both not null 
