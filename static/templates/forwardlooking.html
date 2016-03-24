@@ -28,7 +28,11 @@
 
         <div class="panel-body">
             <p>
-                The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year.  The first block shows the number of activities that are, or will be, current in this and the next two years. The second block shows how many of these activities contain a budget for the corresponding year. The third block expresses this as a percentage. 
+                The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year.  The first block shows the number of activities that are, or will be, current in this and the next two years. The second block shows how many of these activities contain a budget for the corresponding year. The third block expresses this as a percentage.
+            </p>
+
+            <p>
+                Activities are excluded from forward looking calculations if they contain commitment transactions and 90% of the total commitment value has already been disbursed or expended in the corrsponding year or previously.
             </p>
 
             <p><strong>Key:</strong><br/>
@@ -90,6 +94,7 @@
         <li>Counting the number of activities that contain budgets provides a fairer result than summing the value of these budgets. The proportion of a publisher's total commitment for a future year that has already been committed to existing projects may vary greatly (e.g. you may have earmarked an amount to spend in three-years’ time, but not yet agreed on how to spend it.)</li>
         <li>For publisher's reporting multiple hierarchical levels ONLY the level that budgets are reported at is used in this calculation. However if budgets are reported at multiple levels, all activities are counted, and the publisher is marked with a red flag.</li>
         </ul>
+        <p>As noted above, activities are excluded from forward looking calculations if they contain commitment transactions and 90% of the total commitment value has already been disbursed or expended in the corrsponding year or previously.</p>
     </div>
     </div>
 
@@ -180,8 +185,8 @@ start =
     If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
 end =
-    Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
-    If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
+    Parse period-end/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-end/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
 
 If start and end are both not null 
