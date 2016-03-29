@@ -21,6 +21,7 @@ import coverage
 import transparencyindicator
 from vars import expected_versions
 import text
+import datetime
 
 print('Doing initial data import')
 from data import *
@@ -106,6 +107,7 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+app.jinja_env.globals['current_year'] = datetime.datetime.now().year
 # Following variables set in coverage branch but not in master
 # app.jinja_env.globals['float'] = float
 # app.jinja_env.globals['dac2012'] = dac2012
