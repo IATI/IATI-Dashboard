@@ -22,7 +22,8 @@
             <p>As IATI is a multi-stakeholder initiative representing a range of organisation types, there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements. The IATI technical team has been working to pull these disparate sources together into a single table for use here.</p>
 
             <p><strong>Key:</strong><br/>
-            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have not yet located reference data for this publisher. Therefore they have been given a coverage ratio of 50%.</p>
+            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have not yet located reference data for this publisher. Therefore they have been given a coverage ratio of 50%.<br/>
+            <span style="background-color: #fcf8aa">Yellow flag</span>: The IATI technical team have identified a data quality issue for this publisher, which has been reported to them directly. Therefore they have been given a coverage ratio of 20%.</p>
 
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -52,7 +53,7 @@
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if row.no_data_flag %}; background-color: #f2aaaa{% endif %}" data-severity="{{row.no_data_flag}}"></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if row.no_data_flag or row.spend_data_error_reported_flag %}; background-color: {{ '#f2aaaa' if row.no_data_flag else '#fcf8aa'}}{% endif %}" data-severity="{{ row.sort_order }}"></td>
                 </tr>
                 {% endfor %}
             </tbody>

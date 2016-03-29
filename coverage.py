@@ -42,6 +42,8 @@ def table():
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
         row['no_data_flag'] = 0
+        row['spend_data_error_reported_flag'] = 0
+        row['sort_order'] = 0
 
 
         # Compute 2014 IATI spend
@@ -103,10 +105,17 @@ def table():
 
 
         # Compute coverage score and raise to the top of its quintile
+        # For publishers where a data error is reported, set their score to 20%
         # For publishers with no data found, set their score to 50%
-        if all([row['reference_spend_2014'] == '-', row['reference_spend_2015'] == '-', row['official_forecast_2015'] == '-']):
+        if publisher_stats['reference_spend_data_usd'].get('spend_data_error_reported', False):
+            row['coverage_adjustment'] = 20
+            row['spend_data_error_reported_flag'] = 1
+            row['sort_order'] = 2
+
+        elif all([row['reference_spend_2014'] == '-', row['reference_spend_2015'] == '-', row['official_forecast_2015'] == '-']):
             row['coverage_adjustment'] = 50
             row['no_data_flag'] = 1
+            row['sort_order'] = 1
 
         elif row['spend_ratio'] >= 80:
             row['coverage_adjustment'] = 100
