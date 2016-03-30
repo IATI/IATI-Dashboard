@@ -1,0 +1,6 @@
+"Publisher Name (for reference only)","Publisher Registry ID","DFI"
+"Notes: This sheet is compiled manually to list known Development finance institutions (DFIs).",,
+"Notes: This sheet is then used in the coverage logic, with the IATI spend figure for DFIs being based on their commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387 for explaination.",,
+"CDC Group plc","cdc","Y"
+"European Bank for Reconstruction and Development","ebrd","Y"
+"European Investment Bank","eib","Y"

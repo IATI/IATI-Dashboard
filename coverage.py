@@ -1,8 +1,8 @@
 # This file converts a range coverage data to variables which can be outputted on the coverage page
-
-from data import publishers_ordered_by_title
+import csv
 from data import get_publisher_stats
-
+from data import get_registry_id_matches
+from data import publishers_ordered_by_title
 
 def is_number(s):
     """ Tests if a variable is a number.
@@ -34,8 +34,9 @@ def table():
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
 
-        # Store the data for this publisher as a new variable
+        # Store the data for this publisher as new variables
         publisher_stats = get_publisher_stats(publisher)
+        transactions_usd = publisher_stats['sum_transactions_by_type_by_year_usd']
         
         # Create a list for publisher data, and populate it with basic data
         row = {}
@@ -48,19 +49,30 @@ def table():
 
         # Compute 2014 IATI spend
         iati_2014_spend_total = 0
-        transactions_usd = publisher_stats['sum_transactions_by_type_by_year_usd']
+        
 
-        if '2014' in transactions_usd.get('3', {}).get('USD', {}):
-            iati_2014_spend_total += transactions_usd['3']['USD']['2014']
+        if publisher in dfi_publishers:
+            # If this publisher is a DFI, then their 2014 spend total should be based on their  
+            # commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387
+            if '2014' in transactions_usd.get('2', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['2']['USD']['2014']
 
-        if '2014' in transactions_usd.get('D', {}).get('USD', {}):
-            iati_2014_spend_total += transactions_usd['D']['USD']['2014']
+            if '2014' in transactions_usd.get('C', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['C']['USD']['2014']
 
-        if '2014' in transactions_usd.get('4', {}).get('USD', {}):
-            iati_2014_spend_total += transactions_usd['4']['USD']['2014']
+        else:
+            # This is a non-DFI publisher
+            if '2014' in transactions_usd.get('3', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['3']['USD']['2014']
 
-        if '2014' in transactions_usd.get('E', {}).get('USD', {}):
-            iati_2014_spend_total += transactions_usd['E']['USD']['2014']
+            if '2014' in transactions_usd.get('D', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['D']['USD']['2014']
+
+            if '2014' in transactions_usd.get('4', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['4']['USD']['2014']
+
+            if '2014' in transactions_usd.get('E', {}).get('USD', {}):
+                iati_2014_spend_total += transactions_usd['E']['USD']['2014']            
 
         # Convert to millions USD 
         row['iati_spend_2014'] = round(float( iati_2014_spend_total / 1000000), 2)
@@ -69,17 +81,28 @@ def table():
         # Compute 2015 IATI spend
         iati_2015_spend_total = 0
 
-        if '2015' in transactions_usd.get('3', {}).get('USD', {}):
-            iati_2015_spend_total += transactions_usd['3']['USD']['2015']
+        if publisher in dfi_publishers:
+            # If this publisher is a DFI, then their 2015 spend total should be based on their  
+            # commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387
+            if '2015' in transactions_usd.get('2', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['2']['USD']['2015']
 
-        if '2015' in transactions_usd.get('D', {}).get('USD', {}):
-            iati_2015_spend_total += transactions_usd['D']['USD']['2015']
+            if '2015' in transactions_usd.get('C', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['C']['USD']['2015']
 
-        if '2015' in transactions_usd.get('4', {}).get('USD', {}):
-            iati_2015_spend_total += transactions_usd['4']['USD']['2015']
+        else:
+            # This is a non-DFI publisher
+            if '2015' in transactions_usd.get('3', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['3']['USD']['2015']
 
-        if '2015' in transactions_usd.get('E', {}).get('USD', {}):
-            iati_2015_spend_total += transactions_usd['E']['USD']['2015']
+            if '2015' in transactions_usd.get('D', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['D']['USD']['2015']
+
+            if '2015' in transactions_usd.get('4', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['4']['USD']['2015']
+
+            if '2015' in transactions_usd.get('E', {}).get('USD', {}):
+                iati_2015_spend_total += transactions_usd['E']['USD']['2015']
 
         # Convert to millions USD 
         row['iati_spend_2015'] = round(float( iati_2015_spend_total / 1000000), 2)
@@ -133,3 +156,17 @@ def table():
         # Return a generator object
         yield row
 
+
+# Compile a list of Development finance institutions (DFIs)
+with open('dfi_publishers.csv', 'r') as csv_file:
+    reader = csv.reader(csv_file, delimiter=',')
+    dfi_publishers = []
+    for line in reader:
+
+        # Update the publisher registry ID, if this publisher has since updated their registry ID
+        if line[1] in get_registry_id_matches().keys():
+            line[1] = get_registry_id_matches()[line[1]]
+
+        # Append publisher ID to the list of dfi publishers, if they are found in the list of publisher IDs
+        if line[1] in [x[1] for x in publishers_ordered_by_title]:
+            dfi_publishers.append(line[1])
