@@ -27,10 +27,12 @@ Table of Financial values
 
 
 	<h5>Transaction - Traceability</h5>
-	<p>The percentage of current activities containing a transaction of type <code>Incoming Funds</code> that also contain a transaction provider activity identifier. This links the funds disbursed by one organisation and received by another. (NB activities that do not contain incoming funds transactions are excluded from the calculation.) (In future the syntax of the provider-activity-id will also be validated.)</p>
+	<p>The percentage of current activities containing a transaction of type <code>Incoming Funds</code> that also contain the IATI identifier for the funding organisation's activity. This links the funds disbursed by one organisation and received by another. (NB activities that do not contain incoming funds transactions are excluded from the calculation.) (In future the syntax of the provider-activity-id will also be validated.)</p>
+
+	<p>Donor publishers who list themselves within as a participating-org of either <code>1</code> (i.e. 'Funding') or <code>3</code> (i.e. 'Extending') AND who are not listed as type <code>4</code> (i.e. 'Implementing') will be given credit for traceability, as they are at the top of the funding chain.</p>
 
 	<h5>Budget</h5>
-	<p>Percentage of all current activities that contain at least one valid budget entry. A valid budget entry must contain a valid <code>period-start</code> AND a valid <code>period-end</code> AND a valid <code>value</code> AND a valid <code>value-date</code>.</p>
+	<p>For the hierarchy which contains the greatest number of budgets, the percentage of all current activities that contain at least one valid budget entry.  A valid budget entry must contain a valid <code>period-start</code> AND a valid <code>period-end</code> AND a valid <code>value</code> AND a valid <code>value-date</code>.</p>
 {% endblock %}
 
 

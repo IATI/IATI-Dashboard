@@ -20,7 +20,7 @@
         <th>Total Values Used <a href="{{stats_url}}/current/inverted-publisher/codelist_values.json">(J)</a></th>
         <th>Total Values on Codelist</th>
         <th>Values used, on Codelist</th>
-        <th>Values uesd, not on Codelist</th>
+        <th>Values used, not on Codelist</th>
       </tr></thead>
       <tbody>
         {% for i, (element, values) in enumerate(current_stats.inverted_publisher.codelist_values_by_major_version[major_version].items()) %}
@@ -29,10 +29,10 @@
                 <td><a href="http://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
                 <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{values|length}}</a></td>
                 <td><a href="http://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_sets[major_version].get(codelist_mapping[major_version].get(element))|length}}</a></td>
-                {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
+                {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(get_codelist_values(values))) %}
                 <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{codes|length}}</a></td>
                 {% endwith %}
-                {% with codes=sorted(set(values.keys()).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
+                {% with codes=sorted(set(get_codelist_values(values)).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
                 <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{codes|length}}</a></td>
                 {% endwith %}
             </tr>

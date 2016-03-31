@@ -21,6 +21,7 @@ import coverage
 import transparencyindicator
 from vars import expected_versions
 import text
+import datetime
 
 print('Doing initial data import')
 from data import *
@@ -65,6 +66,15 @@ def registration_agency(orgid):
         if orgid.startswith(code):
             return code
 
+def get_codelist_values(codelist_values_for_element):
+    """Return a list of unique values present within a one-level nested dictionary.
+       Envisaged usage is to gather the codelist values used by each publisher, as in 
+       stats/current/inverted-publisher/codelist_values_by_major_version.json
+       Input: Set of codelist values for a given element (listed by publisher), for example: 
+              current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
+    """  
+    return list(set([y for x in codelist_values_for_element.items() for y in x[1].keys()]))
+
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
@@ -97,6 +107,7 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+app.jinja_env.globals['current_year'] = datetime.datetime.now().year
 # Following variables set in coverage branch but not in master
 # app.jinja_env.globals['float'] = float
 # app.jinja_env.globals['dac2012'] = dac2012
@@ -106,6 +117,7 @@ app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
 app.jinja_env.globals['codelist_conditions'] = codelist_conditions
 app.jinja_env.globals['codelist_sets'] = codelist_sets
+app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 
 basic_page_names = [
         'index',

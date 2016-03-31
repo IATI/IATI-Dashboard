@@ -35,6 +35,6 @@ if [ ! -d IATI-Codelists-2 ]; then
     git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-2
 fi
 cd IATI-Codelists-2
-git checkout version-2.01 > /dev/null
+git checkout version-2.02 > /dev/null
 git pull > /dev/null
 ./gen.sh

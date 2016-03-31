@@ -66,7 +66,20 @@ def denominator(key, stats):
     else:
         return int(stats['comprehensiveness_denominator_default'])
 
+def get_hierarchy_with_most_budgets(stats):
+    """Return the number of the hierarchy with the greatest number of budgets 
+       (according to the comprehensiveness counts)
+    """
 
+    try:
+        # Get the key with the largest number of budgets
+        return max(stats['by_hierarchy'], key=lambda x: stats['by_hierarchy'][x]['comprehensiveness']['budget'])
+    except KeyError:
+        # Return None if this publisher has no comprehensiveness data in any hierarchy - i.e. KeyError
+        return None
+    except ValueError:
+        # Some publishers have no data in 'by_hierarchy' at all - i.e. ValueError: max() arg is an empty sequence
+        return None
 
 def table():
     """Generate the comprehensiveness table
@@ -93,7 +106,8 @@ def table():
         if 'comprehensiveness' in publisher_stats['bottom_hierarchy']:
             # This loop covers the financials: everything that is low in the hierarchy-attribute of an activity element
             for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness'].items():
-                if k in column_slugs['financials']:
+                # N.B. Budget calculations are done towards the end of the page
+                if (k in column_slugs['financials']) and (k is not 'budget'):
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
@@ -107,9 +121,23 @@ def table():
         # Arises from https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness_with_validation' in publisher_stats['bottom_hierarchy']:
             for k,v in publisher_stats['bottom_hierarchy']['comprehensiveness_with_validation'].items():
-                if k in column_slugs['financials']:
+                # N.B. Budget calculations are done towards the end of the page
+                if (k in column_slugs['financials']) and (k is not 'budget'):
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
+
+        # Calculate for budgets
+        # Budget calculations should be based on the hierarchy with the largest number of budgets, 
+        # see: http://discuss.iatistandard.org/t/indicator-comprehensive-methodology-consultation-space/356/7
+        if get_hierarchy_with_most_budgets(publisher_stats) in publisher_stats['by_hierarchy']:
+            publisher_stats_budget_calculations = publisher_stats['by_hierarchy'][get_hierarchy_with_most_budgets(publisher_stats)]
+            if denominator(k, publisher_stats_budget_calculations) != 0:
+                row['budget'] = int(float(publisher_stats_budget_calculations['comprehensiveness']['budget'])/denominator('budget', publisher_stats_budget_calculations)*100)
+            
+            publisher_stats_budget_calculations_validation = publisher_stats['by_hierarchy'][get_hierarchy_with_most_budgets(publisher_stats)]
+            if denominator(k, publisher_stats_budget_calculations_validation) != 0:
+                row['budget_valid'] = int(float(publisher_stats_budget_calculations['comprehensiveness_with_validation']['budget'])/denominator('budget', publisher_stats_budget_calculations_validation)*100)
+
 
         # Calculate the average for each grouping, and the overall 'summary' average
         for page in ['core', 'financials', 'valueadded', 'summary']: 
