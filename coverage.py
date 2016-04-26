@@ -38,6 +38,10 @@ def table():
         publisher_stats = get_publisher_stats(publisher)
         transactions_usd = publisher_stats['sum_transactions_by_type_by_year_usd']
         
+        # Skip if all activities from this publisher are secondary reported
+        if int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']):
+            continue
+
         # Create a list for publisher data, and populate it with basic data
         row = {}
         row['publisher'] = publisher

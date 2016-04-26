@@ -44,7 +44,11 @@ def table():
 
         # Store the data for this publisher as a new variable
         publisher_stats = get_publisher_stats(publisher)
-        
+
+        # Skip if all activities from this publisher are secondary reported
+        if int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']):
+            continue
+
         # Create a list for publisher data, and populate it with basic data
         row = {}
         row['publisher'] = publisher
