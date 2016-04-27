@@ -94,13 +94,24 @@ def table():
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
         
-        # This for loop is for non-financial data
+        
+        # Loop for Core & Value-added
+        # Calculate percentages for publisher data populated with any data
         for k,v in publisher_stats['comprehensiveness'].items():
             if k not in column_slugs['financials']:
                 if denominator(k, publisher_stats) != 0:
                     # Populate the row with the %age
                     row[k] = int(float(v)/denominator(k, publisher_stats)*100)
-                    
+
+        # Calculate percentages for publisher data which is considered valid
+        for k,v in publisher_stats['comprehensiveness_with_validation'].items():
+            if k not in column_slugs['financials']:
+                if denominator(k, publisher_stats) != 0:
+                    row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats)*100)
+        
+
+        # Loop for financials (except 'budget')
+        # Calculate percentages for publisher data populated with any data
         # Ensure that only lowest hierarchy is used for financial calculations
         # Arises from https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness' in publisher_stats['bottom_hierarchy']:
@@ -112,11 +123,6 @@ def table():
                         row[k] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
         # Calculate percentages for publisher data which is considered valid
-        for k,v in publisher_stats['comprehensiveness_with_validation'].items():
-            if k not in column_slugs['financials']:
-                if denominator(k, publisher_stats) != 0:
-                    row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats)*100)
-        
         # Ensure that only lowest hierarchy is used for financial calculations
         # Arises from https://github.com/IATI/IATI-Dashboard/issues/278
         if 'comprehensiveness_with_validation' in publisher_stats['bottom_hierarchy']:
@@ -126,7 +132,9 @@ def table():
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
-        # Calculate for budgets
+        
+        # Loop for financials ('budget')
+        # Calculate percentages for publisher data populated with any data
         # Budget calculations should be based on the hierarchy with the largest number of budgets, 
         # see: http://discuss.iatistandard.org/t/indicator-comprehensive-methodology-consultation-space/356/7
         if get_hierarchy_with_most_budgets(publisher_stats) in publisher_stats['by_hierarchy']:
@@ -134,11 +142,13 @@ def table():
             if denominator(k, publisher_stats_budget_calculations) != 0:
                 row['budget'] = int(float(publisher_stats_budget_calculations['comprehensiveness']['budget'])/denominator('budget', publisher_stats_budget_calculations)*100)
             
+            # Calculate percentages for publisher data which is considered valid
             publisher_stats_budget_calculations_validation = publisher_stats['by_hierarchy'][get_hierarchy_with_most_budgets(publisher_stats)]
             if denominator(k, publisher_stats_budget_calculations_validation) != 0:
                 row['budget_valid'] = int(float(publisher_stats_budget_calculations['comprehensiveness_with_validation']['budget'])/denominator('budget', publisher_stats_budget_calculations_validation)*100)
 
 
+        # Loop for averages
         # Calculate the average for each grouping, and the overall 'summary' average
         for page in ['core', 'financials', 'valueadded', 'summary']: 
             # Note that the summary must be last, so that it can use the average calculations from the other groupings
