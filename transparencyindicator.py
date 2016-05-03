@@ -34,11 +34,6 @@ def table():
     timeliness_frequency_data = timeliness.publisher_frequency_dict()
     timeliness_timelag_data = timeliness.publisher_timelag_dict()
 
-    # Store generator objects for the data that we are receiving
-    forwardlooking_data = forwardlooking.table()
-    comprehensiveness_data = comprehensiveness.table()
-    coverage_data = coverage.table()
-
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
 
@@ -84,9 +79,9 @@ def table():
         row['timeliness'] = int( (float(frequency_score + timelag_score) / 8) * 100 )
 
 
-        # Compute forward looking statistic
-        # Get the forward looking data for this publisher 
-        publisher_forwardlooking_data = forwardlooking_data.next()
+        # Compute forward-looking statistic
+        # Get the forward-looking data for this publisher
+        publisher_forwardlooking_data = forwardlooking.generate_row(publisher)
 
         # Convert the data for this publishers 'Percentage of current activities with budgets' fields into integers
         numbers = [ int(x) for x in publisher_forwardlooking_data['year_columns'][2].itervalues() if is_number(x) ]
@@ -96,8 +91,8 @@ def table():
 
 
         # Compute comprehensive statistic
-        # Get the comprehensiveness data for this publisher 
-        publisher_comprehensiveness_data = comprehensiveness_data.next()
+        # Get the comprehensiveness data for this publisher
+        publisher_comprehensiveness_data = comprehensiveness.generate_row(publisher)
 
         # Set the comprehensive value to be the summary average for valid data
         row['comprehensive'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
@@ -108,14 +103,14 @@ def table():
 
         
         # Get coverage statistic
-        # Get the coverage data for this publisher 
-        publisher_coverage_data = coverage_data.next()
+        # Get the coverage data for this publisher
+        publisher_coverage_data = coverage.generate_row(publisher)
 
         # Store the coverage data
         row['coverage_adjustment'] = int(publisher_coverage_data['coverage_adjustment'])
 
 
-        # Compute Coverage-adjusted score
+        # Compute coverage-adjusted score
         row['score_coverage_adjusted'] = int( row['score'] * (row['coverage_adjustment'] / float(100)) ) 
 
 
