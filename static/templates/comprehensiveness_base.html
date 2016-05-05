@@ -300,13 +300,13 @@ Else
       {% block table_test_methodology_financials %}
       <tr>
         <td>Financials</td>
-        <td>transaction - Commitment</th>
+        <td>Transaction - Commitment</th>
         <td>Activity must have at least 1 transaction with @type of 'Commitment' (i.e. <code>C</code> (1.xx) or <code>2</code> (2.xx)) or 'Incoming commitment' (i.e. <code>11</code>).</td>
         <td>All transactions of this @type must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
-        <td>transaction - Disbursement or Expenditure</td>
+        <td>Transaction - Disbursement or Expenditure</td>
         <td>Activity must have at least 1 transaction with @type <code>D</code> or <code>E</code> (1.xx) or <code>3</code> or <code>4</code> (2.xx)</td>
         <td>All transactions of these @type's must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
       </tr>
