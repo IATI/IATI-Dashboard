@@ -1,4 +1,5 @@
-# Script to generate CSV files from data in the 'stats-calculated' folder, and extra logic in other files in this repository
+# Script to generate CSV files from data in the 'stats-calculated' folder, 
+# and extra logic in other files in this repository
 
 import unicodecsv
 import os
@@ -116,3 +117,39 @@ for tab in comprehensiveness.columns.keys():
                     + [ row[slug+'_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab] ]
                     + [ row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab] ])
 
+
+
+# Coverage CSV file
+import coverage
+
+with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    # Add column headers
+    writer.writerow([
+        'Publisher Name', 
+        'Publisher Registry Id', 
+        '2014 IATI Spend (US $m)',
+        '2015 IATI Spend (US $m)',
+        '2014 Reference Spend (US $m)',
+        '2015 Reference Spend (US $m)',
+        '2015 Official Forecast (US $m)',
+        'Spend Ratio (%)',
+        'Coverage (%)',
+        'No reference data available',
+        'Data quality issue reported'
+        ])
+    for row in coverage.table():
+        # Write each row
+        writer.writerow([
+            row['publisher_title'], 
+            row['publisher'],
+            row['iati_spend_2014'],
+            row['iati_spend_2015'],
+            row['reference_spend_2014'],
+            row['reference_spend_2015'],
+            row['official_forecast_2015'],
+            row['spend_ratio'],
+            row['coverage_adjustment'],
+            row['no_data_flag'],
+            row['spend_data_error_reported_flag']
+            ])
