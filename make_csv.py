@@ -153,3 +153,16 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
             row['no_data_flag'],
             row['spend_data_error_reported_flag']
             ])
+
+
+# Transparency indicator CSV file
+import transparencyindicator
+
+with open(os.path.join('out', 'transparencyindicator.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    # Add column headers
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in transparencyindicator.columns])
+    for row in transparencyindicator.table():
+        # Write each row
+        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in transparencyindicator.columns])
+

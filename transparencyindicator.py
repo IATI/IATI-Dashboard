@@ -7,6 +7,17 @@ import forwardlooking
 import comprehensiveness
 import coverage
 
+# Set column groupings, to be displayed in the user output
+columns = [
+    # slug, header
+    ('timeliness', 'Timeliness'),
+    ('forwardlooking', 'Forward looking'),
+    ('comprehensive', 'Comprehensive'),
+    ('score', 'Score'),
+    ('coverage_adjustment', 'Coverage'),
+    ('score_coverage_adjusted', 'Coverage-adjusted score')
+    ]
+
 
 def is_number(s):
     """ @todo Document this function
