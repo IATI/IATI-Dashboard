@@ -1,6 +1,6 @@
 # This file converts a range of transparency data to percentages
 
-from data import publishers_ordered_by_title, get_publisher_stats
+from data import publishers_ordered_by_title, get_publisher_stats, secondary_publishers
 import common
 import timeliness
 import forwardlooking
@@ -52,8 +52,7 @@ def table():
         publisher_stats = get_publisher_stats(publisher)
 
         # Skip if all activities from this publisher are secondary reported
-        if (int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']) 
-            and int(publisher_stats['activities']) > 0):
+        if publisher in secondary_publishers:
             continue
 
         # Create a list for publisher data, and populate it with basic data

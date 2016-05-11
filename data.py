@@ -238,6 +238,10 @@ publisher_name={publisher:publisher_json['result']['title'] for publisher,publis
 publishers_ordered_by_title = [ (publisher_name[publisher],publisher) for publisher in current_stats['inverted_publisher']['activities'] ]
 publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
 
+# List of publishers who report all their activities as a secondary publisher
+secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items() 
+                         if int(stats['activities']) == len(stats['activities_secondary_reported']) 
+                            and int(stats['activities']) > 0]
 
 import csv
 from decimal import Decimal
@@ -267,5 +271,3 @@ slugs = {
         ) for major_version in MAJOR_VERSIONS },
     'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
 }
-
-

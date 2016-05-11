@@ -100,7 +100,16 @@
         </div>
         <div class="panel-body">
             <h5>Secondary reporters</h5>
-            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table.</p>
+            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table. 
+            {% if coverage.secondary_publishers|length > 0 %}
+            Therefore, a total of {{ coverage.secondary_publishers|length }} publishers have been excluded in this regard:
+            <ul>
+            {% for publisher in coverage.secondary_publishers %}
+                <li>{{ publisher_name[publisher] }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            </p>
 
             <h5>Coverage scores</h5>
             <h6>No reference data available</h6>

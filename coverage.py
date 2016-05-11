@@ -4,6 +4,7 @@ from data import get_publisher_stats
 from data import get_registry_id_matches
 from data import publisher_name
 from data import publishers_ordered_by_title
+from data import secondary_publishers
 
 def is_number(s):
     """ Tests if a variable is a number.
@@ -179,8 +180,7 @@ def table():
         publisher_stats = get_publisher_stats(publisher)
         
         # Skip if all activities from this publisher are secondary reported
-        if (int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']) 
-            and int(publisher_stats['activities']) > 0):
+        if publisher in secondary_publishers:
             continue
 
         # Return a generator object
