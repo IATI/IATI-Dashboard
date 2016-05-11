@@ -179,7 +179,8 @@ def table():
         publisher_stats = get_publisher_stats(publisher)
         
         # Skip if all activities from this publisher are secondary reported
-        if int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']):
+        if (int(publisher_stats['activities']) == len(publisher_stats['activities_secondary_reported']) 
+            and int(publisher_stats['activities']) > 0):
             continue
 
         # Return a generator object
