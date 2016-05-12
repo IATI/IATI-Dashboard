@@ -83,6 +83,18 @@ def get_hierarchy_with_most_budgets(stats):
         return None
 
 
+def get_first_hierarchy_with_commitments(stats):
+    """Return the number of the first hierarchy that contains at least 1 commitment
+       (according to the comprehendfidsiveness counts)
+       Returns:
+         Number of first hierarchy with commitments or None if no commitments in any hierarchy
+    """
+    hierarchies_with_commitments = {x: y['comprehensiveness']['transaction_commitment'] 
+                                     for x,y in stats.get('by_hierarchy',{}).iteritems() 
+                                     if y['comprehensiveness'].get('transaction_commitment', 0) > 0}
+    return min(hierarchies_with_commitments) if len(hierarchies_with_commitments) else None
+
+
 def generate_row(publisher):
     """Generate comprehensiveness table data for a given publisher 
     """
