@@ -41,7 +41,8 @@ def generate_row(publisher):
     row = {}
     row['publisher'] = publisher
     row['publisher_title'] = publisher_name[publisher]
-    row['no_data_flag'] = 0
+    row['no_data_flag_red'] = 0
+    row['no_data_flag_amber'] = 0
     row['spend_data_error_reported_flag'] = 0
     row['sort_order'] = 0
 
@@ -108,9 +109,9 @@ def generate_row(publisher):
 
 
     # Get reference data 
-    # Get data from stats files. Set as zero if the keys do not exist
-    data_2014 = publisher_stats['reference_spend_data_usd'].get('2014', {'ref_spend': 0})
-    data_2015 = publisher_stats['reference_spend_data_usd'].get('2015', {'ref_spend': 0, 'official_forecast': 0})
+    # Get data from stats files. Set as empty stings if the IATI-Stats code did not find them in the reference data sheet
+    data_2014 = publisher_stats['reference_spend_data_usd'].get('2014', {'ref_spend': '', 'not_in_sheet': True})
+    data_2015 = publisher_stats['reference_spend_data_usd'].get('2015', {'ref_spend': '', 'official_forecast': '', 'not_in_sheet': True})
 
     # Compute reference data as $USDm
     row['reference_spend_2014'] = round((float(data_2014['ref_spend']) / 1000000), 2) if is_number(data_2014['ref_spend']) else '-'
@@ -140,13 +141,20 @@ def generate_row(publisher):
         # For publishers where a data error is reported, set their score to 20%
         row['coverage_adjustment'] = 20
         row['spend_data_error_reported_flag'] = 1
-        row['sort_order'] = 2
+        row['sort_order'] = 3
 
     elif all([row['reference_spend_2014'] == '-', row['reference_spend_2015'] == '-', row['official_forecast_2015'] == '-']):
-        # For publishers with no data found, set their score to 20%
+        # For publishers where no reference data has been found, set their score to 20%
         row['coverage_adjustment'] = 20
-        row['no_data_flag'] = 1
-        row['sort_order'] = 1
+
+        if data_2014.get('not_in_sheet', False) and data_2015.get('not_in_sheet', False):
+            # This is a new publisher, who was not known when reference data was collected
+            row['no_data_flag_amber'] = 1
+            row['sort_order'] = 2
+        else:
+            # This is a known publisher, who appears in the reference data sheet (albeit with no data)
+            row['no_data_flag_red'] = 1
+            row['sort_order'] = 1
 
     elif row['spend_ratio'] > 120:
         # Suggestion that if apend ratio is over 100%, then generally something is wrong with the data

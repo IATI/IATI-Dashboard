@@ -25,7 +25,8 @@
             <p>As IATI is a multi-stakeholder initiative representing a range of organisation types, there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements. The IATI technical team has been working to pull these disparate sources together into a single table for use here.</p>
 
             <p><strong>Key:</strong><br/>
-            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have not yet located reference data for this publisher. Therefore they have been given a coverage ratio of 20%.<br/>
+            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have actively attempted to locate reference data for this publisher, but none has been available. Therefore they have been given a coverage ratio of 20%.<br/>
+            <span style="background-color: #ffc266">Amber flag</span>: No reference data is available for this publisher, as they began publishing after the last data collection exercise was completed.<br/>
             <span style="background-color: #fcf8aa">Yellow flag</span>: The IATI technical team have identified a data quality issue for this publisher, which has been reported to them directly. Therefore they have been given a coverage ratio of 20%.</p>
 
             {% include 'tablesorter_instructions.html' %}
@@ -56,7 +57,19 @@
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if row.no_data_flag or row.spend_data_error_reported_flag %}; background-color: {{ '#f2aaaa' if row.no_data_flag else '#fcf8aa'}}{% endif %}" data-severity="{{ row.sort_order }}"></td>
+                    {% if row.no_data_flag_red %}
+                       <!-- no_data_flag_red -->
+                       {% set bg_colour = '#f2aaaa' %}
+                    {% elif row.no_data_flag_amber %}
+                       <!-- no_data_flag_amber -->
+                       {% set bg_colour = '#ffc266' %}
+                    {% elif row.spend_data_error_reported_flag %}
+                       <!-- spend_data_error_reported_flag -->
+                       {% set bg_colour = '#fcf8aa' %}
+                    {% else %}
+                       {% set bg_colour = '' %}
+                    {% endif %}
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if bg_colour != '' %}; background-color: {{ bg_colour }}{% endif %}" data-severity="{{ row.sort_order }}"></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -112,8 +125,11 @@
             </p>
 
             <h5>Coverage scores</h5>
-            <h6>No reference data available</h6>
+            <h6>No reference data available (Historic publishers)</h6>
             <p>In some cases, reference data was not found using offical sources. The IATI technical team have contacted affected publishers and, in cases where valid reference data has not been recieved by return, a coverage ratio of 20% is assigned.  These publishers also receive a <span style="background-color: #f2aaaa">red flag</span> in the above table for identification purposes.</p>
+
+            <h6>No reference data available (New publishers)</h6>
+            <p>No reference data has been collected or sought from publishers who commenced reporting (using the IATI Registry) after last reference collection exercise was completed. Nonetheless, a coverage ratio of 20% is assigned as no data is available to calculate a coverage score.  These publishers also receive an <span style="background-color: #ffc266">amber flag</span> in the above table for identification purposes. New publishers are invited to contact <a href="mailto:support@iatistandard.org">support@iatistandard.org</a> for further information.</p>
 
             <h6>Spend ratios greater than 120%</h6>
             <p>Where a spend ratio is calculated to be greater than 120%, there is liklihood of either i) the reference figure being too low, or ii) there are data quality issues in the published data. Therefore the coverage score is reduced to 20%. Affected publishers have been contacted to confirm the figures. Amendments can also be sent to <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
