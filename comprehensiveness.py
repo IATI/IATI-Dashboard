@@ -68,13 +68,20 @@ def denominator(key, stats):
 
 
 def get_hierarchy_with_most_budgets(stats):
-    """Return the number of the hierarchy with the greatest number of budgets 
-       (according to the comprehensiveness counts)
+    """Find the hierarchy which contains the greatest number of budgets.
+       Will only count hierarchies where the default denominator is greater than zero.
+       Input:
+         stats -- a JSONDir object of publisher stats
+       Returns:
+         Key of the hierarchy with greatest number of budgets, or None
     """
 
     try:
         # Get the key with the largest number of budgets
-        return max(stats['by_hierarchy'], key=lambda x: stats['by_hierarchy'][x]['comprehensiveness']['budget'])
+        return max(stats['by_hierarchy'], key=(lambda x: 
+            stats['by_hierarchy'][x]['comprehensiveness'].get('budget', 0) 
+             if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
+          )
     except KeyError:
         # Return None if this publisher has no comprehensiveness data in any hierarchy - i.e. KeyError
         return None
