@@ -25,7 +25,7 @@ columns = {
         ('core_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ],
     'financials': [
-        ('transaction_commitment', 'Transaction - Commitment', 1, 'bottom_hierarchy'),
+        ('transaction_commitment', 'Transaction - Commitment', 1, 'first_hierarchy_with_commitments'),
         ('transaction_spend', 'Transaction - Disbursement or Expenditure', 1, 'bottom_hierarchy'),
         ('transaction_traceability', 'Transaction - Traceability', 1, 'bottom_hierarchy'),
         ('budget', 'Budget', 1, 'hierarchy_with_most_budgets'),
@@ -100,7 +100,7 @@ def get_hierarchy_with_most_budgets(stats):
 
 def get_first_hierarchy_with_commitments(stats):
     """Return the number of the first hierarchy that contains at least 1 commitment
-       (according to the comprehendfidsiveness counts)
+       (according to the comprehensiveness counts)
        Returns:
          Number of first hierarchy with commitments or None if no commitments in any hierarchy
     """
@@ -133,7 +133,10 @@ def generate_row(publisher):
             publisher_base = publisher_stats['by_hierarchy'].get(get_hierarchy_with_most_budgets(publisher_stats), {})
 
         elif column_base_lookup[slug] == 'first_hierarchy_with_commitments':
-            publisher_base = publisher_stats['by_hierarchy'].get(get_first_hierarchy_with_commitments(publisher_stats), {})
+            if get_first_hierarchy_with_commitments(publisher_stats):
+                publisher_base = publisher_stats['by_hierarchy'].get(get_first_hierarchy_with_commitments(publisher_stats), {})
+            else:
+                publisher_base = publisher_stats.get('bottom_hierarchy', {})
 
         else:
             # Most common case will be column_base_lookup[slug] == 'all':
