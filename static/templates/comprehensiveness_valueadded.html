@@ -13,7 +13,8 @@ Table of Value-Added values
 	<p>This table shows the percentage of current activities where these value added elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.)</p>
 
 	<p><strong>Key:</strong><br/>
-        Dashes: Where a publisher has published to IATI in the past but whose portfolio contains no current activities.
+        Dashes (all fields except recipient language): Where a publisher has published to IATI in the past but whose portfolio contains no current activities.<br/>
+        Dashes (recipient language field): Where a publisher has no current activites targetted at only one recipient country.
     </p>
 {% endblock %}
 
@@ -42,6 +43,10 @@ Table of Value-Added values
 
 	<h5>Conditions Attached</h5>
 	<p>The percentage of all current activities that indicate whether specific conditions are attached to the activity. (N.B. that a value of <code>No</code> / <code>0</code> is valid.)</p>
+
+	<h5>Recipient Language</h5>
+	<p>The percentage of activities targeted at only one <code>recipient-country</code> that contain <code>title</code> and <code>description</code> elements with at least one of the official languages spoken in that country.  These calculations are based on a <a href="https://github.com/IATI/IATI-Stats/blob/master/helpers/transparency_indicator/country_lang_map.csv">list of official languages within each country</a>.</p>
+
 
 	<h5>Result/Indicator</h5>
 	<p>The percentage of all current activities that contain at least one validly reported results indicator.</p>
