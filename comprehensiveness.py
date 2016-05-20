@@ -38,6 +38,7 @@ columns = {
         ('sector_dac', 'DAC Sectors', 1),
         ('capital-spend', 'Capital Spend', 1),
         ('document-link', 'Activity Documents', 1),
+        ('aid_type', 'Aid Type', 1),
         ('recipient_language', 'Recipient Language', 1),
         ('result_indicator', 'Result/ Indicator', 1),
         ('valueadded_average', 'Average', 0), # i.e. don't include the average within the calculation of the average

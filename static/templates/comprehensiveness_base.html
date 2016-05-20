@@ -369,6 +369,12 @@ Else
       </tr>
       <tr>
         <td>Value added</td>
+        <td>Aid Type</td>
+        <td>Activity must contain either i) a value in <code>default-aid-type/@code</code> or ii) each transaction must contain a value in <code>transaction/aid-type/@code</code>.</td>
+        <td>Must be valid code on the <a href="http://iatistandard.org/codelists/AidType/">AidType codelist</a>.</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
         <td>Recipient Language</td>
         <td>Only activities containing only one <code>recipient-country</code> are assessed. Activity must contain <code>title</code> and <code>description</code> elements containing at least <a href="https://github.com/IATI/IATI-Stats/blob/master/helpers/transparency_indicator/country_lang_map.csv">one of the official languages spoken</a> for the defined <code>recipient-country/@code</code>.</td>
         <td></td>
