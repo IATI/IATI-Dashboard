@@ -147,15 +147,23 @@ def generate_row(publisher):
 
         if denominator(slug, publisher_base) != 0:
             # Populate the row with the %age
-            row[slug] = int(float(numerator_all)/denominator(slug, publisher_base)*100)
-            row[slug+'_valid'] = int(float(numerator_valid)/denominator(slug, publisher_base)*100)
+            row[slug] = int(round(
+                float(numerator_all)/denominator(slug, publisher_base)*100
+                ))
+            row[slug+'_valid'] = int(round(
+                float(numerator_valid)/denominator(slug, publisher_base)*100
+                ))
 
     # Loop for averages
     # Calculate the average for each grouping, and the overall 'summary' average
     for page in ['core', 'financials', 'valueadded', 'summary']: 
         # Note that the summary must be last, so that it can use the average calculations from the other groupings
-        row[page+'_average'] = sum((row.get(x[0]) or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
-        row[page+'_average_valid'] = sum((row.get(x[0]+'_valid') or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
+        row[page+'_average'] = int(round(
+            sum((row.get(x[0]) or 0)*x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
+            ))
+        row[page+'_average_valid'] = int(round(
+            sum((row.get(x[0]+'_valid') or 0)*x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
+            ))
 
     return row
 

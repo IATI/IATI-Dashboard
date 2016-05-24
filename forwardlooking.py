@@ -52,6 +52,7 @@ def generate_row(publisher):
                 # Else, use the hierarchy which they are reported at
                 row['year_columns'][0][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_current'].get(year) or 0
                 row['year_columns'][1][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budgets'].get(year) or 0
+
             if not int(row['year_columns'][0][year]):
                 row['year_columns'][2][year] = '-'
             else:

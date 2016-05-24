@@ -87,7 +87,7 @@ def table():
             timelag_score = 0
 
         # Compute the percentage
-        row['timeliness'] = int( (float(frequency_score + timelag_score) / 8) * 100 )
+        row['timeliness'] = int( round((float(frequency_score + timelag_score) / 8) * 100))
 
 
         # Compute forward-looking statistic
@@ -98,7 +98,7 @@ def table():
         numbers = [ int(x) for x in publisher_forwardlooking_data['year_columns'][2].itervalues() if is_number(x) ]
         
         # Compute and store the mean average for these fields
-        row['forwardlooking'] = sum(int(y) for y in numbers) / len(publisher_forwardlooking_data['year_columns'][2])
+        row['forwardlooking'] = sum(int(round(y)) for y in numbers) / len(publisher_forwardlooking_data['year_columns'][2])
 
 
         # Compute comprehensive statistic
@@ -110,7 +110,7 @@ def table():
 
 
         # Compute score
-        row['score'] = int( (row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3 )
+        row['score'] = int( round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3 ))
 
         
         # Get coverage statistic
@@ -122,7 +122,7 @@ def table():
 
 
         # Compute coverage-adjusted score
-        row['score_coverage_adjusted'] = int( row['score'] * (row['coverage_adjustment'] / float(100)) ) 
+        row['score_coverage_adjusted'] = int( round(row['score'] * (row['coverage_adjustment'] / float(100))) )
 
 
         # Return a generator object

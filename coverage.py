@@ -132,7 +132,7 @@ def generate_row(publisher):
         spend_ratio_candidates.append((row['iati_spend_2015'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0)
 
     # Get the maximum value and convert to a percentage
-    row['spend_ratio'] = int(max(spend_ratio_candidates) * 100)
+    row['spend_ratio'] = int(round(max(spend_ratio_candidates) * 100))
 
 
     # Compute coverage score and raise to the top of its quintile
