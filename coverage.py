@@ -156,9 +156,10 @@ def generate_row(publisher):
             row['no_data_flag_red'] = 1
             row['sort_order'] = 1
 
-    elif row['spend_ratio'] > 120:
+    elif row['spend_ratio'] > 120 and not publisher_stats['reference_spend_data_usd'].get('DAC', False):
         # Suggestion that if apend ratio is over 100%, then generally something is wrong with the data
         # Margin of 20% leeway given otherwise bumping coverage adjustment down to 20% due to data quality issues.
+        # Note that this does not apply to DAC publishers
         # Full detail: https://github.com/IATI/IATI-Dashboard/issues/400
         row['coverage_adjustment'] = 20
 
