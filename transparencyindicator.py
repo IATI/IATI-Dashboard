@@ -10,6 +10,7 @@ import coverage
 # Set column groupings, to be displayed in the user output
 columns = [
     # slug, header
+    ('publisher_type', 'Publisher Type'),
     ('timeliness', 'Timeliness'),
     ('forwardlooking', 'Forward looking'),
     ('comprehensive', 'Comprehensive'),
@@ -59,7 +60,7 @@ def table():
         row = {}
         row['publisher'] = publisher
         row['publisher_title'] = publisher_title
-        row['publisher_type'] = common.get_publisher_type(publisher)
+        row['publisher_type'] = common.get_publisher_type(publisher)['name']
 
         # Compute timeliness statistic
         # Assign frequency score
