@@ -7,7 +7,7 @@ lxml==3.6.0
 pytz==2016.4
 
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
-Flask==0.11
+Flask==0.11.1
 MarkupSafe==0.23
 Werkzeug==0.11.10
 argparse==1.4.0
