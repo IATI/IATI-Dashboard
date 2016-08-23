@@ -64,27 +64,33 @@ def table():
 
         # Compute timeliness statistic
         # Assign frequency score
-        if timeliness_frequency_data[publisher][3] == 'Monthly':
+        # Get initial frequency assessment, or use empty set in the case where the publisher is not found
+        frequency_assessment_data = timeliness_frequency_data.get(publisher, ())
+        frequency_assessment = None if len(frequency_assessment_data) < 4 else frequency_assessment_data[3]
+        if frequency_assessment == 'Monthly':
             frequency_score = 4
-        elif timeliness_frequency_data[publisher][3] == 'Quarterly':
+        elif frequency_assessment == 'Quarterly':
             frequency_score = 3
-        elif timeliness_frequency_data[publisher][3] == 'Six-Monthly':
+        elif frequency_assessment == 'Six-Monthly':
             frequency_score = 2
-        elif timeliness_frequency_data[publisher][3] == 'Annual':
+        elif frequency_assessment == 'Annual':
             frequency_score = 1
-        else: # timeliness_frequency_data[publisher][3] == 'Less than Annual' or something else!
+        else: # frequency_assessment == 'Less than Annual' or something else!
             frequency_score = 0
 
         # Assign timelag score
-        if timeliness_timelag_data[publisher][3] == 'One month':
+        # Get initial timelag assessment, or use empty set in the case where the publisher is not found
+        timelag_assessment_data = timeliness_timelag_data.get(publisher, ())
+        timelag_assessment = None if len(timelag_assessment_data) < 4 else timelag_assessment_data[3]
+        if timelag_assessment == 'One month':
             timelag_score = 4
-        elif timeliness_timelag_data[publisher][3] == 'A quarter':
+        elif timelag_assessment == 'A quarter':
             timelag_score = 3
-        elif timeliness_timelag_data[publisher][3] == 'Six months':
+        elif timelag_assessment == 'Six months':
             timelag_score = 2
-        elif timeliness_timelag_data[publisher][3] == 'One year':
+        elif timelag_assessment == 'One year':
             timelag_score = 1
-        else: # timeliness_timelag_data[publisher][3] == 'More than one year' or something else!
+        else: # timelag_assessment == 'More than one year' or something else!
             timelag_score = 0
 
         # Compute the percentage
