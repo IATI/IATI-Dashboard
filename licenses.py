@@ -84,6 +84,12 @@ from data import ckan
 licenses = [ package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items() ]
 
 def licenses_for_publisher(publisher_name):
+    # Check publisher is in the compiled list of CKAN data
+    # Arises from https://github.com/IATI/IATI-Dashboard/issues/408
+    if publisher_name not in ckan.keys():
+        return set()
+
+    # Return unique licenses used
     return set([ package.get('license_id') for package in ckan[publisher_name].values() ])
 
 def main():
