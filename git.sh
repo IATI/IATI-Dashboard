@@ -8,13 +8,13 @@ echo "Fetching data"
 echo "Running plots.py"
 python plots.py || exit 1
 
-echo "make_csv.py"
+echo "Running make_csv.py"
 python make_csv.py || exit 1
 
-echo "speakers kit.py"
+echo "Running speakers kit.py"
 python speakers_kit.py || exit 1
 
-echo "make_html.py"
+echo "Running make_html.py"
 python make_html.py || exit 1
 
 echo "Copying static elements"
