@@ -17,9 +17,12 @@ python speakers_kit.py || exit 1
 echo "make_html.py"
 python make_html.py || exit 1
 
-echo "Copying static elements and moving output to the web directory"
+echo "Copying static elements"
 cp static/img/favicon.png out/
 cp static/img/tablesorter-icons.gif out/
+
+echo "Make a backup of the old web directory and make new content live"
+rsync -a --delete web web.bk
 mv web web.1
 mv out web
 rm -rf web.1
