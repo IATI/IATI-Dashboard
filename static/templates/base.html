@@ -64,6 +64,12 @@ html,body{height:100%;}
 #footer{background-color:#f5f5f5;margin-top: 30px}
 .container .text-muted{margin: 20px 0;}
   </style>
+
+  <!-- Start of IATI Zendesk Widget script -->
+  <script>/*<![CDATA[*/window.zEmbed||function(e,t){var n,o,d,i,s,a=[],r=document.createElement("iframe");window.zEmbed=function(){a.push(arguments)},window.zE=window.zE||window.zEmbed,r.src="javascript:false",r.title="",r.role="presentation",(r.frameElement||r).style.cssText="display: none",d=document.getElementsByTagName("script"),d=d[d.length-1],d.parentNode.insertBefore(r,d),i=r.contentWindow,s=i.document;try{o=s}catch(e){n=document.domain,r.src='javascript:var d=document.open();d.domain="'+n+'";void(0);',o=s}o.open()._l=function(){var o=this.createElement("script");n&&(this.domain=n),o.id="js-iframe-async",o.src=e,this.t=+new Date,this.zendeskHost=t,this.zEQueue=a,this.body.appendChild(o)},o.write('<body onload="document._l();">'),o.close()}("https://assets.zendesk.com/embeddable_framework/main.js","iati.zendesk.com");
+  /*]]>*/</script>
+  <!-- End of IATI Zendesk Widget script -->
+
   {% block extrahead %}{% endblock %}
 </head>
 <body>
@@ -135,22 +141,6 @@ html,body{height:100%;}
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-47211623-3', 'dashboard.iatistandard.org');
   ga('send', 'pageview');
-</script>
-<script type="text/javascript" src="//assets.zendesk.com/external/zenbox/v2.6/zenbox.js"></script>
-<style type="text/css" media="screen, projection">
-  @import url(//assets.zendesk.com/external/zenbox/v2.6/zenbox.css);
-</style>
-<script type="text/javascript">
-  if (typeof(Zenbox) !== "undefined") {
-    Zenbox.init({
-      dropboxID:   "20288338",
-      url:         "https://iati.zendesk.com",
-      tabTooltip:  "Feedback and support",
-      tabImageURL: "https://assets.zendesk.com/external/zenbox/images/tab_support_right.png",
-      tabColor:    "black",
-      tabPosition: "Right"
-    });
-  }
 </script>
   {% block extrafooter %}{% endblock %}
 </body>
