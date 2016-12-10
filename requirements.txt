@@ -3,7 +3,7 @@ matplotlib==1.5.3
 requests==2.12.3
 Frozen-Flask==0.13
 unicodecsv==0.14.1
-lxml==3.6.4
+lxml==3.7.0
 pytz==2016.10
 
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
