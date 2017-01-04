@@ -5,7 +5,6 @@ top_titles = {
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
-    'github': 'GitHub',
     'publishing_stats': 'Publishing Statistics',
     'faq': 'FAQ'
 }
@@ -33,9 +32,6 @@ page_titles = {
     'codelists' : 'Codelists',
     'booleans' : 'Booleans',
     'dates' : 'Dates',
-    'github': 'GitHub Overview',
-    'milestones' : 'GitHub Milestones',
-    'milestones-completed' : 'GitHub Milestones (Completed)',
     'publishing_stats': 'Publishing Statistics',
     'coverage' : 'Coverage',
     'timeliness' : 'Timeliness',
@@ -65,9 +61,6 @@ page_leads = {
     'elements': 'How are the IATI Standard elements used by publishers?',
     'codelists': 'How are codelists used in IATI data?',
     'booleans': 'How are booleans used in IATI data?',
-    'github': 'What are the IATI team doing in GitHub?',
-    'milestones': 'What is planned by the IATI team in GitHub?',
-    'milestones-completed': 'What has been done by the IATI team in GitHub?',
     'dates': 'What date ranges do publishers publish data for?',
 }
 page_sub_leads = {
@@ -86,9 +79,6 @@ page_sub_leads = {
     'elements': 'Checking usage of all elements within the IATI Standard.',
     'codelists': 'Checking usage of codelists across IATI data files.',
     'booleans': 'Checking usage of booleans across IATI data files. Booleans are values that are either true or false. In XML <code>true</code> or <code>1</code> can be used for true and <code>false</code> or <code>0</code> can be used for false.',
-    'github': 'Overview numbers from the <a href="https://github.com/IATI">IATI GitHub organisation</a>. GitHub is an online repository used by open-source developers to help them manage their work. The IATI team use it for a variety of reasons, including logging issues in software and guidance.',
-    'milestones': 'Calendar of the due dates of all open milestones in every repository belonging to the <a href="https://github.com/IATI">IATI organisation on GitHub</a>.',
-    'milestones-completed': 'Calendar of all CLOSED milestones in every repository belonging to the <a href="https://github.com/IATI">IATI organisation on GitHub</a>.',
 }
 
 short_page_titles = copy.copy(page_titles)
@@ -100,16 +90,12 @@ short_page_titles.update({
     'licenses' : 'Licenses',
     'organisation' : 'Organisation XML',
     'identifiers' : 'Duplicate Identifiers',
-    'github': 'Overview',
-    'milestones' : 'Milestones',
-    'milestones-completed' : 'Completed Milestones',
 })
 
-top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'github', 'publishing_stats', 'faq']
+top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'publishing_stats', 'faq']
 navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
-    'github': ['github', 'milestones', 'milestones-completed'],
     'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'transparencyindicator' ]
 }
