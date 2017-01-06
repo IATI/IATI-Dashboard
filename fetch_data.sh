@@ -5,8 +5,7 @@ mkdir -p data/downloads/
 wget "https://gist.github.com/iati-bot/4f86dc7b36562c8b2b21/raw/errors" -O data/downloads/errors
 wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned&status=new&status=reopened&format=csv&col=id&col=summary&col=status&col=owner&col=component&col=element&col=data_provider_regisrty_id&order=priority" -O data/issues.csv
 
-# Get CKAN (IATI Registry) and GitHub data
-rm -r data/github/
+# Get CKAN (IATI Registry) data
 python fetch_data.py
 
 # Generate a csv file with the number of download errors logged since 2013

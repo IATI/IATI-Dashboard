@@ -1,5 +1,5 @@
 # Script to generate static HTML pages
-# This uses Jinja templating to render the HTML templates in the 'templates' folder 
+# This uses Jinja templating to render the HTML templates in the 'templates' folder
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
 from __future__ import print_function
@@ -12,7 +12,6 @@ from collections import defaultdict
 from flask import Flask, render_template, redirect, abort, Response
 app = Flask(__name__, template_folder="static/templates")
 
-import github.web
 import licenses
 import timeliness
 import forwardlooking
@@ -68,11 +67,11 @@ def registration_agency(orgid):
 
 def get_codelist_values(codelist_values_for_element):
     """Return a list of unique values present within a one-level nested dictionary.
-       Envisaged usage is to gather the codelist values used by each publisher, as in 
+       Envisaged usage is to gather the codelist values used by each publisher, as in
        stats/current/inverted-publisher/codelist_values_by_major_version.json
-       Input: Set of codelist values for a given element (listed by publisher), for example: 
+       Input: Set of codelist values for a given element (listed by publisher), for example:
               current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
-    """  
+    """
     return list(set([y for x in codelist_values_for_element.items() for y in x[1].keys()]))
 
 # Custom Jinja filters
@@ -88,9 +87,9 @@ app.jinja_env.globals['datetime_data'] = max(gitdate.values())
 app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
-app.jinja_env.globals['top_titles'] = text.top_titles 
-app.jinja_env.globals['page_titles'] = text.page_titles 
-app.jinja_env.globals['short_page_titles'] = text.short_page_titles 
+app.jinja_env.globals['top_titles'] = text.top_titles
+app.jinja_env.globals['page_titles'] = text.page_titles
+app.jinja_env.globals['short_page_titles'] = text.short_page_titles
 app.jinja_env.globals['page_leads'] = text.page_leads
 app.jinja_env.globals['page_sub_leads'] = text.page_sub_leads
 app.jinja_env.globals['top_navigation'] = text.top_navigation
@@ -183,9 +182,6 @@ def download_errors_json():
 app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
 app.add_url_rule('/licenses.html', 'licenses', licenses.main)
 app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
-app.add_url_rule('/github.html', 'github_main', github.web.main)
-app.add_url_rule('/milestones.html', 'github_milestones', github.web.milestones)
-app.add_url_rule('/milestones-completed.html', 'github_milestones_closed', github.web.milestones_closed)
 
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):
@@ -295,18 +291,18 @@ if __name__ == '__main__':
                 yield 'basic_page', {'page_name': page_name}
             for publisher in current_stats['inverted_publisher']['activities'].keys():
                 yield 'publisher', {'publisher': publisher}
-            for slug in slugs['element']['by_slug']: 
+            for slug in slugs['element']['by_slug']:
                 yield 'element', {'slug': slug}
-            for major_version, codelist_slugs in slugs['codelist'].items(): 
+            for major_version, codelist_slugs in slugs['codelist'].items():
                 for slug in codelist_slugs['by_slug']:
                     yield 'codelist', {
                         'slug': slug,
                         'major_version': major_version
                     }
-            for license in licenses.licenses: 
+            for license in licenses.licenses:
                 if license == None:
                     license = 'None'
                 yield 'licenses_individual_license', {'license':license}
-            
+
 
         freezer.freeze()
