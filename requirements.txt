@@ -1,6 +1,6 @@
 Jinja2==2.9.4
 matplotlib==2.0.0
-requests==2.12.5
+requests==2.13.0
 Frozen-Flask==0.13
 unicodecsv==0.14.1
 lxml==3.7.2
