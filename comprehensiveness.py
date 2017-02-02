@@ -46,6 +46,9 @@ column_slugs = {tabname:[x[0] for x in values] for tabname, values in columns.it
 
 
 def denominator(key, stats):
+    """
+    Return the denominator to be used for a stats calculation.
+    """
     if not stats:
         return 0
     if key in stats['comprehensiveness_denominators']:
@@ -83,10 +86,9 @@ def table():
                     if denominator(k, publisher_stats['bottom_hierarchy']) != 0:
                         row[k+'_valid'] = int(float(v)/denominator(k, publisher_stats['bottom_hierarchy'])*100)
 
-        for page in ['core', 'financials', 'valueadded', 'summary']: 
+        for page in ['core', 'financials', 'valueadded', 'summary']:
             # summary must be last to use calculations from others
             row[page+'_average'] = sum((row.get(x[0]) or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
             row[page+'_average_valid'] = sum((row.get(x[0]+'_valid') or 0)*x[2] for x in columns[page]) / sum(x[2] for x in columns[page])
 
         yield row
-
