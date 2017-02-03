@@ -22,4 +22,5 @@ mock_stats = {
 def test_denominator():
     assert comprehensiveness.denominator('activity-date', mock_stats) == 2
     assert comprehensiveness.denominator('transaction_spend', mock_stats) == 1
-    assert comprehensiveness.denominator('non_existant_key', mock_stats) == 0
+    assert comprehensiveness.denominator('non_existant_key', mock_stats) == 2  # Passing a non existant key will return the default denominator
+    assert comprehensiveness.denominator('activity-date', None) == 0  # Passing a 'Falsey' value as the stats param will return 0
