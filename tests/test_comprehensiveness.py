@@ -10,7 +10,7 @@ mock_stats = {
       'activity-status': 2,
       'recipient_language': 0,
       'transaction_spend': 1,
-      }
+      },
     'comprehensiveness_denominator_default': 2,
     'comprehensiveness_denominators': {
       'recipient_language': 0,
