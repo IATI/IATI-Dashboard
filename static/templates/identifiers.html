@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Count of duplicates, per publisher
+      </h3>
+    </div>
+    <div class="panel-body">
+      <p>
+        Duplicate identifiers: a count of the unique <code>iati-identifier</code> that are duplicated.
+        Instances of duplicate identifiers: the total number of activities that contain a duplicate <code>iati-identifier</code>, within a publisher dataset.
+        Example: two identifiers could be found as having duplicates.  Across the dataset, these duplicates could account for 200 activities.  
+      </p>
+      {% include 'tablesorter_instructions.html' %}
+    </div>
+    <table class="table table-striped">
+      <thead><tr>
+        <th>Publisher</th>
+        <th>Duplicate identifiers</th>
+        <th>Instances of duplicate identifiers</th>
+      </tr></thead>
+      <tbody>
+        {% for publisher_title,publisher in publishers_ordered_by_title %}
+        {% set publisher_stats = get_publisher_stats(publisher) %}
+        {% if publisher_stats.publisher_duplicate_identifiers|count != 0 %}
+        <tr>
+            <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+            <td><a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/publisher_duplicate_identifiers.json">{{publisher_stats.publisher_duplicate_identifiers|length}}</td>
+            <td><a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/publisher_duplicate_identifiers.json">{{publisher_stats.publisher_duplicate_identifiers.values()|sum}}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    </div> 
+{% endblock %}
+

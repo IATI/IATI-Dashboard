@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a></li>
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('transparencyindicator.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">GPEDC Transparency Indicator (Proposed methodology)</h3>     
+        </div>
+        
+        
+        <div class="panel-body">
+            <p>This table is a consultative version of the IATI Secretariat’s proposal to the Global 
+            Partnership for Effective Development Cooperation for its revised Transparency Indicator. 
+            The indicator assesses <span style="text-decoration: underline;">all</span> IATI publishers by 
+            scoring three dimensions – Timeliness, Forward-looking and Comprehensiveness – and then 
+            adjusting this score by the proportion (by value) of a publisher’s activities covered in
+            their IATI data. The methodology is explained below the table and in the related Publisher Statistics pages. In summary:</p>
+
+            <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensive} ) / 3 &nbsp; and &nbsp;&nbsp;<strong>{Coverage-adjusted Score}</strong> = {Score} * {Coverage} / 100</p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum</a></p>
+
+            {% include 'tablesorter_instructions.html' %}
+        </div>
+        
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    {% for column_slug, column_header in transparencyindicator.columns %}
+                    <th style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in transparencyindicator.table() %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    {% for column_slug, column_header in transparencyindicator.columns %}
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row[column_slug]}}</th>
+                    {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            <h4>Timeliness</h5>
+            <p>This is calculated by scoring the assessments made on the <a href="timeliness.html">
+               frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages on a scale of 
+               0 to 4 (as below), dividing the sum of the twoscores 8 and expressing the result as 
+               a percentage. The methodology used in making the assesments is detailed on the <a href="timeliness.html">frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages.
+            </p>
+
+            <table class="table table-striped">
+                <thead>
+                    <th>Frequency assessment</th>
+                    <th>Score</th>
+                </thead>
+                <tr>
+                    <td>Monthly</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Quarterly</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Six-Monthly</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Annual</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>Less than Annual</td>
+                    <td>0</td>
+                </tr>
+            </table>
+
+            <table class="table table-striped">
+                <thead>
+                    <th>Time lag assessment</th>
+                    <th>Score</th>
+                </thead>
+                <tr>
+                    <td>One month</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>A quarter</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Six months</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>One year</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>More than one year</td>
+                    <td>0</td>
+                </tr>
+            </table>
+  
+
+            <h4>Forward looking</h4>
+            <p>The average percentage of current activities with budgets for each of the years {{current_year}} - {{current_year + 2}}.
+               The component values and a detailed methodology are displayed on the <a href="forwardlooking.html">forward looking</a> page.
+            </p>
+
+
+            <h4>Comprehensive</h4>
+            <p>The average of <a href="comprehensiveness.html">comprehensiveness</a> averages for core, financials and value-added. The core average has a double-weighting.</p>
+
+
+            <h4>Score</h4>
+            <p>The mean average of the three values above.</p>
+
+            <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensive} ) / 3</p>
+
+
+            <h4>Coverage</h4>
+            <p>The percentage expressed in the <a href="coverage.html">Coverage tab</a> which reflects 
+               the proportion of a publisher's total spend that is reported in IATI format.</p>
+
+
+            <h4>Coverage-adjusted score</h4>
+            <p>The <strong>Score</strong> is multiplied by the <strong>Coverage</strong> to create an adjusted score reflecting the amount of a publisher's data reported through IATI.</p>
+
+            <p><strong>{Coverage-adjusted Score}</strong> = {Score} * {Coverage} / 100</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_exceptions">
+        <div class="panel-heading">
+            <h3 class="panel-title">Exceptions</h3>
+        </div>
+        <div class="panel-body">
+            <h5>Secondary reporters</h5>
+            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table. 
+            {% if transparencyindicator.secondary_publishers|length > 0 %}
+            Therefore, a total of {{ transparencyindicator.secondary_publishers|length }} publishers have been excluded in this regard:
+            <ul>
+            {% for publisher in transparencyindicator.secondary_publishers %}
+                <li>{{ publisher_name[publisher] }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            </p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_comment">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comment</h3>
+        </div>
+        <div class="panel-body">
+            <p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/t/indicator-scoring-methodology-consultation-space/358/1">IATI Discussion Forum</a>.</p>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders']
+}
+{% endblock %}

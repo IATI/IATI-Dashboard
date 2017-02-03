@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a></li>  
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('coverage.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">Table of Coverage values</h3>     
+        </div>
+        
+        
+        <div class="panel-body">
+            <p>When assessing the overall quality of a publisher's data it is necessary to judge both breadth and depth. The previous dimensions have assessed the breadth. The Coverage dimension in this table assesses the depth by showing what proportion of an organisation's total output is published through IATI. For each publisher, the total spend published to IATI for a given year is compared with an external source. The resulting spend ratios are used to adjust the scores for the other dimensions using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
+
+            <p>As IATI is a multi-stakeholder initiative representing a range of organisation types, there is no single source for this comparison: the OECD DAC provides comparison for DAC-reporting bilaterals; the UN System Chief Executives Board for Coordination reports UN agency expenditures; INGOs and foundations publish annual reports, usually with audited financial statements. The IATI technical team has been working to pull these disparate sources together into a single table for use here.</p>
+
+            <p><strong>Key:</strong><br/>
+            <span style="background-color: #f2aaaa">Red flag</span>: The IATI technical team have actively attempted to locate reference data for this publisher, but none has been available. Therefore they have been given a coverage ratio of 20%.<br/>
+            <span style="background-color: #ffc266">Amber flag</span>: No reference data is available for this publisher, as they began publishing after the last data collection exercise was completed.<br/>
+            <span style="background-color: #fcf8aa">Yellow flag</span>: The IATI technical team have identified a data quality issue for this publisher, which has been reported to them directly. Therefore they have been given a coverage ratio of 20%.</p>
+
+            {% include 'tablesorter_instructions.html' %}
+        </div>
+        
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>IATI Spend (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>IATI Spend (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>Reference Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Reference Spend<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Official Forecast<br/> (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in coverage.table() %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2014 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2014 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
+                    {% if row.no_data_flag_red %}
+                       <!-- no_data_flag_red -->
+                       {% set bg_colour = '#f2aaaa' %}
+                    {% elif row.no_data_flag_amber %}
+                       <!-- no_data_flag_amber -->
+                       {% set bg_colour = '#ffc266' %}
+                    {% elif row.spend_data_error_reported_flag %}
+                       <!-- spend_data_error_reported_flag -->
+                       {% set bg_colour = '#fcf8aa' %}
+                    {% else %}
+                       {% set bg_colour = '' %}
+                    {% endif %}
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if bg_colour != '' %}; background-color: {{ bg_colour }}{% endif %}" data-severity="{{ row.sort_order }}"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            <h5>2014 / 2015 IATI Spend (US $m)</h5>
+            <p>The total reported spend (disbursements and expenditure) across all activities for the given year. For <a href="https://github.com/IATI/IATI-Dashboard/blob/master/dfi_publishers.csv" target="_blank">known Development finance institutions (DFIs)</a>, these values are the sum of their commitment transactions only, as they are generally unable to publish disbursement and expenditure transactions while an activity is in progress.</p>
+
+            <h5>2014 / 2015 Reference Spend (US $m)</h5>
+            <p>The total spend reported to an external source for the given year, as collected by the IATI Technical Team. For the foreseeable future this data will be collected manually and stored in a <a href="https://docs.google.com/spreadsheets/d/1SgE6sXbzD2y8p3QzBcY4kAqkCTG1eUld5QuSvCfKVUE" target="_blank">public Google sheet</a>, including source narrative and URLs. A csv download of this sheet is periodically imported into the source code. Publishers can request updates to information in this sheet by emailing required changes to <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
+
+            <h5>2015 Official Forecast (US $m)</h5>
+            <p>The offical DAC forecast for the given year, as collected by the IATI Technical Team.</p>
+
+            <h5>Spend Ratio (%)</h5>
+            <p>The IATI Spend as a percentage of the reference spending or the offical forecast. This value is based on whichever is the greatest result from the following calculations:
+                <ul>
+                    <li>2014 IATI Spend / 2014 Reference Spend</li>
+                    <li>2015 IATI Spend / 2015 Reference Spend</li>
+                    <li>2015 IATI Spend / 2015 Official Forecast</li>
+                    <li>2015 IATI Spend / 2014 Reference Spend <em>(The resulting value from this calculation is only included if no annual pair of IATI Spend &amp; Reference Spend/Offical Forecast data is available.)</em></li>
+                </ul>
+            </p>
+            
+            <h5>Coverage (%)</h5>
+            <p>As it is impossible to create an exacting methodology applied to disparate comparisons, the percentage coverage applied to the overall score uses a broader framework. The IATI reporting scores will be adjusted for the ratios of the financial flows reported using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_exceptions">
+        <div class="panel-heading">
+            <h3 class="panel-title">Exceptions</h3>
+        </div>
+        <div class="panel-body">
+            <h5>Secondary reporters</h5>
+            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table. 
+            {% if coverage.secondary_publishers|length > 0 %}
+            Therefore, a total of {{ coverage.secondary_publishers|length }} publishers have been excluded in this regard:
+            <ul>
+            {% for publisher in coverage.secondary_publishers %}
+                <li>{{ publisher_name[publisher] }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            </p>
+
+            <h5>Coverage scores</h5>
+            <h6>No reference data available (Historic publishers)</h6>
+            <p>In some cases, reference data was not found using offical sources. The IATI technical team have contacted affected publishers and, in cases where valid reference data has not been recieved by return, a coverage ratio of 20% is assigned.  These publishers also receive a <span style="background-color: #f2aaaa">red flag</span> in the above table for identification purposes.</p>
+
+            <h6>No reference data available (New publishers)</h6>
+            <p>No reference data has been collected or sought from publishers who commenced reporting (using the IATI Registry) after last reference collection exercise was completed. Nonetheless, a coverage ratio of 20% is assigned as no data is available to calculate a coverage score.  These publishers also receive an <span style="background-color: #ffc266">amber flag</span> in the above table for identification purposes. New publishers are invited to contact <a href="mailto:support@iatistandard.org">support@iatistandard.org</a> for further information.</p>
+
+            <h6>Spend ratios greater than 120%</h6>
+            <p>Where a spend ratio is calculated to be greater than 120%, there is likelihood of either i) the reference figure being too low, or ii) there are data quality issues in the published data. Therefore the coverage score is reduced to 20%. Affected publishers have been contacted to confirm the figures. Amendments can also be sent to <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>. Note organisations who use their DAC reporting as a reference source are excluded from this downgrading as additional information can be reported to IATI than is required to be reported to the DAC.</p>
+
+            <h6>Data issues reported</h6>
+            <p>The coverage scores for publishers who have data that the IATI Technical Team have checked and positively identified a data issue are reduced to 20%. These publishers also receive a <span style="background-color: #fcf8aa">yellow flag</span> in the above table for identification purposes.</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_comment">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comment</h3>
+        </div>
+        <div class="panel-body">
+            <p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/t/indicator-coverage-methodology-consultation-space/357/1">IATI Discussion Forum</a>.</p>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders'],
+    textExtraction: { 8: function(node,table,cellIndex) { return $(node).attr('data-severity'); } }
+}
+{% endblock %}

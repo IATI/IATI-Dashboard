@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <!--<li><a href="#h_summary">Summary</a></li>
+        <li>|</li>-->
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_assesment">Assessment</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comparison">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a><li>
+        <li>|</li>
+        <li><a href="#h_pseudocode">Pseudocode</a></li>
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
+        </div>
+
+        <div class="panel-body">
+            <p>
+                The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year.  The first block shows the number of activities that are, or will be, current in this and the next two years. The second block shows how many of these activities contain a budget for the corresponding year. The third block expresses this as a percentage.
+            </p>
+
+            <p>
+                Activities are excluded from forward looking calculations if they contain commitment transactions and 90% of the total commitment value has already been disbursed or expended in the corrsponding year or previously.  Additionally, activities are excluded if they have less than six months left to run.
+            </p>
+
+            <p><strong>Key:</strong><br/>
+                Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
+                <span style="background-color: #f2aaaa">Red flag</span>: Publishers who publish forward looking budgets at more than one hierarchical level.<br/> 
+            </p>
+            {% include 'tablesorter_instructions.html' %}
+        </div>
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th rowspan="2" style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    {% for column_header in forwardlooking.column_headers %}
+                    <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
+                    {% endfor %}
+                    <th style="border: 1px solid gray;" rowspan="2"></td>
+                </tr>
+                <tr>
+                    {% for i in range(0,3) %}
+                    {% for year in forwardlooking.years %}
+                    <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</td>
+                    {% endfor %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in forwardlooking.table() %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+
+                    {% for column in row.year_columns %}
+                        {% for year in forwardlooking.years %}
+                            <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
+                                {{column[year]}}
+                            </td>
+                        {% endfor %}
+                    {% endfor %}
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_narrative">
+    <div class="panel-heading">
+        <h3 class="panel-title">Narrative</h3>
+    </div>
+    <div class="panel-body">
+        <p>Developing countries have, since 2008, been asking their development partners to provide forward-looking data which can be used for both planning and budget preparation. While aggregated country-level budgets have a certain political value it is activity-level data that is of greatest benefit, and which this dimension attempts to assess.</p>
+        <p>The standard asks publishers to break down their total commitment to an activity into annual or quarterly budgets - i.e. the sum of the reported budgets matches the sum of commitments. It is stressed that these budget breakdowns are indicative and are in no way binding.</p>
+        <p>This assessment counts the number of current activities for this and the next two years that contain budgets. It is based on a number of assumptions:</p>
+        <ul>
+        <li>For any given future year all current activities should contain a budget.</li>
+        <li><strong>Activities are deemed to be current in any given year if their end date is reported to be in this year or beyond (or if there is no end date)</strong></li>
+        <li>Counting the number of activities that contain budgets provides a fairer result than summing the value of these budgets. The proportion of a publisher's total commitment for a future year that has already been committed to existing projects may vary greatly (e.g. you may have earmarked an amount to spend in three-years’ time, but not yet agreed on how to spend it.)</li>
+        <li>For publisher's reporting multiple hierarchical levels ONLY the level that budgets are reported at is used in this calculation. However if budgets are reported at multiple levels, all activities are counted, and the publisher is marked with a red flag.</li>
+        </ul>
+        <p>As noted above, activities are excluded from forward looking calculations if they contain commitment transactions and 90% of the total commitment value has already been disbursed or expended in the corrsponding year or previously. Additionally, activities are excluded if they have less than six months left to run (based on the reported actual or planned end date).</p>
+    </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_assesment">
+    <div class="panel-heading">
+        <h3 class="panel-title">Assessment</h3>
+    </div>
+    <div class="panel-body">
+        <p>No separate assessment is provided as the percentage of current activities containing budgets for this and the next two years is the de facto assessment. No attempt is currently being made to turn these into a descriptive summary (as, for example, "Frequency = "Monthly"). The percentage for the middle year (i.e. 'next year') is of most relevance to developing countries.</p>
+
+    </div>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_exceptions">
+    <div class="panel-heading">
+        <h3 class="panel-title">Exceptions</h3>
+    </div>
+    <div class="panel-body">
+        <h4>Dashes</h4>
+        <p>Where a percentage can not be calculated, because the denominator is zero, a dash is used.</p>
+        <h4>Red Flags</h4>
+        <p>Publishers who publish forward looking budgets at more than one hierarchical level.</p>
+    </div>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_comparison">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comparison with original Global Partnership Indicator methodology</h3>
+    </div>
+    <div class="panel-body">
+        <p>This methodology differs substantially from the original GP Indicator in two ways.</p>
+        <ul>
+        <li><strong><em>All</em> current</strong></em> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many IATI publishers, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
+        <li>As explained above the <em><strong>number of activities</strong></em> with budgets, NOT the value of budgets is counted.</li>
+        </ul>
+    </div>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_comment">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comment</h3>
+    </div>
+    <div class="panel-body">
+        <p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/t/indicator-forward-looking-methodology-consultation-space/355/1">IATI Discussion Forum</a>.</p>
+    </div>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_pseudocode">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pseudocode</h3>
+    </div>
+    <div class="panel-body">
+
+    <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
+
+    <p>To test whether an activity is current in a given year:</p>
+
+<pre>
+end dates =
+    For each activity-date that describes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
+        Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
+        If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
+        If neither work, ignore this activity-date
+If no end dates were successfully parsed
+    The activity is current
+Else
+    If there is an end date where (date year >= given year)
+        The activity is current
+    Else
+        The activity is not current
+</pre>
+
+    <p>To find the year for a budget:</p>
+
+<pre>
+start = 
+    Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
+    Otherwise null
+end =
+    Parse period-end/@iso-date as an iso date ('yyyy-mm-dd...')
+    If this does not work parse period-end/text() as an iso date ('yyyy-mm-dd...')
+    Otherwise null
+
+If start and end are both not null 
+    If (end - start <= 370 days)
+        If end month >= 7
+            budget year = end year
+        Else
+            budget year = end year - 1
+    Else ignore the budget
+Else budget year is null
+</pre>
+
+    <p>The relevant hierarchical level is:</p>
+
+<pre>
+If the @hierarchy attribute is missing the hierarchy value is 1
+Else the hierarchy value is the value of the @hierarchy attribute
+
+If all budgets for current activities in the given years have the same hierarchy value
+    Only activities with that hierarchy value are at a relevant hierarchical level
+Else
+    All activities are considered to be at a relevant hierarchical level
+</pre>
+    
+    <p>To calculate the "Current activities" column, count the number of activities that are:</p>
+        <ul>
+        <li>at a relevant hierarchical level (see above)</li>
+        <li>AND current</li>
+        </ul>
+    <p>To calculate the "Current activities with budgets" column, count the number of activities that are:
+        <ul>
+        <li>at a relevant hierarchical level (see above)</li>
+        <li>AND current</li>
+        <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</li>
+        </ul>
+    </p>
+
+    </div>
+    </div>
+{% endblock %}
+
+{% block tablesorteroptions %}{
+    widgets: ['stickyHeaders'],
+    textExtraction:{
+        7: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        },
+        8: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        },
+        9: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') > 0) return '0';
+            else return $(node).text();
+        }
+    }
+}{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+

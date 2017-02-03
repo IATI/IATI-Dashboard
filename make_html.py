@@ -1,3 +1,7 @@
+# Script to generate static HTML pages
+# This uses Jinja templating to render the HTML templates in the 'templates' folder
+# Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
+
 from __future__ import print_function
 import sys
 import os
@@ -6,15 +10,17 @@ import subprocess
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
-app = Flask(__name__)
+app = Flask(__name__, template_folder="static/templates")
 
-import github.web
 import licenses
 import timeliness
 import forwardlooking
 import comprehensiveness
+import coverage
+import transparencyindicator
 from vars import expected_versions
 import text
+import datetime
 
 print('Doing initial data import')
 from data import *
@@ -59,6 +65,15 @@ def registration_agency(orgid):
         if orgid.startswith(code):
             return code
 
+def get_codelist_values(codelist_values_for_element):
+    """Return a list of unique values present within a one-level nested dictionary.
+       Envisaged usage is to gather the codelist values used by each publisher, as in
+       stats/current/inverted-publisher/codelist_values_by_major_version.json
+       Input: Set of codelist values for a given element (listed by publisher), for example:
+              current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
+    """
+    return list(set([y for x in codelist_values_for_element.items() for y in x[1].keys()]))
+
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
@@ -72,9 +87,9 @@ app.jinja_env.globals['datetime_data'] = max(gitdate.values())
 app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
-app.jinja_env.globals['top_titles'] = text.top_titles 
-app.jinja_env.globals['page_titles'] = text.page_titles 
-app.jinja_env.globals['short_page_titles'] = text.short_page_titles 
+app.jinja_env.globals['top_titles'] = text.top_titles
+app.jinja_env.globals['page_titles'] = text.page_titles
+app.jinja_env.globals['short_page_titles'] = text.short_page_titles
 app.jinja_env.globals['page_leads'] = text.page_leads
 app.jinja_env.globals['page_sub_leads'] = text.page_sub_leads
 app.jinja_env.globals['top_navigation'] = text.top_navigation
@@ -91,11 +106,17 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
+app.jinja_env.globals['current_year'] = datetime.datetime.now().year
+# Following variables set in coverage branch but not in master
+# app.jinja_env.globals['float'] = float
+# app.jinja_env.globals['dac2012'] = dac2012
 app.jinja_env.globals['MAJOR_VERSIONS'] = MAJOR_VERSIONS
 
 app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
+app.jinja_env.globals['codelist_conditions'] = codelist_conditions
 app.jinja_env.globals['codelist_sets'] = codelist_sets
+app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 
 basic_page_names = [
         'index',
@@ -111,6 +132,8 @@ basic_page_names = [
         'comprehensiveness_core',
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
+        'coverage',
+        'transparencyindicator',
         'files',
         'activities',
         'download',
@@ -140,6 +163,12 @@ def basic_page(page_name):
         elif page_name.startswith('comprehensiveness'):
             kwargs['comprehensiveness'] = comprehensiveness
             parent_page_name = 'comprehensiveness'
+        elif page_name.startswith('coverage'):
+            kwargs['coverage'] = coverage
+            parent_page_name = 'coverage'
+        elif page_name.startswith('transparencyindicator'):
+            kwargs['transparencyindicator'] = transparencyindicator
+            parent_page_name = 'transparencyindicator'
         else:
             parent_page_name = page_name
         return render_template(page_name+'.html', page=parent_page_name, **kwargs)
@@ -153,9 +182,6 @@ def download_errors_json():
 app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
 app.add_url_rule('/licenses.html', 'licenses', licenses.main)
 app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
-app.add_url_rule('/github.html', 'github_main', github.web.main)
-app.add_url_rule('/milestones.html', 'github_milestones', github.web.milestones)
-app.add_url_rule('/milestones-completed.html', 'github_milestones_closed', github.web.milestones_closed)
 
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):
@@ -255,6 +281,8 @@ if __name__ == '__main__':
         from flask_frozen import Freezer
         app.config['FREEZER_DESTINATION'] = 'out'
         app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+        app.debug = False    # Comment to turn off debugging
+        app.testing = True   # Comment to turn off debugging
         freezer = Freezer(app)
 
         @freezer.register_generator
@@ -263,18 +291,18 @@ if __name__ == '__main__':
                 yield 'basic_page', {'page_name': page_name}
             for publisher in current_stats['inverted_publisher']['activities'].keys():
                 yield 'publisher', {'publisher': publisher}
-            for slug in slugs['element']['by_slug']: 
+            for slug in slugs['element']['by_slug']:
                 yield 'element', {'slug': slug}
-            for major_version, codelist_slugs in slugs['codelist'].items(): 
+            for major_version, codelist_slugs in slugs['codelist'].items():
                 for slug in codelist_slugs['by_slug']:
                     yield 'codelist', {
                         'slug': slug,
                         'major_version': major_version
                     }
-            for license in licenses.licenses: 
+            for license in licenses.licenses:
                 if license == None:
                     license = 'None'
                 yield 'licenses_individual_license', {'license':license}
-            
+
 
         freezer.freeze()
