@@ -4,7 +4,7 @@ from data import publishers_ordered_by_title, get_publisher_stats, publisher_nam
 
 columns = {
     'summary': [
-        # Format for elements within this list - and similar lists below ('core', 'financials', etc): 
+        # Format for elements within this list - and similar lists below ('core', 'financials', etc):
         # slug, header, weighting when calculating average
         ('core_average', 'Core Average', 2),
         ('financials_average', 'Financials Average', 1),
@@ -44,7 +44,7 @@ columns = {
         ('valueadded_average', 'Average', 0), # i.e. don't include the average within the calculation of the average
     ]}
 
-# Build dictionaries for all the column_headers and column_slugs defined above 
+# Build dictionaries for all the column_headers and column_slugs defined above
 column_headers = {tabname:[x[1] for x in values] for tabname, values in columns.items()}
 column_slugs = {tabname:[x[0] for x in values] for tabname, values in columns.items()}
 
@@ -66,10 +66,10 @@ def denominator(key, stats):
     if not stats:
         return 0
 
-    # If there is a specific denominator for the given key, return this 
+    # If there is a specific denominator for the given key, return this
     if key in stats['comprehensiveness_denominators']:
         return int(stats['comprehensiveness_denominators'][key])
-    
+
     # Otherwise, return the default denominator
     else:
         return int(stats['comprehensiveness_denominator_default'])
@@ -104,24 +104,24 @@ def get_first_hierarchy_with_commitments(stats):
        Returns:
          Number of first hierarchy with commitments or None if no commitments in any hierarchy
     """
-    hierarchies_with_commitments = {x: y['comprehensiveness']['transaction_commitment'] 
-                                     for x,y in stats.get('by_hierarchy',{}).iteritems() 
+    hierarchies_with_commitments = {x: y['comprehensiveness']['transaction_commitment']
+                                     for x,y in stats.get('by_hierarchy',{}).iteritems()
                                      if y['comprehensiveness'].get('transaction_commitment', 0) > 0}
     return min(hierarchies_with_commitments) if len(hierarchies_with_commitments) else None
 
 
 def generate_row(publisher):
-    """Generate comprehensiveness table data for a given publisher 
+    """Generate comprehensiveness table data for a given publisher
     """
 
     publisher_stats = get_publisher_stats(publisher)
-        
+
     # Set an inital dictionary, which will later be populated further
     row = {}
     row['publisher'] = publisher
     row['publisher_title'] = publisher_name[publisher]
-    
-    
+
+
     # Calculate percentages for publisher data populated with any data
     for slug in column_slugs['core'] + column_slugs['financials'] + column_slugs['valueadded']:
 
@@ -156,7 +156,7 @@ def generate_row(publisher):
 
     # Loop for averages
     # Calculate the average for each grouping, and the overall 'summary' average
-    for page in ['core', 'financials', 'valueadded', 'summary']: 
+    for page in ['core', 'financials', 'valueadded', 'summary']:
         # Note that the summary must be last, so that it can use the average calculations from the other groupings
         row[page+'_average'] = int(round(
             sum((row.get(x[0]) or 0)*x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
@@ -174,6 +174,6 @@ def table():
 
     # Loop over the data for each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
-        
+
         # Generate a row object
         yield generate_row(publisher)
