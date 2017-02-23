@@ -38,7 +38,7 @@ page_titles = {
     'forwardlooking' : 'Forward Looking',
     'comprehensiveness': 'Comprehensiveness',
     'coverage': 'Coverage',
-    'transparencyindicator': 'Global Partnership Transparency Indicator Proposal'
+    'transparencyindicator': 'Publishing Statistics'
 }
 
 page_leads = {
