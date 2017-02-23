@@ -158,12 +158,12 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
 
 
 # Transparency indicator CSV file
-import summary_statistics
+import summary_stats
 
-with open(os.path.join('out', 'summary_statistics.csv'), 'w') as fp:
+with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_statistics.columns])
-    for row in summary_statistics.table():
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_stats.columns])
+    for row in summary_stats.table():
         # Write each row
-        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_statistics.columns])
+        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
