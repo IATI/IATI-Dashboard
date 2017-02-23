@@ -1,4 +1,4 @@
-# Script to generate CSV files from data in the 'stats-calculated' folder, 
+# Script to generate CSV files from data in the 'stats-calculated' folder,
 # and extra logic in other files in this repository
 
 import unicodecsv
@@ -10,7 +10,7 @@ publisher_name={publisher:publisher_json['result']['title'] for publisher,publis
 
 def publisher_dicts():
     for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
-        publisher_stats = data.get_publisher_stats(publisher) 
+        publisher_stats = data.get_publisher_stats(publisher)
         yield {
             'Publisher Name': publisher_name[publisher],
             'Publisher Registry Id': publisher,
@@ -126,8 +126,8 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
     writer.writerow([
-        'Publisher Name', 
-        'Publisher Registry Id', 
+        'Publisher Name',
+        'Publisher Registry Id',
         '2014 IATI Spend (US $m)',
         '2015 IATI Spend (US $m)',
         '2014 Reference Spend (US $m)',
@@ -142,7 +142,7 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
     for row in coverage.table():
         # Write each row
         writer.writerow([
-            row['publisher_title'], 
+            row['publisher_title'],
             row['publisher'],
             row['iati_spend_2014'],
             row['iati_spend_2015'],
@@ -158,13 +158,12 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
 
 
 # Transparency indicator CSV file
-import transparencyindicator
+import summary_statistics
 
-with open(os.path.join('out', 'transparencyindicator.csv'), 'w') as fp:
+with open(os.path.join('out', 'summary_statistics.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in transparencyindicator.columns])
-    for row in transparencyindicator.table():
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_statistics.columns])
+    for row in summary_statistics.table():
         # Write each row
-        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in transparencyindicator.columns])
-
+        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_statistics.columns])
