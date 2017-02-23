@@ -38,7 +38,7 @@ page_titles = {
     'forwardlooking' : 'Forward Looking',
     'comprehensiveness': 'Comprehensiveness',
     'coverage': 'Coverage',
-    'transparencyindicator': 'Publishing Statistics'
+    'transparencyindicator': 'Summary Statistics'
 }
 
 page_leads = {
