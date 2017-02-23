@@ -157,7 +157,7 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
             ])
 
 
-# Transparency indicator CSV file
+# Summary Stats CSV file
 import summary_stats
 
 with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
