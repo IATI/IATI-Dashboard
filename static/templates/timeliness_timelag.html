@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="panel panel-default" id="h_table">
-    
+
         <div class="panel-heading">
             <span class="pull-right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></span>
             <h3 class="panel-title">Table of Time lag assessments</h3>
@@ -16,10 +16,10 @@
             <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
 
             <p><strong>Key:</strong><br/>
-            <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/> 
+            <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
             <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
-            <p>You are invited to participate in the ongoing consultation on publisher statistics and the transparency indicator which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum.</a></p>
+            <p>You are invited to participate in the ongoing consultation on publisher statistics and the summary statistics which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum.</a></p>
 
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -159,7 +159,7 @@
     </div>
     <div class="panel-body">
         <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
-        
+
         <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
 
         <p>In our further work on this dashboard page, we plan to exclude activities in which future transactions dates are reported from these assessments until such time that a publisher's entire portfolio no longer contains any future dates.</p>

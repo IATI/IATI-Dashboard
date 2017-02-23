@@ -18,27 +18,27 @@ page_titles = {
     'publishers': 'IATI Publishers',
     'files': 'IATI Files',
     'activities': 'IATI Activities',
-    'download' : 'Download Errors',
-    'xml' : 'XML Errors',
-    'validation' : 'Validation Against the Schema',
-    'versions' : 'Versions',
-    'rulesets' : 'Rulesets',
-    'licenses' : 'Licenses listed on the Registry',
-    'organisation' : 'Organisation XML Files',
-    'identifiers' : 'Duplicate Activity Identifiers',
-    'registration_agencies' : 'Registration Agencies',
-    'reporting_orgs' : 'Reporting Orgs',
-    'elements' : 'Elements',
-    'codelists' : 'Codelists',
-    'booleans' : 'Booleans',
-    'dates' : 'Dates',
+    'download': 'Download Errors',
+    'xml': 'XML Errors',
+    'validation': 'Validation Against the Schema',
+    'versions': 'Versions',
+    'rulesets': 'Rulesets',
+    'licenses': 'Licenses listed on the Registry',
+    'organisation': 'Organisation XML Files',
+    'identifiers': 'Duplicate Activity Identifiers',
+    'registration_agencies': 'Registration Agencies',
+    'reporting_orgs': 'Reporting Orgs',
+    'elements': 'Elements',
+    'codelists': 'Codelists',
+    'booleans': 'Booleans',
+    'dates': 'Dates',
     'publishing_stats': 'Publishing Statistics',
-    'coverage' : 'Coverage',
-    'timeliness' : 'Timeliness',
-    'forwardlooking' : 'Forward Looking',
+    'coverage': 'Coverage',
+    'timeliness': 'Timeliness',
+    'forwardlooking': 'Forward Looking',
     'comprehensiveness': 'Comprehensiveness',
     'coverage': 'Coverage',
-    'transparencyindicator': 'Summary Statistics'
+    'summary_stats': 'Summary Statistics'
 }
 
 page_leads = {
@@ -87,9 +87,9 @@ short_page_titles.update({
     'files': 'Files',
     'activities': 'Activities',
     'validation': 'Validation',
-    'licenses' : 'Licenses',
-    'organisation' : 'Organisation XML',
-    'identifiers' : 'Duplicate Identifiers',
+    'licenses': 'Licenses',
+    'organisation': 'Organisation XML',
+    'identifiers': 'Duplicate Identifiers',
 })
 
 top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'publishing_stats', 'faq']
@@ -97,5 +97,5 @@ navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
-    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'transparencyindicator' ]
+    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats' ]
 }
