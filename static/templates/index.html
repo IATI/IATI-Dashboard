@@ -6,7 +6,7 @@
 {% endblock %}
 {% block lhs_column %}
 {{ super () }}
-    
+
 <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">
@@ -86,6 +86,12 @@
                     </a>
                 </td>
                 <td>Files with Nonstandard Roots</td>
+            </tr>
+            <tr>
+                <td>
+                    {{current_stats.aggregated.toolarge}}
+                </td>
+                <td>Files that are too large to be processed</td>
             </tr>
             <tr>
                 <td>
