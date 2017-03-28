@@ -8,10 +8,10 @@ columns = [
     # slug, header
     ('publisher_type', 'Publisher Type'),
     ('num_activities', 'Number of activities'),
-    ('publishing_humanitarian', 'Publshing humanitarian?'),
+    ('publishing_humanitarian', 'Publishing humanitarian?'),
     ('humanitarian_attrib', 'Using humanitarian attribute?'),
     ('appeal_emergency', 'Appeal or emergency details'),
-    ('clusters', 'Clusers'),
+    ('clusters', 'Clusters'),
     ('timeliness', 'Timeliness (Commitment)'),
     ('average', 'Average')
     ]
