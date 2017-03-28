@@ -38,7 +38,8 @@ page_titles = {
     'forwardlooking': 'Forward Looking',
     'comprehensiveness': 'Comprehensiveness',
     'coverage': 'Coverage',
-    'summary_stats': 'Summary Statistics'
+    'summary_stats': 'Summary Statistics',
+    'humanitarian': 'Humanitarian Reporting'
 }
 
 page_leads = {
@@ -97,5 +98,5 @@ navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
-    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats' ]
+    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats', 'humanitarian' ]
 }

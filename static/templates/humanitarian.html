@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a></li>
+    </ul>
+
+    <div class="panel panel-default" id="h_table">
+        <div class="panel-heading">
+            <!--
+            #TODO Uncomment when CSV output is added to make_csv.py
+            <span class="pull-right"><a href="{{url('humanitarian.csv')}}">(This table as CSV)</a></span>
+            -->
+            <h3 class="panel-title">Humanitarian</h3>
+        </div>
+
+
+        <div class="panel-body">
+            <p>This table assesses the extent to which IATI publishers are reporting on humanitarian attributes.</p>
+
+            <p>The statistics on this page do not form part of the <a href="summary_stats.html">summary statstics</a>.</p>
+
+            {% include 'tablesorter_instructions.html' %}
+        </div>
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
+                    {% for column_slug, column_header in humanitarian.columns %}
+                    <th style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in humanitarian.table() %}
+                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    {% for column_slug, column_header in humanitarian.columns %}
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row[column_slug]}}</th>
+                    {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+          <h5>To follow</h5>
+          <p>Text to follow</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_exceptions">
+        <div class="panel-heading">
+            <h3 class="panel-title">Exceptions</h3>
+        </div>
+        <div class="panel-body">
+            <h5>To follow</h5>
+            <p>Text to follow</p>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default" id="h_comment">
+        <div class="panel-heading">
+            <h3 class="panel-title">Comment</h3>
+        </div>
+        <div class="panel-body">
+            <p>Text to follow.</p>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders']
+}
+{% endblock %}
