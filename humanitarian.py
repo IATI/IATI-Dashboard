@@ -34,13 +34,26 @@ def table():
         row['publisher_type'] = common.get_publisher_type(publisher)['name']
 
         # Get data
-        row['num_activities'] = 'TBC'
-        row['publishing_humanitarian'] = 'TBC'
-        row['humanitarian_attrib'] = 'TBC'
-        row['appeal_emergency'] = 'TBC'
-        row['clusters'] = 'TBC'
+        row['num_activities'] = publisher_stats.get('humanitarian', {}).get('is_humanitarian', '0')
+        row['publishing_humanitarian'] = 100 if row['num_activities'] > 0 else 0
+
+        row['humanitarian_attrib'] = (
+            publisher_stats.get('humanitarian', {}).get('is_humanitarian_by_attrib', '0') / row['num_activities']
+              if row['num_activities'] > 0 else 0
+            ) * 100
+
+        row['appeal_emergency'] = (
+            publisher_stats.get('humanitarian', {}).get('contains_humanitarian_scope', '0') / row['num_activities']
+              if row['num_activities'] > 0 else 0
+            ) * 100
+
+        row['clusters'] = (
+            publisher_stats.get('humanitarian', {}).get('uses_humanitarian_clusters_vocab', '0') / row['num_activities']
+              if row['num_activities'] > 0 else 0
+            ) * 100
+
         row['timeliness'] = 'TBC'
-        row['average'] = 'TBC'
+        row['average'] = (row['publishing_humanitarian'] + row['humanitarian_attrib'] + row['appeal_emergency'] + row['clusters']) / 4
 
         # Return a generator object
         yield row
