@@ -35,21 +35,21 @@ def table():
 
         # Get data
         row['num_activities'] = publisher_stats.get('humanitarian', {}).get('is_humanitarian', '0')
-        row['publishing_humanitarian'] = 100 if row['num_activities'] > 0 else 0
+        row['publishing_humanitarian'] = 100 if int(row['num_activities']) > 0 else 0
 
         row['humanitarian_attrib'] = (
             publisher_stats.get('humanitarian', {}).get('is_humanitarian_by_attrib', '0') / row['num_activities']
-              if row['num_activities'] > 0 else 0
+              if int(row['num_activities']) > 0 else 0
             ) * 100
 
         row['appeal_emergency'] = (
             publisher_stats.get('humanitarian', {}).get('contains_humanitarian_scope', '0') / row['num_activities']
-              if row['num_activities'] > 0 else 0
+              if int(row['num_activities']) > 0 else 0
             ) * 100
 
         row['clusters'] = (
             publisher_stats.get('humanitarian', {}).get('uses_humanitarian_clusters_vocab', '0') / row['num_activities']
-              if row['num_activities'] > 0 else 0
+              if int(row['num_activities']) > 0 else 0
             ) * 100
 
         row['timeliness'] = 'TBC'
