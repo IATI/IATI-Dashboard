@@ -172,7 +172,7 @@ with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
 # Humanitarian CSV file
 import humanitarian
 
-with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
+with open(os.path.join('out', 'humanitarian.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
     writer.writerow([
