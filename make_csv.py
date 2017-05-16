@@ -184,7 +184,7 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
         'Using humanitarian attribute?',
         'Appeal or emergency details',
         'Clusters',
-        'Average'
+        'Humanitarian Score'
         ])
     for row in humanitarian.table():
         writer.writerow([
