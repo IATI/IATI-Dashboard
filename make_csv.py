@@ -176,6 +176,8 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
     writer.writerow([
+        'Publisher Name',
+        'Publisher Registry Id',
         'Publisher Type',
         'Number of activities',
         'Publishing humanitarian?',
@@ -186,6 +188,8 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
         ])
     for row in humanitarian.table():
         writer.writerow([
+            row['publisher_title'],
+            row['publisher'],
             row['publisher_type'],
             row['num_activities'],
             row['publishing_humanitarian'],
