@@ -59,33 +59,31 @@
             <h3 class="panel-title">Narrative</h3>
         </div>
         <div class="panel-body">
-          <h5>To follow</h5>
-          <p>Text to follow</p>
+          <h5>Publisher</h5>
+        	<p>Only publishers with humanitarian activities included.</p>
+
+          <h5>Publisher Type</h5>
+          <p>The category that this self-defines themselves as for their IATI Regsitry account.</p>
+
+          <h5>Number of activities</h5>
+          <p>Total number of humanitarian activities (determined by use of <code>iati-activity/@humanitarian</code> attribute or <code>&lt;humanitarian-scope&gt;</code> element or DAC 5-digit sector codes between <code>72010</code> to <code>74010</code> inclusive, or DAC 3-digit sector codes <code>720</code>, <code>730</code> or <code>740</code>).</p>
+
+          <h5>Publishing humanitarian?</h5>
+          <p>If the number of activities is greater than 0, then this is set at 100. Otherwise, this is set at 0.</p>
+
+          <h5>Using humanitarian attribute?</h5>
+          <p>This is the percentage - proportion of the number of activities.</p>
+
+          <h5>Appeal or Emergency details</h5>
+          <p>Use of humanitarian-scope element, both <code>@type</code> and <code>@code</code> must be present - proportion of the number of activities.</p>
+
+          <h5>Clusters</h5>
+          <p>Use of <code>sector/@vocabulary="10"</code> - proportion of the number of activities.</p>
+
+          <h5>Average</h5>
+          <p>The sum of the columns 'Publishing humanitarian?', 'Using humanitarian attribute?', 'Appeal or Emergency details' and 'Clusters', divided by 4.</p>
         </div>
     </div>
-
-
-    <div class="panel panel-default" id="h_exceptions">
-        <div class="panel-heading">
-            <h3 class="panel-title">Exceptions</h3>
-        </div>
-        <div class="panel-body">
-            <h5>To follow</h5>
-            <p>Text to follow</p>
-        </div>
-    </div>
-
-
-    <div class="panel panel-default" id="h_comment">
-        <div class="panel-heading">
-            <h3 class="panel-title">Comment</h3>
-        </div>
-        <div class="panel-body">
-            <p>Text to follow.</p>
-        </div>
-    </div>
-
-
 {% endblock %}
 
 {% block tablesorteroptions %}
