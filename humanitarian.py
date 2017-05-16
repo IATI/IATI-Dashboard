@@ -7,10 +7,10 @@ import common
 columns = [
     # slug, header
     ('publisher_type', 'Publisher Type'),
-    ('num_activities', 'Number of activities'),
-    ('publishing_humanitarian', 'Publishing humanitarian?'),
-    ('humanitarian_attrib', 'Using humanitarian attribute?'),
-    ('appeal_emergency', 'Appeal or emergency details'),
+    ('num_activities', 'Number of Activities'),
+    ('publishing_humanitarian', 'Publishing Humanitarian?'),
+    ('humanitarian_attrib', 'Using Humanitarian Attribute?'),
+    ('appeal_emergency', 'Appeal or Emergency Details'),
     ('clusters', 'Clusters'),
     ('average', 'Average')
     ]
