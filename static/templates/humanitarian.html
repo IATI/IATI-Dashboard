@@ -34,7 +34,7 @@
             <thead>
                 <tr>
                     <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
-                    {% for column_slug, column_header in humanitarian.columns %}
+                    {% for _, column_header in humanitarian.columns %}
                     <th style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
                     {% endfor %}
                 </tr>
@@ -43,7 +43,7 @@
                 {% for row in humanitarian.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
-                    {% for column_slug, column_header in humanitarian.columns %}
+                    {% for column_slug, _ in humanitarian.columns %}
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{row[column_slug]}}</th>
                     {% endfor %}
                     </td>
