@@ -22,7 +22,6 @@ def table():
 
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
-
         # Store the data for this publisher as a new variable
         publisher_stats = get_publisher_stats(publisher)
 
