@@ -12,7 +12,6 @@ columns = [
     ('humanitarian_attrib', 'Using humanitarian attribute?'),
     ('appeal_emergency', 'Appeal or emergency details'),
     ('clusters', 'Clusters'),
-    ('timeliness', 'Timeliness (Commitment)'),
     ('average', 'Average')
     ]
 
@@ -52,7 +51,6 @@ def table():
               if int(row['num_activities']) > 0 else 0
             ) * 100
 
-        row['timeliness'] = 'TBC'
         row['average'] = (row['publishing_humanitarian'] + row['humanitarian_attrib'] + row['appeal_emergency'] + row['clusters']) / 4
 
         # Return a generator object
