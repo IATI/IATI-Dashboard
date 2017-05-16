@@ -167,3 +167,30 @@ with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
     for row in summary_stats.table():
         # Write each row
         writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
+
+
+# Humanitarian CSV file
+import humanitarian
+
+with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    # Add column headers
+    writer.writerow([
+        'Publisher Type',
+        'Number of activities',
+        'Publishing humanitarian?',
+        'Using humanitarian attribute?',
+        'Appeal or emergency details',
+        'Clusters',
+        'Average'
+        ])
+    for row in humanitarian.table():
+        writer.writerow([
+            row['publisher_type'],
+            row['num_activities'],
+            row['publishing_humanitarian'],
+            row['humanitarian_attrib'],
+            row['appeal_emergency'],
+            row['clusters'],
+            row['average']
+            ])
