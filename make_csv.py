@@ -180,8 +180,8 @@ with open(os.path.join('out', 'humanitarian.csv'), 'w') as fp:
         'Publisher Registry Id',
         'Publisher Type',
         'Number of Activities',
-        'Publishing Humanitarian?',
-        'Using Humanitarian Attribute?',
+        'Publishing Humanitarian',
+        'Using Humanitarian Attribute',
         'Appeal or Emergency Details',
         'Clusters',
         'Humanitarian Score'
