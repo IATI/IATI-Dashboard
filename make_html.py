@@ -18,6 +18,7 @@ import forwardlooking
 import comprehensiveness
 import coverage
 import summary_stats
+import humanitarian
 from vars import expected_versions
 import text
 import datetime
@@ -134,6 +135,7 @@ basic_page_names = [
         'comprehensiveness_valueadded',
         'coverage',
         'summary_stats',
+        'humanitarian',
         'files',
         'activities',
         'download',
@@ -169,6 +171,9 @@ def basic_page(page_name):
         elif page_name.startswith('summary_stats'):
             kwargs['summary_stats'] = summary_stats
             parent_page_name = 'summary_stats'
+        elif page_name.startswith('humanitarian'):
+            kwargs['humanitarian'] = humanitarian
+            parent_page_name = 'humanitarian'
         else:
             parent_page_name = page_name
         return render_template(page_name+'.html', page=parent_page_name, **kwargs)
