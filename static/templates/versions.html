@@ -2,9 +2,9 @@
 {% import 'boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Versions per file (expected)', '', 'versions_expected.png', 'versions.json',
+      {{boxes.box('Files per version (expected)', '', 'versions_expected.png', 'versions.json',
         description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.')}}
-      {{boxes.box('Versions per file (other)', '', 'versions_other.png', 'versions.json',
+      {{boxes.box('Files per version (other)', '', 'versions_other.png', 'versions.json',
         description='Count of files per other versions, over time. These values do not actually exist as IATI versions.')}}
     </div>
     <div class="row">
