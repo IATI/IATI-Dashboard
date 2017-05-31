@@ -86,10 +86,10 @@ class JSONDir(object, UserDict.DictMixin):
                 # Perform the merging
                 # Look over the set of changed registry IDs
                 for previous_id, current_id in get_registry_id_matches().items():
+                    folder = self.folder
                     previous_path = os.path.join(folder.replace(current_id,previous_id), key+'.json')
                     #  If this publisher has had an old ID and there is data for it
                     if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
-                        folder = self.folder
                         # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
                         with open(previous_path) as old_fp:
                             old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
