@@ -1,9 +1,8 @@
 #!/bin/bash
 
-# Store list of current download errors and data.tickets issues
+# Store list of current download errors
 mkdir -p data/downloads/
 wget "https://gist.github.com/iati-bot/4f86dc7b36562c8b2b21/raw/errors" -O data/downloads/errors
-wget "http://data.tickets.iatistandard.org/query?status=accepted&status=assigned&status=new&status=reopened&format=csv&col=id&col=summary&col=status&col=owner&col=component&col=element&col=data_provider_regisrty_id&order=priority" -O data/issues.csv
 
 # Get CKAN (IATI Registry) data
 python fetch_data.py
