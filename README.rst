@@ -14,13 +14,13 @@ IATI Dashboard
 Introduction
 ------------
 
-The IATI dashboard is a displays key numbers and graphs about the data on the `IATI registry <http://iatiregistry.org/>`__.
+The IATI dashboard displays key numbers and graphs about the data on the `IATI registry <http://iatiregistry.org/>`__.
 
 See the dashboard in action at http://dashboard.iatistandard.org
 
 The dashboard is in beta, all contents/urls/machine readable downloads are subject to change.
 
-This repository is the code for the dashboard frontend. Stats are generated from the Registry by stats code in a separate repository - https://github.com/IATI/IATI-Stats 
+This repository is the code for the dashboard frontend. Stats are generated from the Registry by stats code in a separate repository - https://github.com/IATI/IATI-Stats
 
 Technology Overview
 ^^^^^^^^^^^^^^^^^^^
@@ -30,7 +30,7 @@ The dashboard mostly in Python, with some helper Bash scripts.
 Python scripts:
 
 * ``make_html.py`` contains is a Flask application that makes use of Frozen Flask to generate some static HTML.
-* ``make_csv.py`` generates CSV files. 
+* ``make_csv.py`` generates CSV files.
 * ``plots.py`` generates static images of graphs using matplotlib.
 
 Bash helper scripts:
@@ -50,7 +50,7 @@ Requirements:
 * python-virtualenv (optional)
 * Development files for libfreetype, libpng, libxml and libxslt e.g. ``libfreetype6-dev libpng-dev libxml2-dev libxslt-dev``.
 
-  (alternatively, you may be able to install some of the python dependencies in 
+  (alternatively, you may be able to install some of the python dependencies in
   requirements.txt using your package manager)
 
 
@@ -88,7 +88,7 @@ Usage
 The following steps are performed every night on our `deployed dashboard <http://dashboard.iatistandard.org/>`__. (On our servers, the dashboard is actually deployed using `this salt file <https://github.com/IATI/IATI-Websites/blob/master/salt/dashboard.sls>`__.
 
 .. code-block:: bash
-    
+
     # Fetch the necessary calculated stats
     ./get_stats.sh
     # Fetch some extra data from github and github gists
