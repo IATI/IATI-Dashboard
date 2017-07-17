@@ -23,7 +23,6 @@ def publisher_dicts():
             'Reporting Org on Registry': data.ckan_publishers[publisher]['result']['publisher_iati_id'],
             'Reporting Orgs in Data (count)': len(publisher_stats['reporting_orgs']),
             'Reporting Orgs in Data': ';'.join(publisher_stats['reporting_orgs']),
-            'Data Tickets': len(data.data_tickets[publisher]),
             'Hierarchies (count)': len(publisher_stats['hierarchies']),
             'Hierarchies': ';'.join(publisher_stats['hierarchies']),
         }
@@ -41,7 +40,6 @@ with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
         'Reporting Org on Registry',
         'Reporting Orgs in Data (count)',
         'Reporting Orgs in Data',
-        'Data Tickets',
         'Hierarchies (count)',
         'Hierarchies',
         ])

@@ -19,9 +19,6 @@
                 <li><a href="#h_headlines">Headlines</a>
                 <li><a href="#h_dataquality">Data Quality</a>
                     <ul>
-                        {% if publisher in data_tickets and data_tickets[publisher]|count %}
-                        <li><a href="#p_datatickets">Data Tickets</a>
-                        {% endif %}
                         {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
                         <li><a href="#p_validation">Files Failing Validation</a>
                         {% endif %}
@@ -148,25 +145,6 @@
     <p>This section will be blank if no issues were found.</p>
 
     <div class="row">
-    {% if publisher in data_tickets and data_tickets[publisher]|count %}
-    <div class="col-md-6">
-        <div class="panel panel-default" id="p_datatickets">
-          <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Data Tickets</h3></div>
-
-          <table class="table">
-            {% for issue in data_tickets[publisher] %}
-            <tr>
-                <td><a href="http://data.tickets.iatistandard.org/ticket/{{issue.id}}">{{issue.status}}</a></td>
-                <td><a href="http://data.tickets.iatistandard.org/ticket/{{issue.id}}">{{issue.summary}}</a></td>
-                <td><a href="http://data.tickets.iatistandard.org/ticket/{{issue.id}}">{{issue.component}}</a></td>
-                <td><a href="http://data.tickets.iatistandard.org/ticket/{{issue.id}}">{{issue.element}}</a></td>
-                <td><a href="http://data.tickets.iatistandard.org/ticket/{{issue.id}}">{{issue.owner}}</a></td>
-            </tr>
-            {% endfor %}
-          </table>
-        </div>
-    </div>
-    {% endif %}
 
     {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
     <div class="col-md-6">
@@ -433,4 +411,3 @@ $('.popover-html').popover({
 <script>$(function() { $("table.table:not(.exploring-data)").tablesorter(); });</script>
 <script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}); });</script>
 {% endblock %}
-
