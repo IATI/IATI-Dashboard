@@ -123,9 +123,9 @@ def generate_row(publisher):
     # Compile a list of ratios for spend & reference data paired by year
     spend_ratio_candidates = [(row['iati_spend_2014'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0, 
                               (row['iati_spend_2015'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0,
-                              (row['iati_spend_2015'] / row['official_forecast_2015']) if (row['official_forecast_2015'] > 0) and is_number(row['official_forecast_2015']) else 0]
+                              (row['iati_spend_2015'] / row['official_forecast_2015']) if (row['official_forecast_2015'] > 0) and is_number(row['official_forecast_2015']) else 0,
                               (row['iati_spend_2016'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0, 
-                              (row['iati_spend_2016'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0,
+                              (row['iati_spend_2016'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0]
     
     # If there are no annual pairs, add the value of 2015 spend / 2014 reference data
     if ((row['iati_spend_2014'] == 0 or row['reference_spend_2014'] == '-') 
