@@ -26,7 +26,6 @@
                 <th>Total File Size <a href="{{stats_url}}/current/inverted-publisher/file_size.json">(J)</a></th>
                 <th>Hierarchies <a href="{{stats_url}}/current/inverted-publisher/hierarchies.json">(J)</a></th>
                 <th>Reporting Orgs <a href="{{stats_url}}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
-                <th>Data Tickets</th>
             </tr>
         </thead>
         <tbody>
@@ -41,13 +40,12 @@
                 <td data-bytes="{{current_stats.inverted_publisher.file_size.get(publisher)}}">{{current_stats.inverted_publisher.file_size.get(publisher)|filesizeformat}}</td>
                 <td>{{publisher_stats.hierarchies|length}}</td>
                 <td>{{publisher_stats.reporting_orgs|length}}</td>
-                <td>{{data_tickets[publisher]|count}}</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
-    <p id="files_note">* Files is the sum of Activity Files <a href="{{stats_url}}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{stats_url}}/current/inverted-publisher/organisation_files.json">(J)</a>.</p> 
+    <p id="files_note">* Files is the sum of Activity Files <a href="{{stats_url}}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{stats_url}}/current/inverted-publisher/organisation_files.json">(J)</a>.</p>
 {% endblock %}
 {% block tablesorteroptions %}
 {textExtraction:{5: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}

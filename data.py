@@ -199,13 +199,6 @@ with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
-data_tickets = defaultdict(list)
-with open('./data/issues.csv') as fp:
-    # Skip BOM
-    fp.read(3)
-    reader = unicodecsv.DictReader(fp)
-    for issue in reader:
-        data_tickets[issue['data_provider_regisrty_id']].append(issue)
 
 def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12

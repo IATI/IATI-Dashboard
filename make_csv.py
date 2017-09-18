@@ -1,4 +1,4 @@
-# Script to generate CSV files from data in the 'stats-calculated' folder, 
+# Script to generate CSV files from data in the 'stats-calculated' folder,
 # and extra logic in other files in this repository
 
 import unicodecsv
@@ -10,7 +10,7 @@ publisher_name={publisher:publisher_json['result']['title'] for publisher,publis
 
 def publisher_dicts():
     for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
-        publisher_stats = data.get_publisher_stats(publisher) 
+        publisher_stats = data.get_publisher_stats(publisher)
         yield {
             'Publisher Name': publisher_name[publisher],
             'Publisher Registry Id': publisher,
@@ -23,7 +23,6 @@ def publisher_dicts():
             'Reporting Org on Registry': data.ckan_publishers[publisher]['result']['publisher_iati_id'],
             'Reporting Orgs in Data (count)': len(publisher_stats['reporting_orgs']),
             'Reporting Orgs in Data': ';'.join(publisher_stats['reporting_orgs']),
-            'Data Tickets': len(data.data_tickets[publisher]),
             'Hierarchies (count)': len(publisher_stats['hierarchies']),
             'Hierarchies': ';'.join(publisher_stats['hierarchies']),
         }
@@ -41,7 +40,6 @@ with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
         'Reporting Org on Registry',
         'Reporting Orgs in Data (count)',
         'Reporting Orgs in Data',
-        'Data Tickets',
         'Hierarchies (count)',
         'Hierarchies',
         ])
@@ -126,8 +124,8 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
     writer.writerow([
-        'Publisher Name', 
-        'Publisher Registry Id', 
+        'Publisher Name',
+        'Publisher Registry Id',
         '2014 IATI Spend (US $m)',
         '2015 IATI Spend (US $m)',
         '2014 Reference Spend (US $m)',
@@ -142,7 +140,7 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
     for row in coverage.table():
         # Write each row
         writer.writerow([
-            row['publisher_title'], 
+            row['publisher_title'],
             row['publisher'],
             row['iati_spend_2014'],
             row['iati_spend_2015'],
@@ -157,14 +155,44 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
             ])
 
 
-# Transparency indicator CSV file
-import transparencyindicator
+# Summary Stats CSV file
+import summary_stats
 
-with open(os.path.join('out', 'transparencyindicator.csv'), 'w') as fp:
+with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
     writer = unicodecsv.writer(fp)
     # Add column headers
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in transparencyindicator.columns])
-    for row in transparencyindicator.table():
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_stats.columns])
+    for row in summary_stats.table():
         # Write each row
-        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in transparencyindicator.columns])
+        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
 
+
+# Humanitarian CSV file
+import humanitarian
+
+with open(os.path.join('out', 'humanitarian.csv'), 'w') as fp:
+    writer = unicodecsv.writer(fp)
+    # Add column headers
+    writer.writerow([
+        'Publisher Name',
+        'Publisher Registry Id',
+        'Publisher Type',
+        'Number of Activities',
+        'Publishing Humanitarian',
+        'Using Humanitarian Attribute',
+        'Appeal or Emergency Details',
+        'Clusters',
+        'Humanitarian Score'
+        ])
+    for row in humanitarian.table():
+        writer.writerow([
+            row['publisher_title'],
+            row['publisher'],
+            row['publisher_type'],
+            row['num_activities'],
+            row['publishing_humanitarian'],
+            row['humanitarian_attrib'],
+            row['appeal_emergency'],
+            row['clusters'],
+            row['average']
+            ])

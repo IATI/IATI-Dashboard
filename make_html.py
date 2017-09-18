@@ -17,7 +17,8 @@ import timeliness
 import forwardlooking
 import comprehensiveness
 import coverage
-import transparencyindicator
+import summary_stats
+import humanitarian
 from vars import expected_versions
 import text
 import datetime
@@ -101,7 +102,6 @@ app.jinja_env.globals['ckan'] = ckan
 app.jinja_env.globals['ckan_publishers'] = ckan_publishers
 app.jinja_env.globals['publisher_name'] = publisher_name
 app.jinja_env.globals['publishers_ordered_by_title'] = publishers_ordered_by_title
-app.jinja_env.globals['data_tickets'] = data_tickets
 app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
@@ -133,7 +133,8 @@ basic_page_names = [
         'comprehensiveness_financials',
         'comprehensiveness_valueadded',
         'coverage',
-        'transparencyindicator',
+        'summary_stats',
+        'humanitarian',
         'files',
         'activities',
         'download',
@@ -166,9 +167,12 @@ def basic_page(page_name):
         elif page_name.startswith('coverage'):
             kwargs['coverage'] = coverage
             parent_page_name = 'coverage'
-        elif page_name.startswith('transparencyindicator'):
-            kwargs['transparencyindicator'] = transparencyindicator
-            parent_page_name = 'transparencyindicator'
+        elif page_name.startswith('summary_stats'):
+            kwargs['summary_stats'] = summary_stats
+            parent_page_name = 'summary_stats'
+        elif page_name.startswith('humanitarian'):
+            kwargs['humanitarian'] = humanitarian
+            parent_page_name = 'humanitarian'
         else:
             parent_page_name = page_name
         return render_template(page_name+'.html', page=parent_page_name, **kwargs)

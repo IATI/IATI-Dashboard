@@ -46,7 +46,7 @@
         {% for value, publishers in values.items() %}
             {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
             <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
@@ -69,7 +69,7 @@
         {% for value, publishers in values.items() %}
             {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
             <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
             </td></tr>
             {% endif %}
         {% endfor %}
