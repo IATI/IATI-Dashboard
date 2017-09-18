@@ -4,6 +4,6 @@ python:
 install:
   - pip install -r requirements_dev.txt
   - ./get_stats.sh
-  - ./fetch_data.sh
+  - travis_wait 20 ./fetch_data.sh
 script:  py.test --cov .
 after_success:  coveralls
