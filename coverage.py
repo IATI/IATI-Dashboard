@@ -134,7 +134,7 @@ def generate_row(publisher):
             iati_2016_spend_total += transactions_usd['E']['USD']['2016']
 
     # Convert to millions USD
-    row['iati_spend_2016'] = round(float( iati_2015_spend_total / 1000000), 2)
+    row['iati_spend_2016'] = round(float( iati_2016_spend_total / 1000000), 2)
 
 
     # Get reference data
