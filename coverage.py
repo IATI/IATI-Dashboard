@@ -159,8 +159,8 @@ def generate_row(publisher):
         (row['iati_spend_2015'] == 0 or row['reference_spend_2015'] == '-') and
         (row['iati_spend_2015'] == 0 or row['official_forecast_2015'] == '-')):
         spend_ratio_candidates.append((row['iati_spend_2015'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0)
-        spend_ratio_candidates.append((row['iati_spend_2016'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0)
         spend_ratio_candidates.append((row['iati_spend_2016'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0)
+        spend_ratio_candidates.append((row['iati_spend_2016'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0)
 
 
     # Get the maximum value and convert to a percentage
