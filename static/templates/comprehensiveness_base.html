@@ -2,7 +2,7 @@
 {% import 'boxes.html' as boxes %}
 
 {% block container %}
-    
+
     {% block page_header_div %}
         {{ super() }}
     {% endblock %}
@@ -34,9 +34,9 @@
     <div class="panel panel-default" id="h_table">
     <div class="panel-heading">
         <span class="pull-right"><a href="{{url('comprehensiveness_'+tab+'.csv')}}">(This table as CSV)</a></span>
-        <h3 class="panel-title">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h3>     
+        <h3 class="panel-title">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h3>
     </div>
-    
+
     {% if self.heading_detail() %}
     <div class="panel-body">
         {% block heading_detail %}{% endblock %}
@@ -143,7 +143,7 @@
     <p>To determine the lowest hierarchy:</p>
 <pre>
 Lowest hierarchy =
-   Largest integer reported in the hierarchy attribute of any iati-activity element 
+   Largest integer reported in the hierarchy attribute of any iati-activity element
 </pre>
 
     <p>To determine whether an activity is at the lowest hierarchical level:</p>
@@ -182,7 +182,7 @@ Else
             The activity is current
         Else
             The activity is not current
-    
+
 </pre>
 
     <p>To determine whether we use an activity is relevant for a given comprehensiveness test.</p>
@@ -352,7 +352,7 @@ Else
       <tr>
         <td>Value added</td>
         <td>DAC Sectors</td>
-        <td>Activity must contain at least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx), or there is no @vocabulary attribute (in which case DAC/1 is assumed).</td>
+        <td>At least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx), must be reported at activity level, unless there is no @vocabulary attribute, in which case DAC/1 is assumed. If there is no sector element at activity level it must be reported within all transactions contained within that activity.</td>
         <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
       </tr>
       <tr>
@@ -451,4 +451,3 @@ Else
 }
 {% endblock %}
 {% block tablesortertarget %}table#main_table{% endblock %}
-
