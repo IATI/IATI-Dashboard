@@ -30,7 +30,7 @@ def convert_to_int(x):
 
 
 def generate_row(publisher):
-    """Generate coverage table data for a given publisher 
+    """Generate coverage table data for a given publisher
     """
 
     # Store the data for this publisher as new variables
@@ -49,10 +49,10 @@ def generate_row(publisher):
 
     # Compute 2014 IATI spend
     iati_2014_spend_total = 0
-    
+
 
     if publisher in dfi_publishers:
-        # If this publisher is a DFI, then their 2014 spend total should be based on their  
+        # If this publisher is a DFI, then their 2014 spend total should be based on their
         # commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387
         if '2014' in transactions_usd.get('2', {}).get('USD', {}):
             iati_2014_spend_total += transactions_usd['2']['USD']['2014']
@@ -72,9 +72,9 @@ def generate_row(publisher):
             iati_2014_spend_total += transactions_usd['4']['USD']['2014']
 
         if '2014' in transactions_usd.get('E', {}).get('USD', {}):
-            iati_2014_spend_total += transactions_usd['E']['USD']['2014']            
+            iati_2014_spend_total += transactions_usd['E']['USD']['2014']
 
-    # Convert to millions USD 
+    # Convert to millions USD
     row['iati_spend_2014'] = round(float( iati_2014_spend_total / 1000000), 2)
 
 
@@ -82,7 +82,7 @@ def generate_row(publisher):
     iati_2015_spend_total = 0
 
     if publisher in dfi_publishers:
-        # If this publisher is a DFI, then their 2015 spend total should be based on their  
+        # If this publisher is a DFI, then their 2015 spend total should be based on their
         # commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387
         if '2015' in transactions_usd.get('2', {}).get('USD', {}):
             iati_2015_spend_total += transactions_usd['2']['USD']['2015']
@@ -104,11 +104,40 @@ def generate_row(publisher):
         if '2015' in transactions_usd.get('E', {}).get('USD', {}):
             iati_2015_spend_total += transactions_usd['E']['USD']['2015']
 
-    # Convert to millions USD 
+    # Convert to millions USD
     row['iati_spend_2015'] = round(float( iati_2015_spend_total / 1000000), 2)
 
+    # Compute 2016 IATI spend
+    iati_2016_spend_total = 0
 
-    # Get reference data 
+    if publisher in dfi_publishers:
+        # If this publisher is a DFI, then their 2016 spend total should be based on their
+        # commitment transactions only. See https://github.com/IATI/IATI-Dashboard/issues/387
+        if '2016' in transactions_usd.get('2', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['2']['USD']['2016']
+
+        if '2016' in transactions_usd.get('C', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['C']['USD']['2016']
+
+    else:
+        # This is a non-DFI publisher
+        if '2016' in transactions_usd.get('3', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['3']['USD']['2016']
+
+        if '2016' in transactions_usd.get('D', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['D']['USD']['2016']
+
+        if '2016' in transactions_usd.get('4', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['4']['USD']['2016']
+
+        if '2016' in transactions_usd.get('E', {}).get('USD', {}):
+            iati_2016_spend_total += transactions_usd['E']['USD']['2016']
+
+    # Convert to millions USD
+    row['iati_spend_2016'] = round(float( iati_2016_spend_total / 1000000), 2)
+
+
+    # Get reference data
     # Get data from stats files. Set as empty stings if the IATI-Stats code did not find them in the reference data sheet
     data_2014 = publisher_stats['reference_spend_data_usd'].get('2014', {'ref_spend': '', 'not_in_sheet': True})
     data_2015 = publisher_stats['reference_spend_data_usd'].get('2015', {'ref_spend': '', 'official_forecast': '', 'not_in_sheet': True})
@@ -121,15 +150,18 @@ def generate_row(publisher):
 
     # Compute spend ratio score
     # Compile a list of ratios for spend & reference data paired by year
-    spend_ratio_candidates = [(row['iati_spend_2014'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0, 
+    spend_ratio_candidates = [(row['iati_spend_2014'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0,
                               (row['iati_spend_2015'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0,
                               (row['iati_spend_2015'] / row['official_forecast_2015']) if (row['official_forecast_2015'] > 0) and is_number(row['official_forecast_2015']) else 0]
-    
-    # If there are no annual pairs, add the value of 2015 spend / 2014 reference data
-    if ((row['iati_spend_2014'] == 0 or row['reference_spend_2014'] == '-') 
-        and (row['iati_spend_2015'] == 0 or row['reference_spend_2015'] == '-') 
-        and (row['iati_spend_2015'] == 0 or row['official_forecast_2015'] == '-')):
+
+    # If there are no annual pairs, add the value of non-matching-year spend / reference data
+    if ((row['iati_spend_2014'] == 0 or row['reference_spend_2014'] == '-') and
+        (row['iati_spend_2015'] == 0 or row['reference_spend_2015'] == '-') and
+        (row['iati_spend_2015'] == 0 or row['official_forecast_2015'] == '-')):
         spend_ratio_candidates.append((row['iati_spend_2015'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0)
+        spend_ratio_candidates.append((row['iati_spend_2016'] / row['reference_spend_2014']) if (row['reference_spend_2014'] > 0) and is_number(row['reference_spend_2014']) else 0)
+        spend_ratio_candidates.append((row['iati_spend_2016'] / row['reference_spend_2015']) if (row['reference_spend_2015'] > 0) and is_number(row['reference_spend_2015']) else 0)
+
 
     # Get the maximum value and convert to a percentage
     row['spend_ratio'] = int(round(max(spend_ratio_candidates) * 100))
@@ -187,7 +219,7 @@ def table():
 
         # Store the data for this publisher as new variables
         publisher_stats = get_publisher_stats(publisher)
-        
+
         # Skip if all activities from this publisher are secondary reported
         if publisher in secondary_publishers:
             continue
