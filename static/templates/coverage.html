@@ -9,16 +9,16 @@
         <li>|</li>
         <li><a href="#h_exceptions">Exceptions</a></li>
         <li>|</li>
-        <li><a href="#h_comment">Comment</a></li>  
+        <li><a href="#h_comment">Comment</a></li>
     </ul>
 
     <div class="panel panel-default" id="h_table">
         <div class="panel-heading">
             <span class="pull-right"><a href="{{url('coverage.csv')}}">(This table as CSV)</a></span>
-            <h3 class="panel-title">Table of Coverage values</h3>     
+            <h3 class="panel-title">Table of Coverage values</h3>
         </div>
-        
-        
+
+
         <div class="panel-body">
             <p>When assessing the overall quality of a publisher's data it is necessary to judge both breadth and depth. The previous dimensions have assessed the breadth. The Coverage dimension in this table assesses the depth by showing what proportion of an organisation's total output is published through IATI. For each publisher, the total spend published to IATI for a given year is compared with an external source. The resulting spend ratios are used to adjust the scores for the other dimensions using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
 
@@ -31,13 +31,14 @@
 
             {% include 'tablesorter_instructions.html' %}
         </div>
-        
+
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
                     <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>IATI Spend (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>IATI Spend (US $m)</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">2016<br/>IATI Spend (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2014<br/>Reference Spend<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Reference Spend<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Official Forecast<br/> (US $m)</th>
@@ -52,6 +53,7 @@
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2014 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2015 }}</td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.iati_spend_2016 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2014 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
@@ -82,7 +84,7 @@
             <h3 class="panel-title">Narrative</h3>
         </div>
         <div class="panel-body">
-            <h5>2014 / 2015 IATI Spend (US $m)</h5>
+            <h5>2014 / 2015 / 2016 IATI Spend (US $m)</h5>
             <p>The total reported spend (disbursements and expenditure) across all activities for the given year. For <a href="https://github.com/IATI/IATI-Dashboard/blob/master/dfi_publishers.csv" target="_blank">known Development finance institutions (DFIs)</a>, these values are the sum of their commitment transactions only, as they are generally unable to publish disbursement and expenditure transactions while an activity is in progress.</p>
 
             <h5>2014 / 2015 Reference Spend (US $m)</h5>
@@ -97,10 +99,13 @@
                     <li>2014 IATI Spend / 2014 Reference Spend</li>
                     <li>2015 IATI Spend / 2015 Reference Spend</li>
                     <li>2015 IATI Spend / 2015 Official Forecast</li>
-                    <li>2015 IATI Spend / 2014 Reference Spend <em>(The resulting value from this calculation is only included if no annual pair of IATI Spend &amp; Reference Spend/Offical Forecast data is available.)</em></li>
+                    <li>2015 IATI Spend / 2014 Reference Spend*</li>
+                    <li>2016 IATI Spend / 2014 Reference Spend*</li>
+                    <li>2016 IATI Spend / 2015 Reference Spend*</li>
                 </ul>
+            <em>* The resulting value from this calculation is only included if no annual pair of IATI Spend &amp; Reference Spend/Offical Forecast data is available.</em>
             </p>
-            
+
             <h5>Coverage (%)</h5>
             <p>As it is impossible to create an exacting methodology applied to disparate comparisons, the percentage coverage applied to the overall score uses a broader framework. The IATI reporting scores will be adjusted for the ratios of the financial flows reported using the following scale of coverage: Excellent: 80% or over (adjustment factor 100%); Good: 60 – 80% (adjustment factor 80%); Fair: 40 – 60% (adjustment factor 60%); and Poor: less than 40% (adjustment factor 40%).</p>
         </div>
@@ -113,7 +118,7 @@
         </div>
         <div class="panel-body">
             <h5>Secondary reporters</h5>
-            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table. 
+            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table.
             {% if coverage.secondary_publishers|length > 0 %}
             Therefore, a total of {{ coverage.secondary_publishers|length }} publishers have been excluded in this regard:
             <ul>

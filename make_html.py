@@ -102,7 +102,6 @@ app.jinja_env.globals['ckan'] = ckan
 app.jinja_env.globals['ckan_publishers'] = ckan_publishers
 app.jinja_env.globals['publisher_name'] = publisher_name
 app.jinja_env.globals['publishers_ordered_by_title'] = publishers_ordered_by_title
-app.jinja_env.globals['data_tickets'] = data_tickets
 app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
