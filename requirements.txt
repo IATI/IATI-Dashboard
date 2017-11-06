@@ -1,21 +1,21 @@
-Jinja2==2.9.6
-matplotlib==2.0.2
-requests==2.18.3
-Frozen-Flask==0.15
-unicodecsv==0.14.1
-lxml==3.8.0
-pytz==2017.2
+Jinja2==2.9.6  # rq.filter: <3.0
+matplotlib==2.0.2  # rq.filter: <3.0
+requests==2.18.3  # rq.filter: <3.0
+Frozen-Flask==0.15  # rq.filter: <0.16
+unicodecsv==0.14.1  # rq.filter: <0.15
+lxml==3.8.0  # rq.filter: <4.0
+pytz==2017.2  # rq.filter: <2018.0
 
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
-Flask==0.12.2
-MarkupSafe==1.0
-Werkzeug==0.12.2
-argparse==1.4.0
-itsdangerous==0.24
-mock==2.0.0
-nose==1.3.7
-numpy==1.13.1
-pyparsing==2.2.0
-python-dateutil==2.6.1
-six==1.10.0
-wsgiref==0.1.2
+Flask==0.12.2  # rq.filter: <0.13
+MarkupSafe==1.0  # rq.filter: <2.0
+Werkzeug==0.12.2  # rq.filter: <0.13
+argparse==1.4.0  # rq.filter: <2.0
+itsdangerous==0.24  # rq.filter: <0.25
+mock==2.0.0  # rq.filter: <3.0
+nose==1.3.7  # rq.filter: <2.0
+numpy==1.13.1  # rq.filter: <2.0
+pyparsing==2.2.0  # rq.filter: <3.0
+python-dateutil==2.6.1  # rq.filter: <3.0
+six==1.10.0  # rq.filter: <2.0
+wsgiref==0.1.2  # rq.filter: <0.2
