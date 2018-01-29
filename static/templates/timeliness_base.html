@@ -2,7 +2,7 @@
 {% import 'boxes.html' as boxes %}
 
 {% block container %}
-    
+
     {% block page_header_div %}
         {{ super() }}
     {% endblock %}
@@ -35,22 +35,11 @@
 {% endblock %}
 
 
-{% block comment %}
-<div class="panel panel-default" id="h_comment">
-    <div class="panel-heading">
-        <h3 class="panel-title">Comment</h3>
-    </div>
-    <div class="panel-body">
-        <p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/t/indicator-timeliness-methodology-consultation-space/354/1">IATI Discussion Forum</a>.</p>
-    </div>
-    </div>
-{% endblock %}
-
 
 {% block tablesorteroptions %}
-{ 
-    widgets: ['stickyHeaders'], 
-    textExtraction: { 14: function(node,table,cellIndex) { return $(node).attr('data-severity'); }, 
+{
+    widgets: ['stickyHeaders'],
+    textExtraction: { 14: function(node,table,cellIndex) { return $(node).attr('data-severity'); },
                       15: function(node,table,cellIndex) { return $(node).attr('data-index'); } }
 }
 {% endblock %}
