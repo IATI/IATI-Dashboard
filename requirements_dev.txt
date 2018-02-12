@@ -1,4 +1,4 @@
 -r requirements.txt
-pytest==3.2.0  # rq.filter: <4.0
-pytest-cov==2.5.1  # rq.filter: <3.0
-coveralls==1.1  # rq.filter: <2.0
+pytest==3.4.0
+pytest-cov==2.5.1
+coveralls==1.2.0
