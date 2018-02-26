@@ -20,7 +20,7 @@
     </ul>
 
     <div class="panel panel-default" id="h_table">
-        
+
         <div class="panel-heading">
             <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
             <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
@@ -37,7 +37,7 @@
 
             <p><strong>Key:</strong><br/>
                 Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
-                <span style="background-color: #f2aaaa">Red flag</span>: Publishers who publish forward looking budgets at more than one hierarchical level.<br/> 
+                <span style="background-color: #f2aaaa">Red flag</span>: Publishers who publish forward looking budgets at more than one hierarchical level.<br/>
             </p>
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -139,19 +139,6 @@
     </div>
 
 
-
-
-    <div class="panel panel-default" id="h_comment">
-    <div class="panel-heading">
-        <h3 class="panel-title">Comment</h3>
-    </div>
-    <div class="panel-body">
-        <p>You are invited to participate in the consultation which is taking place on the <a href="http://discuss.iatistandard.org/t/indicator-forward-looking-methodology-consultation-space/355/1">IATI Discussion Forum</a>.</p>
-    </div>
-    </div>
-
-
-
     <div class="panel panel-default" id="h_pseudocode">
     <div class="panel-heading">
         <h3 class="panel-title">Pseudocode</h3>
@@ -180,7 +167,7 @@ Else
     <p>To find the year for a budget:</p>
 
 <pre>
-start = 
+start =
     Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
     If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
@@ -189,7 +176,7 @@ end =
     If this does not work parse period-end/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
 
-If start and end are both not null 
+If start and end are both not null
     If (end - start <= 370 days)
         If end month >= 7
             budget year = end year
@@ -210,7 +197,7 @@ If all budgets for current activities in the given years have the same hierarchy
 Else
     All activities are considered to be at a relevant hierarchical level
 </pre>
-    
+
     <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>
         <li>at a relevant hierarchical level (see above)</li>
