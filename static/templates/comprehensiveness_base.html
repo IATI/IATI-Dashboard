@@ -199,7 +199,7 @@ If the activity is current
                 Else
                     Ignore activity
             Else If the comprehensiveness test is 'Transaction - Traceability'
-                If transaction/transaction-type[@code="IF"] exists (1.xx) or transaction/transaction-type[@code="1"] exists (2.xx)
+                If transaction/transaction-type[@code="IF"] exists (1.xx) or transaction/transaction-type[@code="1"] exists (2.xx) or transaction/transaction-type[@code="11"] exists or transaction/transaction-type[@code="13"] exists
                     Use activity
                 Else
                     Ignore activity
@@ -309,7 +309,7 @@ Else
       <tr>
         <td>Financials</td>
         <td>Transaction - Traceability</td>
-        <td>All transactions of @type=IF (1.xx) or @type=1 (2.xx) must contain provider-org/@provider-activity-id</td>
+        <td>All transactions with @type of 'Incoming Funds' (i.e. `IF` (1.xx) or `1` (2.xx)) or 'Incoming Commitment' (i.e. `11`) or 'Incoming Pledge' (i.e. `13`) must contain provider-org/@provider-activity-id</td>
         <td></td>
       </tr>
       <tr>
