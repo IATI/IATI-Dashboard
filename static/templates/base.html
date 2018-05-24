@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="{{url('favicon.png')}}" />
   <title>{% block title %}IATI Dashboard - {{page_titles[page]}}{% endblock %}</title>
   <style>
-    em { 
+    em {
       font-style: italic;
     }
     .big-number {
@@ -117,7 +117,7 @@ html,body{height:100%;}
 
       {% block content %}
       {% endblock %}
-      
+
     {% endblock %}
   </div><!-- /.container -->
 
@@ -125,7 +125,7 @@ html,body{height:100%;}
 
 <div id="footer">
     <div class="container">
-        <p class="text-muted"><a href="https://github.com/IATI/IATI-Dashboard/">Source Code</a>. <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>Generated on <em>{{datetime_generated}}</em> from data downloaded <em>{{datetime_data}}</em>.<br/>(NB This is the time the download task completed. Changes made in the preceding few hours may not be present).<br />Favicon created from: Statistics designed by <a href="http://www.thenounproject.com/nateeul">Nate Eul</a> from the <a href="http://www.thenounproject.com">Noun Project</a><br/></p>
+        <p class="text-muted"><a href="https://github.com/IATI/IATI-Dashboard/">Source Code</a>. <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>Generated on <em>{{datetime_generated}}</em> from data downloaded <em>{{datetime_data}}</em>.<br/>(NB This is the time the download task completed. Changes made in the preceding few hours may not be present).<br />For details on how often these updates are applied, see <a href="http://dashboard.iatistandard.org/faq.html">IATI Dashboard update FAQ</a>.<br />Favicon created from: Statistics designed by <a href="http://www.thenounproject.com/nateeul">Nate Eul</a> from the <a href="http://www.thenounproject.com">Noun Project </a><br/><a href="https://www.aidtransparency.net/privacy-policy">Privacy Policy</a></p>
     </div>
 </div>
 
@@ -140,6 +140,7 @@ html,body{height:100%;}
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
   ga('create', 'UA-47211623-3', 'dashboard.iatistandard.org');
+  ga('set', 'anonymizeIp', true);
   ga('send', 'pageview');
 </script>
   {% block extrafooter %}{% endblock %}
