@@ -53,7 +53,7 @@ We don't have any particular performance monitoring set up.
 We should know how our code is being used - logs!
 -------------------------------------------------
 
-We have google analytics, and the server has web logs for page accesses, and logs of the nightly process.
+We have google analytics, and the server has web logs for page accesses, and logs of the complete process.
 
 Our code will need to adapt with schema changes and changes to external systems upon which it relies
 ----------------------------------------------------------------------------------------------------
@@ -114,8 +114,7 @@ If our code works with IATI data, have we considered how it will work as the IAT
 
 This could become a problem for the Dashboard, as it relies on running
 code across the entire dataset. Currently the complete process
-(including download and stats code) for generating the dashboard is run
-nightly, and takes several hours.
+(including download and stats code) for generating the dashboard takes several hours.
 
 Our code should be secure
 -------------------------

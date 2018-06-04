@@ -68,7 +68,7 @@ page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
     'files': 'Files are logged on the IATI Registry by publishers The files contain data on activities and the organisation.  A publisher may have multiple files, which can contain multiple activities.',
     'activities': 'Activities are the individual projects found in files.  A file can contain one or many activities, from a publisher.',
-    'download': 'Files that failed to download, when accessed via the IATI Registry. Note: These files failed to download in the nightly routine. This may because no URL is listed on the registry, or when requesting the URL the publisher\'s server returns an error message (e.g. because there is no file at that location). Since the dashboard\'s download occurs nightly, some files that failed to download then may now be available.',
+    'download': 'Files that failed to download, when accessed via the IATI Registry. Note: This may because no URL is listed on the registry, or when requesting the URL the publisher\'s server returns an error message (e.g. because there is no file at that location). Since the dashboard\'s download occurs routinely, some files that failed to download may now be available.',
     'xml': 'This page shows files that are not well-formed XML, accessed via the IATI Registry. ',
     'validation': 'IATI files are validated against the appropriate <a href="http://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
     'versions': 'Files are reported against a specific version of the IATI Standard, using the <code>version</code> attribute in the <code>iati-activities</code> element.',
