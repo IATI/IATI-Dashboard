@@ -77,24 +77,6 @@ class GroupFiles(object, UserDict.DictMixin):
         self.cache[key] = out
         return out
 
-def JSONDir_to_memory(JSONDir_obj):
-    """Copies data from a JSONDir object to an in-memory OrderedDict.
-       Use sparingly due to the memory that copying publisher data consumes!
-    Input: JSONDir_obj - a JSONDir object
-    Returns: An in-memory OrderedDict
-    """
-
-    output_data = OrderedDict()
-
-    # Loop over data within the JSONDir_obj and add to output data
-    for publisher, agg in JSONDir_obj.items():
-        output_data_sub = OrderedDict()
-        for k,v in agg.items():
-           output_data_sub.update({k: v})
-        output_data.update({publisher: output_data_sub})
-
-    return output_data
-
 
 class JSONDir(object, UserDict.DictMixin):
     """Produces an object, to be used to access JSON-formatted publisher data and return
