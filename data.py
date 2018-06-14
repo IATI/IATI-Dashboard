@@ -6,6 +6,21 @@ import csv
 
 publisher_re = re.compile('(.*)\-[^\-]')
 
+
+# Modified from:
+#   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
+def memoize(f):
+    def wrapper(self, key, cache=False):
+        if not cache:
+            return f(self, key)
+        if not hasattr(self, '__cache'):
+            self.__cache = {}
+        if key not in self.__cache:
+            self.__cache[key] = f(self, key)
+        return self.__cache[key]
+    return wrapper
+
+
 class GroupFiles(object, UserDict.DictMixin):
     def __init__(self, inputdict):
         self.inputdict = inputdict
@@ -33,24 +48,6 @@ class GroupFiles(object, UserDict.DictMixin):
         self.cache[key] = out
         return out
 
-def JSONDir_to_memory(JSONDir_obj):
-    """Copies data from a JSONDir object to an in-memory OrderedDict.
-       Use sparingly due to the memory that copying publisher data consumes!
-    Input: JSONDir_obj - a JSONDir object
-    Returns: An in-memory OrderedDict
-    """
-
-    output_data = OrderedDict()
-
-    # Loop over data within the JSONDir_obj and add to output data
-    for publisher, agg in JSONDir_obj.items():
-        output_data_sub = OrderedDict()
-        for k,v in agg.items():
-           output_data_sub.update({k: v})
-        output_data.update({publisher: output_data_sub})
-
-    return output_data
-
 
 class JSONDir(object, UserDict.DictMixin):
     """Produces an object, to be used to access JSON-formatted publisher data and return
@@ -64,7 +61,8 @@ class JSONDir(object, UserDict.DictMixin):
         """
         self.folder = folder
 
-    def __getitem__(self, key):
+    @memoize
+    def __getitem__(self, key, cache=False):
         """Define how variables are gathered from the raw JSON files and then parsed into
            the OrderedDict that will be returned.
 
