@@ -10,7 +10,9 @@ publisher_re = re.compile('(.*)\-[^\-]')
 # Modified from:
 #   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
 def memoize(f):
-    def wrapper(self, key):
+    def wrapper(self, key, cache=False):
+        if not cache:
+            return f(self, key)
         if not hasattr(self, '__cache'):
             self.__cache = {}
         if key not in self.__cache:
@@ -60,7 +62,7 @@ class JSONDir(object, UserDict.DictMixin):
         self.folder = folder
 
     @memoize
-    def __getitem__(self, key):
+    def __getitem__(self, key, cache=False):
         """Define how variables are gathered from the raw JSON files and then parsed into
            the OrderedDict that will be returned.
 
