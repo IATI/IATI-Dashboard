@@ -13,9 +13,13 @@ def memoize(f):
     def wrapper(self, key):
         if not hasattr(self, '__cache'):
             self.__cache = {}
-        if key not in self.__cache:
-            self.__cache[key] = f(self, key)
-        return self.__cache[key]
+        if key in self.__cache:
+            return self.__cache[key]
+        res = f(self, key)
+        if type(res) is not JSONDir:
+            # don't cache JSONDirs
+            self.__cache[key] = res
+        return res
     return wrapper
 
 
