@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="http://styles.iatistandard.org/assets/css/screen.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
-  <link rel="icon" type="image/png" href="{{url('favicon.png')}}" />
+  <link rel="icon" type="image/png" href="?" />
   <title>{% block title %}IATI Dashboard - {{page_titles[page]}}{% endblock %}</title>
   <style>
     em {
@@ -73,6 +74,20 @@ html,body{height:100%;}
   .navbar-default {
      margin-bottom: 0px;
   }
+
+  #new-menu {
+    /* padding-top: 20px; */
+  }
+
+  #new-menu .container {
+    position: relative;
+    max-width: 1200px;
+    margin-top: 2em;
+    padding: 2em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
+  }
   </style>
 
   <!-- Start of IATI Zendesk Widget script -->
@@ -84,6 +99,37 @@ html,body{height:100%;}
 </head>
 <body>
 <div id="wrap">
+  <div id="new-menu">
+    <div class="container">
+
+    	<a href="/" class="branding"><span>IATI - International Aid Transparency Initiative</span></a>
+
+
+      <ul class="navigation-utility">
+
+        <li id="section-news" class="navigation-utility__item"><a href="http://iatistandard.org/en/news/">News</a></li>
+        <li id="section-events" class="navigation-utility__item"><a href="http://iatistandard.org/en/events/">Events</a></li>
+        <li id="section-contact" class="navigation-utility__item"><a href="http://iatistandard.org/en/contact/">Contact</a></li>
+
+      </ul>
+<nav class="navigation-primary" id="navigation-primary">
+
+  <ul id="navigation-primary__items">
+
+    <li id="section-about" class="navigation-primary__item"><a href="http://iatistandard.org/en/about/">About</a></li>
+    <li id="section-standard" class="navigation-primary__item"><a href="http://iatistandard.org/en/iati-standard">IATI Standard</a></li>
+    <li id="section-data" class="navigation-primary__item"><a href="http://iatistandard.org/en/using-data">Using IATI Data</a></li>
+    <li id="section-support" class="navigation-primary__item"><a href="http://iatistandard.org/en/guidance/">Guidance &amp; Support</a></li>
+    <li id="section-community" class="navigation-primary__item"><a href="https://discuss.iatistandard.org/">Community</a></li>
+    <li id="section-news" class="navigation-primary__item navigation-primary__item--ss-only"><a href="http://iatistandard.org/en/news/">News</a></li>
+    <li id="section-events" class="navigation-primary__item navigation-primary__item--ss-only"><a href="http://iatistandard.org/en/events/">Events</a></li>
+    <li id="section-contact" class="navigation-primary__item navigation-primary__item--ss-only"><a href="http://iatistandard.org/en/contact/">Contact</a></li>
+
+	</ul>
+</nav>
+</div>
+</header>
+</div>
   <div class="navbar navbar-default" role="navigation">
     <div class="container">
     <div class="navbar-header">
@@ -93,8 +139,6 @@ html,body{height:100%;}
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       </button>
-      <img src="http://iatistandard.org/_static/library/images/iati-logo.png" style="float:left" />
-      <a class="navbar-brand" href="{{url('index.html')}}">IATI Dashboard</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
@@ -147,6 +191,7 @@ html,body{height:100%;}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
 {% block tablesorterscript %}<script>$(function() { $("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{% endblock %}); });</script>{% endblock %}
+<script src="http://styles.iatistandard.org/assets/js/app.bundle.js"></script>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
