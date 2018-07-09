@@ -1,7 +1,3 @@
-# Github credentials (for accessing the API)
-user = 'USERNAME HERE'
-password = 'PASSWORD HERE'
-
 # Frozen-Flask settings.
 # See: https://pythonhosted.org/Frozen-Flask/
 FREEZER_DESTINATION = 'out'
