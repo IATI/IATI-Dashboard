@@ -2,10 +2,14 @@
 user = 'USERNAME HERE'
 password = 'PASSWORD HERE'
 
+# Frozen-Flask settings.
+# See: https://pythonhosted.org/Frozen-Flask/
 FREEZER_DESTINATION = 'out'
 FREEZER_REMOVE_EXTRA_FILES = False
 
+# Flask settings
 DEBUG = False
 TESTING = True
 
+# App-specific settings
 SHOW_TECHNICAL_ISSUES_BANNER = True
