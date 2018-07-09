@@ -9,8 +9,10 @@ import re
 import subprocess
 from collections import defaultdict
 
+import config
 from flask import Flask, render_template, redirect, abort, Response
 app = Flask(__name__, template_folder="static/templates")
+app.config.from_object(config)
 
 import licenses
 import timeliness
@@ -288,10 +290,6 @@ if __name__ == '__main__':
         app.run()
     else:
         from flask_frozen import Freezer
-        app.config['FREEZER_DESTINATION'] = 'out'
-        app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
-        app.debug = False    # Comment to turn off debugging
-        app.testing = True   # Comment to turn off debugging
         freezer = Freezer(app)
 
         @freezer.register_generator
