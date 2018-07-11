@@ -77,9 +77,6 @@ To install:
     pip install -r requirements.txt
 
     # Create a configuration file
-    # Currently this is only used for GitHub credentials to make requests to the GitHub api
-    # You should be able to run the dashboard in live development mode (see Development below)
-    # without this file. (Although the GitHub tab will throw an error).
     cp config.py.example config.py # And provide the necessary values
 
 Usage
