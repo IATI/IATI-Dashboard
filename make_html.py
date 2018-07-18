@@ -57,7 +57,7 @@ def xpath_to_url(path):
     if path.startswith('iati-activity'):
         return 'http://iatistandard.org/activity-standard/iati-activities/'+path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        return 'http://iatistandard.org/activity-standard/iati-organisations/'+path.split('@')[0]
+        return 'http://iatistandard.org/organisation-standard/iati-organisations/'+path.split('@')[0]
     else:
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
