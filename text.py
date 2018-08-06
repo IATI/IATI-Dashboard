@@ -1,7 +1,7 @@
 import copy
 
 top_titles = {
-    'index': 'Home',
+    'index': 'Dashboard Home',
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',

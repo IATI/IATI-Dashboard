@@ -38,8 +38,9 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][common.get_publisher_type(publisher)['name']] += 1
+                        out[datestring][organization_type] += 1
                 else:
                     print('Publisher not matched:', publisher)
             return out
@@ -47,8 +48,9 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][common.get_publisher_type(publisher)['name']] += count 
+                        out[datestring][organization_type] += count
                 else:
                     print('Publisher not matched:', publisher)
             return out
