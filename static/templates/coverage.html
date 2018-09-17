@@ -43,8 +43,6 @@
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Reference Spend<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">2015<br/>Official Forecast<br/> (US $m)</th>
                     <th style="vertical-align:middle; border: 1px solid gray;">Spend Ratio<br/> (%)</th>
-                    <th style="vertical-align:middle; border: 1px solid gray;">Coverage<br/> (%)</th>
-                    <th style="vertical-align:middle; border: 1px solid gray;"></th>
                 </tr>
             </thead>
             <tbody>
@@ -58,20 +56,6 @@
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.reference_spend_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.official_forecast_2015 }}</td>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.spend_ratio }}</td>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ row.coverage_adjustment }}</td>
-                    {% if row.no_data_flag_red %}
-                       <!-- no_data_flag_red -->
-                       {% set bg_colour = '#f2aaaa' %}
-                    {% elif row.no_data_flag_amber %}
-                       <!-- no_data_flag_amber -->
-                       {% set bg_colour = '#ffc266' %}
-                    {% elif row.spend_data_error_reported_flag %}
-                       <!-- spend_data_error_reported_flag -->
-                       {% set bg_colour = '#fcf8aa' %}
-                    {% else %}
-                       {% set bg_colour = '' %}
-                    {% endif %}
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray{% if bg_colour != '' %}; background-color: {{ bg_colour }}{% endif %}" data-severity="{{ row.sort_order }}"></td>
                 </tr>
                 {% endfor %}
             </tbody>
