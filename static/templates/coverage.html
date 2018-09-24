@@ -3,7 +3,38 @@
 {% block content %}
 
     <div class="alert alert-warning" role="alert">
-        A simple warning alert—check it out!
+        <h3>The coverage stats page is being rebuilt.</h3>
+
+        <p>Coverage statistics are designed to assess what proportion of an organisation’s total operational spend is published to IATI. </p>
+        <br>
+
+        <p>
+            Previously, the IATI technical team followed a manual process of contacting IATI publishers and requesting total operational spend values via email.
+            Results were stored in a public Google sheet. Data was collected for the years 2014 and 2015 and the values were used to calculate a coverage-adjusted score in the <a href="http://dashboard.iatistandard.org/summary_stats.html">Summary Statistics page.</a>
+            As this was a very time consuming exercise (compounded by the increase in the number of publishers) Ccoverage data collection has not been done since 2016, resulting in the coverage-adjusted scores in the summary statistics being out of date for the majority of publishers.
+            As a result, in <a href="https://discuss.iatistandard.org/t/iati-coverage-timing-and-scope-of-next-update/1141/15">September 2018 the technical team took the decision</a> to remove the coverage-adjusted values from the Dashboard. 
+        </p>
+        <br>
+
+        <p>
+            We recognise the importance of coverage and presenting how much of an organisation’s total spend is published to IATI.
+            However, collecting coverage data manually, as previously done, is not a sustainable model.  
+        </p>
+        <br>
+
+        <p>
+            In future, we plan to use an automated system that will calculate the coverage statistic for an organisation by using its <a href="http://reference.iatistandard.org/203/organisation-standard/">IATI organisation file.</a>
+            We are exploring a methodology that uses the <a href="http://reference.iatistandard.org/203/organisation-standard/iati-organisations/iati-organisation/total-expenditure/">&lt;total-expenditure&gt;</a> element in a publisher’s organisation file, and compares this to the total spend for a given year in their activity files.
+            Completing this work requires an update to the dashboard methodology. This is in our job queue but we don’t have an estimated time for completing the work. 
+            Please look out for updates via <a href="https://discuss.iatistandard.org/">IATI Discuss</a> and our website.
+        </p>
+        <br>
+
+        <p>
+            In the meantime, we strongly recommend that <strong>all IATI publishers</strong> include <a href="http://reference.iatistandard.org/203/organisation-standard/iati-organisations/iati-organisation/total-expenditure/">&lt;total-expenditure&gt;</a> in their organisation file.
+        </p>
+        <br>
+        
     </div>
 
 {% endblock %}
