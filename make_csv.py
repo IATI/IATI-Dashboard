@@ -132,7 +132,6 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
         '2015 Reference Spend (US $m)',
         '2015 Official Forecast (US $m)',
         'Spend Ratio (%)',
-        'Coverage (%)',
         'No reference data available (Historic publishers)',
         'No reference data available (New publishers)',
         'Data quality issue reported'
@@ -148,7 +147,6 @@ with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
             row['reference_spend_2015'],
             row['official_forecast_2015'],
             row['spend_ratio'],
-            row['coverage_adjustment'],
             row['no_data_flag_red'],
             row['no_data_flag_amber'],
             row['spend_data_error_reported_flag']
