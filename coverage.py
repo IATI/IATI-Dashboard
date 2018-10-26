@@ -166,47 +166,6 @@ def generate_row(publisher):
     # Get the maximum value and convert to a percentage
     row['spend_ratio'] = int(round(max(spend_ratio_candidates) * 100))
 
-
-    # Compute coverage score and raise to the top of its quintile
-    # or set to default 20% where there is no data, or a data error is reported
-    if publisher_stats['reference_spend_data_usd'].get('spend_data_error_reported', False):
-        # For publishers where a data error is reported, set their score to 20%
-        row['coverage_adjustment'] = 20
-        row['spend_data_error_reported_flag'] = 1
-        row['sort_order'] = 3
-
-    elif all([row['reference_spend_2014'] == '-', row['reference_spend_2015'] == '-', row['official_forecast_2015'] == '-']):
-        # For publishers where no reference data has been found, set their score to 20%
-        row['coverage_adjustment'] = 20
-
-        if data_2014.get('not_in_sheet', False) and data_2015.get('not_in_sheet', False):
-            # This is a new publisher, who was not known when reference data was collected
-            row['no_data_flag_amber'] = 1
-            row['sort_order'] = 2
-        else:
-            # This is a known publisher, who appears in the reference data sheet (albeit with no data)
-            row['no_data_flag_red'] = 1
-            row['sort_order'] = 1
-
-    elif row['spend_ratio'] > 120 and not publisher_stats['reference_spend_data_usd'].get('DAC', False):
-        # Suggestion that if apend ratio is over 100%, then generally something is wrong with the data
-        # Margin of 20% leeway given otherwise bumping coverage adjustment down to 20% due to data quality issues.
-        # Note that this does not apply to DAC publishers
-        # Full detail: https://github.com/IATI/IATI-Dashboard/issues/400
-        row['coverage_adjustment'] = 20
-
-    elif row['spend_ratio'] >= 80:
-        row['coverage_adjustment'] = 100
-
-    elif row['spend_ratio'] >= 60:
-        row['coverage_adjustment'] = 80
-
-    elif row['spend_ratio'] >= 40:
-        row['coverage_adjustment'] = 60
-
-    else:
-        row['coverage_adjustment'] = 40
-
     return row
 
 
