@@ -6,6 +6,3 @@ FREEZER_REMOVE_EXTRA_FILES = False
 # Flask settings
 DEBUG = False
 TESTING = True
-
-# App-specific settings
-SHOW_TECHNICAL_ISSUES_BANNER = True
