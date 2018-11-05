@@ -118,7 +118,7 @@ html,body{height:100%;}
 
     <li id="section-about" class="navigation-primary__item"><a href="http://iatistandard.org/en/about/">About</a></li>
     <li id="section-standard" class="navigation-primary__item"><a href="http://iatistandard.org/en/iati-standard">IATI Standard</a></li>
-    <li id="section-data" class="navigation-primary__item"><a href="http://iatistandard.org/en/using-data">Using IATI Data</a></li>
+    <li id="section-data" class="navigation-primary__item"><a href="http://iatistandard.org/en/using-data">Using Data</a></li>
     <li id="section-support" class="navigation-primary__item"><a href="http://iatistandard.org/en/guidance/">Guidance &amp; Support</a></li>
     <li id="section-community" class="navigation-primary__item"><a href="https://discuss.iatistandard.org/">Community</a></li>
     <li id="section-news" class="navigation-primary__item navigation-primary__item--ss-only"><a href="http://iatistandard.org/en/news/">News</a></li>
@@ -156,9 +156,9 @@ html,body{height:100%;}
     </div><!--/.nav-collapse -->
     </div>
   </div>
-  <div class="notify-banner">
+  <!-- <div class="notify-banner">
     <span>We are currently experiencing some technical issues with this tool. In the meantime, please ensure you are using <a href="http://dev.dashboard.iatistandard.org/">the Dev Dashboard</a>.</span>
-  </div>
+  </div> -->
 
   <div class="container">
     {% block container %}
@@ -182,7 +182,20 @@ html,body{height:100%;}
 
 <div id="footer">
     <div class="container">
-        <p class="text-muted"><a href="https://github.com/IATI/IATI-Dashboard/">Source Code</a>. <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>Generated on <em>{{datetime_generated}}</em> from data downloaded <em>{{datetime_data}}</em>.<br/>(NB This is the time the download task completed. Changes made in the preceding few hours may not be present).<br />For details on how often these updates are applied, see <a href="http://dashboard.iatistandard.org/faq.html">IATI Dashboard update FAQ</a>.<br />Favicon created from: Statistics designed by <a href="http://www.thenounproject.com/nateeul">Nate Eul</a> from the <a href="http://www.thenounproject.com">Noun Project </a><br/><a href="https://www.aidtransparency.net/privacy-policy">Privacy Policy</a></p>
+        <p class="text-muted">
+          <a href="https://github.com/IATI/IATI-Dashboard/">Source Code</a>.
+
+          <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>
+
+          Generated on <em>{{datetime_generated}}</em> from data downloaded <em>{{datetime_data}}</em>.<br/>
+
+          (NB This is the time the download task completed. Any changes made after this time will not be reflected).<br />
+
+          For details on how often these updates are applied, see <a href="http://dashboard.iatistandard.org/faq.html">IATI Dashboard update FAQ</a>.<br />
+
+          Favicon created from: Statistics designed by <a href="http://www.thenounproject.com/nateeul">Nate Eul</a> from the <a href="http://www.thenounproject.com">Noun Project </a><br/>
+
+          <a href="https://www.aidtransparency.net/privacy-policy">Privacy Policy</a></p>
     </div>
 </div>
 

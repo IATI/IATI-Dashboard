@@ -14,9 +14,7 @@ columns = [
     ('timeliness', 'Timeliness'),
     ('forwardlooking', 'Forward looking'),
     ('comprehensive', 'Comprehensive'),
-    ('score', 'Score'),
-    ('coverage_adjustment', 'Coverage'),
-    ('score_coverage_adjusted', 'Coverage-adjusted score')
+    ('score', 'Score')
     ]
 
 
@@ -118,19 +116,6 @@ def table():
 
         # Compute score
         row['score'] = int( round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3 ))
-
-        
-        # Get coverage statistic
-        # Get the coverage data for this publisher
-        publisher_coverage_data = coverage.generate_row(publisher)
-
-        # Store the coverage data
-        row['coverage_adjustment'] = int(publisher_coverage_data['coverage_adjustment'])
-
-
-        # Compute coverage-adjusted score
-        row['score_coverage_adjusted'] = int( round(row['score'] * (row['coverage_adjustment'] / float(100))) )
-
 
         # Return a generator object
         yield row
