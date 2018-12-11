@@ -29,11 +29,11 @@ def previous_months_generator(d):
     year = d.year
     month = d.month
     for i in range(0,12):
+        yield year, month
         month -= 1
         if month <= 0:
             year -= 1
             month = 12
-        yield year,month
 
 # Store lists of previous months
 previous_months = ['{}-{}'.format(year,str(month).zfill(2)) for year,month in previous_months_generator(datetime.date.today())]
