@@ -1,8 +1,10 @@
 *.pyc
 *.swp
+.cache*
 
 pyenv
 stats-calculated*
+stats-blacklist*
 data
 out
 config.py
