@@ -38,6 +38,7 @@
             <p><strong>Key:</strong><br/>
                 Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
                 <span style="background-color: #f2aaaa">Red flag</span>: Publishers who publish forward looking budgets at more than one hierarchical level.<br/>
+                <span style="background-color: #fcf8aa">Yellow flag</span>: Budget not provided flag.<br/>
             </p>
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -71,7 +72,7 @@
                             </td>
                         {% endfor %}
                     {% endfor %}
-                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% else %}">{% endif %}</td>
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget-not-provided']}}"><a href="#h_exceptions">{% else %}">{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
