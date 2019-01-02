@@ -37,8 +37,8 @@
 
             <p><strong>Key:</strong><br/>
                 Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
-                <span style="background-color: #f2aaaa">Red flag</span>: Publishers who publish forward looking budgets at more than one hierarchical level.<br/>
-                <span style="background-color: #fcf8aa">Yellow flag</span>: Budget not provided flag.<br/>
+                <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing forward looking budgets at more than one hierarchical level.<br/>
+                <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishes the 'budget not provided' attribute for some or all activities.<br/>
             </p>
             {% include 'tablesorter_instructions.html' %}
         </div>
@@ -72,7 +72,7 @@
                             </td>
                         {% endfor %}
                     {% endfor %}
-                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget-not-provided']}}"><a href="#h_exceptions">{% else %}">{% endif %}</td>
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] AND row['budget_not_provided'] %};background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget-not-provided']}}"><a href="#h_exceptions"></a>{% elif row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions"></a>{% else %}">{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -120,9 +120,9 @@
         <h4>Dashes</h4>
         <p>Where a percentage can not be calculated, because the denominator is zero, a dash is used.</p>
         <h4>Red Flags</h4>
-        <p>Publishers who publish forward looking budgets at more than one hierarchical level.</p>
+        <p>Publishers currently publishing forward looking budgets at more than one hierarchical level.</p>
         <h4>Yellow Flags</h4>
-        <p>Activities with budget-not-provided attribute</p>
+        <p>Publishers currently publishes the 'budget not provided' attribute for some or all activities.</p>
     </div>
     </div>
 
@@ -201,12 +201,6 @@ Else
     All activities are considered to be at a relevant hierarchical level
 </pre>
 
-    <p>Factoring in activities with budget-not-provided:</p>
-
-<pre>
-pseudocode for budget not provided
-</pre>
-
     <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>
         <li>at a relevant hierarchical level (see above)</li>
@@ -216,7 +210,7 @@ pseudocode for budget not provided
         <ul>
         <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
-        <li>AND contain at least one budget budget with a budget year (as desribed above) that matches the year of the column</li>
+        <li>AND contain at least one budget budget with a budget year (as described above) that matches the year of the column OR contains budget-not-provided</li>
         </ul>
     </p>
 
