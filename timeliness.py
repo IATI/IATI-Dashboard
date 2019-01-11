@@ -3,6 +3,7 @@
 from __future__ import print_function
 from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
+from dateutil.relativedelta import relativedelta
 from collections import defaultdict, Counter
 
 
@@ -43,8 +44,8 @@ previous_months_reversed=list(reversed(previous_months))
 today = datetime.date.today()
 this_month = '{}-{}'.format(today.year, str(today.month).zfill(2))
 
-# Store a list of monthly start dates
-previous_month_starts = [datetime.date(year,month,1) for year,month in previous_months_generator(datetime.date.today()) ]
+# Store a list of the past 12 months from today
+previous_month_days = [today - relativedelta(months=x) for x in range(1, 13)]
 
 # Store the current month and year numbers
 this_month_number = datetime.datetime.today().month
@@ -87,17 +88,17 @@ def publisher_frequency():
         
         # Implement the assessment logic on http://dashboard.iatistandard.org/timeliness.html#h_assesment
 
-        if first_published >= previous_month_starts[2]:
+        if first_published >= previous_month_days[2]:
             # This is a publisher of less than 3 months
             #if True in [ x in updates_per_month for x in previous_months[:3] ]:
             frequency = 'Annual'
-        elif first_published >= previous_month_starts[5]:
+        elif first_published >= previous_month_days[5]:
             # This is a publisher of less than 6 months
             if all([ x in updates_per_month for x in previous_months[:3] ]):
                 frequency = 'Monthly'
             else:
                 frequency = 'Annual'
-        elif first_published >= previous_month_starts[11]:
+        elif first_published >= previous_month_days[11]:
             # This is a publisher of less than 12 months
             if [ x in updates_per_month for x in previous_months[:6] ].count(True) >= 4:
                 frequency = 'Monthly'
