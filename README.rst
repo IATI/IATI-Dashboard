@@ -1,13 +1,9 @@
 IATI Dashboard
 ==============
 
-.. image:: https://travis-ci.org/IATI/IATI-Dashboard.svg?branch=master
-    :target: https://travis-ci.org/IATI/IATI-Dashboard
 .. image:: https://requires.io/github/IATI/IATI-Dashboard/requirements.svg?branch=master
     :target: https://requires.io/github/IATI/IATI-Dashboard/requirements/?branch=master
     :alt: Requirements Status
-.. image:: https://coveralls.io/repos/IATI/IATI-Dashboard/badge.png?branch=master
-    :target: https://coveralls.io/r/IATI/IATI-Dashboard?branch=master
 .. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
     :target: https://github.com/IATI/IATI-Dashboard/blob/master/GPL.md
 

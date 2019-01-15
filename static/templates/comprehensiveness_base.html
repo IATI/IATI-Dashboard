@@ -315,8 +315,8 @@ Else
       <tr>
         <td>Financials</td>
         <td>Budget</td>
-        <td>Activity must have at least 1 budget element</td>
-        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code>xs:date</code>s AND a value element that is a valid <code>xs:decimal</code></td>
+        <td>Activity must have at least 1 budget element OR the activity must have the budget-not-provided attribute AND no budget elements</td>
+        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code>xs:date</code>s AND a value element that is a valid <code>xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="http://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
       </tr>
       {% endblock %}
 

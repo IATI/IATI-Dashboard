@@ -63,25 +63,26 @@
         </div>
         <div class="panel-body">
           <h5>Publisher</h5>
-        	<p>Only publishers with humanitarian activities included.</p>
+          <p>The name that this publisher self-defines as on the IATI Registry.</p>
 
           <h5>Publisher Type</h5>
           <p>The category that this publisher self-defines as on the IATI Registry.</p>
 
           <h5>Number of Activities</h5>
-          <p>Total number of humanitarian activities (determined by use of <code>iati-activity/@humanitarian</code> attribute or DAC 5-digit sector codes between <code>72010</code> to <code>74010</code> inclusive, or DAC 3-digit sector codes <code>720</code>, <code>730</code> or <code>740</code>).</p>
+          <p>Total number of humanitarian activities.</p>
+          <p>For activities published at IATI version 2.02 or higher, this is determined by the presence of either the <code>iati-activity/@humanitarian</code> attribute (set to <code>1</code> / <code>true</code>), at least one <code>iati-activity/transaction/@humanitarian</code> attribute (set to <code>1</code> / <code>true</code>).  Alternatively - and for activities published at any IATI version - this is determined by the use of DAC 5-digit sector codes between <code>72010</code> to <code>74010</code> inclusive, or DAC 3-digit sector codes <code>720</code>, <code>730</code> or <code>740</code>).</p>
 
           <h5>Publishing Humanitarian?</h5>
           <p>If the number of activities is greater than 0, then this is set at 100. Otherwise, this is set at 0.</p>
 
           <h5>Using Humanitarian Attribute?</h5>
-          <p>Use of <code>@humanitarian</code> - proportion of the number of activities.</p>
+          <p>The proportion of humanitarian activities that include a <code>iati-activity/@humanitarian</code> attribute (set to <code>1</code> / <code>true</code>), or at least one <code>iati-activity/transaction/@humanitarian</code> attribute (set to <code>1</code> / <code>true</code>) - proportion of the number of activities. Note this applies to activities published at IATI version 2.02 or higher.</p>
 
           <h5>Appeal or Emergency Details</h5>
-          <p>Use of humanitarian-scope element, both <code>@type</code> and <code>@code</code> must be present - proportion of the number of activities.</p>
+          <p>The proportion of humanitarian activities that include the <code>humanitarian-scope</code> element, The required attributes <code>humanitarian-scope/@type</code> and <code>humanitarian-scope/@code</code> must be present and contain non-empty data.</p>
 
           <h5>Clusters</h5>
-          <p>Use of <code>sector/@vocabulary="10"</code> - proportion of the number of activities.</p>
+          <p>The proportion of humanitarian activities that feature a sector code from the 'Humanitarian Global Clusters (Inter-Agency Standing Committee)' list — i.e. <code>iati-activity/sector/@vocabulary="10"</code>.</p>
 
           <h5>Average</h5>
           <p>The sum of the columns 'Publishing humanitarian?', 'Using humanitarian attribute?', 'Appeal or Emergency details' and 'Clusters', divided by 4.</p>
