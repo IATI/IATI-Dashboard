@@ -72,7 +72,7 @@
                             </td>
                         {% endfor %}
                     {% endfor %}
-                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if row['flag'] AND row['budget_not_provided'] %};background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget-not-provided']}}"><a href="#h_exceptions"></a>{% elif row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions"></a>{% else %}">{% endif %}</td>
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if (row['flag']) and (row['budget_not_provided']) %};background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget-not-provided']}}"><a href="#h_exceptions"></a>{% elif row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions"></a>{% else %}">{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -210,7 +210,7 @@ Else
         <ul>
         <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
-        <li>AND contain at least one budget budget with a budget year (as described above) that matches the year of the column OR contains budget-not-provided</li>
+        <li>AND contain at least one budget budget with a budget year (as described above) that matches the year of the column OR contains the budget-not-provided attribute</li>
         </ul>
     </p>
 
