@@ -8,7 +8,7 @@ pytz==2018.9
 
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
 Flask==1.0.2
-MarkupSafe==1.1.0
+MarkupSafe==1.1.1
 Werkzeug==0.14.1
 argparse==1.4.0
 itsdangerous==1.1.0
