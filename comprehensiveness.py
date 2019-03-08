@@ -86,10 +86,15 @@ def get_hierarchy_with_most_budgets(stats):
 
     try:
         # Get the key with the largest number of budgets
-        return max(stats['by_hierarchy'], key=(lambda x:
+        budgets = max(stats['by_hierarchy'], key=(lambda x:
             stats['by_hierarchy'][x]['comprehensiveness'].get('budget', 0)
              if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
-          )
+        )
+        budget_not_provided = max(stats['by_hierarchy'], key=(lambda x:
+            stats['by_hierarchy'][x]['comprehensiveness'].get('budget_not_provided', 0)
+             if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
+        )
+        return max(budgets, budget_not_provided)
     except KeyError:
         # Return None if this publisher has no comprehensiveness data in any hierarchy - i.e. KeyError
         return None
@@ -142,8 +147,14 @@ def generate_row(publisher):
             # Most common case will be column_base_lookup[slug] == 'all':
             publisher_base = publisher_stats
 
-        numerator_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
-        numerator_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
+        if slug == 'budget':
+            numerator_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
+            + publisher_base.get('comprehensiveness', {}).get('budget_not_provided', 0)
+            numerator_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
+            + publisher_base.get('comprehensiveness_with_validation', {}).get('budget_not_provided', 0)
+        else:
+            numerator_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
+            numerator_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
 
         if denominator(slug, publisher_base) != 0:
             # Populate the row with the %age
