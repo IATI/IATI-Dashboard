@@ -65,8 +65,6 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         stat_name = stat_path[0]
     else:
         stat_name = stat_path
-    
-    print('-> ', stat_name)
    
     stat_dict = git_stats.get(stat_name)
     if not stat_dict:
