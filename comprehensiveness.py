@@ -87,14 +87,11 @@ def get_hierarchy_with_most_budgets(stats):
     try:
         # Get the key with the largest number of budgets
         budgets = max(stats['by_hierarchy'], key=(lambda x:
-            stats['by_hierarchy'][x]['comprehensiveness'].get('budget', 0)
-             if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
-        )
-        budget_not_provided = max(stats['by_hierarchy'], key=(lambda x:
+            stats['by_hierarchy'][x]['comprehensiveness'].get('budget', 0) +
             stats['by_hierarchy'][x]['comprehensiveness'].get('budget_not_provided', 0)
-             if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
+            if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
         )
-        return max(budgets, budget_not_provided)
+        return max(budgets)
     except KeyError:
         # Return None if this publisher has no comprehensiveness data in any hierarchy - i.e. KeyError
         return None
@@ -148,10 +145,12 @@ def generate_row(publisher):
             publisher_base = publisher_stats
 
         if slug == 'budget':
-            numerator_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
-            + publisher_base.get('comprehensiveness', {}).get('budget_not_provided', 0)
-            numerator_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
-            + publisher_base.get('comprehensiveness_with_validation', {}).get('budget_not_provided', 0)
+            budget_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
+            budget_not_provided_all = publisher_base.get('comprehensiveness', {}).get('budget_not_provided', 0)
+            numerator_all = budget_all + budget_not_provided_all
+            budget_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
+            budget_not_provided_valid = publisher_base.get('comprehensiveness_with_validation', {}).get('budget_not_provided', 0)
+            numerator_valid = budget_valid + budget_not_provided_valid
         else:
             numerator_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
             numerator_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
