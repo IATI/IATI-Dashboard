@@ -91,7 +91,7 @@ def get_hierarchy_with_most_budgets(stats):
             stats['by_hierarchy'][x]['comprehensiveness'].get('budget_not_provided', 0)
             if stats['by_hierarchy'][x]['comprehensiveness_denominator_default'] > 0 else None)
         )
-        return max(budgets)
+        return budgets
     except KeyError:
         # Return None if this publisher has no comprehensiveness data in any hierarchy - i.e. KeyError
         return None
