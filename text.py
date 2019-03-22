@@ -5,7 +5,6 @@ top_titles = {
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
-    'publishing_stats': 'Publishing Statistics',
     'faq': 'FAQ'
 }
 
@@ -31,15 +30,7 @@ page_titles = {
     'elements': 'Elements',
     'codelists': 'Codelists',
     'booleans': 'Booleans',
-    'dates': 'Dates',
-    'publishing_stats': 'Publishing Statistics',
-    'coverage': 'Coverage',
-    'timeliness': 'Timeliness',
-    'forwardlooking': 'Forward Looking',
-    'comprehensiveness': 'Comprehensiveness',
-    'coverage': 'Coverage',
-    'summary_stats': 'Summary Statistics',
-    'humanitarian': 'Humanitarian Reporting'
+    'dates': 'Dates'
 }
 
 page_leads = {
@@ -93,10 +84,9 @@ short_page_titles.update({
     'identifiers': 'Duplicate Identifiers',
 })
 
-top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'publishing_stats', 'faq']
+top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'faq']
 navigation = {
     'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
-    'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
-    'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats', 'humanitarian' ]
+    'exploring_data': ['elements', 'codelists', 'booleans', 'dates']
 }
