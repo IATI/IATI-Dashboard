@@ -9,7 +9,7 @@ pytz==2019.1
 # These are dependencies of the above, but are specificied explicitly in order to pin versions
 Flask==1.0.2
 MarkupSafe==1.1.1
-Werkzeug==0.15.2
+Werkzeug==0.15.3
 argparse==1.4.0
 itsdangerous==1.1.0
 mock==3.0.5
