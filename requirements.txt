@@ -5,8 +5,6 @@ Frozen-Flask==0.15
 unicodecsv==0.14.1
 lxml==4.3.3
 pytz==2019.1
-
-# These are dependencies of the above, but are specificied explicitly in order to pin versions
 Flask==1.0.2
 MarkupSafe==1.1.1
 Werkzeug==0.15.4
