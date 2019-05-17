@@ -16,7 +16,7 @@
         <div class="panel-body">
             <p>This table seeks to measure how often a publisher updates their data. There is no simple answer as to what constitutes an update. Can any trivial edit be regarded as an update? As transactions are the most numerous element reported in IATI the adopted methodology assumes that a publisher has updated their data if a transaction with a more recent transaction date than previously published is detected across the publisher's entire portfolio. </p>
 
-            <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
+            <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed by the Dashboard to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
 
             <p><strong>Key:</strong><br/>
             <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
@@ -99,7 +99,7 @@
 
         <p>For the purposes of these statistics an update is assumed to have taken place on any given day when the most recently recorded transaction date across a publisher's entire portfolio is observed to have changed to a more recent date. This approach has been adopted as transactions are the most numerous and most frequently updated elements in the reporting of activities.</p>
 
-        <p>The table of statistics records the number of days in each of the last twelve calendar months (the current month is also displayed for informational purposes, but is not used in the assessment) on which the most recently recorded transaction date was observed to have changed. The dashboard maintains a statistical snapshot of each day, and has been doing so for over a year, which allows for this data to be recalculated on a nightly basis using historical recordings.</p>
+        <p>The table of statistics records the number of days in each of the last twelve calendar months (the current month is also displayed for informational purposes, but is not used in the assessment) on which the most recently recorded transaction date was observed by the Dashboard to have changed. The Dashboard maintains a statistical snapshot of each day, which allows for this data to be recalculated using historical recordings.</p>
     </div>
     </div>
 
@@ -231,15 +231,9 @@
     <div class="panel-body">
         <p>This methodology is substantially different.
 
-        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible one night, its reappearance the following night would count as an update.</p>
+        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible, its reappearance would count as an update.</p>
     </div>
     </div>
-
-
-
-    {% block comment %}
-    {{ super() }}
-    {% endblock %}
 
 
 

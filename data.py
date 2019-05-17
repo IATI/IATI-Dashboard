@@ -6,6 +6,23 @@ import csv
 
 publisher_re = re.compile('(.*)\-[^\-]')
 
+
+# Modified from:
+#   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
+def memoize(f):
+    def wrapper(self, key):
+        if not hasattr(self, '__cache'):
+            self.__cache = {}
+        if key in self.__cache:
+            return self.__cache[key]
+        res = f(self, key)
+        if type(res) is not JSONDir:
+            # don't cache JSONDirs
+            self.__cache[key] = res
+        return res
+    return wrapper
+
+
 class GroupFiles(object, UserDict.DictMixin):
     def __init__(self, inputdict):
         self.inputdict = inputdict
@@ -29,44 +46,30 @@ class GroupFiles(object, UserDict.DictMixin):
                         pass # FIXME
             else:
                 out[k2] = v2
-        
+
         self.cache[key] = out
         return out
 
-def JSONDir_to_memory(JSONDir_obj):
-    """Copies data from a JSONDir object to an in-memory OrderedDict. 
-       Use sparingly due to the memory that copying publisher data consumes!
-    Input: JSONDir_obj - a JSONDir object
-    Returns: An in-memory OrderedDict
-    """
-
-    output_data = OrderedDict()
-
-    # Loop over data within the JSONDir_obj and add to output data
-    for publisher, agg in JSONDir_obj.items():
-        output_data_sub = OrderedDict()
-        for k,v in agg.items():
-           output_data_sub.update({k: v})
-        output_data.update({publisher: output_data_sub})
-        
-    return output_data
-
 
 class JSONDir(object, UserDict.DictMixin):
-    """Produces an object, to be used to access JSON-formatted publisher data and return 
-       this as an ordered dictionary (with nested dictionaries, if appropriate). 
+    """Produces an object, to be used to access JSON-formatted publisher data and return
+       this as an ordered dictionary (with nested dictionaries, if appropriate).
        Use of this class removes the need to load large amounts of data into memory.
     """
 
     def __init__(self, folder):
-        """Set the path of the folder being accessed as an attribute to an instance of 
+        """Set the path of the folder being accessed as an attribute to an instance of
            the object.
         """
         self.folder = folder
 
+    @memoize
     def __getitem__(self, key):
-        """Define how variables are gathered from the raw JSON files and then parsed into 
+        """Define how variables are gathered from the raw JSON files and then parsed into
            the OrderedDict that will be returned.
+
+           Note:
+            try-except should be used around file operations rather than checking before-hand
         """
 
         if os.path.exists(os.path.join(self.folder, key)):
@@ -83,29 +86,29 @@ class JSONDir(object, UserDict.DictMixin):
                 # Perform the merging
                 # Look over the set of changed registry IDs
                 for previous_id, current_id in get_registry_id_matches().items():
-                    
-                    #  If this publisher has had an old ID
-                    if current_id == self.get_publisher_name():
-                        folder = self.folder
+                    folder = self.folder
+                    previous_path = os.path.join(folder.replace(current_id,previous_id), key+'.json')
+                    #  If this publisher has had an old ID and there is data for it
+                    if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
                         # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
-                        with open(os.path.join(folder.replace(current_id,previous_id), key+'.json')) as old_fp:
+                        with open(previous_path) as old_fp:
                             old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
                             deep_merge(data, old_pub_data)
                             # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
         else:
             # No value found as either a folder or json file
             raise KeyError, key
-        
+
         return data
 
     def keys(self):
-        """Method to return a list of keys that are contained within the data folder that 
+        """Method to return a list of keys that are contained within the data folder that
            is being accessed within this instance.
         """
         return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
 
     def __iter__(self):
-        """Custom iterable, to iterate over the keys that are contained within the data 
+        """Custom iterable, to iterate over the keys that are contained within the data
         folder that is being accessed within this instance.
         """
         return iter(self.keys())
@@ -131,7 +134,7 @@ class JSONDir(object, UserDict.DictMixin):
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
     """Function to obtain current data for a given publisher.
-    Returns: A JSONDir object for the publisher, or an empty dictionary if the publisher 
+    Returns: A JSONDir object for the publisher, or an empty dictionary if the publisher
              is not found.
     """
     try:
@@ -142,13 +145,13 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
 
 def get_registry_id_matches():
     """Returns a dictionary of publishers who have modified their registry ID
-    Returns: Dictionary, where the key is the old registry ID, and the corresponding 
+    Returns: Dictionary, where the key is the old registry ID, and the corresponding
              value is the registry ID that data should be mapped to
     """
 
     # Load registry IDs for publishers who have changed their registry ID
     reader = csv.DictReader(open('registry_id_relationships.csv', 'rU'), delimiter=',')
-    
+
     # Load this data into a dictonary
     registry_matches = {}
     for row in reader:
@@ -211,15 +214,15 @@ def create_codelist_mapping(major_version):
     codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
     return transform_codelist_mapping_keys(codelist_mapping)
 
-MAJOR_VERSIONS = ['1', '2']
+MAJOR_VERSIONS = ['2', '1']
 
 codelist_mapping = { v:create_codelist_mapping(v) for v in MAJOR_VERSIONS }
-codelist_conditions = { 
+codelist_conditions = {
     major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
     for major_version in MAJOR_VERSIONS }
 
 # Create a big dictionary of all codelist values by version and codelist name
-codelist_sets = { 
+codelist_sets = {
     major_version: {
         cname:set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
     } for major_version in MAJOR_VERSIONS }
@@ -232,8 +235,8 @@ publishers_ordered_by_title = [ (publisher_name[publisher],publisher) for publis
 publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
 
 # List of publishers who report all their activities as a secondary publisher
-secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items() 
-                         if int(stats['activities']) == len(stats['activities_secondary_reported']) 
+secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
+                         if int(stats['activities']) == len(stats['activities_secondary_reported'])
                             and int(stats['activities']) > 0]
 
 import csv

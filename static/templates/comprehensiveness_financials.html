@@ -25,7 +25,7 @@ Table of Financial values
 	<p>For the data in the chosen hierarchy, the percentage of all current activities that contain at least one transaction of type <code>Commitment</code> or <code>Incoming Commitment</code>.  The hierarchy chosen for this calculation is the highest hierarchy that contains an above-defined commitment tranaction. Only one hierarchy is selected due in line with <a href="http://support.iatistandard.org/entries/40759343-General-rules-for-multi-level-reporting">stated IATI rules on multi-level reporting</a>.
 
 	<h5>Transaction - Disbursement or Expenditure</h5>
-	<p>For the data at the publishers' lowest hierarchy, the percentage of current activities with a start date more than one year ago that contain at least one transaction of type <code>Disbursement</code> or <code>Expenditure</code>. (NB activities less than one year old are excluded from the calculation as it is fair to assume that disbursements are not always made in the early stages of an activity's development)</p>
+	<p>For the data at the publishers' lowest hierarchy, the percentage of current activities that contain at least one transaction of type <code>Disbursement</code> or <code>Expenditure</code>.</p>
 
 
 	<h5>Transaction - Traceability</h5>
@@ -34,7 +34,7 @@ Table of Financial values
 	<p>Donor publishers who list themselves within as a participating-org of either <code>1</code> (i.e. 'Funding') or <code>3</code> (i.e. 'Extending') AND who are not listed as type <code>4</code> (i.e. 'Implementing') will be given credit for traceability, as they are at the top of the funding chain.</p>
 
 	<h5>Budget</h5>
-	<p>For the hierarchy which contains the greatest number of budgets, the percentage of all current activities that contain at least one valid budget entry.  A valid budget entry must contain a valid <code>period-start</code> AND a valid <code>period-end</code> AND a valid <code>value</code> AND a valid <code>value-date</code>.</p>
+	<p>For the hierarchy which contains the greatest number of budgets, the percentage of all current activities that contain at least one valid budget entry.  A valid budget entry must contain a valid <code>period-start</code> AND a valid <code>period-end</code> AND a valid <code>value</code> AND a valid <code>value-date</code> OR the activity has the <code>@budget-not-provided</code> attribute.</p>
 {% endblock %}
 
 

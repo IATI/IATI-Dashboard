@@ -57,7 +57,7 @@ def xpath_to_url(path):
     if path.startswith('iati-activity'):
         return 'http://iatistandard.org/activity-standard/iati-activities/'+path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        return 'http://iatistandard.org/activity-standard/iati-organisations/'+path.split('@')[0]
+        return 'http://iatistandard.org/organisation-standard/iati-organisations/'+path.split('@')[0]
     else:
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
@@ -75,6 +75,10 @@ def get_codelist_values(codelist_values_for_element):
     """
     return list(set([y for x in codelist_values_for_element.items() for y in x[1].keys()]))
 
+# Store data processing times
+date_time_data_str = max(gitdate.values())
+date_time_data_obj = datetime.datetime.strptime(date_time_data_str[:19], '%Y-%m-%d %H:%M:%S') # Ignores timezone as this is unhelpful for user output
+
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
@@ -84,7 +88,8 @@ app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transac
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
-app.jinja_env.globals['datetime_data'] = max(gitdate.values())
+app.jinja_env.globals['datetime_data'] = date_time_data_str
+app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
 app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate

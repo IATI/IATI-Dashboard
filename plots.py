@@ -38,8 +38,9 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][common.get_publisher_type(publisher)['name']] += 1
+                        out[datestring][organization_type] += 1
                 else:
                     print('Publisher not matched:', publisher)
             return out
@@ -47,8 +48,9 @@ class AugmentedJSONDir(data.JSONDir):
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
                 if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
                     for datestring,count in publisher_data['activities'].iteritems():
-                        out[datestring][common.get_publisher_type(publisher)['name']] += count 
+                        out[datestring][organization_type] += count
                 else:
                     print('Publisher not matched:', publisher)
             return out
@@ -63,8 +65,6 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         stat_name = stat_path[0]
     else:
         stat_name = stat_path
-    
-    print('-> ', stat_name)
    
     stat_dict = git_stats.get(stat_name)
     if not stat_dict:
@@ -168,7 +168,6 @@ for stat_path in [
         ('publisher_types', lambda x: True, '' ),
         ('activities_per_publisher_type', lambda x: True, '' )
         ]:
-#    pdb.set_trace()
     make_plot(stat_path, git_stats)
 
 # Delete git_stats variable to save memory
@@ -181,7 +180,6 @@ except OSError:
 
 git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.iteritems():
-    print(publisher)
     for stat_path in [
             'activities',
             'activity_files',
@@ -194,4 +192,3 @@ for publisher, git_stats_publisher in git_stats_publishers.iteritems():
             ('versions', lambda x: True, ''),
             ]:
         make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
-

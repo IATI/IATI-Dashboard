@@ -47,7 +47,7 @@ if [ ! -d IATI-Codelists-2 ]; then
 fi
 cd IATI-Codelists-2
 echo "checking out Codelists-1"
-git checkout version-2.02 > /dev/null
+git checkout version-2.03 > /dev/null
 git pull > /dev/null
 echo "running gen.sh for Codelist-2"
 ./gen.sh

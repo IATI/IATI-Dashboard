@@ -1,13 +1,11 @@
 Jinja2==2.9.5
 matplotlib==2.0.0
-requests==2.13.0
+requests==2.20.0
 Frozen-Flask==0.13
 unicodecsv==0.14.1
 lxml==3.7.2
 pytz==2016.10
-
-# These are dependencies of the above, but are specified explicitly in order to pin versions
-Flask==0.12
+Flask==0.12.3
 MarkupSafe==0.23
 Werkzeug==0.11.15
 argparse==1.4.0
