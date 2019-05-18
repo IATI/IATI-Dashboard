@@ -1,5 +1,5 @@
 Jinja2==2.10.1
-matplotlib==3.0.3
+matplotlib==3.1.0
 requests==2.22.0
 Frozen-Flask==0.15
 unicodecsv==0.14.1
