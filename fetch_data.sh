@@ -30,6 +30,8 @@ cd ../../../
 # Get codelists for versions v1.x and v2.x of the IATI Standard
 cd data
 # Switch to python 3 environment
+if [ ! -d pyenv ]; then
+	python3 -m venv pyenv
 source pyenv/bin/activate
 echo "cloning Codelists-1"
 if [ ! -d IATI-Codelists-1 ]; then
