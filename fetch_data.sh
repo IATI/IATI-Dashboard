@@ -39,6 +39,7 @@ cd IATI-Codelists-1
 echo "checking out Codelists-1"
 git checkout version-1.05 > /dev/null
 git pull > /dev/null
+pip install -r requirements.txt
 echo "running gen.sh for Codelist-1"
 ./gen.sh
 
