@@ -29,6 +29,10 @@ cd ../../../
 
 # Get codelists for versions v1.x and v2.x of the IATI Standard
 cd data
+# Switch to python 3 environment
+if [ ! -d pyenv ]; then
+	python3 -m venv pyenv
+source pyenv/bin/activate
 echo "cloning Codelists-1"
 if [ ! -d IATI-Codelists-1 ]; then
     git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-1
@@ -37,6 +41,7 @@ cd IATI-Codelists-1
 echo "checking out Codelists-1"
 git checkout version-1.05 > /dev/null
 git pull > /dev/null
+pip install -r requirements.txt
 echo "running gen.sh for Codelist-1"
 ./gen.sh
 
@@ -51,5 +56,5 @@ git checkout version-2.03 > /dev/null
 git pull > /dev/null
 echo "running gen.sh for Codelist-2"
 ./gen.sh
-
+deactivate
 echo "completed fetching data"
