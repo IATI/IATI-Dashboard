@@ -1,8 +1,14 @@
 import json
 from collections import OrderedDict, defaultdict
-import sys, os, re, copy, datetime, unicodecsv
+import sys
+import os
+import re
+import copy
+import datetime
+import unicodecsv
 import UserDict
 import csv
+from decimal import Decimal
 
 publisher_re = re.compile('(.*)\-[^\-]')
 
@@ -32,18 +38,18 @@ class GroupFiles(object, UserDict.DictMixin):
         if key in self.cache: return self.cache[key]
         self.inputdict[key]
         out = OrderedDict()
-        for k2,v2 in self.inputdict[key].items():
+        for k2, v2 in self.inputdict[key].items():
             if type(v2) == OrderedDict:
                 out[k2] = OrderedDict()
                 for listitem, v3 in v2.items():
                     m = publisher_re.match(listitem)
                     if m:
                         publisher = m.group(1)
-                        if not publisher in out[k2]:
+                        if publisher not in out[k2]:
                             out[k2][publisher] = OrderedDict()
                         out[k2][publisher][listitem] = v3
                     else:
-                        pass # FIXME
+                        pass  # FIXME
             else:
                 out[k2] = v2
 
@@ -87,7 +93,7 @@ class JSONDir(object, UserDict.DictMixin):
                 # Look over the set of changed registry IDs
                 for previous_id, current_id in get_registry_id_matches().items():
                     folder = self.folder
-                    previous_path = os.path.join(folder.replace(current_id,previous_id), key+'.json')
+                    previous_path = os.path.join(folder.replace(current_id, previous_id), key+'.json')
                     #  If this publisher has had an old ID and there is data for it
                     if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
                         # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
@@ -105,7 +111,7 @@ class JSONDir(object, UserDict.DictMixin):
         """Method to return a list of keys that are contained within the data folder that
            is being accessed within this instance.
         """
-        return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
+        return [x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder)]
 
     def __iter__(self):
         """Custom iterable, to iterate over the keys that are contained within the data
@@ -124,7 +130,7 @@ class JSONDir(object, UserDict.DictMixin):
 
         # Loop over this list and return the publisher name if it is found within the historic list of publishers
         for x in path_components:
-            if x in JSONDir('./stats-calculated/gitaggregate-publisher-dated').keys():
+            if x in JSONDir('./stats-calculated/gitaggregate-publisher').keys():
                 return x
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
@@ -138,7 +144,7 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
              is not found.
     """
     try:
-        return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
+        return JSONDir('./stats-calculated/{0}-publisher/{1}'.format(stats_type, publisher))
     except IOError:
         return {}
 
@@ -184,20 +190,19 @@ def deep_merge(obj1, obj2):
         # If it's a dictionary we need to go deeper, by running this function recursively
         else:
             if key in obj2:
-                deep_merge(obj1[key],obj2[key])
+                deep_merge(obj1[key], obj2[key])
 
 
 current_stats = {
-    'aggregated': JSONDir('./stats-calculated/current/aggregated'),
-    'aggregated_file': JSONDir('./stats-calculated/current/aggregated-file'),
-    'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
-    'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
+    'aggregated': JSONDir('./stats-calculated/aggregated'),
+    'aggregated_file': JSONDir('./stats-calculated/aggregated-file'),
+    'inverted_publisher': JSONDir('./stats-calculated/inverted-publisher'),
+    'inverted_file': JSONDir('./stats-calculated/inverted-file'),
     'download_errors': []
 }
 current_stats['inverted_file_grouped'] = GroupFiles(current_stats['inverted_file'])
 ckan_publishers = JSONDir('./data/ckan_publishers')
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
-gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
 with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':
@@ -205,44 +210,41 @@ with open('./data/downloads/errors') as fp:
 
 def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
-    codelist_mapping = {k:v for k,v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
-    codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items() }
-    codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
+    codelist_mapping = {k: v for k, v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
+    codelist_mapping = {re.sub('^\/\/iati-activity', './', k): v for k, v in codelist_mapping.items() }
+    codelist_mapping = {re.sub('^\/\/', './/', k): v for k, v, in codelist_mapping.items() }
     return codelist_mapping
 
 def create_codelist_mapping(major_version):
-    codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
+    codelist_mapping = {x['path']: x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
     return transform_codelist_mapping_keys(codelist_mapping)
 
 MAJOR_VERSIONS = ['2', '1']
 
-codelist_mapping = { v:create_codelist_mapping(v) for v in MAJOR_VERSIONS }
+codelist_mapping = {v: create_codelist_mapping(v) for v in MAJOR_VERSIONS}
 codelist_conditions = {
-    major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
-    for major_version in MAJOR_VERSIONS }
+    major_version: transform_codelist_mapping_keys({x['path']: x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
+    for major_version in MAJOR_VERSIONS}
 
 # Create a big dictionary of all codelist values by version and codelist name
 codelist_sets = {
     major_version: {
-        cname:set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
-    } for major_version in MAJOR_VERSIONS }
+        cname: set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+    } for major_version in MAJOR_VERSIONS}
 
 
-#Simple look up to map publisher id to a publishers given name (title)
-publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()}
-#Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
-publishers_ordered_by_title = [ (publisher_name[publisher],publisher) for publisher in current_stats['inverted_publisher']['activities'] ]
+#  Simple look up to map publisher id to a publishers given name (title)
+publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in ckan_publishers.items()}
+#  Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
+for publisher in current_stats['inverted_publisher']['activities']:
+    try:
+        publishers_ordered_by_title = [(publisher_name[publisher], publisher)]
+    except KeyError:
+        print("Publisher {} not in ckan file".format(publisher))
 publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
 
-# List of publishers who report all their activities as a secondary publisher
-secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
-                         if int(stats['activities']) == len(stats['activities_secondary_reported'])
-                            and int(stats['activities']) > 0]
-
-import csv
-from decimal import Decimal
 try:
-    dac2012 = {x[0]:Decimal(x[1].replace(',','')) for x in csv.reader(open('data/dac2012.csv'))}
+    dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open('data/dac2012.csv'))}
 except IOError:
     dac2012 = {}
 
@@ -250,8 +252,8 @@ except IOError:
 
 
 def make_slugs(keys):
-    out = {'by_slug':{}, 'by_i':{}}
-    for i,key in enumerate(keys):
+    out = {'by_slug': {}, 'by_i': {}}
+    for i, key in enumerate(keys):
         slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_'))).strip('_')
         while slug in out['by_slug']:
             slug += '_'
@@ -260,10 +262,5 @@ def make_slugs(keys):
     return out
 
 slugs = {
-    'codelist': { major_version:(
-            make_slugs(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys())
-            if major_version in current_stats['inverted_publisher']['codelist_values_by_major_version']
-            else make_slugs([])
-        ) for major_version in MAJOR_VERSIONS },
     'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
 }

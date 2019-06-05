@@ -9,9 +9,6 @@ mkdir out
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Fetching data"
 ./fetch_data.sh &> fetch_data.log || exit 1
 
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running plots.py"
-python plots.py || exit 1
-
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
 python make_csv.py || exit 1
 
