@@ -144,7 +144,7 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
              is not found.
     """
     try:
-        return JSONDir('./stats-calculated/{0}-publisher/{1}'.format(stats_type, publisher))
+        return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
     except IOError:
         return {}
 
@@ -194,10 +194,10 @@ def deep_merge(obj1, obj2):
 
 
 current_stats = {
-    'aggregated': JSONDir('./stats-calculated/aggregated'),
-    'aggregated_file': JSONDir('./stats-calculated/aggregated-file'),
-    'inverted_publisher': JSONDir('./stats-calculated/inverted-publisher'),
-    'inverted_file': JSONDir('./stats-calculated/inverted-file'),
+    'aggregated': JSONDir('./stats-calculated/current/aggregated'),
+    'aggregated_file': JSONDir('./stats-calculated/current/aggregated-file'),
+    'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
+    'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
     'download_errors': []
 }
 current_stats['inverted_file_grouped'] = GroupFiles(current_stats['inverted_file'])
@@ -242,6 +242,11 @@ for publisher in current_stats['inverted_publisher']['activities']:
     except KeyError:
         print("Publisher {} not in ckan file".format(publisher))
 publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
+
+# List of publishers who report all their activities as a secondary publisher
+secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
+                        if int(stats['activities']) == len(stats['activities_secondary_reported']) and
+                        int(stats['activities']) > 0]
 
 try:
     dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open('data/dac2012.csv'))}
