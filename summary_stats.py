@@ -5,7 +5,6 @@ import common
 import timeliness
 import forwardlooking
 import comprehensiveness
-import coverage
 
 # Set column groupings, to be displayed in the user output
 columns = [
@@ -15,7 +14,7 @@ columns = [
     ('forwardlooking', 'Forward looking'),
     ('comprehensive', 'Comprehensive'),
     ('score', 'Score')
-    ]
+]
 
 
 def is_number(s):

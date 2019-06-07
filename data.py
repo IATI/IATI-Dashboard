@@ -203,6 +203,7 @@ current_stats = {
 current_stats['inverted_file_grouped'] = GroupFiles(current_stats['inverted_file'])
 ckan_publishers = JSONDir('./data/ckan_publishers')
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
+gitdate = json.load(open('./stats-calculated/gitdate.json'), object_pairs_hook=OrderedDict)
 with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':

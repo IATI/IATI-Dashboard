@@ -12,9 +12,6 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Fetching data"
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
 python make_csv.py || exit 1
 
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers kit.py"
-python speakers_kit.py || exit 1
-
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_html.py"
 python make_html.py || exit 1
 

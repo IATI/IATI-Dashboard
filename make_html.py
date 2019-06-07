@@ -11,8 +11,6 @@ from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
 app = Flask(__name__, template_folder="static/templates")
-
-import licenses
 import timeliness
 import forwardlooking
 import comprehensiveness
@@ -100,8 +98,8 @@ app.jinja_env.globals['page_leads'] = text.page_leads
 app.jinja_env.globals['page_sub_leads'] = text.page_sub_leads
 app.jinja_env.globals['top_navigation'] = text.top_navigation
 app.jinja_env.globals['navigation'] = text.navigation
-app.jinja_env.globals['navigation_reverse'] = { page:k for k,pages in text.navigation.items() for page in pages }
-app.jinja_env.globals['navigation_reverse'].update({ k:k for k in text.navigation})
+app.jinja_env.globals['navigation_reverse'] = {page: k for k, pages in text.navigation.items() for page in pages}
+app.jinja_env.globals['navigation_reverse'].update({k: k for k in text.navigation})
 app.jinja_env.globals['current_stats'] = current_stats
 app.jinja_env.globals['ckan'] = ckan
 app.jinja_env.globals['ckan_publishers'] = ckan_publishers
@@ -124,37 +122,20 @@ app.jinja_env.globals['codelist_sets'] = codelist_sets
 app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 
 basic_page_names = [
-        'index',
-        'headlines',
-        'data_quality',
-        'exploring_data',
-        'publishers',
-        'publishing_stats',
-        'timeliness',
-        'timeliness_timelag',
-        'forwardlooking',
-        'comprehensiveness',
-        'comprehensiveness_core',
-        'comprehensiveness_financials',
-        'comprehensiveness_valueadded',
-        'coverage',
-        'summary_stats',
-        'humanitarian',
-        'files',
-        'activities',
-        'download',
-        'xml',
-        'validation',
-        'versions',
-        'organisation',
-        'identifiers',
-        'reporting_orgs',
-        'elements',
-        'codelists',
-        'booleans',
-        'dates',
-        'faq',
-    ]
+    'publishing_stats',
+    'timeliness',
+    'timeliness_timelag',
+    'forwardlooking',
+    'comprehensiveness',
+    'comprehensiveness_core',
+    'comprehensiveness_financials',
+    'comprehensiveness_valueadded',
+    'coverage',
+    'summary_stats',
+    'humanitarian',
+    'faq',
+]
+
 
 @app.route('/<page_name>.html')
 def basic_page(page_name):
@@ -180,107 +161,26 @@ def basic_page(page_name):
             parent_page_name = 'humanitarian'
         else:
             parent_page_name = page_name
-        return render_template(page_name+'.html', page=parent_page_name, **kwargs)
+        return render_template(page_name + '.html', page=parent_page_name, **kwargs)
     else:
         abort(404)
 
-@app.route('/data/download_errors.json')
-def download_errors_json():
-    return  Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
+# app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
 
-app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
-app.add_url_rule('/licenses.html', 'licenses', licenses.main)
-app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
-
-@app.route('/publisher/<publisher>.html')
-def publisher(publisher):
-    publisher_stats = get_publisher_stats(publisher)
-    budget_table = [ {
-            'year': 'Total',
-            'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
-            'sum_total': { currency:sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
-            'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_original': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
-            'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_revised': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-        } ] + [
-            {
-                'year': year,
-                'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
-                'sum_total': { currency:sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
-                'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_original': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
-                'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_revised': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-            } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
-        ]
-    return render_template('publisher.html',
-        url=lambda x: '../'+x,
-        publisher=publisher,
-        publisher_stats=publisher_stats,
-        publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
-        publisher_licenses=licenses.licenses_for_publisher(publisher),
-        budget_table=budget_table
-        )
-
-@app.route('/codelist/<major_version>/<slug>.html')
-def codelist(major_version, slug):
-    i = slugs['codelist'][major_version]['by_slug'][slug]
-    element = current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys()[i]
-    values = nested_dictinvert(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values()[i])
-    return render_template('codelist.html',
-        element=element,
-        values=values,
-        reverse_codelist_mapping={ major_version:dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
-        url=lambda x: '../../'+x,
-        major_version=major_version,
-        page='codelists')
-
-@app.route('/element/<slug>.html')
-def element(slug):
-    i = slugs['element']['by_slug'][slug]
-    element = current_stats['inverted_publisher']['elements'].keys()[i]
-    publishers = current_stats['inverted_publisher']['elements'].values()[i]
-    file_grouped = current_stats['inverted_file_grouped']['elements'].values()[i]
-    return render_template('element.html',
-        element=element,
-        publishers=publishers,
-        file_grouped=file_grouped,
-        url=lambda x: '../'+x,
-        page='elements')
-
-
-@app.route('/registration_agencies.html')
-def registration_agencies():
-    registration_agencies = defaultdict(int)
-    registration_agencies_publishers = defaultdict(list)
-    nonmatching = []
-    for orgid, publishers in current_stats['inverted_publisher']['reporting_orgs'].items():
-        reg_ag = registration_agency(orgid)
-        if reg_ag:
-            registration_agencies[reg_ag] += 1
-            registration_agencies_publishers[reg_ag] += publishers.keys()
-        else:
-            nonmatching.append((orgid, publishers))
-    return render_template('registration_agencies.html',
-        page='registration_agencies',
-        registration_agencies=registration_agencies,
-        registration_agencies_publishers=registration_agencies_publishers,
-        nonmatching=nonmatching)
 
 # Server an image through the development server (--live)
 @app.route('/<image>.png')
 def image_development(image):
-    return Response(open(os.path.join('out', image+'.png')).read(), mimetype='image/png')
+    return Response(open(os.path.join('out', image + '.png')).read(), mimetype='image/png')
 
 @app.route('/<name>.csv')
 def csv_development(name):
-    return Response(open(os.path.join('out', name+'.csv')).read(), mimetype='text/csv')
+    return Response(open(os.path.join('out', name + '.csv')).read(), mimetype='text/csv')
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
     print(image)
-    return Response(open(os.path.join('out', 'publisher_imgs', image+'.png')).read(), mimetype='image/png')
+    return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 if __name__ == '__main__':
     if '--live' in sys.argv:
@@ -298,20 +198,5 @@ if __name__ == '__main__':
         def url_generator():
             for page_name in basic_page_names:
                 yield 'basic_page', {'page_name': page_name}
-            for publisher in current_stats['inverted_publisher']['activities'].keys():
-                yield 'publisher', {'publisher': publisher}
-            for slug in slugs['element']['by_slug']:
-                yield 'element', {'slug': slug}
-            for major_version, codelist_slugs in slugs['codelist'].items():
-                for slug in codelist_slugs['by_slug']:
-                    yield 'codelist', {
-                        'slug': slug,
-                        'major_version': major_version
-                    }
-            for license in licenses.licenses:
-                if license == None:
-                    license = 'None'
-                yield 'licenses_individual_license', {'license':license}
-
 
         freezer.freeze()
