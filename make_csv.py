@@ -16,8 +16,8 @@ publisher_name = {publisher: publisher_json['result']['title'] for publisher, pu
 
 def publisher_dicts():
     for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
-        publisher_stats = data.get_publisher_stats(publisher)
-        try:
+        if publisher in publisher_name:
+            publisher_stats = data.get_publisher_stats(publisher)
             yield {
                 'Publisher Name': publisher_name[publisher],
                 'Publisher Registry Id': publisher,
@@ -25,8 +25,7 @@ def publisher_dicts():
                 'Hierarchies (count)': len(publisher_stats['hierarchies']),
                 'Hierarchies': ';'.join(publisher_stats['hierarchies']),
             }
-        except KeyError:
-            print("Publisher {} not in ckan file".format(publisher))
+
 
 with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
     writer = unicodecsv.DictWriter(fp, [

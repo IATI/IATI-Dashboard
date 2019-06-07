@@ -7,33 +7,33 @@ import datetime
 this_year = datetime.date.today().year
 
 # Create a list containing three years: the current year and two following
-years = map(str, range(this_year, this_year+3))
+years = map(str, range(this_year, this_year + 3))
 
 # Set column groupings, to be displayed in the user output
-column_headers = [ 
+column_headers = [
     'Current activities at the start of each year',
     'Current activities with budgets for each year',
     'Percentage of current activities with budgets'
 ]
 
 def generate_row(publisher):
-    """Generate forward-looking table data for a given publisher 
+    """Generate forward-looking table data for a given publisher
     """
 
     # Store the data for this publisher as a new variable
     publisher_stats = get_publisher_stats(publisher)
-    
+
     # Create a list for publisher data, and populate it with basic data
     row = {}
     row['publisher'] = publisher
     row['publisher_title'] = publisher_name[publisher]
-    row['year_columns'] = [{},{},{}]
+    row['year_columns'] = [{}, {}, {}]
     row['budget_not_provided'] = False
     # Work with hierarchies
     by_hierarchy = publisher_stats['by_hierarchy']
     hierarchies_with_nonzero_budgets = [
         h for h, stats in by_hierarchy.items()
-        if not all(x==0 for x in stats['forwardlooking_activities_with_budgets'].values())
+        if not all(x == 0 for x in stats['forwardlooking_activities_with_budgets'].values())
     ]
 
     # Flag if budgets on current activities are reported at more than one hierarchy
@@ -41,7 +41,7 @@ def generate_row(publisher):
 
     hierarchies_with_budget_not_provided = [
         h for h, stats in by_hierarchy.items()
-        if not all(x==0 for x in stats['forwardlooking_activities_with_budget_not_provided'].values())
+        if not all(x == 0 for x in stats['forwardlooking_activities_with_budget_not_provided'].values())
     ]
 
     # Loop over each of the three years (i.e. this year and the following two years) to generate the statistics for the table
@@ -82,6 +82,5 @@ def table():
 
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
-
         # Return a generator object
         yield generate_row(publisher)
