@@ -231,7 +231,10 @@ codelist_sets = {
 #Simple look up to map publisher id to a publishers given name (title)
 publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()}
 #Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
-publishers_ordered_by_title = [ (publisher_name[publisher],publisher) for publisher in current_stats['inverted_publisher']['activities'] if publisher in publisher_name]
+publishers_ordered_by_title = [
+    (publisher_name[publisher], publisher)
+    for publisher in current_stats['inverted_publisher']['activities']
+    if publisher in publisher_name]
 publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
 
 # List of publishers who report all their activities as a secondary publisher
