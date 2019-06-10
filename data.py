@@ -1,11 +1,7 @@
 import json
-from collections import OrderedDict, defaultdict
-import sys
+from collections import OrderedDict
 import os
 import re
-import copy
-import datetime
-import unicodecsv
 import UserDict
 import csv
 from decimal import Decimal
@@ -35,7 +31,8 @@ class GroupFiles(object, UserDict.DictMixin):
         self.cache = {}
 
     def __getitem__(self, key):
-        if key in self.cache: return self.cache[key]
+        if key in self.cache:
+            return self.cache[key]
         self.inputdict[key]
         out = OrderedDict()
         for k2, v2 in self.inputdict[key].items():
@@ -81,9 +78,9 @@ class JSONDir(object, UserDict.DictMixin):
         if os.path.exists(os.path.join(self.folder, key)):
             # The data being sought is a directory
             data = JSONDir(os.path.join(self.folder, key))
-        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+        elif os.path.exists(os.path.join(self.folder, key + '.json')):
             # The data being sought is a json file
-            with open(os.path.join(self.folder, key+'.json')) as fp:
+            with open(os.path.join(self.folder, key + '.json')) as fp:
                 data = json.load(fp, object_pairs_hook=OrderedDict)
 
             # Deal with publishers who had an old registry ID
@@ -103,9 +100,10 @@ class JSONDir(object, UserDict.DictMixin):
                             # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
         else:
             # No value found as either a folder or json file
-            raise KeyError, key
+            raise KeyError
 
         return data
+
 
     def keys(self):
         """Method to return a list of keys that are contained within the data folder that
@@ -113,11 +111,13 @@ class JSONDir(object, UserDict.DictMixin):
         """
         return [x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder)]
 
+
     def __iter__(self):
         """Custom iterable, to iterate over the keys that are contained within the data
         folder that is being accessed within this instance.
         """
         return iter(self.keys())
+
 
     def get_publisher_name(self):
         """Find the name of the publisher that this data relates to.
@@ -130,12 +130,11 @@ class JSONDir(object, UserDict.DictMixin):
 
         # Loop over this list and return the publisher name if it is found within the historic list of publishers
         for x in path_components:
-            if x in JSONDir('./stats-calculated/gitaggregate-publisher').keys():
+            if x in JSONDir('./stats-calculated/gitaggregate-publisher-dated').keys():
                 return x
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
         return None
-
 
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
@@ -209,6 +208,7 @@ with open('./data/downloads/errors') as fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
 
+
 def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
     codelist_mapping = {k: v for k, v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
@@ -216,9 +216,11 @@ def transform_codelist_mapping_keys(codelist_mapping):
     codelist_mapping = {re.sub('^\/\/', './/', k): v for k, v, in codelist_mapping.items() }
     return codelist_mapping
 
+
 def create_codelist_mapping(major_version):
     codelist_mapping = {x['path']: x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
     return transform_codelist_mapping_keys(codelist_mapping)
+
 
 MAJOR_VERSIONS = ['2', '1']
 
@@ -256,8 +258,6 @@ except IOError:
     dac2012 = {}
 
 
-
-
 def make_slugs(keys):
     out = {'by_slug': {}, 'by_i': {}}
     for i, key in enumerate(keys):
@@ -267,6 +267,7 @@ def make_slugs(keys):
         out['by_slug'][slug] = i
         out['by_i'][i] = slug
     return out
+
 
 slugs = {
     'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
