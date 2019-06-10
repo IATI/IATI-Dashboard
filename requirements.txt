@@ -3,7 +3,7 @@ matplotlib==3.1.0
 requests==2.22.0
 Frozen-Flask==0.15
 unicodecsv==0.14.1
-lxml==4.3.3
+lxml==4.3.4
 pytz==2019.1
 Flask==1.0.3
 MarkupSafe==1.1.1
