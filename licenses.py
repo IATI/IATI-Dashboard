@@ -2,6 +2,7 @@ license_names = {
 'notspecified': 'Other::License Not Specified',
 'odc-pddl': 'OKD Compliant::Open Data Commons Public Domain Dedication and Licence (PDDL)',
 'odc-odbl': 'OKD Compliant::Open Data Commons Open Database License (ODbL)',
+'odc-by': 'OKD Compliant::Open Data Commons Attribution Licence',
 'cc-zero': 'OKD Compliant::Creative Commons CCZero',
 'cc-by': 'OKD Compliant::Creative Commons Attribution',
 'cc-by-sa': 'OKD Compliant::Creative Commons Attribution Share-Alike',
