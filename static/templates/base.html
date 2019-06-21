@@ -142,9 +142,12 @@ html,body{height:100%;}
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-      {% for item in top_navigation %}
-          <li {% if item==page or page in navigation[item]%}class="active"{%endif%}><a href="{{url(item+'.html')}}">{{top_titles[item]}}</a></li>
-      {% endfor %}
+        <li><a href="http://dashboard.iatistandard.org">Dashboard Home</a></li>
+        <li><a href="http://dashboard.iatistandard.org/headlines.html">Headlines</a></li>
+        <li><a href="http://dashboard.iatistandard.org/data_quality.html">Data Quality</a></li>
+        <li><a href="http://dashboard.iatistandard.org/exploring_data.html">Exploring Data</a></li>
+        <li class="active"><a href="">Publishing Statistics</a></li>
+        <li><a href="http://dashboard.iatistandard.org/faq.html">FAQ</a></li>
       </ul>
     </div>
     <div class="collapse navbar-collapse">
