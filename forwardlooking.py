@@ -7,22 +7,22 @@ import datetime
 this_year = datetime.date.today().year
 
 # Create a list containing three years: the current year and two following
-years = map(str, range(this_year, this_year+3))
+years = map(str, range(this_year, this_year + 3))
 
 # Set column groupings, to be displayed in the user output
-column_headers = [ 
+column_headers = [
     'Current activities at the start of each year',
     'Current activities with budgets for each year',
     'Percentage of current activities with budgets'
 ]
 
 def generate_row(publisher):
-    """Generate forward-looking table data for a given publisher 
+    """Generate forward-looking table data for a given publisher
     """
 
     # Store the data for this publisher as a new variable
     publisher_stats = get_publisher_stats(publisher)
-    
+
     # Create a list for publisher data, and populate it with basic data
     row = {}
     row['publisher'] = publisher
@@ -33,7 +33,7 @@ def generate_row(publisher):
     by_hierarchy = publisher_stats['by_hierarchy']
     hierarchies_with_nonzero_budgets = [
         h for h, stats in by_hierarchy.items()
-        if not all(x==0 for x in stats['forwardlooking_activities_with_budgets'].values())
+        if not all(x == 0 for x in stats['forwardlooking_activities_with_budgets'].values())
     ]
 
     # Flag if budgets on current activities are reported at more than one hierarchy
@@ -41,26 +41,27 @@ def generate_row(publisher):
 
     hierarchies_with_budget_not_provided = [
         h for h, stats in by_hierarchy.items()
-        if not all(x==0 for x in stats['forwardlooking_activities_with_budget_not_provided'].values())
+        if not all(x == 0 for x in stats['forwardlooking_activities_with_budget_not_provided'].values())
     ]
 
     # Loop over each of the three years (i.e. this year and the following two years) to generate the statistics for the table
     for year in years:
-
-        forwardlooking_budget = 'forwardlooking_activities_with_budgets'
         if(len(hierarchies_with_budget_not_provided) > 0):
-            forwardlooking_budget = 'forwardlooking_activities_with_budget_not_provided'
             row['budget_not_provided'] = True
-        # If 'forwardlooking_activities_current' and 'forwardlooking_activities_with_budgets' are both in the bottom hierarchy
-        if 'forwardlooking_activities_current' in publisher_stats['bottom_hierarchy'] and forwardlooking_budget in publisher_stats['bottom_hierarchy'] :
+        # If 'forwardlooking_activities_current' and 'forwardlooking_activities_with_budgets' or 'forwardlooking_activities_with_budget_not_provided' are in the bottom hierarchy
+        if 'forwardlooking_activities_current' in publisher_stats['bottom_hierarchy'] and ('forwardlooking_activities_with_budgets' in publisher_stats['bottom_hierarchy'] or 'forwardlooking_activities_with_budget_not_provided' in publisher_stats['bottom_hierarchy']):
             if len(hierarchies_with_nonzero_budgets) != 1:
                 # If budgets are at more than one hierarchy (or no hierarchies), just use activities at all hierarchies
                 row['year_columns'][0][year] = publisher_stats['forwardlooking_activities_current'].get(year) or 0
-                row['year_columns'][1][year] = publisher_stats[forwardlooking_budget].get(year) or 0
+                row['year_columns'][1][year] = publisher_stats['forwardlooking_activities_with_budgets'].get(year) or 0
+                if row['budget_not_provided']:
+                    row['year_columns'][1][year] += publisher_stats['forwardlooking_activities_with_budget_not_provided'].get(year) or 0
             else:
                 # Else, use the hierarchy which they are reported at
                 row['year_columns'][0][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_current'].get(year) or 0
-                row['year_columns'][1][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]][forwardlooking_budget].get(year) or 0
+                row['year_columns'][1][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budgets'].get(year) or 0
+                if row['budget_not_provided']:
+                    by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budget_not_provided'].get(year) or 0
 
             if not int(row['year_columns'][0][year]):
                 row['year_columns'][2][year] = '-'
