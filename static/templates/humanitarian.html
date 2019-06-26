@@ -35,7 +35,7 @@
             <tbody>
                 {% for row in humanitarian.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="http://dev.dashboard.iatistandard.org/publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
                     {% for column_slug, _ in humanitarian.columns %}
                       <td style="border-right: 1px solid gray; border-left: 1px solid gray;">
                         {%- if column_slug == 'publisher_type' -%}
