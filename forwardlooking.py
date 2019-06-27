@@ -61,7 +61,7 @@ def generate_row(publisher):
                 row['year_columns'][0][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_current'].get(year) or 0
                 row['year_columns'][1][year] = by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budgets'].get(year) or 0
                 if row['budget_not_provided']:
-                    by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budget_not_provided'].get(year) or 0
+                    row['year_columns'][1][year] += by_hierarchy[hierarchies_with_nonzero_budgets[0]]['forwardlooking_activities_with_budget_not_provided'].get(year) or 0
 
             if not int(row['year_columns'][0][year]):
                 row['year_columns'][2][year] = '-'
