@@ -181,7 +181,9 @@ end =
 
 If start and end are both not null
     If (end - start <= 370 days)
-        If end month >= 7
+        If end year == start year
+            budget year = end year
+        Elif end month >= 7
             budget year = end year
         Else
             budget year = end year - 1
