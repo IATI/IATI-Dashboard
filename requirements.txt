@@ -5,7 +5,7 @@ Frozen-Flask==0.15
 unicodecsv==0.14.1
 lxml==4.3.4
 pytz==2019.1
-Flask==1.0.3
+Flask==1.0.4
 MarkupSafe==1.1.1
 Werkzeug==0.15.4
 argparse==1.4.0
