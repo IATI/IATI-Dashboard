@@ -8,9 +8,6 @@ import os
 import re
 import subprocess
 from collections import defaultdict
-
-from flask import Flask, render_template, redirect, abort, Response
-app = Flask(__name__, template_folder="static/templates")
 import timeliness
 import forwardlooking
 import comprehensiveness
@@ -20,6 +17,8 @@ import humanitarian
 from vars import expected_versions
 import text
 import datetime
+from flask import Flask, render_template, abort, Response
+app = Flask(__name__, template_folder="static/templates")
 
 print('Doing initial data import')
 from data import *
@@ -183,20 +182,20 @@ def image_development_publisher(image):
     return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 if __name__ == '__main__':
-    if '--live' in sys.argv:
-        app.debug = True
-        app.run()
+    if '--dev' in sys.argv:
+        app.jinja_env.globals['dashboard_url'] = "http://dev.dashboard.iatistandard.org"
     else:
-        from flask_frozen import Freezer
-        app.config['FREEZER_DESTINATION'] = 'out'
-        app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
-        app.debug = False    # Comment to turn off debugging
-        app.testing = True   # Comment to turn off debugging
-        freezer = Freezer(app)
+        app.jinja_env.globals['dashboard_url'] = "http://dashboard.iatistandard.org"
+    from flask_frozen import Freezer
+    app.config['FREEZER_DESTINATION'] = 'out'
+    app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+    app.debug = False    # Comment to turn off debugging
+    app.testing = True   # Comment to turn off debugging
+    freezer = Freezer(app)
 
-        @freezer.register_generator
-        def url_generator():
-            for page_name in basic_page_names:
-                yield 'basic_page', {'page_name': page_name}
+    @freezer.register_generator
+    def url_generator():
+        for page_name in basic_page_names:
+            yield 'basic_page', {'page_name': page_name}
 
-        freezer.freeze()
+    freezer.freeze()
