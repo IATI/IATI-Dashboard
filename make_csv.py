@@ -10,6 +10,8 @@ publisher_name={publisher:publisher_json['result']['title'] for publisher,publis
 
 def publisher_dicts():
     for publisher, activities in data.current_stats['inverted_publisher']['activities'].items():
+        if publisher not in data.ckan_publishers:
+            continue
         publisher_stats = data.get_publisher_stats(publisher)
         yield {
             'Publisher Name': publisher_name[publisher],
