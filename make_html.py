@@ -3,7 +3,6 @@
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
 from __future__ import print_function
-import sys
 import argparse
 import os
 import re
