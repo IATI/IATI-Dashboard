@@ -3,7 +3,7 @@
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
 from __future__ import print_function
-import sys
+import argparse
 import os
 import re
 import subprocess
@@ -246,10 +246,12 @@ def image_development_publisher(image):
     return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 if __name__ == '__main__':
-    if '--dev' in sys.argv:
-        app.jinja_env.globals['pubstats_url'] = "http://dev.publishingstats.iatistandard.org"
-    else:
-        app.jinja_env.globals['pubstats_url'] = "http://publishingstats.iatistandard.org"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url",
+                        help="Link to connect dashboard to publishing stats",
+                        default="")
+    args = parser.parse_args()
+    app.jinja_env.globals['pubstats_url'] = args.url
     from flask_frozen import Freezer
     app.config['FREEZER_DESTINATION'] = 'out'
     app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
