@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 import sys
+import argparse
 import os
 import re
 import subprocess
@@ -182,10 +183,12 @@ def image_development_publisher(image):
     return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 if __name__ == '__main__':
-    if '--dev' in sys.argv:
-        app.jinja_env.globals['dashboard_url'] = "http://dev.dashboard.iatistandard.org"
-    else:
-        app.jinja_env.globals['dashboard_url'] = "http://dashboard.iatistandard.org"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url",
+                        help="Link to connect publishing stats to dashboard",
+                        default="")
+    args = parser.parse_args()
+    app.jinja_env.globals['dashboard_url'] = args.url
     from flask_frozen import Freezer
     app.config['FREEZER_DESTINATION'] = 'out'
     app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
