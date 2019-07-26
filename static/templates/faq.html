@@ -3,23 +3,20 @@
 {% block content %}
 
 <h3>Who runs the IATI Dashboard?</h3>
-<p>The Dashboard is maintained by the technical team of the IATI Secretariat. It has grown out of various projects to track IATI data around various facets and metrics.</p>
+<p>The IATI Dashboard and Publishing Stats are maintained by the technical team of the IATI Secretariat. It has grown out of various projects to track IATI data around various facets and metrics.</p>
 
 <h3>When is the Dashboard updated?</h3>
-<p>The Dashboard is generated through a process that starts shortly after midnight UK time on the following days each month:</p>
-<ul>
-  <li>1st, 4th, 7th, 10th, 13th, 16th, 19th, 22nd, 25th (and the 28th for months with 31 days)</li>
-</ul>
+<p>The Dashboard and Publishing Stats are generated through a daily process that happens each night.</p>
 <p>This is a two step process:</p>
 <ol>
-<li>The Dashboard scripts first download the data that is linked to from the IATI Registry - see “data downloaded” date time at the footer of the page.</li>
-<li>From this dataset, the relevant statistics are calculated, and the Dashboard is then updated - see “generated” date/time at footer.</li>
+<li>The Dashboard and Publishing Stats scripts first download the data that is linked to from the IATI Registry - see “data downloaded” date time at the footer of each page.</li>
+<li>From this dataset, the relevant statistics are calculated, and the Dashboard and Publishing Stats are then updated - see “generated” date/time at footer.</li>
 </ol>
-<p>The generation process usually takes between 24 and 48 hours to complete.</p>
+<p>The generation process usually completes within 12 hours.</p>
 
 <h3>Why is there a difference between the data download and Dashboard generation time?</h3>
-<p>The data is downloaded, and then there is a period of computing time to generate the statistics that inform the Dashboard.</p>
-<p>Usually, there is a small period of time between the two.  However, we do track this as sometimes things break - and the site fails to regenerate.  If you spot something, please also let us know via via <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
+<p>The data is downloaded, and then there is a period of computing time to generate the statistics that inform the Dashboard and Publishing Stats.</p>
+<p>Usually, there is a small period of time between the two. However, we do track this as sometimes things break - and the site fails to regenerate. If you spot something, please also let us know via <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
 
 <h3>Does a graph going up or down mean something good?</h3>
 <p>No.  There may be a number of reasons why a certain graph or number rises or falls.</p>
@@ -27,16 +24,28 @@
 <p>Therefore, we stress to treat the graphs, numbers and statistics on the IATI Dashboard with <strong>caution, context and consideration</strong>.  </p>
 <p>Should you think something is really wrong, please contact us via <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
 
+<h3>What do the Publishing Stats numbers mean?</h3>
+<p>Different tables capture how timely, forward looking and comprehensive a publisher’s IATI data is.  A summary of this information is displayed on the <a href="http://publishingstats.iatistandard.org">Summary Stats</a> page, where each quality is marked out of 100.</p>
+<p>The other tabs outline how this mark is calculated and the different assessments included.</p>
+<p>In some cases, a low number may well be down to the fact that the Dashboard script failed to download the relevant data or the methodology for an element within IATI may need amending. This could be due to any number of reasons - and not necessarily anything to do with the setup of the IATI publisher.</p>
+<p>Only the timeliness tables track an organisation’s publishing over time. If the Publishing Stats doesn’t pick up your data one month we are unable to back fill the table.</p>
+<p>Therefore, we stress to treat the tables and their corresponding marks with <strong>caution, context and consideration</strong>.</p>
+<p>Should you think something is really wrong, please contact us via <a href="mailto:support@iatistandard.org">support@iatistandard.org</a>.</p>
+
 <h3>Can I build my own version of this Dashboard?</h3>
-<p>Yes - the source code is all open source: <a href="https://github.com/IATI/IATI-Dashboard/">https://github.com/IATI/IATI-Dashboard/</a>.</p>
+<p>Yes - the source code is all open source:</p>
+<ol>
+<li><a href="https://github.com/IATI/IATI-Dashboard/">https://github.com/IATI/IATI-Dashboard/</a>.</li>
+<li><a href="https://github.com/IATI/IATI-Publishing-Statistics/">https://github.com/IATI/IATI-Publishing-Statistics</a></li>
+</ol>
 <p>We advise you to check through the technical specifications.</p>
 
 <h3>How can I suggest a new function?</h3>
-<p>Ideally, we’d suggest to check through the list of issues we have logged in our Github repository.  </p>
+<p>Ideally, we’d suggest to check through the list of issues we have logged in our Github repositories.  </p>
 
 <p>Alternatively, please email us via <a href="mailto:support@iatistandard.org">support@iatistandard.org</a></p>
 
-<h3>We’ve published/updated our IATI data, but it doesn’t appear in the Dashboard.</h3>
+<h3>We’ve published/updated our IATI data, but the numbers haven’t updated.</h3>
 <p>We’d suggest two initial checks:</p>
 
 <ol>
