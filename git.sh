@@ -19,7 +19,7 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers kit.py"
 python speakers_kit.py || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_html.py"
-python make_html.py || exit 1
+python make_html.py $1 $2|| exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Copying static elements"
 cp static/img/favicon.png out/
