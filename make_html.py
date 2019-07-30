@@ -3,7 +3,7 @@
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
 from __future__ import print_function
-import sys
+import argparse
 import os
 import re
 import subprocess
@@ -13,12 +13,6 @@ from flask import Flask, render_template, redirect, abort, Response
 app = Flask(__name__, template_folder="static/templates")
 
 import licenses
-import timeliness
-import forwardlooking
-import comprehensiveness
-import coverage
-import summary_stats
-import humanitarian
 from vars import expected_versions
 import text
 import datetime
@@ -44,7 +38,7 @@ def nested_dictinvert(d):
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
-    return publisher_slug.rsplit('-',1)[0]
+    return publisher_slug.rsplit('-', 1)[0]
 
 
 def firstint(s):
@@ -83,7 +77,6 @@ date_time_data_obj = datetime.datetime.strptime(date_time_data_str[:19], '%Y-%m-
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
-app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
@@ -100,8 +93,8 @@ app.jinja_env.globals['page_leads'] = text.page_leads
 app.jinja_env.globals['page_sub_leads'] = text.page_sub_leads
 app.jinja_env.globals['top_navigation'] = text.top_navigation
 app.jinja_env.globals['navigation'] = text.navigation
-app.jinja_env.globals['navigation_reverse'] = { page:k for k,pages in text.navigation.items() for page in pages }
-app.jinja_env.globals['navigation_reverse'].update({ k:k for k in text.navigation})
+app.jinja_env.globals['navigation_reverse'] = {page: k for k, pages in text.navigation.items() for page in pages }
+app.jinja_env.globals['navigation_reverse'].update({k: k for k in text.navigation})
 app.jinja_env.globals['current_stats'] = current_stats
 app.jinja_env.globals['ckan'] = ckan
 app.jinja_env.globals['ckan_publishers'] = ckan_publishers
@@ -124,63 +117,33 @@ app.jinja_env.globals['codelist_sets'] = codelist_sets
 app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 
 basic_page_names = [
-        'index',
-        'headlines',
-        'data_quality',
-        'exploring_data',
-        'publishers',
-        'publishing_stats',
-        'timeliness',
-        'timeliness_timelag',
-        'forwardlooking',
-        'comprehensiveness',
-        'comprehensiveness_core',
-        'comprehensiveness_financials',
-        'comprehensiveness_valueadded',
-        'coverage',
-        'summary_stats',
-        'humanitarian',
-        'files',
-        'activities',
-        'download',
-        'xml',
-        'validation',
-        'versions',
-        'organisation',
-        'identifiers',
-        'reporting_orgs',
-        'elements',
-        'codelists',
-        'booleans',
-        'dates',
-        'faq',
-    ]
+    'index',
+    'headlines',
+    'data_quality',
+    'exploring_data',
+    'publishers',
+    'files',
+    'activities',
+    'download',
+    'xml',
+    'validation',
+    'versions',
+    'organisation',
+    'identifiers',
+    'reporting_orgs',
+    'elements',
+    'codelists',
+    'booleans',
+    'dates',
+    'faq',
+]
 
 @app.route('/<page_name>.html')
 def basic_page(page_name):
     if page_name in basic_page_names:
         kwargs = {}
-        if page_name.startswith('timeliness'):
-            kwargs['timeliness'] = timeliness
-            parent_page_name = 'timeliness'
-        elif page_name.startswith('forwardlooking'):
-            kwargs['forwardlooking'] = forwardlooking
-            parent_page_name = 'forwardlooking'
-        elif page_name.startswith('comprehensiveness'):
-            kwargs['comprehensiveness'] = comprehensiveness
-            parent_page_name = 'comprehensiveness'
-        elif page_name.startswith('coverage'):
-            kwargs['coverage'] = coverage
-            parent_page_name = 'coverage'
-        elif page_name.startswith('summary_stats'):
-            kwargs['summary_stats'] = summary_stats
-            parent_page_name = 'summary_stats'
-        elif page_name.startswith('humanitarian'):
-            kwargs['humanitarian'] = humanitarian
-            parent_page_name = 'humanitarian'
-        else:
-            parent_page_name = page_name
-        return render_template(page_name+'.html', page=parent_page_name, **kwargs)
+        parent_page_name = page_name
+        return render_template(page_name + '.html', page=parent_page_name, **kwargs)
     else:
         abort(404)
 
@@ -195,27 +158,27 @@ app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licen
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):
     publisher_stats = get_publisher_stats(publisher)
-    budget_table = [ {
+    budget_table = [{
             'year': 'Total',
             'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
-            'sum_total': { currency:sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
+            'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
             'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_original': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+            'sum_original': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
             'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_revised': { k:sum(v.values()) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-        } ] + [
+            'sum_revised': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+        }] + [
             {
                 'year': year,
                 'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
-                'sum_total': { currency:sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()  },
+                'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
                 'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_original': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['1'].items() } if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+                'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
                 'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_revised': { k:v.get(year) for k,v in publisher_stats['sum_budgets_by_type_by_year']['2'].items() } if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+                'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
             } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
         ]
     return render_template('publisher.html',
-        url=lambda x: '../'+x,
+        url=lambda x: '../' + x,
         publisher=publisher,
         publisher_stats=publisher_stats,
         publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
@@ -231,8 +194,8 @@ def codelist(major_version, slug):
     return render_template('codelist.html',
         element=element,
         values=values,
-        reverse_codelist_mapping={ major_version:dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
-        url=lambda x: '../../'+x,
+        reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
+        url=lambda x: '../../' + x,
         major_version=major_version,
         page='codelists')
 
@@ -246,7 +209,7 @@ def element(slug):
         element=element,
         publishers=publishers,
         file_grouped=file_grouped,
-        url=lambda x: '../'+x,
+        url=lambda x: '../' + x,
         page='elements')
 
 
@@ -271,47 +234,49 @@ def registration_agencies():
 # Server an image through the development server (--live)
 @app.route('/<image>.png')
 def image_development(image):
-    return Response(open(os.path.join('out', image+'.png')).read(), mimetype='image/png')
+    return Response(open(os.path.join('out', image + '.png')).read(), mimetype='image/png')
 
 @app.route('/<name>.csv')
 def csv_development(name):
-    return Response(open(os.path.join('out', name+'.csv')).read(), mimetype='text/csv')
+    return Response(open(os.path.join('out', name + '.csv')).read(), mimetype='text/csv')
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
     print(image)
-    return Response(open(os.path.join('out', 'publisher_imgs', image+'.png')).read(), mimetype='image/png')
+    return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 if __name__ == '__main__':
-    if '--live' in sys.argv:
-        app.debug = True
-        app.run()
-    else:
-        from flask_frozen import Freezer
-        app.config['FREEZER_DESTINATION'] = 'out'
-        app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
-        app.debug = False    # Comment to turn off debugging
-        app.testing = True   # Comment to turn off debugging
-        freezer = Freezer(app)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--url",
+                        help="Link to connect dashboard to publishing stats",
+                        default="")
+    args = parser.parse_args()
+    app.jinja_env.globals['pubstats_url'] = args.url
+    from flask_frozen import Freezer
+    app.config['FREEZER_DESTINATION'] = 'out'
+    app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+    app.debug = False    # Comment to turn off debugging
+    app.testing = True   # Comment to turn off debugging
+    freezer = Freezer(app)
 
-        @freezer.register_generator
-        def url_generator():
-            for page_name in basic_page_names:
-                yield 'basic_page', {'page_name': page_name}
-            for publisher in current_stats['inverted_publisher']['activities'].keys():
-                yield 'publisher', {'publisher': publisher}
-            for slug in slugs['element']['by_slug']:
-                yield 'element', {'slug': slug}
-            for major_version, codelist_slugs in slugs['codelist'].items():
-                for slug in codelist_slugs['by_slug']:
-                    yield 'codelist', {
-                        'slug': slug,
-                        'major_version': major_version
-                    }
-            for license in licenses.licenses:
-                if license == None:
-                    license = 'None'
-                yield 'licenses_individual_license', {'license':license}
+    @freezer.register_generator
+    def url_generator():
+        for page_name in basic_page_names:
+            yield 'basic_page', {'page_name': page_name}
+        for publisher in current_stats['inverted_publisher']['activities'].keys():
+            yield 'publisher', {'publisher': publisher}
+        for slug in slugs['element']['by_slug']:
+            yield 'element', {'slug': slug}
+        for major_version, codelist_slugs in slugs['codelist'].items():
+            for slug in codelist_slugs['by_slug']:
+                yield 'codelist', {
+                    'slug': slug,
+                    'major_version': major_version
+                }
+        for license in licenses.licenses:
+            if license is None:
+                license = 'None'
+            yield 'licenses_individual_license', {'license': license}
 
 
-        freezer.freeze()
+    freezer.freeze()

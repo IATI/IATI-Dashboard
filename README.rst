@@ -10,13 +10,13 @@ IATI Dashboard
 Introduction
 ------------
 
-The IATI Dashboard is a displays key numbers and graphs about the data on the `IATI Registry <http://iatiregistry.org/>`__.
+The IATI dashboard displays key numbers and graphs about the data on the `IATI registry <http://iatiregistry.org/>`__.
 
 See the Dashboard in action at http://dashboard.iatistandard.org
 
 The Dashboard is in beta, all contents/urls/machine readable downloads are subject to change.
 
-This repository is the code for the Dashboard frontend. Stats are generated from the Registry by stats code in a separate repository - https://github.com/IATI/IATI-Stats 
+This repository is the code for the Dashboard frontend. Stats are generated from the Registry by stats code in a separate repository - https://github.com/IATI/IATI-Stats
 
 Technology Overview
 ^^^^^^^^^^^^^^^^^^^
@@ -47,7 +47,7 @@ Requirements:
 * python-virtualenv (optional)
 * Development files for libfreetype, libpng, libxml and libxslt e.g. ``libfreetype6-dev libpng-dev libxml2-dev libxslt-dev``.
 
-  (alternatively, you may be able to install some of the python dependencies in 
+  (alternatively, you may be able to install some of the python dependencies in
   requirements.txt using your package manager)
 
 
@@ -73,19 +73,13 @@ To install:
     easy_install -U distribute
     pip install -r requirements.txt
 
-    # Create a configuration file
-    # Currently this is only used for GitHub credentials to make requests to the GitHub api
-    # You should be able to run the dashboard in live development mode (see Development below)
-    # without this file. (Although the GitHub tab will throw an error).
-    cp config.py.example config.py # And provide the necessary values
-
 Usage
 ^^^^^
 
 The following steps are performed routinely on our `deployed Dashboard <http://dashboard.iatistandard.org/>`__. (On our servers, the Dashboard is actually deployed using `this salt file <https://github.com/IATI/IATI-Websites/blob/master/salt/dashboard.sls>`__.
 
 .. code-block:: bash
-    
+
     # Fetch the necessary calculated stats
     ./get_stats.sh
     # Fetch some extra data from github and github gists
