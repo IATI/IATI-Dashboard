@@ -132,7 +132,6 @@ basic_page_names = [
     'coverage',
     'summary_stats',
     'humanitarian',
-    'faq',
 ]
 
 

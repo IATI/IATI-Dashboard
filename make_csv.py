@@ -86,13 +86,24 @@ with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
 for tab in comprehensiveness.columns.keys():
     with open(os.path.join('out', 'comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
         writer = unicodecsv.writer(fp)
-        writer.writerow(['Publisher Name', 'Publisher Registry Id'] +
-                        [x + ' (with valid data)' for x in comprehensiveness.column_headers[tab]] +
-                        [x + ' (with any data)' for x in comprehensiveness.column_headers[tab]])
-        for row in comprehensiveness.table():
-            writer.writerow([row['publisher_title'], row['publisher']] +
-                            [row[slug + '_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] +
-                            [row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]])
+        if tab == 'financials':
+            writer.writerow(['Publisher Name', 'Publisher Registry Id'] +
+                            [x + ' (with valid data)' for x in comprehensiveness.column_headers[tab]] +
+                            [x + ' (with any data)' for x in comprehensiveness.column_headers[tab]] +
+                            ['Using budget-not-provided'])
+            for row in comprehensiveness.table():
+                writer.writerow([row['publisher_title'], row['publisher']] +
+                                [row[slug + '_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] +
+                                [row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] +
+                                ['Yes' if row['flag'] else '-'])
+        else:
+            writer.writerow(['Publisher Name', 'Publisher Registry Id'] +
+                            [x + ' (with valid data)' for x in comprehensiveness.column_headers[tab]] +
+                            [x + ' (with any data)' for x in comprehensiveness.column_headers[tab]])
+            for row in comprehensiveness.table():
+                writer.writerow([row['publisher_title'], row['publisher']] +
+                                [row[slug + '_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] +
+                                [row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]])
 
 # Summary Stats CSV file
 with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
