@@ -7,7 +7,7 @@ lxml==4.4.1
 pytz==2019.2
 Flask==1.1.1
 MarkupSafe==1.1.1
-Werkzeug==0.15.6
+Werkzeug==0.16.0
 argparse==1.4.0
 itsdangerous==1.1.0
 mock==3.0.5
