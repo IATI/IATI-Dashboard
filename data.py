@@ -98,6 +98,10 @@ class JSONDir(MutableMapping):
             pass
 
 
+    def __repr__(self):
+        return '{}, JSONDIR({})'.format(super(JSONDir, self).__repr__(), self.__dict__)
+
+
     def __setitem__(self, key, value):
         super(JSONDir, self).__setitem__(key, value)
 
