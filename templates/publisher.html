@@ -319,7 +319,7 @@
     </div>
 
     {% for major_version in MAJOR_VERSIONS %}
-    {% if major_version in publisher_stats.codelist_values_by_major_version %}
+    {% if major_version in codelist_by_major_version %}
     <div class="panel panel-default" id="p_codelists">
     <table class="table table-striped">
     <div class="panel-heading">
@@ -336,7 +336,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
+            {% for element, values in codelist_by_major_version[major_version] %}
             <tr>
             {% with element_i=current_stats.inverted_publisher.codelist_values_by_major_version[major_version].keys().index(element) %}
                 <td><a href="{{url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i]))}}">{{element}}</a></td>
@@ -385,7 +385,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for element, count in publisher_stats.elements.items() %}
+            {% for element, count in publisher_elements[] %}
             <tr>
             {% with element_i=current_stats.inverted_publisher.elements.keys().index(element) %}
                 <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}">{{element}}</a></td>
