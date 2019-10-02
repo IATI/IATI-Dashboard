@@ -158,6 +158,7 @@ class JSONDir(MutableMapping):
         """
         return iter(self.keys())
 
+
     def get_publisher_name(self):
         """Find the name of the publisher that this data relates to.
            Note, this is a super hacky way to do this, prize available if a better way is found to do this!
@@ -212,7 +213,7 @@ def deep_merge(obj1, obj2):
     """
 
     # Iterate through keys
-    for key in obj1:
+    for key in obj1.copy():
         # If this is value, we've hit the bottom, copy all of obj2 into obj1
         if type(obj1[key]) is not OrderedDict:
             for key2 in obj2:
@@ -259,6 +260,7 @@ def transform_codelist_mapping_keys(codelist_mapping):
 def create_codelist_mapping(major_version):
     codelist_mapping = {x['path']: x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
     return transform_codelist_mapping_keys(codelist_mapping)
+
 
 MAJOR_VERSIONS = ['2', '1']
 
