@@ -5,6 +5,7 @@ mkdir -p data/downloads/
 wget "https://gist.github.com/iati-bot/4f86dc7b36562c8b2b21/raw/errors" -O data/downloads/errors
 
 # Get CKAN (IATI Registry) data
+rm -rf data/ckan_publishers/
 python fetch_data.py
 
 # Generate a csv file with the number of download errors logged since 2013
@@ -46,7 +47,7 @@ if [ ! -d IATI-Codelists-2 ]; then
     git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-2
 fi
 cd IATI-Codelists-2
-echo "checking out Codelists-1"
+echo "checking out Codelists-2"
 git checkout version-2.03 > /dev/null
 git pull > /dev/null
 echo "running gen.sh for Codelist-2"
