@@ -250,33 +250,38 @@ if __name__ == '__main__':
     parser.add_argument("--url",
                         help="Link to connect dashboard to publishing stats",
                         default="")
+    parser.add_argument("--live", action="store_true",
+                        help="Run a development server")
     args = parser.parse_args()
     app.jinja_env.globals['pubstats_url'] = args.url
-    from flask_frozen import Freezer
-    app.config['FREEZER_DESTINATION'] = 'out'
-    app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
-    app.debug = False    # Comment to turn off debugging
-    app.testing = True   # Comment to turn off debugging
-    freezer = Freezer(app)
+    if args.live:
+        app.debug = True
+        app.run()
+    else:
+        from flask_frozen import Freezer
+        app.config['FREEZER_DESTINATION'] = 'out'
+        app.config['FREEZER_REMOVE_EXTRA_FILES'] = False
+        app.debug = False    # Comment to turn off debugging
+        app.testing = True   # Comment to turn off debugging
+        freezer = Freezer(app)
 
-    @freezer.register_generator
-    def url_generator():
-        for page_name in basic_page_names:
-            yield 'basic_page', {'page_name': page_name}
-        for publisher in current_stats['inverted_publisher']['activities'].keys():
-            yield 'publisher', {'publisher': publisher}
-        for slug in slugs['element']['by_slug']:
-            yield 'element', {'slug': slug}
-        for major_version, codelist_slugs in slugs['codelist'].items():
-            for slug in codelist_slugs['by_slug']:
-                yield 'codelist', {
-                    'slug': slug,
-                    'major_version': major_version
-                }
-        for license in licenses.licenses:
-            if license is None:
-                license = 'None'
-            yield 'licenses_individual_license', {'license': license}
+        @freezer.register_generator
+        def url_generator():
+            for page_name in basic_page_names:
+                yield 'basic_page', {'page_name': page_name}
+            for publisher in current_stats['inverted_publisher']['activities'].keys():
+                yield 'publisher', {'publisher': publisher}
+            for slug in slugs['element']['by_slug']:
+                yield 'element', {'slug': slug}
+            for major_version, codelist_slugs in slugs['codelist'].items():
+                for slug in codelist_slugs['by_slug']:
+                    yield 'codelist', {
+                        'slug': slug,
+                        'major_version': major_version
+                    }
+            for license in licenses.licenses:
+                if license is None:
+                    license = 'None'
+                yield 'licenses_individual_license', {'license': license}
 
-
-    freezer.freeze()
+        freezer.freeze()
