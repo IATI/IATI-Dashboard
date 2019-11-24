@@ -79,8 +79,12 @@ license_names = {
 'zpl': 'OSI Approved::Zope Public License',
 'zlib-license': 'OSI Approved::zlib/libpng license'}
 
+import json
+from collections import OrderedDict
 from flask import render_template
-from data import ckan
+
+with open('./stats-calculated/ckan.json') as handler:
+    ckan = json.load(handler, object_pairs_hook=OrderedDict)
 
 licenses = [ package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items() ]
 
