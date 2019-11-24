@@ -2,7 +2,7 @@
 
 # Store list of current download errors
 mkdir -p data/downloads/
-wget "https://gist.githubusercontent.com/andylolz/8a4e0657ec14c999de6f70f339656852/raw/errors" -O data/downloads/errors
+wget "https://gist.githubusercontent.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/raw/errors" -O data/downloads/errors
 
 # Get CKAN (IATI Registry) data
 python fetch_data.py
@@ -10,10 +10,10 @@ python fetch_data.py
 # Generate a csv file with the number of download errors logged since 2013
 cd data/downloads
 echo "cloning download errors"
-if [ ! -d ./8a4e0657ec14c999de6f70f339656852 ]; then
-    git clone https://gist.github.com/8a4e0657ec14c999de6f70f339656852.git
+if [ ! -d ./f117c9be138aa94c9762d57affc51a64 ]; then
+    git clone https://gist.github.com/f117c9be138aa94c9762d57affc51a64.git
 fi
-cd ./8a4e0657ec14c999de6f70f339656852
+cd ./f117c9be138aa94c9762d57affc51a64
 echo "cloned download errors - checking out commits"
 git checkout master > /dev/null
 git pull > /dev/null
