@@ -83,6 +83,16 @@ license_names = {
 'zlib-license': 'OSI Approved::zlib/libpng license'}
 licenses = [package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items()]
 
+import json
+from collections import OrderedDict
+from flask import render_template
+
+
+with open('./stats-calculated/ckan.json') as handler:
+    ckan = json.load(handler, object_pairs_hook=OrderedDict)
+
+licenses = [ package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items() ]
+
 
 def licenses_for_publisher(publisher_name):
     # Check publisher is in the compiled list of CKAN data
