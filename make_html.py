@@ -86,7 +86,7 @@ app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
-app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
+app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip().decode('utf-8')
 app.jinja_env.globals['datetime_data'] = date_time_data_str
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
 app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
