@@ -18,7 +18,7 @@ try:
 except OSError:
     pass
 
-page_size = 100
+page_size = 50
 url = 'https://iatiregistry.org/api/3/action/organization_list'
 params = {
     'all_fields': 'true',
