@@ -1,4 +1,4 @@
-Jinja2==2.9.5
+Jinja2==2.11.3
 matplotlib==2.0.0
 requests==2.20.0
 Frozen-Flask==0.13
