@@ -10,7 +10,7 @@ import subprocess
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
-app = Flask(__name__, template_folder="static/templates")
+app = Flask(__name__)
 
 import licenses
 from vars import expected_versions
