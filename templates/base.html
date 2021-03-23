@@ -143,7 +143,7 @@ html,body{height:100%;}
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
       {% for item in top_navigation %}
-          <li {% if item==page or page in navigation[item]%}class="active"{%endif%}><{% if item=="publishing_stats" %}a href="{{pubstats_url}}" %}{% else %}a href="{{url(item+'.html')}}"{%endif%}>{{top_titles[item]}}</a></li>
+          <li {% if item==page or page in navigation[item]%}class="active"{%endif%}><{% if item=="publishing_stats" %}a href="{{pubstats_url}}"{% else %}a href="{{url(item+'.html')}}"{%endif%}>{{top_titles[item]}}</a></li>
       {% endfor %}
       </ul>
     </div>
