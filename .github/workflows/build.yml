@@ -30,6 +30,8 @@ jobs:
         curl --compressed "http://dashboard.iatistandard.org/stats/ckan.json" > stats-calculated/ckan.json
         curl --compressed "http://dashboard.iatistandard.org/stats/gitdate.json" > stats-calculated/gitdate.json
         git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats stats-calculated/current
+    - name: Build CSV output
+      run: python make_csv.py
     - name: Build HTML output
       run: python make_html.py
     - name: Add CNAME to output
