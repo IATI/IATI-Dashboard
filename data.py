@@ -1,8 +1,9 @@
+from collections import OrderedDict, MutableMapping
 import json
-from collections import OrderedDict, defaultdict
-import sys, os, re, copy, datetime, unicodecsv
-import UserDict
+import os
+import re
 import csv
+from decimal import Decimal
 
 publisher_re = re.compile('(.*)\-[^\-]')
 
@@ -23,27 +24,30 @@ def memoize(f):
     return wrapper
 
 
-class GroupFiles(object, UserDict.DictMixin):
+class GroupFiles(MutableMapping):
     def __init__(self, inputdict):
         self.inputdict = inputdict
         self.cache = {}
 
+
     def __getitem__(self, key):
-        if key in self.cache: return self.cache[key]
+        if key in self.cache:
+            return self.cache[key]
         self.inputdict[key]
         out = OrderedDict()
-        for k2,v2 in self.inputdict[key].items():
+        for k2, v2 in self.inputdict[key].items():
             if type(v2) == OrderedDict:
                 out[k2] = OrderedDict()
                 for listitem, v3 in v2.items():
                     m = publisher_re.match(listitem)
                     if m:
                         publisher = m.group(1)
-                        if not publisher in out[k2]:
+                        if publisher not in out[k2]:
                             out[k2][publisher] = OrderedDict()
                         out[k2][publisher][listitem] = v3
                     else:
-                        pass # FIXME
+                        pass
+                        # FIXME
             else:
                 out[k2] = v2
 
@@ -51,7 +55,26 @@ class GroupFiles(object, UserDict.DictMixin):
         return out
 
 
-class JSONDir(object, UserDict.DictMixin):
+    def __len__(self):
+        return len(self.inputdict)
+
+
+    def __iter__(self):
+        return iter(self.inputdict)
+
+
+    def __delitem__(self, key):
+        try:
+            del self.inputdict[key]
+        except KeyError:
+            pass
+
+
+    def __setitem__(self, key, value):
+        super(GroupFiles, self).__setitem__(key, value)
+
+
+class JSONDir(MutableMapping):
     """Produces an object, to be used to access JSON-formatted publisher data and return
        this as an ordered dictionary (with nested dictionaries, if appropriate).
        Use of this class removes the need to load large amounts of data into memory.
@@ -62,6 +85,26 @@ class JSONDir(object, UserDict.DictMixin):
            the object.
         """
         self.folder = folder
+
+
+    def __len__(self):
+        return len(self.keys())
+
+
+    def __delitem__(self, key):
+        try:
+            del self.folder[key]
+        except KeyError:
+            pass
+
+
+    def __repr__(self):
+        return '{}, JSONDIR({})'.format(super(JSONDir, self).__repr__(), self.__dict__)
+
+
+    def __setitem__(self, key, value):
+        super(JSONDir, self).__setitem__(key, value)
+
 
     @memoize
     def __getitem__(self, key):
@@ -75,9 +118,9 @@ class JSONDir(object, UserDict.DictMixin):
         if os.path.exists(os.path.join(self.folder, key)):
             # The data being sought is a directory
             data = JSONDir(os.path.join(self.folder, key))
-        elif os.path.exists(os.path.join(self.folder, key+'.json')):
+        elif os.path.exists(os.path.join(self.folder, key + '.json')):
             # The data being sought is a json file
-            with open(os.path.join(self.folder, key+'.json')) as fp:
+            with open(os.path.join(self.folder, key + '.json')) as fp:
                 data = json.load(fp, object_pairs_hook=OrderedDict)
 
             # Deal with publishers who had an old registry ID
@@ -87,7 +130,7 @@ class JSONDir(object, UserDict.DictMixin):
                 # Look over the set of changed registry IDs
                 for previous_id, current_id in get_registry_id_matches().items():
                     folder = self.folder
-                    previous_path = os.path.join(folder.replace(current_id,previous_id), key+'.json')
+                    previous_path = os.path.join(folder.replace(current_id, previous_id), key + '.json')
                     #  If this publisher has had an old ID and there is data for it
                     if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
                         # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
@@ -97,21 +140,24 @@ class JSONDir(object, UserDict.DictMixin):
                             # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
         else:
             # No value found as either a folder or json file
-            raise KeyError, key
+            raise KeyError(key)
 
         return data
+
 
     def keys(self):
         """Method to return a list of keys that are contained within the data folder that
            is being accessed within this instance.
         """
-        return [ x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
+        return [x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
+
 
     def __iter__(self):
         """Custom iterable, to iterate over the keys that are contained within the data
         folder that is being accessed within this instance.
         """
         return iter(self.keys())
+
 
     def get_publisher_name(self):
         """Find the name of the publisher that this data relates to.
@@ -129,7 +175,6 @@ class JSONDir(object, UserDict.DictMixin):
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
         return None
-
 
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
@@ -168,7 +213,7 @@ def deep_merge(obj1, obj2):
     """
 
     # Iterate through keys
-    for key in obj1:
+    for key in obj1.copy():
         # If this is value, we've hit the bottom, copy all of obj2 into obj1
         if type(obj1[key]) is not OrderedDict:
             for key2 in obj2:
@@ -184,7 +229,7 @@ def deep_merge(obj1, obj2):
         # If it's a dictionary we need to go deeper, by running this function recursively
         else:
             if key in obj2:
-                deep_merge(obj1[key],obj2[key])
+                deep_merge(obj1[key], obj2[key])
 
 
 current_stats = {
@@ -203,59 +248,55 @@ with open('./data/downloads/errors') as fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
 
+
 def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
-    codelist_mapping = {k:v for k,v in codelist_mapping.items() if not k.startswith('//iati-organisation') }
-    codelist_mapping = {re.sub('^\/\/iati-activity', './', k):v for k,v in codelist_mapping.items() }
-    codelist_mapping = {re.sub('^\/\/', './/', k):v for k,v, in codelist_mapping.items() }
+    codelist_mapping = {k: v for k, v in codelist_mapping.items() if not k.startswith('//iati-organisation')}
+    codelist_mapping = {re.sub('^\/\/iati-activity', './', k): v for k, v in codelist_mapping.items()}
+    codelist_mapping = {re.sub('^\/\/', './/', k): v for k, v, in codelist_mapping.items()}
     return codelist_mapping
 
+
 def create_codelist_mapping(major_version):
-    codelist_mapping = {x['path']:x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
+    codelist_mapping = {x['path']: x['codelist'] for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))}
     return transform_codelist_mapping_keys(codelist_mapping)
+
 
 MAJOR_VERSIONS = ['2', '1']
 
-codelist_mapping = { v:create_codelist_mapping(v) for v in MAJOR_VERSIONS }
+codelist_mapping = {v: create_codelist_mapping(v) for v in MAJOR_VERSIONS}
 codelist_conditions = {
-    major_version: transform_codelist_mapping_keys({ x['path']:x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
-    for major_version in MAJOR_VERSIONS }
+    major_version: transform_codelist_mapping_keys({x['path']: x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
+    for major_version in MAJOR_VERSIONS}
 
 # Create a big dictionary of all codelist values by version and codelist name
 codelist_sets = {
     major_version: {
-        cname:set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
-    } for major_version in MAJOR_VERSIONS }
+        cname: set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+    } for major_version in MAJOR_VERSIONS}
 
 
 #Simple look up to map publisher id to a publishers given name (title)
-publisher_name={publisher:publisher_json['result']['title'] for publisher,publisher_json in ckan_publishers.items()}
+publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in ckan_publishers.items()}
 #Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
-publishers_ordered_by_title = [
-    (publisher_name[publisher], publisher)
-    for publisher in current_stats['inverted_publisher']['activities']
-    if publisher in publisher_name]
-publishers_ordered_by_title.sort(key=lambda x: unicode.lower(x[0]))
+publishers_ordered_by_title = [(publisher_name[publisher], publisher) for publisher in current_stats['inverted_publisher']['activities'] if publisher in publisher_name]
+publishers_ordered_by_title.sort(key=lambda x: (x[0]).lower())
 
 # List of publishers who report all their activities as a secondary publisher
 secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
-                         if int(stats['activities']) == len(stats['activities_secondary_reported'])
-                            and int(stats['activities']) > 0]
+                        if int(stats['activities']) == len(stats['activities_secondary_reported']) and
+                        int(stats['activities']) > 0]
 
-import csv
-from decimal import Decimal
 try:
-    dac2012 = {x[0]:Decimal(x[1].replace(',','')) for x in csv.reader(open('data/dac2012.csv'))}
+    dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open('data/dac2012.csv'))}
 except IOError:
     dac2012 = {}
 
 
-
-
 def make_slugs(keys):
-    out = {'by_slug':{}, 'by_i':{}}
-    for i,key in enumerate(keys):
-        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/','_'))).strip('_')
+    out = {'by_slug': {}, 'by_i': {}}
+    for i, key in enumerate(keys):
+        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/', '_'))).strip('_')
         while slug in out['by_slug']:
             slug += '_'
         out['by_slug'][slug] = i
@@ -263,10 +304,10 @@ def make_slugs(keys):
     return out
 
 slugs = {
-    'codelist': { major_version:(
-            make_slugs(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys())
-            if major_version in current_stats['inverted_publisher']['codelist_values_by_major_version']
-            else make_slugs([])
-        ) for major_version in MAJOR_VERSIONS },
+    'codelist': {major_version: (
+        make_slugs(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys())
+        if major_version in current_stats['inverted_publisher']['codelist_values_by_major_version']
+        else make_slugs([])
+    ) for major_version in MAJOR_VERSIONS},
     'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
 }
