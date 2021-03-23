@@ -39,7 +39,7 @@ Requirements:
 
 * Unix based setup (e.g. Linux, Mac OS X) with bash etc.
 * wget and curl installed
-* Python 2.7
+* Python 3
 * Python dev library ``python-dev``
 * python-virtualenv (optional)
 * Development files for libfreetype, libpng, libxml and libxslt e.g. ``libfreetype6-dev libpng-dev libxml2-dev libxslt-dev``.
