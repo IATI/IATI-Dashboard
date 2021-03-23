@@ -170,7 +170,7 @@ class JSONDir(MutableMapping):
 
         # Loop over this list and return the publisher name if it is found within the historic list of publishers
         for x in path_components:
-            if x in JSONDir('./stats-calculated/gitaggregate-publisher-dated').keys():
+            if x in JSONDir('./stats-calculated/current/aggregated-publisher').keys():
                 return x
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
