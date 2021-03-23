@@ -11,7 +11,6 @@ you.  The dates module provides several converter functions date2num
 and num2date
 
 """
-from __future__ import print_function
 import datetime
 import numpy as np
 import matplotlib as mpl
