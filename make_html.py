@@ -2,7 +2,6 @@
 # This uses Jinja templating to render the HTML templates in the 'templates' folder
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
-from __future__ import print_function
 import argparse
 import os
 import re
@@ -24,16 +23,18 @@ print('Initial data import finished')
 
 def dictinvert(d):
     inv = defaultdict(list)
-    for k, v in d.iteritems():
+    for k, v in d.items():
         inv[v].append(k)
     return inv
 
+
 def nested_dictinvert(d):
     inv = defaultdict(lambda: defaultdict(int))
-    for k, v in d.iteritems():
-        for k2, v2 in v.iteritems():
+    for k, v in d.items():
+        for k2, v2 in v.items():
             inv[k2][k] += v2
     return inv
+
 
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
@@ -46,6 +47,7 @@ def firstint(s):
     m = re.search('\d+', s[0])
     return int(m.group(0))
 
+
 def xpath_to_url(path):
     path = path.strip('./')
     if path.startswith('iati-activity'):
@@ -55,10 +57,13 @@ def xpath_to_url(path):
     else:
         return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
 
+
 def registration_agency(orgid):
     for code in codelist_sets['2']['OrganisationRegistrationAgency']:
         if orgid.startswith(code):
             return code
+
+
 
 def get_codelist_values(codelist_values_for_element):
     """Return a list of unique values present within a one-level nested dictionary.
@@ -67,7 +72,7 @@ def get_codelist_values(codelist_values_for_element):
        Input: Set of codelist values for a given element (listed by publisher), for example:
               current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
     """
-    return list(set([y for x in codelist_values_for_element.items() for y in x[1].keys()]))
+    return list(set([y for x in codelist_values_for_element.items() for y in list(x[1])]))
 
 # Store data processing times
 date_time_data_str = max(gitdate.values())
@@ -80,7 +85,7 @@ app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
-app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip()
+app.jinja_env.globals['datetime_generated'] = subprocess.check_output(['date', '+%Y-%m-%d %H:%M:%S %z']).strip().decode('utf-8')
 app.jinja_env.globals['datetime_data'] = date_time_data_str
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
 app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
@@ -138,6 +143,7 @@ basic_page_names = [
     'faq',
 ]
 
+
 @app.route('/<page_name>.html')
 def basic_page(page_name):
     if page_name in basic_page_names:
@@ -147,70 +153,73 @@ def basic_page(page_name):
     else:
         abort(404)
 
+
 @app.route('/data/download_errors.json')
 def download_errors_json():
-    return  Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
+    return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
 
 app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
 app.add_url_rule('/licenses.html', 'licenses', licenses.main)
 app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
 
+
 @app.route('/publisher/<publisher>.html')
 def publisher(publisher):
     publisher_stats = get_publisher_stats(publisher)
     budget_table = [{
-            'year': 'Total',
-            'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
-            'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
-            'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_original': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
-            'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-            'sum_revised': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-        }] + [
-            {
-                'year': year,
-                'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
-                'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
-                'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
-                'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
-                'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-            } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
-        ]
+                    'year': 'Total',
+                    'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
+                    'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
+                    'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                    'sum_original': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+                    'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                    'sum_revised': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+                    }] + [{'year': year,
+                           'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
+                           'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
+                           'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                           'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+                           'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                           'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+                           } for year in sorted(set(sum((list(x.keys()) for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
+                          ]
     return render_template('publisher.html',
-        url=lambda x: '../' + x,
-        publisher=publisher,
-        publisher_stats=publisher_stats,
-        publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
-        publisher_licenses=licenses.licenses_for_publisher(publisher),
-        budget_table=budget_table
-        )
+                           url=lambda x: '../' + x,
+                           publisher=publisher,
+                           publisher_stats=publisher_stats,
+                           publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
+                           publisher_licenses=licenses.licenses_for_publisher(publisher),
+                           budget_table=budget_table,
+                           codelist_by_major_version=list(publisher_stats['codelist_values_by_major_version'].items()),
+                           publisher_elements=list(publisher_stats['elements'].items()),)
+
 
 @app.route('/codelist/<major_version>/<slug>.html')
 def codelist(major_version, slug):
     i = slugs['codelist'][major_version]['by_slug'][slug]
-    element = current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].keys()[i]
-    values = nested_dictinvert(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values()[i])
+    element = list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version])[i]
+    values = nested_dictinvert(list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values())[i])
     return render_template('codelist.html',
-        element=element,
-        values=values,
-        reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
-        url=lambda x: '../../' + x,
-        major_version=major_version,
-        page='codelists')
+                           element=element,
+                           values=values,
+                           reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
+                           url=lambda x: '../../' + x,
+                           major_version=major_version,
+                           page='codelists')
+
 
 @app.route('/element/<slug>.html')
 def element(slug):
     i = slugs['element']['by_slug'][slug]
-    element = current_stats['inverted_publisher']['elements'].keys()[i]
-    publishers = current_stats['inverted_publisher']['elements'].values()[i]
-    file_grouped = current_stats['inverted_file_grouped']['elements'].values()[i]
+    element = list(current_stats['inverted_publisher']['elements'])[i]
+    publishers = list(current_stats['inverted_publisher']['elements'].values())[i]
+    file_grouped = list(current_stats['inverted_file_grouped']['elements'].values())[i]
     return render_template('element.html',
-        element=element,
-        publishers=publishers,
-        file_grouped=file_grouped,
-        url=lambda x: '../' + x,
-        page='elements')
+                           element=element,
+                           publishers=publishers,
+                           file_grouped=file_grouped,
+                           url=lambda x: '../' + x,
+                           page='elements')
 
 
 @app.route('/registration_agencies.html')
@@ -222,28 +231,32 @@ def registration_agencies():
         reg_ag = registration_agency(orgid)
         if reg_ag:
             registration_agencies[reg_ag] += 1
-            registration_agencies_publishers[reg_ag] += publishers.keys()
+            registration_agencies_publishers[reg_ag] += list(publishers)
         else:
             nonmatching.append((orgid, publishers))
     return render_template('registration_agencies.html',
-        page='registration_agencies',
-        registration_agencies=registration_agencies,
-        registration_agencies_publishers=registration_agencies_publishers,
-        nonmatching=nonmatching)
+                           page='registration_agencies',
+                           registration_agencies=registration_agencies,
+                           registration_agencies_publishers=registration_agencies_publishers,
+                           nonmatching=nonmatching)
+
 
 # Server an image through the development server (--live)
 @app.route('/<image>.png')
 def image_development(image):
     return Response(open(os.path.join('out', image + '.png')).read(), mimetype='image/png')
 
+
 @app.route('/<name>.csv')
 def csv_development(name):
     return Response(open(os.path.join('out', name + '.csv')).read(), mimetype='text/csv')
+
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
     print(image)
     return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
