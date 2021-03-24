@@ -88,6 +88,7 @@ app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%Y-%m-%d %H:%M:%S %Z')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%Y-%m-%d %H:%M:%S %Z')
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
+app.jinja_env.globals['pubstats_url'] = 'http://publishingstats.iatistandard.org'
 app.jinja_env.globals['stats_url'] = 'https://dashboard-stats.codeforiati.org'
 app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats/tree/gh-pages'
 app.jinja_env.globals['sorted'] = sorted
@@ -261,13 +262,9 @@ def image_development_publisher(image):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("--url",
-                        help="Link to connect dashboard to publishing stats",
-                        default="")
     parser.add_argument("--live", action="store_true",
                         help="Run a development server")
     args = parser.parse_args()
-    app.jinja_env.globals['pubstats_url'] = args.url
     if args.live:
         app.debug = True
         app.run()
