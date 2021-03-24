@@ -75,8 +75,8 @@ def get_codelist_values(codelist_values_for_element):
     return list(set([y for x in codelist_values_for_element.items() for y in list(x[1])]))
 
 # Store data processing times
-date_time_data_str = max(gitdate.values())
-date_time_data_obj = datetime.datetime.strptime(date_time_data_str[:19], '%Y-%m-%d %H:%M:%S') # Ignores timezone as this is unhelpful for user output
+date_time_data_str = metadata['created_at']
+date_time_data_obj = datetime.datetime.strptime(date_time_data_str[:19], '%Y-%m-%dT%H:%M:%S') # Ignores timezone as this is unhelpful for user output
 
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url

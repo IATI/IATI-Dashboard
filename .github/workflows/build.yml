@@ -28,8 +28,8 @@ jobs:
     - name: Fetch stats
       run: |
         mkdir stats-calculated out
-        curl --compressed "http://dashboard.iatistandard.org/stats/ckan.json" > stats-calculated/ckan.json
-        curl --compressed "http://dashboard.iatistandard.org/stats/gitdate.json" > stats-calculated/gitdate.json
+        curl --compressed "https://dashboard-stats.codeforiati.org/ckan.json" > stats-calculated/ckan.json
+        curl --compressed "https://dashboard-stats.codeforiati.org/metadata.json" > stats-calculated/metadata.json
         git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats stats-calculated/current
     - name: Build CSV output
       run: python make_csv.py
