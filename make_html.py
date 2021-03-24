@@ -80,7 +80,7 @@ date_time_data_obj = datetime.datetime.strptime(date_time_data_str[:19], '%Y-%m-
 
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
-app.jinja_env.filters['url_to_filename'] = lambda x: x.split('/')[-1]
+app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 
 # Custom Jinja globals
