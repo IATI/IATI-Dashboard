@@ -2,6 +2,7 @@ Flask==0.12.3
 Frozen-Flask==0.13
 Jinja2==2.9.5
 lxml
+python-dateutil==2.8.1
 pytz
 matplotlib==2.0.0
 requests
