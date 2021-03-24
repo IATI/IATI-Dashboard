@@ -145,47 +145,47 @@ print("All data")
 git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
 
 for stat_path in [
-        'activities',
-        'publishers',
-        'activity_files',
-        'organisation_files',
-        'file_size',
+        # 'activities',
+        # 'publishers',
+        # 'activity_files',
+        # 'organisation_files',
+        # 'file_size',
         'failed_downloads',
-        'invalidxml',
-        'nonstandardroots',
-        'unique_identifiers',
-        ('validation', lambda x: x == 'fail', ''),
-        ('publishers_validation', lambda x: x == 'fail', ''),
-        ('publisher_has_org_file', lambda x: x == 'no', ''),
-        ('versions', lambda x: x in expected_versions, '_expected'),
-        ('versions', lambda x: x not in expected_versions, '_other'),
-        ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
-        ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
-        ('file_size_bins', lambda x: True, ''),
-        ('publisher_types', lambda x: True, ''),
-        ('activities_per_publisher_type', lambda x: True, '')
+        # 'invalidxml',
+        # 'nonstandardroots',
+        # 'unique_identifiers',
+        # ('validation', lambda x: x == 'fail', ''),
+        # ('publishers_validation', lambda x: x == 'fail', ''),
+        # ('publisher_has_org_file', lambda x: x == 'no', ''),
+        # ('versions', lambda x: x in expected_versions, '_expected'),
+        # ('versions', lambda x: x not in expected_versions, '_other'),
+        # ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
+        # ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
+        # ('file_size_bins', lambda x: True, ''),
+        # ('publisher_types', lambda x: True, ''),
+        # ('activities_per_publisher_type', lambda x: True, '')
 ]:
     make_plot(stat_path, git_stats)
 
 # Delete git_stats variable to save memory
 del git_stats
 
-try:
-    os.makedirs('out/publisher_imgs')
-except OSError:
-    pass
+# try:
+#     os.makedirs('out/publisher_imgs')
+# except OSError:
+#     pass
 
-git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
-for publisher, git_stats_publisher in git_stats_publishers.items():
-    for stat_path in [
-            'activities',
-            'activity_files',
-            'organisation_files',
-            'file_size',
-            'invalidxml',
-            'nonstandardroots',
-            'publisher_unique_identifiers',
-            ('validation', lambda x: x == 'fail', ''),
-            ('versions', lambda x: True, ''),
-    ]:
-        make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+# git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
+# for publisher, git_stats_publisher in git_stats_publishers.items():
+#     for stat_path in [
+#             'activities',
+#             'activity_files',
+#             'organisation_files',
+#             'file_size',
+#             'invalidxml',
+#             'nonstandardroots',
+#             'publisher_unique_identifiers',
+#             ('validation', lambda x: x == 'fail', ''),
+#             ('versions', lambda x: True, ''),
+#     ]:
+#         make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))

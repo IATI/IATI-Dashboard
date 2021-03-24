@@ -30,6 +30,8 @@ jobs:
         curl --compressed "https://dashboard-stats.codeforiati.org/ckan.json" > stats-calculated/ckan.json
         curl --compressed "https://dashboard-stats.codeforiati.org/metadata.json" > stats-calculated/metadata.json
         git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats stats-calculated/current
+    - name: Make plots
+      run: python plots.py
     - name: Build CSV output
       run: python make_csv.py
     - name: Build HTML output
