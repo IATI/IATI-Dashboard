@@ -22,7 +22,6 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_html.py"
 python make_html.py $1 $2|| exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Copying static elements"
-cp static/img/favicon.png out/
 cp static/img/tablesorter-icons.gif out/
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Make a backup of the old web directory and make new content live"
