@@ -11,7 +11,7 @@
     <h2>Breakdown By Publisher</h2>
 
     <div class="col-md-6">
-        
+
         <h3>List of files that fail validation, grouped by publisher</h3>
 
     {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
@@ -47,7 +47,7 @@
         </div>
     {% endfor%}
     </div>
-    
+
     <div class="col-md-6">
 
       <h3>Count of files that fail validation, per publisher.</h3>
@@ -67,6 +67,6 @@
             {% endfor%}
           </tbody>
         </table>
-      </div> 
+      </div>
     </div>
 {% endblock %}

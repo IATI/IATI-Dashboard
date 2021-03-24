@@ -20,7 +20,7 @@
     <p>
     {% with elements=reverse_codelist_mapping[major_version][codelist_mapping[element]] %}
     {% if elements|count > 1 %}
-    Other elements/attributes on this codelist: 
+    Other elements/attributes on this codelist:
     <ul>
     {% for el in elements%}
     {% if el in current_stats.inverted_publisher.codelist_values[major_version].keys() %}
