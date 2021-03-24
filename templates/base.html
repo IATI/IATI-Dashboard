@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="//styles.iatistandard.org/assets/css/screen.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
   <link rel="icon" type="image/png" href="?" />
   <title>{% block title %}IATI Dashboard - {{page_titles[page]}}{% endblock %}</title>
@@ -140,7 +139,6 @@ html,body{height:100%;}
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
 {% block tablesorterscript %}<script>$(function() { $("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{% endblock %}); });</script>{% endblock %}
-<script src="//styles.iatistandard.org/assets/js/app.bundle.js"></script>
   {% block extrafooter %}{% endblock %}
 </body>
 </html>
