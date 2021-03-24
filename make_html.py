@@ -88,7 +88,7 @@ app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%Y-%m-%d %H:%M:%S %Z')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%Y-%m-%d %H:%M:%S %Z')
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
-app.jinja_env.globals['stats_url'] = 'http://dashboard.iatistandard.org/stats'
+app.jinja_env.globals['stats_url'] = 'https://github.com/codeforIATI/IATI-Stats/tree/gh-pages'
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
 app.jinja_env.globals['top_titles'] = text.top_titles
