@@ -97,7 +97,7 @@
             {% for publisher, files in file_grouped.items() %}
                 <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td><td>
                 {% for file in files %}
-                    <a href="http://iatiregistry.org/dataset/{{file}}">{{file}}</a>
+                    <a href="http://iatiregistry.org/dataset/{{file[:-4]}}">{{file[:-4]}}</a>
                 {% endfor %}
                 </td></tr>
             {% endfor %}

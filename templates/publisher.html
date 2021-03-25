@@ -155,23 +155,25 @@
               <!-- List group -->
               <ul class="list-group">
                 {% for dataset in current_stats.inverted_file_grouped.validation.fail[publisher] %}
+                {% with dataset_name=dataset[:-4] %}
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4 break">
-                      <a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a>
+                      <a href="http://iatiregistry.org/dataset/{{dataset_name}}">{{dataset_name}}</a>
                     </div>
                     <div class="col-md-6 break">
-                      {% if publisher in ckan and dataset in ckan[publisher] %}
-                      <a href="{{ckan[publisher][dataset].resource.url}}">{{ckan[publisher][dataset].resource.url|url_to_filename}}</a>
+                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                      <a href="{{ckan[publisher][dataset_name].resource.url}}">{{ckan[publisher][dataset_name].resource.url|url_to_filename}}</a>
                       {% endif %}
                     </div>
                     <div class="col-md-2 break">
-                       {% if publisher in ckan and dataset in ckan[publisher] %}
-                       <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset].resource.url|urlencode}}">validator</a>
-                       {% endif %}
+                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                      <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset_name].resource.url|urlencode}}">validator</a>
+                      {% endif %}
                     </div>
                   </div>
                 </li>
+                {% endwith %}
                 {% endfor %}
               </ul>
             </div>
@@ -200,7 +202,7 @@
             {% for dataset, invalid in publisher_inverted.invalidxml.items() %}
             {% if invalid %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -228,7 +230,7 @@
             {% for dataset, nonstandard in publisher_inverted.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -307,7 +309,7 @@
         <tbody>
             {% for package, activities in publisher_inverted.activities.items() %}
             <tr>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>

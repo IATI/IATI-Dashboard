@@ -33,7 +33,7 @@
             <li class="list-group-item">
               <div class="row">
                 <div class="col-md-4 break">
-                  <a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a>
+                  <a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a>
                 </div>
                 <div class="col-md-6 break">
                   {% if publisher in ckan and dataset in ckan[publisher] %}
