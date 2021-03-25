@@ -262,7 +262,9 @@ def create_codelist_mapping(major_version):
     for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version))):
         if 'condition' in x \
                 and x['path'] in codelist_mapping \
-                and not re.search(r'not\([^)]+\)', x['condition']):
+                and 'not(@vocabulary)' not in x['condition']:
+            # we already have a mapping for this path,
+            # and this mapping isn't the default
             continue
         codelist_mapping[x['path']] = x['codelist']
     return transform_codelist_mapping_keys(codelist_mapping)
