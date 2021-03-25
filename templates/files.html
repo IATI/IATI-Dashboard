@@ -12,7 +12,7 @@
       <div class="col-md-6">
         <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="{{stats_url}}/current/aggregated/file_size_bins.json" style="float:right">(J)</a> 
+            <a href="{{stats_url}}/current/aggregated/file_size_bins.json" style="float:right">(J)</a>
             <h3 class="panel-title">File Sizes</h3>
         </div>
         {% include 'tablesorter_instructions.html' %}
@@ -30,29 +30,33 @@
       </div>
     </div>
 
-    <div class="panel panel-default">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Publisher</th>
-                <th>Package</th>
-                <th>Activities <a href="{{stats_url}}/current/inverted-file/activities.json">(J)</a></th>
-                <th>Organisations <a href="{{stats_url}}/current/inverted-file/organisations.json">(J)</a></th>
-                <th>File Size <a href="{{stats_url}}/current/inverted-file/file_size.json">(J)</a></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for package, activities in current_stats.inverted_file.activities.items() %}
-            <tr>
-                <td class="break"><a href="publisher/{{package|dataset_to_publisher}}.html">{{publisher_name[package|dataset_to_publisher]}}</a></td>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
-                <td>{{activities}}</td>
-                <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
-                <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Publisher</th>
+                    <th>Package</th>
+                    <th>Activities <a href="{{stats_url}}/current/inverted-file/activities.json">(J)</a></th>
+                    <th>Organisations <a href="{{stats_url}}/current/inverted-file/organisations.json">(J)</a></th>
+                    <th>File Size <a href="{{stats_url}}/current/inverted-file/file_size.json">(J)</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package, activities in current_stats.inverted_file.activities.items() %}
+                <tr>
+                    <td class="break"><a href="publisher/{{package|dataset_to_publisher}}.html">{{publisher_name[package|dataset_to_publisher]}}</a></td>
+                    <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
+                    <td>{{activities}}</td>
+                    <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
+                    <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      </div>
     </div>
 {% endblock %}
 {% block tablesorteroptions %}

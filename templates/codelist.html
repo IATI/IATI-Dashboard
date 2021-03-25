@@ -16,69 +16,71 @@
 {% endblock %}
 
 {% block content %}
-
-    <p>
-    {% with elements=reverse_codelist_mapping[major_version][codelist_mapping[element]] %}
-    {% if elements|count > 1 %}
-    Other elements/attributes on this codelist:
-    <ul>
-    {% for el in elements%}
-    {% if el in current_stats.inverted_publisher.codelist_values[major_version].keys() %}
-    {% if el!=element%}<li><a href="{{slugs.codelist[major_version].by_i[current_stats.inverted_publisher.codelist_values[major_version].keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
-    {% endif %}
-    {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}</p>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>
+        {% with elements=reverse_codelist_mapping[major_version][codelist_mapping[element]] %}
+        {% if elements|count > 1 %}
+        Other elements/attributes on this codelist:
+        <ul>
+        {% for el in elements%}
+        {% if el in current_stats.inverted_publisher.codelist_values[major_version].keys() %}
+        {% if el!=element%}<li><a href="{{slugs.codelist[major_version].by_i[current_stats.inverted_publisher.codelist_values[major_version].keys().index(el)]}}.html">{{el}}</a></li>{% endif %}
+        {% endif %}
+        {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}</p>
+      </div>
+    </div>
 
     <div class="row">
-    <div class="col-md-6">
-    <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">On Codelist</h3>
-    </div>
-    <div class="panel-body">
-        <p>Codes that are on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
-    </div>
-    <table class="table table-striped">
-      <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
-      <tbody>
-        {% for value, publishers in values.items() %}
-            {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
-            <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
-            </td></tr>
-            {% endif %}
-        {% endfor %}
-      </tbody>
-    </table>
-    </div>
-    </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title">On Codelist</h3>
+          </div>
+          <div class="panel-body">
+            <p>Codes that are on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
+          </div>
+          <table class="table table-striped">
+            <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
+            <tbody>
+              {% for value, publishers in values.items() %}
+                  {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
+                  <tr><td>{{value}}</td><td>
+                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                  </td></tr>
+                  {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-    <div class="col-md-6">
-    <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Not On Codelist</h3>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+              <h3 class="panel-title">Not On Codelist</h3>
+          </div>
+          <div class="panel-body">
+              <p>Codes that are not on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
+          </div>
+          <table class="table table-striped">
+            <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
+            <tbody>
+              {% for value, publishers in values.items() %}
+                  {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
+                  <tr><td>{{value}}</td><td>
+                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
+                  </td></tr>
+                  {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="panel-body">
-        <p>Codes that are not on the <code>{{codelist_mapping[major_version].get(element)}}</code> codelist.</p>
-    </div>
-    <table class="table table-striped">
-      <thead><tr><th>Value</th><th>Publishers</th></tr></thead>
-      <tbody>
-        {% for value, publishers in values.items() %}
-            {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
-            <tr><td>{{value}}</td><td>
-                <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{value}}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher in sorted(publishers) %}<a href='../../publisher/{{publisher}}.html#p_codelists'>{{publisher}}</a><br/> {% endfor %}">{{publishers|length}}</a>
-            </td></tr>
-            {% endif %}
-        {% endfor %}
-      </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-
 {% endblock %}
 
 {% block extrafooter %}
