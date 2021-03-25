@@ -273,9 +273,6 @@ def create_codelist_mapping(major_version):
 MAJOR_VERSIONS = ['2', '1']
 
 codelist_mapping = {v: create_codelist_mapping(v) for v in MAJOR_VERSIONS}
-codelist_conditions = {
-    major_version: transform_codelist_mapping_keys({x['path']: x.get('condition') for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))})
-    for major_version in MAJOR_VERSIONS}
 
 # Create a big dictionary of all codelist values by version and codelist name
 codelist_sets = {

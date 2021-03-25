@@ -356,9 +356,6 @@
                         <a href="javascript: return false;" class="popover-html" title="Values not on codelist for {{element}}" data-content="{% for code in codes %}<code>{{code}}</code> {% endfor %}">
                             {{codes|count}}
                         </a>
-                        {% if codelist_conditions[major_version][element] %}
-                            <div class="alert alert-warning">Note: this attribute can be on multiple codelists (specified by the @vocabulary attribute) but the Dashboard only currently checks against the default codelist - see <a href="https://github.com/IATI/IATI-Dashboard/issues/174">issue #174</a>. Therefore some publishers may incorrectly show up as "Not On Codelist".</div>
-                        {% endif %}
                     {%else%}
                         {{codes|count}}
                     {%endif%}
