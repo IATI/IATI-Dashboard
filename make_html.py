@@ -191,9 +191,7 @@ def publisher(publisher):
                            publisher_stats=publisher_stats,
                            publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
                            publisher_licenses=licenses.licenses_for_publisher(publisher),
-                           budget_table=budget_table,
-                           codelist_by_major_version=list(publisher_stats['codelist_values_by_major_version'].items()),
-                           publisher_elements=list(publisher_stats['elements'].items()),)
+                           budget_table=budget_table,)
 
 
 @app.route('/codelist/<major_version>/<slug>.html')
