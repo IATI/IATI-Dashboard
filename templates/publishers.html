@@ -9,6 +9,8 @@
     </div>
 
 
+    <div class="row">
+    <div class="col-xs-12">
     <div class="panel panel-default">
     <div class="panel-body">
         <p style="float:right"><a href="{{url('publishers.csv')}}">(This table as CSV)</a></p>
@@ -46,6 +48,8 @@
     </table>
     </div>
     <p id="files_note">* Files is the sum of Activity Files <a href="{{stats_url}}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{stats_url}}/current/inverted-publisher/organisation_files.json">(J)</a>.</p>
+    </div>
+    </div>
 {% endblock %}
 {% block tablesorteroptions %}
 {textExtraction:{5: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}

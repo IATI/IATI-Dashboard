@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <p>Count of the different values used by all publishers, per codelist.</p>
+        <p>Note: some Elements/Attributes may use the same codelist.  In each case, the values counted are different for each use.</p>
+        {% include 'tablesorter_instructions.html' %}
+
+        {% for major_version in MAJOR_VERSIONS %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Codelists for version {{major_version}}.xx</h3>
+          </div>
+          {% if major_version not in current_stats.inverted_publisher.codelist_values_by_major_version %}
+              There are no publishers using {{ major_version }}.xx codelists yet.
+          {% else %}
+          <table class="table table-striped">
+            <thead><tr>
+              <th>Element/Attribute on codelist</th>
+              <th>Codelist</th>
+              <th>Total Values Used <a href="{{stats_url}}/current/inverted-publisher/codelist_values.json">(J)</a></th>
+              <th>Total Values on Codelist</th>
+              <th>Values used, on Codelist</th>
+              <th>Values used, not on Codelist</th>
+            </tr></thead>
+            <tbody>
+              {% for i, (element, values) in enumerate(current_stats.inverted_publisher.codelist_values_by_major_version[major_version].items()) %}
+                <tr>
+                  <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{element}}</td>
+                  <td><a href="https://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
+                  <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{values|length}}</a></td>
+                  <td><a href="https://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_sets[major_version].get(codelist_mapping[major_version].get(element))|length}}</a></td>
+                  {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(get_codelist_values(values))) %}
+                  <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{codes|length}}</a></td>
+                  {% endwith %}
+                  {% with codes=sorted(set(get_codelist_values(values)).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
+                  <td><a href="codelist/{{major_version}}/{{slugs.codelist[major_version].by_i[i]}}.html">{{codes|length}}</a></td>
+                  {% endwith %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+{% endblock %}

@@ -4,7 +4,7 @@
 {{ super () }} Publisher: {{publisher_name[publisher]}}
 {% endblock %}
 {% block page_header %}
-<a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/" style="float:right">(Publisher Stats JSON)</a>
+<a href="{{stats_gh_url}}/current/aggregated-publisher/{{publisher}}/" style="float:right">(Publisher Stats JSON)</a>
 <h1>Publisher: {{publisher_name[publisher]}}</h1>
 <p class="lead"></p>
 {% endblock %}
@@ -155,30 +155,32 @@
               <!-- List group -->
               <ul class="list-group">
                 {% for dataset in current_stats.inverted_file_grouped.validation.fail[publisher] %}
+                {% with dataset_name=dataset[:-4] %}
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4 break">
-                      <a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a>
+                      <a href="http://iatiregistry.org/dataset/{{dataset_name}}">{{dataset_name}}</a>
                     </div>
                     <div class="col-md-6 break">
-                      {% if publisher in ckan and dataset in ckan[publisher] %}
-                      <a href="{{ckan[publisher][dataset].resource.url}}">{{ckan[publisher][dataset].resource.url|url_to_filename}}</a>
+                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                      <a href="{{ckan[publisher][dataset_name].resource.url}}">{{ckan[publisher][dataset_name].resource.url|url_to_filename}}</a>
                       {% endif %}
                     </div>
                     <div class="col-md-2 break">
-                       {% if publisher in ckan and dataset in ckan[publisher] %}
-                       <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset].resource.url|urlencode}}">validator</a>
-                       {% endif %}
+                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                      <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset_name].resource.url|urlencode}}">validator</a>
+                      {% endif %}
                     </div>
                   </div>
                 </li>
+                {% endwith %}
                 {% endfor %}
               </ul>
             </div>
         </div>
     {% else %}
 
-    <p>This section will be blank if no issues were found.</p>
+    <p>No issues were found.</p>
 
     <div class="row">
     {% endif %}
@@ -200,7 +202,7 @@
             {% for dataset, invalid in publisher_inverted.invalidxml.items() %}
             {% if invalid %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -228,7 +230,7 @@
             {% for dataset, nonstandard in publisher_inverted.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -257,7 +259,7 @@
         <h3 class="panel-title">Budgets</h3>
     </div>
     <div class="panel-body">
-        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="http://iatistandard.org/201/activity-standard/iati-activities/iati-activity/budget/#iati-activities-iati-activity-budget-type">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
+        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://iatistandard.org/203/activity-standard/iati-activities/iati-activity/budget/#iati-activities-iati-activity-budget-type">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
     </div>
     <table class="table table-striped">
         <thead>
@@ -307,11 +309,11 @@
         <tbody>
             {% for package, activities in publisher_inverted.activities.items() %}
             <tr>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{package}}">{{package}}</a></td>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
-                <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()[0]}}</td>
+                <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()|first}}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -336,11 +338,12 @@
             </tr>
         </thead>
         <tbody>
+            {% with element_list=current_stats.inverted_publisher.codelist_values_by_major_version[major_version].keys()|list %}
             {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
             <tr>
-            {% with element_i=current_stats.inverted_publisher.codelist_values_by_major_version[major_version].keys().index(element) %}
+            {% with element_i=element_list.index(element) %}
                 <td><a href="{{url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i]))}}">{{element}}</a></td>
-                <td><a href="http://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
+                <td><a href="https://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
                 {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
                     <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{element}}" data-content="{% for code in codes %}<code>{{code}}</code> {% endfor %}">{{codes|count}}</a>
@@ -364,6 +367,7 @@
             {% endwith %}
             </tr>
             {% endfor %}
+            {% endwith %}
         </tbody>
     </table>
     </div>
@@ -385,15 +389,17 @@
             </tr>
         </thead>
         <tbody>
-            {% for element, count in publisher_stats.elements.items() %}
+            {% with element_list=current_stats.inverted_publisher.elements.keys()|list %}
+            {% for element, count in publisher_stats['elements'].items() %}
             <tr>
-            {% with element_i=current_stats.inverted_publisher.elements.keys().index(element) %}
+            {% with element_i=element_list.index(element) %}
                 <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}">{{element}}</a></td>
                 <td>{{count}}</td>
                 <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}#files_{{publisher}}">{{publisher_inverted.elements[element]|count}}</a></td>
             {% endwith %}
             </tr>
             {% endfor %}
+            {% endwith %}
         </tbody>
     </table>
     </div>

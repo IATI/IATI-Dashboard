@@ -16,7 +16,7 @@
     </div>
 
     <div class="row">
-    
+
     <div class="col-md-6">
     <div class="panel panel-default">
     <div class="panel-heading">
@@ -35,7 +35,7 @@
             {% if invalid %}
             <tr>
                 <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -62,7 +62,7 @@
             {% if nonstandard %}
             <tr>
                 <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset}}">{{dataset}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
