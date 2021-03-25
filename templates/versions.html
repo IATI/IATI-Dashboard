@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Files per version (expected)', '', 'versions_expected.png', 'versions.json',
+        description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.')}}
+      {{boxes.box('Files per version (other)', '', 'versions_other.png', 'versions.json',
+        description='Count of files per other versions, over time. These values do not actually exist as IATI versions.')}}
+    </div>
+    <div class="row">
+      {{boxes.box('Versions legend (expected)', '', 'versions_expected_legend.png')}}
+      {{boxes.box('Versions legend (other)', '', 'versions_other_legend.png')}}
+    </div>
+    <div class="row">
+      {{boxes.box('Publishers per version (expected)', '', 'publishers_per_version_expected.png', 'publishers_per_version.json',
+        description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.')}}
+      {{boxes.box('Publishers per version (other)', '', 'publishers_per_version_other.png', 'publishers_per_version.json',
+        description='Count of publishers per other version, over time')}}
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <h2>Inconsistent versions</h2>
+
+    <p>Files where the iati-activities/@version does not match iati-activity/@version</p>
+
+      <div class="panel panel-default">
+        <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Files</td>
+          </thead>
+          <tbody>
+            {% if 'true' in current_stats.inverted_file_grouped.version_mismatch %}
+            {% for publisher,files in current_stats.inverted_file_grouped.version_mismatch.true.items() %}
+                <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher_name[publisher]}}</a></td><td>
+                {% for file in files %}
+                    <a href="http://iatiregistry.org/dataset/{{file[:-4]}}">{{file[:-4]}}</a>
+                {% endfor %}
+                </td></tr>
+            {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+
+    <h2>Publishers by version</h2>
+
+    <p>(<a href="{{stats_url}}/current/inverted-publisher/versions.json">In JSON format</a>)</p>
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Expected versions</h3>
+          </div>
+          <div class="panel-body">
+          <p>Listing of publishers per IATI version. Click on any publisher name for more information.</p>
+          <div class="row">
+            {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
+            {% if version in expected_versions %}
+            <div class="col-md-4">
+              <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
+              <table class="table table-striped">
+                {% for publisher in publishers %}
+                <tr>
+                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Other versions</h3>
+          </div>
+          <div class="panel-body">
+          <p>Listing of publishers publishing a non-recognised version number.  Click on any publisher name for more information.</p>
+          <div class="row">
+            {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
+            {% if version not in expected_versions %}
+            <div class="col-md-4">
+              <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
+              <table class="table table-striped">
+                {% for publisher in publishers %}
+                <tr>
+                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

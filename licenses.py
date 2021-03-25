@@ -1,7 +1,13 @@
+import json
+from collections import OrderedDict
+from flask import render_template
+
+
 license_names = {
 'notspecified': 'Other::License Not Specified',
 'odc-pddl': 'OKD Compliant::Open Data Commons Public Domain Dedication and Licence (PDDL)',
 'odc-odbl': 'OKD Compliant::Open Data Commons Open Database License (ODbL)',
+'odc-by': 'OKD Compliant::Open Data Commons Attribution Licence',
 'cc-zero': 'OKD Compliant::Creative Commons CCZero',
 'cc-by': 'OKD Compliant::Creative Commons Attribution',
 'cc-by-sa': 'OKD Compliant::Creative Commons Attribution Share-Alike',
@@ -78,10 +84,11 @@ license_names = {
 'zpl': 'OSI Approved::Zope Public License',
 'zlib-license': 'OSI Approved::zlib/libpng license'}
 
-from flask import render_template
-from data import ckan
+with open('./stats-calculated/ckan.json') as handler:
+    ckan = json.load(handler, object_pairs_hook=OrderedDict)
 
-licenses = [ package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items() ]
+licenses = [package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items()]
+
 
 def licenses_for_publisher(publisher_name):
     # Check publisher is in the compiled list of CKAN data
@@ -90,29 +97,30 @@ def licenses_for_publisher(publisher_name):
         return set()
 
     # Return unique licenses used
-    return set([ package.get('license_id') for package in ckan[publisher_name].values() ])
+    return set([package.get('license_id') for package in ckan[publisher_name].values()])
+
 
 def main():
-    licenses_and_publisher = set([ (package.get('license_id'), publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items() ])
-    licenses_per_publisher = [ license for license, publisher in licenses_and_publisher ]
-
+    licenses_and_publisher = set([(package.get('license_id') if package.get('license_id') else 'notspecified', publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items()])
+    licenses_per_publisher = [license for license, publisher in licenses_and_publisher]
     return render_template('licenses.html',
-        license_names=license_names,
-        license_count = dict((x,licenses.count(x)) for x in set(licenses)),
-        publisher_license_count = dict((x,licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
-        sorted=sorted,
-        page='licenses',
-        licenses=True)
+                           license_names=license_names,
+                           license_count=dict((x if x else 'notspecified', licenses.count(x)) for x in set(licenses)),
+                           publisher_license_count=dict((x, licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
+                           sorted=sorted,
+                           page='licenses',
+                           licenses=True)
+
 
 def individual_license(license):
     if license == 'None':
         license = None
-    publishers = [ publisher_name for publisher_name, publisher in ckan.items() for _, package in publisher.items() if package.get('license_id') == license ]
-    publisher_counts = [ (publisher, publishers.count(publisher)) for publisher in set(publishers) ]
+    publishers = [publisher_name for publisher_name, publisher in ckan.items() for _, package in publisher.items() if package.get('license_id') == license]
+    publisher_counts = [(publisher, publishers.count(publisher)) for publisher in set(publishers) ]
     return render_template('license.html',
-        url=lambda x: '../'+x,
-        license=license,
-        license_names=license_names,
-        publisher_counts=publisher_counts,
-        page='licenses',
-        licenses=True)
+                           url=lambda x: '../' + x,
+                           license=license,
+                           license_names=license_names,
+                           publisher_counts=publisher_counts,
+                           page='licenses',
+                           licenses=True)

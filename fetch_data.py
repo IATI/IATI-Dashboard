@@ -10,9 +10,7 @@ name, organisation type, and the link back to the registry
 
 import requests
 import os
-
-# Fetch a list of all organisations - returns json
-r = requests.get('http://iatiregistry.org/api/3/action/organization_list')
+import json
 
 #Make a directory to save the data about each publisher
 try:
@@ -20,8 +18,27 @@ try:
 except OSError:
     pass
 
+page_size = 50
+url = 'https://iatiregistry.org/api/3/action/organization_list'
+params = {
+    'all_fields': 'true',
+    'include_extras': 'true',
+    'include_tags': 'true',
+    'include_groups': 'true',
+    'include_users': 'true',
+    'limit': page_size,
+}
+
 # Loop through the organisation list json, saving a file of information about each publisher
-for publisher in r.json()['result']:
-    r2 = requests.get('http://iatiregistry.org/api/3/action/organization_show', params={'id':publisher})
-    with open(os.path.join('data', 'ckan_publishers', publisher+'.json'), 'w') as fp:
-        fp.write(r2.text)
+page = 0
+while True:
+    params['offset'] = page_size * page
+    res = requests.get(url, params=params).json()['result']
+    if res == []:
+        break
+    for publisher in res:
+        name = publisher.get('name')
+        output = {'result': publisher}
+        with open(os.path.join('data', 'ckan_publishers', name + '.json'), 'w') as fp:
+            _ = json.dump(output, fp)
+    page += 1

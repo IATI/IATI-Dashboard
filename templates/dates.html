@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Activity Dates</h3></div>
+          <div class="panel-body">
+            {% include 'tablesorter_instructions.html' %}
+          </div>
+          <table class="table table-striped">
+            <thead><tr>
+              <th>Publisher</th>
+              <th>Earliest Date</th>
+              <th>Latest Date</th>
+              <th>Latest Actual Start</th>
+              <th>Latest Actual End</th>
+            </tr></thead>
+            <tbody>
+              {% for publisher_title,publisher in publishers_ordered_by_title %}
+              {% set publisher_stats = get_publisher_stats(publisher) %}
+                  <tr>
+                      <td><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                      <td>{% if publisher_stats.date_extremes.min.overall %}{{publisher_stats.date_extremes.min.overall}}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.overall %}{{publisher_stats.date_extremes.max.overall}}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.by_type['start-actual'] %}{{publisher_stats.date_extremes.max.by_type['start-actual'] }}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.by_type['end-actual'] %}{{publisher_stats.date_extremes.max.by_type['end-actual'] }}{% endif %}</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}

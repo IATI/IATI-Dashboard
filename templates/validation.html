@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'validation.png', 'validation.json',
+        description='Count of files that do not validate against the relevant schema, over time.')}}
+      {{boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png', 'publishers_validation.json',
+        description='Count of publishers that have at least one invalid file, over time')}}
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <h2>Breakdown By Publisher</h2>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-6">
+
+        <h3>List of files that fail validation, grouped by publisher</h3>
+
+    {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
+        <div class="panel panel-default">
+          <!-- Default panel contents -->
+          <div class="panel-heading"><a href="publisher/{{publisher}}.html" id="list_{{publisher}}">{{publisher_name[publisher]}}</a> ({{datasets|length}})</div>
+          <!--<div class="panel-body">
+            <p>...</p>
+          </div>-->
+
+          <!-- List group -->
+          <ul class="list-group">
+            {% for dataset in datasets %}
+            <li class="list-group-item">
+              <div class="row">
+                <div class="col-md-4 break">
+                  <a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a>
+                </div>
+                <div class="col-md-6 break">
+                  {% if publisher in ckan and dataset in ckan[publisher] %}
+                  <a href="{{ckan[publisher][dataset].resource.url}}">{{ckan[publisher][dataset].resource.url|url_to_filename}}</a>
+                  {% endif %}
+                </div>
+                <div class="col-md-2 break">
+                   {% if publisher in ckan and dataset in ckan[publisher] %}
+                   <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset].resource.url|urlencode}}">validator</a>
+                   {% endif %}
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+    {% endfor%}
+    </div>
+
+    <div class="col-md-6">
+
+      <h3>Count of files that fail validation, per publisher.</h3>
+
+      <div class="panel panel-default">
+        <table class="table table-striped">
+          <thead><tr>
+            <th>Publisher <a href="{{stats_url}}/current/inverted-publisher/validation.json">(J)</a></th>
+            <th>Failing files <a href="{{stats_url}}/current/inverted-file/validation.json">(J)</a></th>
+          </tr></thead>
+          <tbody>
+            {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
+            <tr>
+              <td><a href="#list_{{publisher}}">{{publisher_name[publisher]}}</a></td>
+              <td>{{datasets|length}}</td>
+            </tr>
+            {% endfor%}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+{% endblock %}

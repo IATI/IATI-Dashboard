@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+  <link rel="icon" href="/favicon.ico">
+  <title>{% block title %}IATI Dashboard - {{page_titles[page]}}{% endblock %}</title>
+  <style>
+    em {
+      font-style: italic;
+    }
+    .big-number {
+      font-size: 100px;
+    }
+    .title-number {
+      font-weight: bold;
+      float: left;
+      width: 20%;
+    }
+    .title-text {
+      float: left;
+    }
+    .panel-heading {
+      clear: both;
+    }
+    .break {
+      word-break:break-all;
+    }
+    .panel-body h4, .panel-body h5 {
+      margin-top: 24px;
+    }
+    .panel-body h4:first-of-type, .panel-body h5:first-of-type {
+      margin-top: 10px;
+    }
+
+.tablesorter-default .tablesorter-header {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAJAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAkAAAIXjI+AywnaYnhUMoqt3gZXPmVg94yJVQAAOw==);
+	background-position: center left;
+	background-repeat: no-repeat;
+	cursor: pointer;
+}
+.tablesorter-default thead .headerSortUp,
+.tablesorter-default thead .tablesorter-headerSortUp,
+.tablesorter-default thead .tablesorter-headerAsc {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjI8Bya2wnINUMopZAQA7);
+	border-bottom: #000 2px solid;
+}
+.tablesorter-default thead .headerSortDown,
+.tablesorter-default thead .tablesorter-headerSortDown,
+.tablesorter-default thead .tablesorter-headerDesc {
+	background-image: url(data:image/gif;base64,R0lGODlhFQAEAIAAACMtMP///yH5BAEAAAEALAAAAAAVAAQAAAINjB+gC+jP2ptn0WskLQA7);
+	border-bottom: #000 2px solid;
+}
+.tablesorter-header-inner {
+  margin-left:10px;
+}
+.tablesorter-headerRow {
+  background-color:white;
+}
+html,body{height:100%;}
+#wrap{min-height:100%;height:auto;margin:0 auto -60px;padding:0 0 60px;}
+#footer{background-color:#f5f5f5;margin-top: 30px}
+.container .text-muted{margin: 20px 0;}
+
+  .navbar-default {
+     margin-bottom: 0px;
+  }
+  </style>
+
+  {% block extrahead %}{% endblock %}
+</head>
+<body>
+<div id="wrap">
+  <div class="navbar navbar-default navbar-static-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+        {% for item in top_navigation %}
+            <li {% if item==page or page in navigation[item]%}class="active"{%endif%}><{% if item=="publishing_stats" %}a href="{{pubstats_url}}"{% else %}a href="{{url(item+'.html')}}"{%endif%}>{{top_titles[item]}}</a></li>
+        {% endfor %}
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+        {% for item in navigation[navigation_reverse[page]] %}
+            <li{% if item==page %} class="active"{% endif %}><a href="{{url(item+'.html')}}">{{short_page_titles[item]}}</a></li>
+        {% endfor %}
+        </ul>
+      </div><!--/.nav-collapse -->
+    </div>
+  </div>
+  <div class="container">
+    {% block container %}
+      {% block page_header_div %}
+        <div class="page-header">
+          {% block page_header %}
+          <h1>{{page_titles[page]}}</h1>
+          {% if page in page_leads %}<p class="lead">{{page_leads[page]|safe}}</p>{% endif %}
+          {% if page in page_sub_leads %}<p>{{page_sub_leads[page]|safe}}</p>{% endif %}
+          {% endblock %}
+        </div>
+      {% endblock %}
+
+      {% block content %}
+      {% endblock %}
+
+    {% endblock %}
+  </div><!-- /.container -->
+
+</div>
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">
+          <a href="https://github.com/codeforIATI/IATI-Dashboard/">Source Code</a>.
+
+          <a href="https://github.com/codeforIATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>
+
+          Generated at <em>{{ datetime_generated() }}</em> from data downloaded at <em>{{ datetime_data }}</em>.<br/>
+
+          (NB This is the time the download task started. Any changes made after this time may not be reflected).<br />
+
+          For details on how often these updates are applied, see <a href="/faq.html">IATI Dashboard update FAQ</a>.
+    </div>
+</div>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
+{% block tablesorterscript %}<script>$(function() { $("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{% endblock %}); });</script>{% endblock %}
+  {% block extrafooter %}{% endblock %}
+</body>
+</html>

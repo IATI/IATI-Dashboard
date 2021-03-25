@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+{% block page_header %}
+<h1>{{license_names[license]}}</h1>
+<p class="lead">License id: <code>{{license}}</code></p>
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Publisher</th>
+                    <th>Files</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher, files in publisher_counts %}
+                <tr>
+                    <td><a href="../publisher/{{publisher}}.html">{{publisher}}</a></td>
+                    <td>{{files}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}

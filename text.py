@@ -53,7 +53,7 @@ page_leads = {
     'download': 'How many files failed to download?',
     'xml': 'Which files have XML errors?',
     'validation': 'Which files fail schema validation?',
-    'versions': 'Which <a href="http://iatistandard.org/upgrades/all-versions/">versions of the IATI Standard</a> are being used?',
+    'versions': 'Which <a href="https://iatistandard.org/en/iati-standard/upgrades/how-we-manage-the-standard/versions/">versions of the IATI Standard</a> are being used?',
     'rulesets': 'How does IATI data test against rulesets?',
     'licenses': 'Which licences are used by IATI publishers?',
     'organisation': 'Who is publishing IATI Organisation files?',
@@ -70,7 +70,7 @@ page_sub_leads = {
     'activities': 'Activities are the individual projects found in files.  A file can contain one or many activities, from a publisher.',
     'download': 'Files that failed to download, when accessed via the IATI Registry. Note: This may because no URL is listed on the registry, or when requesting the URL the publisher\'s server returns an error message (e.g. because there is no file at that location). Since the dashboard\'s download occurs routinely, some files that failed to download may now be available.',
     'xml': 'This page shows files that are not well-formed XML, accessed via the IATI Registry. ',
-    'validation': 'IATI files are validated against the appropriate <a href="http://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
+    'validation': 'IATI files are validated against the appropriate <a href="https://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
     'versions': 'Files are reported against a specific version of the IATI Standard, using the <code>version</code> attribute in the <code>iati-activities</code> element.',
     'rulesets': 'The IATI Ruleset describe constraints, conditions and logics that are additional to the IATI schema. Note: Currently, on the IATI Standard Ruleset is tested.',
     'licenses': 'Licences are applied to files by publishers on the IATI Registry, and explain how data can be used. ',
@@ -95,7 +95,7 @@ short_page_titles.update({
 
 top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'publishing_stats', 'faq']
 navigation = {
-    'headlines': [ 'publishers', 'files', 'activities'],
+    'headlines': ['publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats', 'humanitarian' ]

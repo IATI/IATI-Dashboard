@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+
+{% block page_header %}
+{{ super () }}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+      {{boxes.box('Files where XML is not well-formed', current_stats.aggregated.invalidxml, 'invalidxml.png', 'invalidxml.json',
+        description='Count of files where the XML that is not well-formed, over time. Note: this is different from <a href="validation.html">validation against the schema</a>.')}}
+      {{boxes.box('Files with non-standard roots', current_stats.aggregated.nonstandardroots, 'nonstandardroots.png', 'nonstandardroots.json',
+        description='Count of files with non-standard root, over time. Note: Files with non-standard roots are those where the root XML element is not <code>iati-activities</code> or <code>iati-organisation</code> as we would expect.</p>')}}
+    </div>
+
+    <div class="row">
+
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/inverted-file/invalidxml.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Files where XML is not well-formed</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset, invalid in current_stats.inverted_file.invalidxml.items() %}
+            {% if invalid %}
+            <tr>
+                <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+    <div class="col-md-6">
+    <div class="panel panel-default">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <a href="{{stats_url}}/current/inverted-file/nonstandardroots.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Files with non-standard roots</h3>
+    </div>
+        <thead>
+            <tr>
+                <th>Publisher</th>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset, nonstandard in current_stats.inverted_file.nonstandardroots.items() %}
+            {% if nonstandard %}
+            <tr>
+                <td><a href="publisher/{{dataset|dataset_to_publisher}}.html">{{dataset|dataset_to_publisher}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+
+    </div>
+{% endblock %}
