@@ -311,7 +311,7 @@
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
-                <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()[0]}}</td>
+                <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()|first}}</td>
             </tr>
             {% endfor %}
         </tbody>
