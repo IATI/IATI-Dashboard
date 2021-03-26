@@ -2,7 +2,7 @@ IATI Dashboard
 ==============
 
 .. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
-    :target: https://github.com/codeforIATI/IATI-Dashboard/blob/main/GPL.md
+    :target: https://github.com/codeforIATI/IATI-Dashboard/blob/main/LICENSE.md
 
 Introduction
 ------------
