@@ -247,13 +247,13 @@ def transform_codelist_mapping_keys(codelist_mapping):
 def create_codelist_mapping(major_version):
     codelist_mapping = {}
     for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version))):
-        if 'condition' in x \
-                and x['path'] in codelist_mapping \
-                and 'not(@vocabulary)' not in x['condition']:
-            # we already have a mapping for this path,
-            # and this mapping isn't the default
-            continue
-        codelist_mapping[x['path']] = x['codelist']
+        if 'condition' in x:
+            pref, attr = x['path'].rsplit('/', 1)
+            path = '{0}[{1}]/{2}'.format(
+                pref, x['condition'], attr)
+        else:
+            path = x['path']
+        codelist_mapping[path] = x['codelist']
     return transform_codelist_mapping_keys(codelist_mapping)
 
 
