@@ -1,4 +1,4 @@
-Flask==1.1.2
+Flask==0.12.3
 Frozen-Flask==0.15
 Jinja2==2.11.3
 lxml
@@ -6,4 +6,4 @@ python-dateutil==2.8.1
 pytz
 matplotlib==2.0.0
 requests
-Werkzeug==1.0.1
+Werkzeug==0.12.2
