@@ -3,6 +3,7 @@
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
 import argparse
+import json
 import os
 import re
 from collections import defaultdict
@@ -17,7 +18,18 @@ from datetime import datetime
 from dateutil import parser
 
 print('Doing initial data import')
-from data import *
+from data import (
+    ckan,
+    ckan_publishers,
+    codelist_mapping,
+    codelist_sets,
+    current_stats,
+    get_publisher_stats,
+    MAJOR_VERSIONS,
+    metadata,
+    publisher_name,
+    publishers_ordered_by_title,
+    slugs)
 print('Initial data import finished')
 
 app = Flask(__name__)
