@@ -43,7 +43,7 @@ echo "running gen.sh for Codelist-1"
 cd ..
 echo "cloning Codelists-2"
 if [ ! -d IATI-Codelists-2 ]; then
-    git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-2
+    git clone https://github.com/andylolz/IATI-Codelists.git IATI-Codelists-2
 fi
 cd IATI-Codelists-2
 echo "checking out Codelists-2"
