@@ -1,6 +1,6 @@
 If you would like to contribute to the IATI Dashboard project, you can....
 
-* Send us feedback about your user experience. Contact details at: https://github.com/IATI
+* Send us feedback about your user experience. Contact details at: https://github.com/codeforIATI
 * Report bugs
 * Request new features
 * Contribute code or documents to improve the application. See the list of specific tasks below.
@@ -11,7 +11,7 @@ If you are able to work with GitHub then please "Create an issue"
 
 Before creating a new issue check to see if the issue already exists. If not then please do report it.
 
-If you are not comfortable working with GitHub, but would still like to contribute, then talk to us.  Details at: https://github.com/IATI
+If you are not comfortable working with GitHub, but would still like to contribute, then talk to us.  Details at: https://github.com/codeforIATI
 
 
 How to contribute code and documents
@@ -64,7 +64,4 @@ We mark some of issues as 'Bitesize'. Generally these will help ease you into th
 
 Talk to us
 ==========
-We'd love to hear from you. Details at: https://github.com/IATI
-
-
-For general guidance on contributing to IATI Code please see http://iatistandard.org/developer/contribute/
+We'd love to hear from you. Details at: https://github.com/codeforIATI
