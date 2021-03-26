@@ -12,9 +12,9 @@ import requests
 import os
 import json
 
-#Make a directory to save the data about each publisher
+# Make a directory to save the data about each publisher
 try:
-    os.makedirs(os.path.join('data','ckan_publishers'))
+    os.makedirs(os.path.join('data', 'ckan_publishers'))
 except OSError:
     pass
 

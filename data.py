@@ -5,7 +5,7 @@ import re
 import csv
 from decimal import Decimal
 
-publisher_re = re.compile('(.*)\-[^\-]')
+publisher_re = re.compile(r'(.*)\-[^\-]')
 
 
 # Modified from:
@@ -28,7 +28,6 @@ class GroupFiles(MutableMapping):
     def __init__(self, inputdict):
         self.inputdict = inputdict
         self.cache = {}
-
 
     def __getitem__(self, key):
         if key in self.cache:
@@ -54,21 +53,17 @@ class GroupFiles(MutableMapping):
         self.cache[key] = out
         return out
 
-
     def __len__(self):
         return len(self.inputdict)
 
-
     def __iter__(self):
         return iter(self.inputdict)
-
 
     def __delitem__(self, key):
         try:
             del self.inputdict[key]
         except KeyError:
             pass
-
 
     def __setitem__(self, key, value):
         super(GroupFiles, self).__setitem__(key, value)
@@ -86,10 +81,8 @@ class JSONDir(MutableMapping):
         """
         self.folder = folder
 
-
     def __len__(self):
         return len(self.keys())
-
 
     def __delitem__(self, key):
         try:
@@ -97,14 +90,11 @@ class JSONDir(MutableMapping):
         except KeyError:
             pass
 
-
     def __repr__(self):
         return '{}, JSONDIR({})'.format(super(JSONDir, self).__repr__(), self.__dict__)
 
-
     def __setitem__(self, key, value):
         super(JSONDir, self).__setitem__(key, value)
-
 
     @memoize
     def __getitem__(self, key):
@@ -144,20 +134,17 @@ class JSONDir(MutableMapping):
 
         return data
 
-
     def keys(self):
         """Method to return a list of keys that are contained within the data folder that
            is being accessed within this instance.
         """
-        return [x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder) ]
-
+        return [x[:-5] if x.endswith('.json') else x for x in os.listdir(self.folder)]
 
     def __iter__(self):
         """Custom iterable, to iterate over the keys that are contained within the data
         folder that is being accessed within this instance.
         """
         return iter(self.keys())
-
 
     def get_publisher_name(self):
         """Find the name of the publisher that this data relates to.
@@ -252,8 +239,8 @@ with open('./data/downloads/errors') as fp:
 def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
     codelist_mapping = {k: v for k, v in codelist_mapping.items() if not k.startswith('//iati-organisation')}
-    codelist_mapping = {re.sub('^\/\/iati-activity', './', k): v for k, v in codelist_mapping.items()}
-    codelist_mapping = {re.sub('^\/\/', './/', k): v for k, v, in codelist_mapping.items()}
+    codelist_mapping = {re.sub(r'^\/\/iati-activity', './', k): v for k, v in codelist_mapping.items()}
+    codelist_mapping = {re.sub(r'^\/\/', './/', k): v for k, v, in codelist_mapping.items()}
     return codelist_mapping
 
 
@@ -281,16 +268,15 @@ codelist_sets = {
     } for major_version in MAJOR_VERSIONS}
 
 
-#Simple look up to map publisher id to a publishers given name (title)
+# Simple look up to map publisher id to a publishers given name (title)
 publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in ckan_publishers.items()}
-#Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
+# Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
 publishers_ordered_by_title = [(publisher_name[publisher], publisher) for publisher in current_stats['inverted_publisher']['activities'] if publisher in publisher_name]
 publishers_ordered_by_title.sort(key=lambda x: (x[0]).lower())
 
 # List of publishers who report all their activities as a secondary publisher
 secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
-                        if int(stats['activities']) == len(stats['activities_secondary_reported']) and
-                        int(stats['activities']) > 0]
+                        if int(stats['activities']) == len(stats['activities_secondary_reported']) and int(stats['activities']) > 0]
 
 try:
     dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open('data/dac2012.csv'))}
@@ -301,12 +287,13 @@ except IOError:
 def make_slugs(keys):
     out = {'by_slug': {}, 'by_i': {}}
     for i, key in enumerate(keys):
-        slug = re.sub('[^a-zA-Z0-9:@\-_]', '', re.sub('{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}','xml:').replace('/', '_'))).strip('_')
+        slug = re.sub(r'[^a-zA-Z0-9:@\-_]', '', re.sub(r'{[^}]*}', '', key.replace('{http://www.w3.org/XML/1998/namespace}', 'xml:').replace('/', '_'))).strip('_')
         while slug in out['by_slug']:
             slug += '_'
         out['by_slug'][slug] = i
         out['by_i'][i] = slug
     return out
+
 
 slugs = {
     'codelist': {major_version: (

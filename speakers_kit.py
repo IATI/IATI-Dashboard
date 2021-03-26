@@ -43,7 +43,7 @@ for publisher, publisher_data in aggregated_publisher.items():
     else:
         print('Publisher not matched:', publisher)
 
-fieldnames = ['publisher_type', 'publishers_by_type', '', 'publisher_country', 'publishers_by_country', '', 'date', 'publishers_quarterly', '', 'activity_country', 'activities_by_country', '', 'activity_region', 'activities_by_region' ]
+fieldnames = ['publisher_type', 'publishers_by_type', '', 'publisher_country', 'publishers_by_country', '', 'date', 'publishers_quarterly', '', 'activity_country', 'activities_by_country', '', 'activity_region', 'activities_by_region']
 
 publishers_quarterly = []
 publishers_by_date = json.load(open('./stats-calculated/gitaggregate-dated/publishers.json'))
@@ -51,10 +51,14 @@ for date, publishers in sorted(publishers_by_date.items()):
     if (date[8:10] == '30' and date[5:7] in ['06', '09']) or (date[8:10] == '31' and date[5:7] in ['03', '12']):
         publishers_quarterly.append((date, publishers))
 
+
+def sort_second(x):
+    return sorted(x, key=lambda y: y[1], reverse=True)
+
+
 with open('out/speakers_kit.csv', 'w') as fp:
     writer = csv.DictWriter(fp, fieldnames)
     writer.writeheader()
-    sort_second = lambda x: sorted(x, key=lambda y: y[1], reverse=True)
     for publishers_by_type, publishers_by_country, publishers_quarterly_, activities_by_country, activities_by_region in zip_longest(
             sort_second(publishers_by['type'].items()),
             sort_second(publishers_by['country'].items()),

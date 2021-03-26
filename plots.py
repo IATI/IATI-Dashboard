@@ -30,6 +30,7 @@ failed_downloads = csv.reader(open('data/downloads/history.csv'))
 
 gitaggregate_publisher = data.JSONDir('./stats-calculated/gitaggregate-publisher-dated')
 
+
 class AugmentedJSONDir(data.JSONDir):
     def __getitem__(self, key):
         if key == 'failed_downloads':
@@ -95,8 +96,8 @@ def make_plot(stat_path, git_stats, img_prefix=''):
             fig_legend.set_size_inches(600.0 / dpi, 300.0 / dpi)
         else:
             fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
-            fig_legend.set_size_inches(600.0/dpi, 100.0/dpi)
-        fig_legend.savefig('out/{0}{1}{2}_legend.png'.format(img_prefix,stat_name,stat_path[2]))
+            fig_legend.set_size_inches(600.0 / dpi, 100.0 / dpi)
+        fig_legend.savefig('out/{0}{1}{2}_legend.png'.format(img_prefix, stat_name, stat_path[2]))
     else:
         keys = None
         ax.plot(x_values, y_values)

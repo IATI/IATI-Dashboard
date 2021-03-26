@@ -8,7 +8,6 @@ import re
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
-app = Flask(__name__)
 
 import pytz
 import licenses
@@ -20,6 +19,8 @@ from dateutil import parser
 print('Doing initial data import')
 from data import *
 print('Initial data import finished')
+
+app = Flask(__name__)
 
 
 def dictinvert(d):
@@ -44,26 +45,26 @@ def dataset_to_publisher(publisher_slug):
 
 
 def firstint(s):
-    if s[0].startswith('<'): return 0
-    m = re.search('\d+', s[0])
+    if s[0].startswith('<'):
+        return 0
+    m = re.search(r'\d+', s[0])
     return int(m.group(0))
 
 
 def xpath_to_url(path):
     path = path.strip('./')
     if path.startswith('iati-activity'):
-        return 'http://iatistandard.org/activity-standard/iati-activities/'+path.split('@')[0]
+        return 'http://iatistandard.org/activity-standard/iati-activities/' + path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        return 'http://iatistandard.org/organisation-standard/iati-organisations/'+path.split('@')[0]
+        return 'http://iatistandard.org/organisation-standard/iati-organisations/' + path.split('@')[0]
     else:
-        return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/'+path.split('@')[0]
+        return 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
 
 
 def registration_agency(orgid):
     for code in codelist_sets['2']['OrganisationRegistrationAgency']:
         if orgid.startswith(code):
             return code
-
 
 
 def get_codelist_values(codelist_values_for_element):
@@ -74,6 +75,7 @@ def get_codelist_values(codelist_values_for_element):
               current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
     """
     return list(set([y for x in codelist_values_for_element.items() for y in list(x[1])]))
+
 
 # Store data processing times
 date_time_data_obj = parser.parse(metadata['created_at'])
@@ -100,7 +102,7 @@ app.jinja_env.globals['page_leads'] = text.page_leads
 app.jinja_env.globals['page_sub_leads'] = text.page_sub_leads
 app.jinja_env.globals['top_navigation'] = text.top_navigation
 app.jinja_env.globals['navigation'] = text.navigation
-app.jinja_env.globals['navigation_reverse'] = {page: k for k, pages in text.navigation.items() for page in pages }
+app.jinja_env.globals['navigation_reverse'] = {page: k for k, pages in text.navigation.items() for page in pages}
 app.jinja_env.globals['navigation_reverse'].update({k: k for k in text.navigation})
 app.jinja_env.globals['current_stats'] = current_stats
 app.jinja_env.globals['ckan'] = ckan
@@ -159,6 +161,7 @@ def basic_page(page_name):
 def download_errors_json():
     return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
 
+
 app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
 app.add_url_rule('/licenses.html', 'licenses', licenses.main)
 app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
@@ -170,14 +173,14 @@ def publisher(publisher):
     budget_table = [{
                     'year': 'Total',
                     'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
-                    'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
+                    'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency, sums in by_currency.items()},
                     'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
                     'sum_original': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
                     'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
                     'sum_revised': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
                     }] + [{'year': year,
                            'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
-                           'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency,sums in by_currency.items()},
+                           'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency, sums in by_currency.items()},
                            'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
                            'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
                            'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
@@ -201,7 +204,7 @@ def codelist(major_version, slug):
     return render_template('codelist.html',
                            element=element,
                            values=values,
-                           reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items() },
+                           reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()},
                            url=lambda x: '../../' + x,
                            major_version=major_version,
                            page='codelists')

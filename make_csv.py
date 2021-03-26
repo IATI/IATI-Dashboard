@@ -3,7 +3,6 @@
 import csv
 import os
 import data
-from collections import OrderedDict
 
 publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in data.ckan_publishers.items()}
 
@@ -28,6 +27,7 @@ def publisher_dicts():
             'Hierarchies (count)': len(publisher_stats['hierarchies']),
             'Hierarchies': ';'.join(publisher_stats['hierarchies']),
         }
+
 
 with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
     writer = csv.DictWriter(fp, [
@@ -66,7 +66,7 @@ with open(os.path.join('out', 'elements_total.csv'), 'w') as fp:
         writer.writerow(publisher_dict)
 
 with open(os.path.join('out', 'registry.csv'), 'w') as fp:
-    keys = ['name', 'title', 'publisher_frequency', 'publisher_frequency_select', 'publisher_implementation_schedule', 'publisher_ui', 'publisher_field_exclusions', 'publisher_contact', 'image_url', 'display_name', 'publisher_iati_id', 'publisher_units', 'publisher_record_exclusions', 'publisher_data_quality', 'publisher_country', 'publisher_description',  'publisher_refs', 'publisher_thresholds' 'publisher_agencies', 'publisher_constraints', 'publisher_organization_type', 'publisher_segmentation', 'license_id', 'state', 'publisher_timeliness']
+    keys = ['name', 'title', 'publisher_frequency', 'publisher_frequency_select', 'publisher_implementation_schedule', 'publisher_ui', 'publisher_field_exclusions', 'publisher_contact', 'image_url', 'display_name', 'publisher_iati_id', 'publisher_units', 'publisher_record_exclusions', 'publisher_data_quality', 'publisher_country', 'publisher_description', 'publisher_refs', 'publisher_thresholds' 'publisher_agencies', 'publisher_constraints', 'publisher_organization_type', 'publisher_segmentation', 'license_id', 'state', 'publisher_timeliness']
     writer = csv.DictWriter(fp, keys)
     writer.writeheader()
     for publisher_json in data.ckan_publishers.values():
