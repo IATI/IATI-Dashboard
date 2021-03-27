@@ -73,7 +73,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     if type(stat_path) == tuple:
         y_values = [dict((k, v) for k, v in y.items() if stat_path[1](k)) for x, y in items]
     else:
-        y_values = [y for x, y in items]
+        y_values = [float(y) for x, y in items]
 
     # years    = mdates.YearLocator()   # every year
     # months   = mdates.MonthLocator()  # every month
@@ -84,6 +84,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     fig_legend = plt.figure()
     dpi = 96
     fig.set_size_inches(600.0 / dpi, 600.0 / dpi)
+
     if type(y_values[0]) == dict:
         keys = set([tm for y in y_values for tm in y.keys()])
         plots = {}
