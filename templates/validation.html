@@ -19,6 +19,7 @@
 
         <h3>List of files that fail validation, grouped by publisher</h3>
 
+    {% if current_stats.inverted_file_grouped.validation.fail %}
     {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
         <div class="panel panel-default">
           <!-- Default panel contents -->
@@ -51,8 +52,12 @@
           </ul>
         </div>
     {% endfor%}
+    {% else %}
+    <p>There are no files that fail validation.</p>
+    {% endif %}
     </div>
 
+    {% if current_stats.inverted_file_grouped.validation.fail %}
     <div class="col-md-6">
 
       <h3>Count of files that fail validation, per publisher.</h3>
@@ -69,10 +74,11 @@
               <td><a href="#list_{{publisher}}">{{publisher_name[publisher]}}</a></td>
               <td>{{datasets|length}}</td>
             </tr>
-            {% endfor%}
+            {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
+    {% endif %}
     </div>
 {% endblock %}
