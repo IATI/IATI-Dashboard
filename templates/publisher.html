@@ -343,7 +343,7 @@
             <tr>
             {% with element_i=element_list.index(element) %}
                 <td><a href="{{url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i]))}}">{{element}}</a></td>
-                <td><a href="https://iatistandard.org/codelists/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
+                <td><a href="https://codelists.codeforiati.org/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
                 {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
                     <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{element}}" data-content="{% for code in codes %}<code>{{code}}</code> {% endfor %}">{{codes|count}}</a>
