@@ -27,23 +27,17 @@ done > ../history.csv
 echo "cloned and checked out download errors"
 cd ../../../
 
-cd data
-
 # Get codelists for versions v1.x and v2.x of the IATI Standard
+rm -rf data/IATI-Codelists-1
 echo "cloning Codelists-1"
-rm -rf IATI-Codelists-1
-git clone --branch version-1.05 https://github.com/IATI/IATI-Codelists.git IATI-Codelists-1
-cd IATI-Codelists-1
+git clone --branch version-1.05 https://github.com/IATI/IATI-Codelists.git data/IATI-Codelists-1
+cd data/IATI-Codelists-1
 echo "running gen.sh for Codelist-1"
 ./gen.sh
-cd ..
+cd ../..
 
-echo "cloning Codelists-2"
-rm -rf IATI-Codelists-2
-git clone --branch version-2.03 https://github.com/andylolz/IATI-Codelists.git IATI-Codelists-2
-cd IATI-Codelists-2
-echo "running gen.sh for Codelist-2"
-./gen.sh
-cd ..
+echo "Fetching Codelists-2"
+rm -rf data/IATI-Codelists-2
+python fetch_v2_codelists.py
 
 echo "completed fetching data"
