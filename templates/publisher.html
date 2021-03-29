@@ -19,7 +19,7 @@
                 <li><a href="#h_headlines">Headlines</a>
                 <li><a href="#h_dataquality">Data Quality</a>
                     <ul>
-                        {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+                        {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
                         <li><a href="#p_validation">Files Failing Validation</a>
                         {% endif %}
                         {% if 1 in publisher_inverted.invalidxml.values() %}
@@ -111,8 +111,8 @@
             </tr><tr>
                 <td>Files failing validation</td>
                 <td>
-                {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
-                    {{current_stats.inverted_file_grouped.validation.fail[publisher]|length}}
+                {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
+                    {{ current_stats.inverted_file_publisher[publisher].validation.fail|length }}
                 {% else %}
                     0
                 {% endif %}
@@ -142,7 +142,7 @@
 
     <h2 id="h_dataquality">Data Quality</h2>
 
-    {% if publisher in current_stats.inverted_file_grouped.validation.fail %}
+    {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default" id="p_validation">
@@ -154,8 +154,8 @@
 
               <!-- List group -->
               <ul class="list-group">
-                {% for dataset in current_stats.inverted_file_grouped.validation.fail[publisher] %}
-                {% with dataset_name=dataset[:-4] %}
+                {% for dataset in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
+                {% with dataset_name = dataset[:-4] %}
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4 break">

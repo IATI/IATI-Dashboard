@@ -5,8 +5,6 @@ import re
 import csv
 from decimal import Decimal
 
-publisher_re = re.compile(r'(.*)\-[^\-]')
-
 
 # Modified from:
 #   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
@@ -22,51 +20,6 @@ def memoize(f):
             self.__cache[key] = res
         return res
     return wrapper
-
-
-class GroupFiles(MutableMapping):
-    def __init__(self, inputdict):
-        self.inputdict = inputdict
-        self.cache = {}
-
-    def __getitem__(self, key):
-        if key in self.cache:
-            return self.cache[key]
-        self.inputdict[key]
-        out = OrderedDict()
-        for k2, v2 in self.inputdict[key].items():
-            if type(v2) == OrderedDict:
-                out[k2] = OrderedDict()
-                for listitem, v3 in v2.items():
-                    m = publisher_re.match(listitem)
-                    if m:
-                        publisher = m.group(1)
-                        if publisher not in out[k2]:
-                            out[k2][publisher] = OrderedDict()
-                        out[k2][publisher][listitem] = v3
-                    else:
-                        pass
-                        # FIXME
-            else:
-                out[k2] = v2
-
-        self.cache[key] = out
-        return out
-
-    def __len__(self):
-        return len(self.inputdict)
-
-    def __iter__(self):
-        return iter(self.inputdict)
-
-    def __delitem__(self, key):
-        try:
-            del self.inputdict[key]
-        except KeyError:
-            pass
-
-    def __setitem__(self, key, value):
-        super(GroupFiles, self).__setitem__(key, value)
 
 
 class JSONDir(MutableMapping):
@@ -224,9 +177,9 @@ current_stats = {
     'aggregated_file': JSONDir('./stats-calculated/current/aggregated-file'),
     'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
     'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
+    'inverted_file_publisher': JSONDir('./stats-calculated/current/inverted-file-publisher'),
     'download_errors': []
 }
-current_stats['inverted_file_grouped'] = GroupFiles(current_stats['inverted_file'])
 ckan_publishers = JSONDir('./data/ckan_publishers')
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 metadata = json.load(open('./stats-calculated/metadata.json'), object_pairs_hook=OrderedDict)

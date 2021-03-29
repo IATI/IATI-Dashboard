@@ -227,11 +227,9 @@ def element(slug):
     i = slugs['element']['by_slug'][slug]
     element = list(current_stats['inverted_publisher']['elements'])[i]
     publishers = list(current_stats['inverted_publisher']['elements'].values())[i]
-    file_grouped = list(current_stats['inverted_file_grouped']['elements'].values())[i]
     return render_template('element.html',
                            element=element,
                            publishers=publishers,
-                           file_grouped=file_grouped,
                            url=lambda x: '../' + x,
                            page='elements')
 

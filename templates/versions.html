@@ -31,15 +31,15 @@
                 <td>Files</td>
           </thead>
           <tbody>
-            {% if 'true' in current_stats.inverted_file_grouped.version_mismatch %}
-            {% for publisher,files in current_stats.inverted_file_grouped.version_mismatch.true.items() %}
-                <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher_name[publisher]}}</a></td><td>
-                {% for file in files %}
-                    <a href="http://iatiregistry.org/dataset/{{file[:-4]}}">{{file[:-4]}}</a>
+            {% for publisher in current_stats.inverted_file_publisher %}
+              {% if current_stats.inverted_file_publisher[publisher].version_mismatch.true %}
+                <tr><td id="files_{{ publisher }}"><a href="{{ url('publisher/{0}.html'.format(publisher)) }}">{{ publisher_name[publisher] }}</a></td><td>
+                {% for file in current_stats.inverted_file_publisher[publisher].version_mismatch.true.keys() %}
+                    <a href="http://iatiregistry.org/dataset/{{ file[:-4] }}">{{ file[:-4] }}</a>
                 {% endfor %}
                 </td></tr>
+              {% endif %}
             {% endfor %}
-            {% endif %}
           </tbody>
         </table>
       </div>

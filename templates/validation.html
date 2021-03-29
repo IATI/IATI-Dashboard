@@ -19,11 +19,12 @@
 
         <h3>List of files that fail validation, grouped by publisher</h3>
 
-    {% if current_stats.inverted_file_grouped.validation.fail %}
-    {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
+    {% for publisher in current_stats.inverted_file_publisher %}
+        {% if 'fail' in current_stats.inverted_file_publisher[publisher].validation %}
+        {% with datasets = current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><a href="publisher/{{publisher}}.html" id="list_{{publisher}}">{{publisher_name[publisher]}}</a> ({{datasets|length}})</div>
+          <div class="panel-heading"><a href="publisher/{{ publisher }}.html" id="list_{{ publisher }}">{{ publisher_name[publisher ]}}</a> ({{ datasets|length }})</div>
           <!--<div class="panel-body">
             <p>...</p>
           </div>-->
@@ -53,13 +54,11 @@
             {% endfor %}
           </ul>
         </div>
-    {% endfor%}
-    {% else %}
-    <p>There are no files that fail validation.</p>
-    {% endif %}
+        {% endwith %}
+        {% endif %}
+    {% endfor %}
     </div>
 
-    {% if current_stats.inverted_file_grouped.validation.fail %}
     <div class="col-md-6">
 
       <h3>Count of files that fail validation, per publisher.</h3>
@@ -71,16 +70,17 @@
             <th>Failing files <a href="{{stats_url}}/current/inverted-file/validation.json">(J)</a></th>
           </tr></thead>
           <tbody>
-            {% for publisher,datasets in current_stats.inverted_file_grouped.validation.fail.items() %}
-            <tr>
-              <td><a href="#list_{{publisher}}">{{publisher_name[publisher]}}</a></td>
-              <td>{{datasets|length}}</td>
-            </tr>
+            {% for publisher in current_stats.inverted_file_publisher %}
+              {% if 'fail' in current_stats.inverted_file_publisher[publisher].validation %}
+              <tr>
+                <td><a href="#list_{{ publisher }}">{{ publisher_name[publisher ]}}</a></td>
+                <td>{{ current_stats.inverted_file_publisher[publisher].validation.fail|length }}</td>
+              </tr>
+              {% endif %}
             {% endfor %}
           </tbody>
         </table>
       </div>
     </div>
-    {% endif %}
     </div>
 {% endblock %}

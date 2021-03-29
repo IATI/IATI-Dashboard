@@ -94,12 +94,16 @@
                 <td>Files</td>
           </thead>
           <tbody>
-            {% for publisher, files in file_grouped.items() %}
+            {% for publisher in current_stats.inverted_file_publisher %}
+              {% if element in current_stats.inverted_file_publisher[publisher].elements %}
+              {% with files = current_stats.inverted_file_publisher[publisher].elements[element].keys() %}
                 <tr><td id="files_{{publisher}}"><a href="{{url('publisher/{0}.html'.format(publisher))}}">{{publisher}}</a></td><td>
                 {% for file in files %}
                     <a href="http://iatiregistry.org/dataset/{{file[:-4]}}">{{file[:-4]}}</a>
                 {% endfor %}
                 </td></tr>
+              {% endwith %}
+              {% endif %}
             {% endfor %}
           </tbody>
         </table>
