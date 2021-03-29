@@ -38,4 +38,4 @@ for mapping_url in mapping_urls:
     mappings += mapping_to_json(doc)
 
 with open(join('data', 'IATI-Codelists-2', 'out', 'clv2', 'mapping.json'), 'w') as f:
-    json.dump(mappings, f)
+    json.dump(sorted(mappings, key=lambda x: x['path']), f)
