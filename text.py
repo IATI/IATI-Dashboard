@@ -9,11 +9,11 @@ top_titles = {
 }
 
 page_titles = {
-    'index': 'IATI Dashboard',
+    'index': 'Code for IATI Dashboard',
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
-    'faq': 'IATI Dashboard Frequently Asked Questions',
+    'faq': 'Code for IATI Dashboard Frequently Asked Questions',
     'publishers': 'IATI Publishers',
     'files': 'IATI Files',
     'activities': 'IATI Activities',
@@ -42,7 +42,7 @@ page_titles = {
 }
 
 page_leads = {
-    'index': 'The IATI Dashboard provides statistics, charts and metrics on data accessed via the IATI Registry.',
+    'index': 'The Code for IATI Dashboard provides statistics, charts and metrics on data accessed via the IATI Registry.',
     'data_quality': 'What needs fixing in IATI data?',
     'exploring_data': 'Which parts of the IATI Standard are being used?',
     'headlines': 'What is the size, scope and scale of published IATI data?',
