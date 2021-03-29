@@ -29,8 +29,8 @@
       {% for item in (top_navigation if page=='index' else navigation[navigation_reverse[page]]) %}
         {% if item!='index' %}
           <li class="list-group-item">
-          <h4><{% if item=="publishing_stats" %}a href="{{pubstats_url}}"{% else %}a href="{{url(item+'.html')}}"{%endif%}>{{page_titles[item]}}</a></h4>
-          <p>{{page_leads[item]|safe}}</p>
+          <h4><a href="{{ url(item+'.html') }}">{{ page_titles[item] }}</a></h4>
+          <p>{{ page_leads[item]|safe }}</p>
           </li>
         {% endif %}
       {% endfor %}
