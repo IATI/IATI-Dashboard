@@ -198,10 +198,12 @@ def publisher(publisher):
                            'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
                            } for year in sorted(set(sum((list(x.keys()) for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
                           ]
+    failure_count = len(current_stats['inverted_file_publisher'][publisher]['validation'].get('fail', {}))
     return render_template('publisher.html',
                            url=lambda x: '../' + x,
                            publisher=publisher,
                            publisher_stats=publisher_stats,
+                           failure_count=failure_count,
                            publisher_inverted=get_publisher_stats(publisher, 'inverted-file'),
                            publisher_licenses=licenses.licenses_for_publisher(publisher),
                            budget_table=budget_table,)

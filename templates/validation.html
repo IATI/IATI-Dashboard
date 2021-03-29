@@ -20,8 +20,7 @@
         <h3>List of files that fail validation, grouped by publisher</h3>
 
     {% for publisher in current_stats.inverted_file_publisher %}
-        {% if 'fail' in current_stats.inverted_file_publisher[publisher].validation %}
-        {% with datasets = current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
+        {% with datasets = current_stats.inverted_file_publisher[publisher].validation.get('fail', {}) %}
         <div class="panel panel-default">
           <!-- Default panel contents -->
           <div class="panel-heading"><a href="publisher/{{ publisher }}.html" id="list_{{ publisher }}">{{ publisher_name[publisher ]}}</a> ({{ datasets|length }})</div>
@@ -31,7 +30,7 @@
 
           <!-- List group -->
           <ul class="list-group">
-            {% for dataset in datasets %}
+            {% for dataset in datasets.keys() %}
             {% with dataset_name=dataset[:-4] %}
             <li class="list-group-item">
               <div class="row">
@@ -55,7 +54,6 @@
           </ul>
         </div>
         {% endwith %}
-        {% endif %}
     {% endfor %}
     </div>
 

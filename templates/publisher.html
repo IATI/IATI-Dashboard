@@ -19,7 +19,7 @@
                 <li><a href="#h_headlines">Headlines</a>
                 <li><a href="#h_dataquality">Data Quality</a>
                     <ul>
-                        {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
+                        {% if failure_count > 0 %}
                         <li><a href="#p_validation">Files Failing Validation</a>
                         {% endif %}
                         {% if 1 in publisher_inverted.invalidxml.values() %}
@@ -111,11 +111,7 @@
             </tr><tr>
                 <td>Files failing validation</td>
                 <td>
-                {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
-                    {{ current_stats.inverted_file_publisher[publisher].validation.fail|length }}
-                {% else %}
-                    0
-                {% endif %}
+                {{ failure_count }}
                 </td>
             </tr>
         </body>
