@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
 
     <ul class="list-inline" style="padding: 1em">
@@ -20,7 +20,7 @@
 
             <p>The statistics on this page do not form part of the <a href="summary_stats.html">Summary Statstics</a>.</p>
 
-            {% include 'tablesorter_instructions.html' %}
+            {% include '_partials/tablesorter_instructions.html' %}
         </div>
 
         <table class="table table-striped" id="main_table">

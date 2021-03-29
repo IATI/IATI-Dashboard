@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
 <div class="row">
 <div class="col-xs-12">
@@ -11,7 +11,7 @@
     </div>
     <div class="panel-body">
       <p>List of Publishers where the reporting-org element does not match the reporting-org field in the IATI Registry.</p>
-      {% include 'tablesorter_instructions.html' %}
+      {% include '_partials/tablesorter_instructions.html' %}
     </div>
     <table class="table table-striped">
       <thead><tr>

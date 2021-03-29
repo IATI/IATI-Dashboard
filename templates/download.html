@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
       {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png',
@@ -15,7 +15,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
               <p>List of files that fail to download.</p>
-              {% include 'tablesorter_instructions.html' %}
+              {% include '_partials/tablesorter_instructions.html' %}
           </div>
           <table class="table table-striped">
             <thead>

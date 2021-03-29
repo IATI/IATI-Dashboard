@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
     <div class="col-md-6">
@@ -25,7 +25,7 @@
             <li>Total - Count of total instances in which this element is used, across all publishers.</li>
             </ul>
             </p>
-            {% include 'tablesorter_instructions.html' %}
+            {% include '_partials/tablesorter_instructions.html' %}
           </div>
           <table class="table table-striped">
             <thead><tr>

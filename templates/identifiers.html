@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
@@ -15,7 +15,7 @@
             Instances of duplicate identifiers: the total number of activities that contain a duplicate <code>iati-identifier</code>, within a publisher dataset.
             Example: two identifiers could be found as having duplicates.  Across the dataset, these duplicates could account for 200 activities.
           </p>
-          {% include 'tablesorter_instructions.html' %}
+          {% include '_partials/tablesorter_instructions.html' %}
         </div>
         <table class="table table-striped">
           <thead><tr>

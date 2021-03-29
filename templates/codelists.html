@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
         <p>Count of the different values used by all publishers, per codelist.</p>
         <p>Note: some Elements/Attributes may use the same codelist.  In each case, the values counted are different for each use.</p>
-        {% include 'tablesorter_instructions.html' %}
+        {% include '_partials/tablesorter_instructions.html' %}
 
         {% for major_version in MAJOR_VERSIONS %}
         <div class="panel panel-default">

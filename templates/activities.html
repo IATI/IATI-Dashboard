@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
       {{boxes.box('Total activities', current_stats.aggregated.activities, 'activities.png', 'activities.json',

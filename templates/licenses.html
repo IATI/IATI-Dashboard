@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
         <div class="panel panel-default">
           <div class="panel-body">
             <p>Count of publishers per licences in use on the IATI Registry.</p>
-            {% include 'tablesorter_instructions.html' %}
+            {% include '_partials/tablesorter_instructions.html' %}
           </div>
           <table class="table table-striped">
             <thead>
