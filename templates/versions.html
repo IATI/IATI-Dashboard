@@ -33,11 +33,13 @@
           <tbody>
             {% for publisher in current_stats.inverted_file_publisher %}
               {% with datasets = current_stats.inverted_file_publisher[publisher].version_mismatch.get('true', {}) %}
+                {% if datasets %}
                 <tr><td id="files_{{ publisher }}"><a href="{{ url('publisher/{0}.html'.format(publisher)) }}">{{ publisher_name[publisher] }}</a></td><td>
                 {% for dataset in datasets.keys() %}
                     <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
                 {% endfor %}
                 </td></tr>
+                {% endif %}
               {% endwith %}
             {% endfor %}
           </tbody>
