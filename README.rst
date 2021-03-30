@@ -2,7 +2,7 @@ Code for IATI Dashboard
 =======================
 
 .. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
-    :target: https://github.com/codeforIATI/IATI-Dashboard/blob/main/LICENSE.md
+    :target: https://github.com/codeforIATI/dashboard/blob/main/LICENSE.md
 
 Introduction
 ------------
@@ -53,8 +53,8 @@ To install:
 .. code-block:: bash
 
     ## Get the code
-    git clone https://github.com/codeforIATI/IATI-Dashboard.git
-    cd IATI-Dashboard
+    git clone https://github.com/codeforIATI/dashboard.git
+    cd dashboard
 
     ## Set up a virtual environment (recommended)
     # Create a virtual environment
