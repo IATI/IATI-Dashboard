@@ -1,4 +1,5 @@
 {% macro box(title, number, image, json, legend, folderextra, description) %}
+      {% if path_exists(image) %}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -14,11 +15,12 @@
           </div>
           <div class="panel-body">
             <p>{{description|safe}}</p>
-            <img src="{{image}}" width="100%" />
+            <img src="{{ image }}" width="100%" />
             {% if legend %}
-            <img src="{{legend}}" width="100%" />
+            <img src="{{ legend }}" width="100%" />
             {% endif %}
           </div>
         </div>
       </div>
+      {% endif %}
 {% endmacro %}

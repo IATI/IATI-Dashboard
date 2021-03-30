@@ -35,6 +35,10 @@ print('Initial data import finished')
 app = Flask(__name__)
 
 
+def path_exists(path):
+    return os.path.exists(os.path.join('out', path))
+
+
 def dictinvert(d):
     inv = defaultdict(list)
     for k, v in d.items():
@@ -104,6 +108,7 @@ app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%Y-%m-%d %
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
 app.jinja_env.globals['stats_url'] = 'https://dashboard-stats.codeforiati.org'
 app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats/tree/gh-pages'
+app.jinja_env.globals['path_exists'] = path_exists
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
 app.jinja_env.globals['top_titles'] = text.top_titles
