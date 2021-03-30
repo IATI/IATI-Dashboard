@@ -1,5 +1,4 @@
 {% macro box(title, number, image, json, legend, folderextra, description) %}
-      {% if path_exists(image) %}
       <div class="col-md-6">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -11,8 +10,9 @@
             {% if json %}
             <!-- <a href="{{stats_url}}/gitaggregate{{folderextra}}-dated/{{json}}" style="float:right">(J)</a> -->
             {% endif %}
-            <br clear="all"/>
+            <div class="clearfix"></div>
           </div>
+          {% if path_exists(image) %}
           <div class="panel-body">
             <p>{{description|safe}}</p>
             <img src="{{ image }}" width="100%" />
@@ -20,7 +20,7 @@
             <img src="{{ legend }}" width="100%" />
             {% endif %}
           </div>
+          {% endif %}
         </div>
       </div>
-      {% endif %}
 {% endmacro %}
