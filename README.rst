@@ -1,5 +1,5 @@
-IATI Dashboard
-==============
+Code for IATI Dashboard
+=======================
 
 .. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
     :target: https://github.com/codeforIATI/IATI-Dashboard/blob/main/LICENSE.md
@@ -7,7 +7,7 @@ IATI Dashboard
 Introduction
 ------------
 
-The IATI dashboard displays key numbers and graphs about the data on the `IATI registry <http://iatiregistry.org/>`__.
+The Code for IATI dashboard displays key numbers and graphs about the data on the `IATI registry <http://iatiregistry.org/>`__.
 
 See the Dashboard in action at https://dashboard.codeforiati.org
 
