@@ -67,6 +67,14 @@ html,body{height:100%;}
   .navbar-default {
      margin-bottom: 0px;
   }
+
+  .navbar-brand {
+    padding: 10px;
+  }
+
+  .navbar-brand img {
+    height: 30px;
+  }
   </style>
 
   {% block extrahead %}{% endblock %}
@@ -76,6 +84,7 @@ html,body{height:100%;}
   <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
       <div class="navbar-header">
+        <a href="/" class="navbar-brand"><img src="https://codeforiati.org/assets/img/logo.png" alt="Code for IATI" /></a>
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
