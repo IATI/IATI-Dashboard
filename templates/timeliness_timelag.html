@@ -1,0 +1,205 @@
+{% extends 'timeliness_base.html' %}
+{% import 'boxes.html' as boxes %}
+
+{% block timelag_li %} class="active"{% endblock %}
+
+{% block content %}
+    <div class="panel panel-default" id="h_table">
+
+        <div class="panel-heading">
+            <span class="pull-right"><a href="{{url('timeliness_timelag.csv')}}">(This table as CSV)</a></span>
+            <h3 class="panel-title">Table of Time lag assessments</h3>
+        </div>
+
+
+        <div class="panel-body">
+            <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
+
+            <p><strong>Key:</strong><br/>
+            <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
+            <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
+
+            <p>You are invited to participate in the ongoing consultation on publisher statistics and the summary statistics which is taking place on the <a href="http://discuss.iatistandard.org/c/consultations">IATI Discussion Forum.</a></p>
+
+            {% include 'tablesorter_instructions.html' %}
+        </div>
+
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid gray; vertical-align:middle;" rowspan="2">Publisher Name</td>
+                    <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
+                    <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                    <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
+                    <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray; vertical-align:middle;" rowspan="2">Time lag</td>
+                </tr>
+                <tr>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
+                    {% endfor %}
+                    <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher, publisher_title, per_month, assessment in timeliness.publisher_timelag_sorted() %}
+                <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
+                    {% endfor %}
+                    <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{per_month[timeliness.this_month] or 0}}</td>
+                    {% set hft=publisher|has_future_transactions %}
+                    <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa'}}{% endif %}" data-severity="{{hft}}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td style="border-right: 1px solid gray" data-index="{{timeliness.timelag_index(assessment)}}">{{assessment}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_summary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Summary of Publisher Performance</h3>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Frequency</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% set summary = timeliness.publisher_timelag_summary() %}
+            {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.timelag_index) %}
+                <tr>
+                    <td>{{assessment}}</td>
+                    <td>{{count}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Total</td>
+                    <td>{{summary.values()|sum}}</td>
+                </tr>
+        </table>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_narrative">
+        <div class="panel-heading">
+            <h3 class="panel-title">Narrative</h3>
+        </div>
+        <div class="panel-body">
+            <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date.</p>
+
+            <p>Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment.</p>
+
+            <p>The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="panel panel-default" id="h_assesment">
+    <div class="panel-heading">
+        <h3 class="panel-title">Assessment</h3>
+    </div>
+    <div class="panel-body">
+        <p>These statistics are assessed as follows:</p>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>Transactions reported for ...</th>
+        <th>Assessment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>2 of the last 3 months</td>
+        <td>One month in arrears</td>
+        </tr>
+        <tr>
+        <td>1 of the last 3 months</td>
+        <td>A quarter in arrears</td>
+        </tr>
+        <tr>
+        <td>Any of the last 6 months</td>
+        <td>Six months in arrears</td>
+        </tr>
+        <tr>
+        <td>1 of the last 12 months</td>
+        <td>One year in arrears</td>
+        </tr>
+        <tr>
+        <td>None of the last 12 months</td>
+        <td>More than one year in arrears</td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_exceptions">
+    <div class="panel-heading">
+        <h3 class="panel-title">Exceptions</h3>
+    </div>
+    <div class="panel-body">
+        <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
+
+        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
+
+        <p>In our further work on this dashboard page, we plan to exclude activities in which future transactions dates are reported from these assessments until such time that a publisher's entire portfolio no longer contains any future dates.</p>
+    </div>
+    </div>
+
+
+
+
+    <div class="panel panel-default" id="h_comparison">
+    <div class="panel-heading">
+        <h3 class="panel-title">Comparison with orginal Global Partnership Indicator methodology</h3>
+    </div>
+    <div class="panel-body">
+        <p>No change.</p>
+    </div>
+    </div>
+
+
+
+    <div class="panel panel-default" id="h_pseudocode">
+    <div class="panel-heading">
+        <h3 class="panel-title">Pseudocode</h3>
+    </div>
+    <div class="panel-body">
+        <p>To get a count of transactions by calendar month (for a given publisher):</p>
+<pre>
+Using most recently captured data.
+For each transaction (of any type) in the publisher's data:
+    Get the transaction date as follows:
+        If transaction-date exists
+            If transaction-date/@iso-date exists
+                Use transaction-date/@iso-date
+            Else
+                Use transaction-date/text()
+        Else if value/@value-date exists
+            Use value/@value-date
+        Else the transaction is ignored
+    Parse the start of the transaction date as an iso date (yyyy-mm-dd...).
+        If it does not match, the transaction is ignored.
+    Record a count of the transaction date against the calendar year and month
+</pre>
+    </div>
+    </div>
+{% endblock %}

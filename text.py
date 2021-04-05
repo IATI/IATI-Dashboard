@@ -94,7 +94,7 @@ short_page_titles.update({
 
 top_navigation = ['index', 'headlines', 'data_quality', 'exploring_data', 'faq']
 navigation = {
-    'headlines': ['publishers', 'files', 'activities'],
+    'headlines': [ 'publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
     'exploring_data': ['elements', 'codelists', 'booleans', 'dates'],
     'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'coverage', 'summary_stats', 'humanitarian']

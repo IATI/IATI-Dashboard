@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% import 'boxes.html' as boxes %}
+
+{% block container %}
+
+    {% block page_header_div %}
+        {{ super() }}
+    {% endblock %}
+
+    <ul class="nav nav-tabs" role="tablist">
+      <li{% block frequency_li %}{% endblock %}><a href="timeliness.html">Frequency</a></li>
+      <li{% block timelag_li %}{% endblock %}><a href="timeliness_timelag.html">Time lag</a></li>
+    </ul>
+
+    <ul class="list-inline" style="padding: 1em">
+        <li><a href="#h_table">Table</a></li>
+        <li>|</li>
+        <li><a href="#h_summary">Summary of Publisher Performance</a></li>
+        <li>|</li>
+        <li><a href="#h_narrative">Narrative</a></li>
+        <li>|</li>
+        <li><a href="#h_assesment">Assessment</a></li>
+        <li>|</li>
+        <li><a href="#h_exceptions">Exceptions</a></li>
+        <li>|</li>
+        <li><a href="#h_comparison">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li>|</li>
+        <li><a href="#h_comment">Comment</a><li>
+        <li>|</li>
+        <li><a href="#h_pseudocode">Pseudocode</a></li>
+    </ul>
+
+    {% block content %}
+    {% endblock %}
+{% endblock %}
+
+
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders'],
+    textExtraction: { 14: function(node,table,cellIndex) { return $(node).attr('data-severity'); },
+                      15: function(node,table,cellIndex) { return $(node).attr('data-index'); } }
+}
+{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}
+

@@ -1,0 +1,65 @@
+{% set tab='valueadded' %}
+{% extends 'comprehensiveness_base.html' %}
+
+
+{% block table_title %}
+Table of Value-Added values
+{% endblock %}
+
+
+{% block heading_detail %}
+	<p>This table attempts to capture the breadth, richness and usefulness of high quality IATI data. The value added elements included in this table are: Contacts, Location Details, Geographic Coordinates, DAC Sectors, Capital Spend, Activity Documents, Activity Website, Conditions Attached, and Result/Indicator.</p>
+
+	<p>This table shows the percentage of current activities where these value added elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.)</p>
+
+	<p><strong>Key:</strong><br/>
+        Dashes (all fields except recipient language): Where a publisher has published to IATI in the past but whose portfolio contains no current activities.<br/>
+        Dashes (recipient language field): Where a publisher has no current activites targetted at only one recipient country.
+    </p>
+{% endblock %}
+
+
+{% block narrative_text %}
+	<h5>Contacts</h5>
+	<p>The percentage of all current activities that contain at least one contact email address.</p>
+
+	<h5>Location Details</h5>
+	<p>The percentage of all current activities that contain at least one location name, location description, administrative area, or coordinates.</p>
+
+	<h5>Geographic Coordinates</h5>
+	<p>The importance of geocoded data is the reason why coordinates are assessed in addition to basic location details. The percentage of all current activities that contain at least one set of geographic coordinates.</p>
+
+	<h5>DAC Sectors</h5>
+	<p>Sector is a mandatory element and is assessed in the Core component. While it is not mandatory for publishers to utilise OECD DAC Sector/Purpose codes it is highly recommended that they do so as these codes are in widespread use and allow for comparison across activities. The percentage of all current activities that contain at least 1 valid DAC-CRS purpose code.</p>
+
+	<h5>Capital Spend</h5>
+	<p>For sustainable planning it is useful for developing countries to know how project funding is split between capital and recurrent expenditure. The percentage of all current activities that contain a capital spend percentage. (N.B. that 0% is a valid entry.)</p>
+
+	<h5>Activity Documents</h5>
+	<p>The percentage of all current activities that contain at least 1 document link.</p>
+
+	<h5>Aid Type</h5>
+	<p>The percentage of all current activities that contain details of the type of aid being supplied. This can be done at activity level using <code>default-aid-type</code>, or at transaction level using <code>aid-type</code>.</p>
+
+	<h5>Recipient Language</h5>
+	<p>The percentage of activities targeted at only one <code>recipient-country</code> that contain <code>title</code> and <code>description</code> elements with at least one of the official languages spoken in that country.  These calculations are based on a <a href="https://github.com/IATI/IATI-Stats/blob/master/helpers/transparency_indicator/country_lang_map.csv">list of official languages within each country</a>.</p>
+
+	<h5>Result/Indicator</h5>
+	<p>The percentage of all current activities that contain at least one validly reported results indicator.</p>
+{% endblock %}
+
+
+{% block assessment_text %}
+	<p>Only elements containing valid data are counted. Where applicable a total including invalid data is provided in parentheses.</p>
+{% endblock %}
+
+
+{% block exceptions_text %}
+	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date. Publisher rows containing dashes indicate that no current activities are published.</p>
+{% endblock %}
+
+
+{% block table_test_methodology_core %}
+{% endblock %}
+{% block table_test_methodology_financials %}
+{% endblock %}
