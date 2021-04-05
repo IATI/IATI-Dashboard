@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
 
     <ul class="list-inline" style="padding: 1em">
@@ -24,7 +24,7 @@
 
             <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensive} ) / 3 &nbsp;</p>
 
-            {% include 'tablesorter_instructions.html' %}
+            {% include '_partials/tablesorter_instructions.html' %}
         </div>
 
         <table class="table table-striped" id="main_table">

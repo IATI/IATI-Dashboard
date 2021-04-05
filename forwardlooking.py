@@ -7,7 +7,7 @@ import datetime
 this_year = datetime.date.today().year
 
 # Create a list containing three years: the current year and two following
-years = map(str, range(this_year, this_year + 3))
+years = list(map(str, range(this_year, this_year + 3)))
 
 # Set column groupings, to be displayed in the user output
 column_headers = [
@@ -15,6 +15,7 @@ column_headers = [
     'Current activities with budgets for each year',
     'Percentage of current activities with budgets'
 ]
+
 
 def generate_row(publisher):
     """Generate forward-looking table data for a given publisher
@@ -27,7 +28,7 @@ def generate_row(publisher):
     row = {}
     row['publisher'] = publisher
     row['publisher_title'] = publisher_name[publisher]
-    row['year_columns'] = [{},{},{}]
+    row['year_columns'] = [{}, {}, {}]
     row['budget_not_provided'] = False
     # Work with hierarchies
     by_hierarchy = publisher_stats['by_hierarchy']
@@ -66,7 +67,7 @@ def generate_row(publisher):
             if not int(row['year_columns'][0][year]):
                 row['year_columns'][2][year] = '-'
             else:
-                row['year_columns'][2][year] = int(round(float(row['year_columns'][1][year])/float(row['year_columns'][0][year])*100))
+                row['year_columns'][2][year] = int(round(float(row['year_columns'][1][year]) / float(row['year_columns'][0][year]) * 100))
         else:
             # Else if either 'forwardlooking_activities_current' or 'forwardlooking_activities_with_budgets' are not in the bottom hierarchy, set data zero
             # This should only occur if a publisher has 0 activities

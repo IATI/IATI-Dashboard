@@ -75,16 +75,17 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 
 # Timeliness CSV files (frequency and timelag)
 import timeliness
+
 previous_months = timeliness.previous_months_reversed
 
 for fname, f, assessment_label in (
     ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Frequency'),
     ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Time lag')
-    ):
+):
     with open(os.path.join('out', fname), 'w') as fp:
         writer = csv.writer(fp)
         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
-        for publisher, publisher_title, per_month,assessment in f():
+        for publisher, publisher_title, per_month, assessment in f():
             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
 
@@ -93,9 +94,9 @@ import forwardlooking
 
 with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
     writer = csv.writer(fp)
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [ '{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + ['{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
     for row in forwardlooking.table():
-        writer.writerow([row['publisher_title'], row['publisher']] + [ year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
+        writer.writerow([row['publisher_title'], row['publisher']] + [year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
 
 
 # Comprehensiveness CSV files ('summary', 'core', 'financials' and 'valueadded')
@@ -104,49 +105,45 @@ import comprehensiveness
 for tab in comprehensiveness.columns.keys():
     with open(os.path.join('out', 'comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
         writer = csv.writer(fp)
-        writer.writerow(['Publisher Name', 'Publisher Registry Id'] +
-                [ x+' (with valid data)' for x in comprehensiveness.column_headers[tab] ] +
-                [ x+' (with any data)' for x in comprehensiveness.column_headers[tab] ])
+        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [x + ' (with valid data)' for x in comprehensiveness.column_headers[tab]] + [x + ' (with any data)' for x in comprehensiveness.column_headers[tab]])
         for row in comprehensiveness.table():
-            writer.writerow([row['publisher_title'], row['publisher']]
-                    + [ row[slug+'_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab] ]
-                    + [ row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab] ])
+            writer.writerow([row['publisher_title'], row['publisher']] + [row[slug + '_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] + [row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]])
 
 
-# Coverage CSV file
-import coverage
+# # Coverage CSV file
+# import coverage
 
-with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
-    writer = csv.writer(fp)
-    # Add column headers
-    writer.writerow([
-        'Publisher Name',
-        'Publisher Registry Id',
-        '2014 IATI Spend (US $m)',
-        '2015 IATI Spend (US $m)',
-        '2014 Reference Spend (US $m)',
-        '2015 Reference Spend (US $m)',
-        '2015 Official Forecast (US $m)',
-        'Spend Ratio (%)',
-        'No reference data available (Historic publishers)',
-        'No reference data available (New publishers)',
-        'Data quality issue reported'
-    ])
-    for row in coverage.table():
-        # Write each row
-        writer.writerow([
-            row['publisher_title'],
-            row['publisher'],
-            row['iati_spend_2014'],
-            row['iati_spend_2015'],
-            row['reference_spend_2014'],
-            row['reference_spend_2015'],
-            row['official_forecast_2015'],
-            row['spend_ratio'],
-            row['no_data_flag_red'],
-            row['no_data_flag_amber'],
-            row['spend_data_error_reported_flag']
-        ])
+# with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
+#     writer = csv.writer(fp)
+#     # Add column headers
+#     writer.writerow([
+#         'Publisher Name',
+#         'Publisher Registry Id',
+#         '2014 IATI Spend (US $m)',
+#         '2015 IATI Spend (US $m)',
+#         '2014 Reference Spend (US $m)',
+#         '2015 Reference Spend (US $m)',
+#         '2015 Official Forecast (US $m)',
+#         'Spend Ratio (%)',
+#         'No reference data available (Historic publishers)',
+#         'No reference data available (New publishers)',
+#         'Data quality issue reported'
+#     ])
+#     for row in coverage.table():
+#         # Write each row
+#         writer.writerow([
+#             row['publisher_title'],
+#             row['publisher'],
+#             row['iati_spend_2014'],
+#             row['iati_spend_2015'],
+#             row['reference_spend_2014'],
+#             row['reference_spend_2015'],
+#             row['official_forecast_2015'],
+#             row['spend_ratio'],
+#             row['no_data_flag_red'],
+#             row['no_data_flag_amber'],
+#             row['spend_data_error_reported_flag']
+#         ])
 
 
 # Summary Stats CSV file

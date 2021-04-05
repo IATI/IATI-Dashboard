@@ -15,7 +15,7 @@ columns = [
     ('forwardlooking', 'Forward looking'),
     ('comprehensive', 'Comprehensive'),
     ('score', 'Score')
-    ]
+]
 
 
 def is_number(s):
@@ -26,6 +26,7 @@ def is_number(s):
         return True
     except ValueError:
         return False
+
 
 def convert_to_int(x):
     """ @todo Document this function
@@ -73,7 +74,7 @@ def table():
             frequency_score = 2
         elif frequency_assessment == 'Annual':
             frequency_score = 1
-        else: # frequency_assessment == 'Less than Annual' or something else!
+        else:  # frequency_assessment == 'Less than Annual' or something else!
             frequency_score = 0
 
         # Assign timelag score
@@ -88,23 +89,21 @@ def table():
             timelag_score = 2
         elif timelag_assessment == 'One year':
             timelag_score = 1
-        else: # timelag_assessment == 'More than one year' or something else!
+        else:  # timelag_assessment == 'More than one year' or something else!
             timelag_score = 0
 
         # Compute the percentage
-        row['timeliness'] = int( round((float(frequency_score + timelag_score) / 8) * 100))
-
+        row['timeliness'] = int(round((float(frequency_score + timelag_score) / 8) * 100))
 
         # Compute forward-looking statistic
         # Get the forward-looking data for this publisher
         publisher_forwardlooking_data = forwardlooking.generate_row(publisher)
 
         # Convert the data for this publishers 'Percentage of current activities with budgets' fields into integers
-        numbers = [ int(x) for x in publisher_forwardlooking_data['year_columns'][2].itervalues() if is_number(x) ]
-        
+        numbers = [int(x) for x in publisher_forwardlooking_data['year_columns'][2].values() if is_number(x)]
+
         # Compute and store the mean average for these fields
         row['forwardlooking'] = sum(int(round(y)) for y in numbers) / len(publisher_forwardlooking_data['year_columns'][2])
-
 
         # Compute comprehensive statistic
         # Get the comprehensiveness data for this publisher
@@ -113,9 +112,8 @@ def table():
         # Set the comprehensive value to be the summary average for valid data
         row['comprehensive'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
 
-
         # Compute score
-        row['score'] = int( round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3 ))
+        row['score'] = int(round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3))
 
         # Return a generator object
         yield row

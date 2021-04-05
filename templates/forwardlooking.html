@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <ul class="list-inline" style="padding: 1em">
         <li><a href="#h_table">Table</a></li>
@@ -40,7 +40,7 @@
                 <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing forward looking budgets at more than one hierarchical level.<br/>
                 <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.<br/>
             </p>
-            {% include 'tablesorter_instructions.html' %}
+            {% include '_partials/tablesorter_instructions.html' %}
         </div>
 
         <table class="table table-striped" id="main_table">

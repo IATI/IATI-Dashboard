@@ -15,7 +15,7 @@ import licenses
 import timeliness
 import forwardlooking
 import comprehensiveness
-import coverage
+# import coverage
 import summary_stats
 import humanitarian
 from vars import expected_versions
@@ -195,7 +195,7 @@ def basic_page(page_name):
             kwargs['comprehensiveness'] = comprehensiveness
             parent_page_name = 'comprehensiveness'
         elif page_name.startswith('coverage'):
-            kwargs['coverage'] = coverage
+            # kwargs['coverage'] = coverage
             parent_page_name = 'coverage'
         elif page_name.startswith('summary_stats'):
             kwargs['summary_stats'] = summary_stats
@@ -205,7 +205,7 @@ def basic_page(page_name):
             parent_page_name = 'humanitarian'
         else:
             parent_page_name = page_name
-        return render_template(page_name+'.html', page=parent_page_name, **kwargs)
+        return render_template(page_name + '.html', page=parent_page_name, **kwargs)
     else:
         abort(404)
 
@@ -238,7 +238,7 @@ def publisher(publisher):
                            'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
                            'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
                            'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
-                           } for year in sorted(set(sum((x.keys() for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
+                           } for year in sorted(set(sum((list(x.keys()) for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
                           ]
     failure_count = len(current_stats['inverted_file_publisher'][publisher]['validation'].get('fail', {}))
     return render_template('publisher.html',
@@ -310,7 +310,7 @@ def csv_development(name):
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
     print(image)
-    return Response(open(os.path.join('out', 'publisher_imgs', image+'.png')).read(), mimetype='image/png')
+    return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 
 if __name__ == '__main__':

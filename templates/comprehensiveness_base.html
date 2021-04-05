@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import 'boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes %}
 
 {% block container %}
 
@@ -40,7 +40,7 @@
     {% if self.heading_detail() %}
     <div class="panel-body">
         {% block heading_detail %}{% endblock %}
-        {% include 'tablesorter_instructions.html' %}
+        {% include '_partials/tablesorter_instructions.html' %}
     </div>
     {% endif %}
 
