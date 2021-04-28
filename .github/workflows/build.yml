@@ -44,6 +44,7 @@ jobs:
         GIT_CONFIG_NAME: Code for IATI bot
         GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        REPOSITORY_NAME: codeforIATI/dashboard-public
         BRANCH: gh-pages
         FOLDER: out
         CLEAN: true
