@@ -27,9 +27,9 @@ jobs:
     - name: Fetch stats
       run: |
         mkdir out
-        git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats stats-calculated
-        curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats/gh-pages/ckan.json" > stats-calculated/ckan.json
-        curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats/gh-pages/metadata.json" > stats-calculated/metadata.json
+        git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats-public stats-calculated
+        curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats-public/gh-pages/ckan.json" > stats-calculated/ckan.json
+        curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats-public/gh-pages/metadata.json" > stats-calculated/metadata.json
     - name: Make plots
       run: python plots.py
     - name: Build CSV output
