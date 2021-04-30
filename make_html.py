@@ -24,6 +24,7 @@ from data import (
     codelist_mapping,
     codelist_sets,
     current_stats,
+    dataset_to_publisher_dict,
     get_publisher_stats,
     MAJOR_VERSIONS,
     metadata,
@@ -57,7 +58,7 @@ def nested_dictinvert(d):
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
-    return publisher_slug.rsplit('-', 1)[0]
+    return dataset_to_publisher_dict.get(publisher_slug, '')
 
 
 def firstint(s):
