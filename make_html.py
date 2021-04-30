@@ -16,8 +16,6 @@ from vars import expected_versions
 import text
 from datetime import datetime
 from dateutil import parser
-
-print('Doing initial data import')
 from data import (
     ckan,
     ckan_publishers,
@@ -31,7 +29,6 @@ from data import (
     publisher_name,
     publishers_ordered_by_title,
     slugs)
-print('Initial data import finished')
 
 app = Flask(__name__)
 
