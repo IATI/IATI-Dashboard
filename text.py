@@ -14,7 +14,7 @@ page_titles = {
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
-    'faq': 'Code for IATI Dashboard Frequently Asked Questions',
+    'faq': 'Frequently Asked Questions',
     'publishers': 'IATI Publishers',
     'files': 'IATI Files',
     'activities': 'IATI Activities',

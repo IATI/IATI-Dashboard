@@ -22,21 +22,19 @@ from vars import expected_versions
 import text
 from datetime import datetime
 from dateutil import parser
-
-print('Doing initial data import')
 from data import (
     ckan,
     ckan_publishers,
     codelist_mapping,
     codelist_sets,
     current_stats,
+    dataset_to_publisher_dict,
     get_publisher_stats,
     MAJOR_VERSIONS,
     metadata,
     publisher_name,
     publishers_ordered_by_title,
     slugs)
-print('Initial data import finished')
 
 app = Flask(__name__)
 
@@ -63,7 +61,7 @@ def nested_dictinvert(d):
 def dataset_to_publisher(publisher_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
-    return publisher_slug.rsplit('-',1)[0]
+    return dataset_to_publisher_dict.get(publisher_slug, '')
 
 
 def firstint(s):
@@ -114,7 +112,7 @@ app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%Y-%m-%d %H:%M:%S %Z')
 app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%d %B %Y (at %H:%M)')
 app.jinja_env.globals['stats_url'] = 'https://dashboard-stats.codeforiati.org'
-app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats/tree/gh-pages'
+app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats-public/tree/gh-pages'
 app.jinja_env.globals['path_exists'] = path_exists
 app.jinja_env.globals['sorted'] = sorted
 app.jinja_env.globals['enumerate'] = enumerate
