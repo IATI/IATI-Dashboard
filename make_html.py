@@ -12,6 +12,12 @@ from flask import Flask, render_template, redirect, abort, Response
 
 import pytz
 import licenses
+import timeliness
+import forwardlooking
+import comprehensiveness
+# import coverage
+import summary_stats
+import humanitarian
 from vars import expected_versions
 import text
 from datetime import datetime
@@ -98,6 +104,7 @@ date_time_data_obj = parser.parse(metadata['created_at'])
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
+app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
@@ -144,6 +151,17 @@ basic_page_names = [
     'data_quality',
     'exploring_data',
     'publishers',
+    'publishing_stats',
+    # 'timeliness',
+    # 'timeliness_timelag',
+    'forwardlooking',
+    'comprehensiveness',
+    'comprehensiveness_core',
+    'comprehensiveness_financials',
+    'comprehensiveness_valueadded',
+    # 'coverage',
+    # 'summary_stats',
+    'humanitarian',
     'files',
     'activities',
     'download',
@@ -165,7 +183,26 @@ basic_page_names = [
 def basic_page(page_name):
     if page_name in basic_page_names:
         kwargs = {}
-        parent_page_name = page_name
+        if page_name.startswith('timeliness'):
+            kwargs['timeliness'] = timeliness
+            parent_page_name = 'timeliness'
+        elif page_name.startswith('forwardlooking'):
+            kwargs['forwardlooking'] = forwardlooking
+            parent_page_name = 'forwardlooking'
+        elif page_name.startswith('comprehensiveness'):
+            kwargs['comprehensiveness'] = comprehensiveness
+            parent_page_name = 'comprehensiveness'
+        elif page_name.startswith('coverage'):
+            # kwargs['coverage'] = coverage
+            parent_page_name = 'coverage'
+        elif page_name.startswith('summary_stats'):
+            kwargs['summary_stats'] = summary_stats
+            parent_page_name = 'summary_stats'
+        elif page_name.startswith('humanitarian'):
+            kwargs['humanitarian'] = humanitarian
+            parent_page_name = 'humanitarian'
+        else:
+            parent_page_name = page_name
         return render_template(page_name + '.html', page=parent_page_name, **kwargs)
     else:
         abort(404)
@@ -309,4 +346,4 @@ if __name__ == '__main__':
                     license = 'None'
                 yield 'licenses_individual_license', {'license': license}
 
-    freezer.freeze()
+        freezer.freeze()
