@@ -58,10 +58,10 @@ def nested_dictinvert(d):
     return inv
 
 
-def dataset_to_publisher(publisher_slug):
+def dataset_to_publisher(dataset_slug):
     """ Converts a dataset (package) slug e.g. dfid-bd to the corresponding publisher
     slug e.g. dfid """
-    return dataset_to_publisher_dict.get(publisher_slug, '')
+    return dataset_to_publisher_dict.get(dataset_slug, '')
 
 
 def firstint(s):
