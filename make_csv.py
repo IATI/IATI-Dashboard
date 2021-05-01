@@ -73,20 +73,20 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
         writer.writerow({x: publisher_json['result'].get(x) or 0 for x in keys})
 
 
-# Timeliness CSV files (frequency and timelag)
-import timeliness
+# # Timeliness CSV files (frequency and timelag)
+# import timeliness
 
-previous_months = timeliness.previous_months_reversed
+# previous_months = timeliness.previous_months_reversed
 
-for fname, f, assessment_label in (
-    ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Frequency'),
-    ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Time lag')
-):
-    with open(os.path.join('out', fname), 'w') as fp:
-        writer = csv.writer(fp)
-        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
-        for publisher, publisher_title, per_month, assessment in f():
-            writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
+# for fname, f, assessment_label in (
+#     ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Frequency'),
+#     ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Time lag')
+# ):
+#     with open(os.path.join('out', fname), 'w') as fp:
+#         writer = csv.writer(fp)
+#         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
+#         for publisher, publisher_title, per_month, assessment in f():
+#             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
 
 # Forward-looking CSV file
@@ -146,16 +146,16 @@ for tab in comprehensiveness.columns.keys():
 #         ])
 
 
-# Summary Stats CSV file
-import summary_stats
+# # Summary Stats CSV file
+# import summary_stats
 
-with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
-    writer = csv.writer(fp)
-    # Add column headers
-    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_stats.columns])
-    for row in summary_stats.table():
-        # Write each row
-        writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
+# with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
+#     writer = csv.writer(fp)
+#     # Add column headers
+#     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_stats.columns])
+#     for row in summary_stats.table():
+#         # Write each row
+#         writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
 
 
 # Humanitarian CSV file
