@@ -1,9 +1,7 @@
-name: Build
-on:
-  schedule:
-    - cron: '0 8 * * *'
+name: CI
+on: [push, pull_request]
 jobs:
-  build:
+  ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -15,13 +13,15 @@ jobs:
       name: Cache dependencies
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements_dev.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements_dev.txt
+    - name: Lint
+      run: flake8
     - name: Fetch data
       run: ./fetch_data.sh
     - name: Fetch stats
@@ -30,23 +30,10 @@ jobs:
         git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats-public stats-calculated
         curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats-public/gh-pages/ckan.json" > stats-calculated/ckan.json
         curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats-public/gh-pages/metadata.json" > stats-calculated/metadata.json
-    - name: Make plots
-      run: python plots.py
-    - name: Build CSV output
-      run: python make_csv.py
-    - name: Build HTML output
-      run: python make_html.py
-    - name: Add static files to output
-      run: cp -r static/* out
-    - name: Deploy 🚀
-      uses: JamesIves/github-pages-deploy-action@3.7.1
-      with:
-        GIT_CONFIG_NAME: Code for IATI bot
-        GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        REPOSITORY_NAME: codeforIATI/dashboard-public
-        BRANCH: gh-pages
-        FOLDER: out
-        CLEAN: true
-        SILENT: true
-        SINGLE_COMMIT: true
+    - name: Run tests
+      run: pytest --cov .
+    - name: Coveralls
+      run: coveralls --service=github-actions
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

@@ -169,10 +169,6 @@ def table():
 
     # Loop over each publisher
     for publisher_title, publisher in publishers_ordered_by_title:
-
-        # Store the data for this publisher as new variables
-        publisher_stats = get_publisher_stats(publisher)
-
         # Skip if all activities from this publisher are secondary reported
         if publisher in secondary_publishers:
             continue

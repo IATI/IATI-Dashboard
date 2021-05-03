@@ -12,19 +12,18 @@ and num2date
 
 """
 import datetime
-import numpy as np
-import matplotlib as mpl
-mpl.use('Agg')
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
+import numpy as np  # noqa: F401
 from collections import defaultdict
-import os
+import os  # noqa: F401
 import csv
 import common
 import data
-from vars import expected_versions
-
+from vars import expected_versions  # noqa: F401
+import matplotlib as mpl
 mpl.use('Agg')
+import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.dates as mdates  # noqa: E402
+
 #  Import failed_downloads as a global
 failed_downloads = csv.reader(open('data/downloads/history.csv'))
 

@@ -4,6 +4,24 @@ import csv
 import os
 import data
 
+# # Timeliness CSV files (frequency and timelag)
+# import timeliness
+
+# Forward-looking CSV file
+import forwardlooking
+
+# Comprehensiveness CSV files ('summary', 'core', 'financials' and 'valueadded')
+import comprehensiveness
+
+# # Coverage CSV file
+# import coverage
+
+# # Summary Stats CSV file
+# import summary_stats
+
+# Humanitarian CSV file
+import humanitarian
+
 publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in data.ckan_publishers.items()}
 
 
@@ -72,10 +90,6 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
     for publisher_json in data.ckan_publishers.values():
         writer.writerow({x: publisher_json['result'].get(x) or 0 for x in keys})
 
-
-# # Timeliness CSV files (frequency and timelag)
-# import timeliness
-
 # previous_months = timeliness.previous_months_reversed
 
 # for fname, f, assessment_label in (
@@ -88,19 +102,11 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 #         for publisher, publisher_title, per_month, assessment in f():
 #             writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
-
-# Forward-looking CSV file
-import forwardlooking
-
 with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
     writer = csv.writer(fp)
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + ['{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
     for row in forwardlooking.table():
         writer.writerow([row['publisher_title'], row['publisher']] + [year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
-
-
-# Comprehensiveness CSV files ('summary', 'core', 'financials' and 'valueadded')
-import comprehensiveness
 
 for tab in comprehensiveness.columns.keys():
     with open(os.path.join('out', 'comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
@@ -108,10 +114,6 @@ for tab in comprehensiveness.columns.keys():
         writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [x + ' (with valid data)' for x in comprehensiveness.column_headers[tab]] + [x + ' (with any data)' for x in comprehensiveness.column_headers[tab]])
         for row in comprehensiveness.table():
             writer.writerow([row['publisher_title'], row['publisher']] + [row[slug + '_valid'] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]] + [row[slug] if slug in row else '-' for slug in comprehensiveness.column_slugs[tab]])
-
-
-# # Coverage CSV file
-# import coverage
 
 # with open(os.path.join('out', 'coverage.csv'), 'w') as fp:
 #     writer = csv.writer(fp)
@@ -145,10 +147,6 @@ for tab in comprehensiveness.columns.keys():
 #             row['spend_data_error_reported_flag']
 #         ])
 
-
-# # Summary Stats CSV file
-# import summary_stats
-
 # with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
 #     writer = csv.writer(fp)
 #     # Add column headers
@@ -156,10 +154,6 @@ for tab in comprehensiveness.columns.keys():
 #     for row in summary_stats.table():
 #         # Write each row
 #         writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
-
-
-# Humanitarian CSV file
-import humanitarian
 
 with open(os.path.join('out', 'humanitarian.csv'), 'w') as fp:
     writer = csv.writer(fp)
