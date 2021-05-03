@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png',
+        description='Count of files that fail to download, over time.')}}
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <p><a href="https://gist.github.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/revisions">History of Download Errors</a></p>
+
+        <p><a href="{{url('data/download_errors.json')}}">This table as JSON</a></p>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+              <p>List of files that fail to download.</p>
+              {% include '_partials/tablesorter_instructions.html' %}
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Publisher</th>
+                <th>Registry Dataset</th>
+                <th>URL</th>
+                <th><a href="https://everything.curl.dev/usingcurl/returns">Error Code</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for code, publisher, dataset, url in current_stats.download_errors %}
+              <tr>
+                <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
+                <td><a href="{{url}}">{{url|url_to_filename}}</a></td>
+                <td>{{code}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      {{boxes.box('Total activity files', current_stats.aggregated.activity_files, 'activity_files.png', 'activity_files.json',
+        description='Count of total number of activity files over time.')}}
+      {{boxes.box('Total organisation files', current_stats.aggregated.organisation_files, 'organisation_files.png', 'organisation_files.json',
+        description='Count of total number of organisation files, over time.')}}
+    </div>
+    <div class="row">
+      {{boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'file_size.png', 'file_size.json')}}
+      <div class="col-md-6">
+        <div class="panel panel-default">
+        <div class="panel-heading">
+            <a href="{{stats_url}}/current/aggregated/file_size_bins.json" style="float:right">(J)</a>
+            <h3 class="panel-title">File Sizes</h3>
+        </div>
+        {% include '_partials/tablesorter_instructions.html' %}
+        <table class="table table-striped">
+            <tbody>
+            {% for bin,freq in sorted(current_stats.aggregated.file_size_bins.items(), key=firstint) %}
+                <tr>
+                    <td>{{bin}}</td>
+                    <td>{{freq}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Publisher</th>
+                    <th>Package</th>
+                    <th>Activities <a href="{{stats_url}}/current/inverted-file/activities.json">(J)</a></th>
+                    <th>Organisations <a href="{{stats_url}}/current/inverted-file/organisations.json">(J)</a></th>
+                    <th>File Size <a href="{{stats_url}}/current/inverted-file/file_size.json">(J)</a></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for package, activities in current_stats.inverted_file.activities.items() %}
+                <tr>
+                    <td><a href="publisher/{{package|dataset_to_publisher}}.html">{{publisher_name[package[:-4]|dataset_to_publisher]}}</a></td>
+                    <td><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
+                    <td>{{activities}}</td>
+                    <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
+                    <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% block tablesorteroptions %}
+{textExtraction:{4: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}
+{% endblock %}

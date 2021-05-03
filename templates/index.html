@@ -1,0 +1,124 @@
+{% extends 'section_index.html' %}
+{% block about %}
+<p>The Dashboard is generated daily, with the last update based on data in the IATI Registry on <strong>{{datetime_data_homepage}}</strong>. For more information, see the <a href="faq.html">FAQ</a>.</p>
+<p>Many of the tables in the Dashboard are sortable by clicking on the headers.</p>
+<p>Many of the datasets in the Dashboard are available in machine readable JSON format. Some links to JSON are abbreviated to <code>(J)</code>.</p>
+{% endblock %}
+{% block lhs_column %}
+{{ super () }}
+
+<div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+            Overview
+        </h3>
+      </div>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td id="activities-count">
+                    <a href="activities.html">
+                    {{current_stats.aggregated.activities}}
+                    </a>
+                </td>
+                <td>Activities</td>
+            </tr>
+            <tr>
+                <td id="unique-activities-count">
+                    <a href="activities.html">
+                    {{current_stats.aggregated.iati_identifiers|count}}
+                    </a>
+                </td>
+                <td>Unique Activities</td>
+            </tr>
+            <tr>
+                <td id="publishers-count">
+                    <a href="publishers.html">
+                    {{current_stats.aggregated.publishers}}
+                    </a>
+                </td>
+                <td>Publishers</td>
+            </tr>
+            <tr>
+                <td id="activity-files-count">
+                    <a href="files.html">
+                    {{current_stats.aggregated.activity_files}}
+                    </a>
+                </td>
+                <td>Activity Files</td>
+            </tr>
+            <tr>
+                <td id="organisation-files-count">
+                    <a href="files.html">
+                    {{current_stats.aggregated.organisation_files}}
+                    </a>
+                </td>
+                <td>Organisation Files</td>
+            </tr>
+            <tr>
+                <td id="total-file-size">
+                    <a href="files.html">
+                    {{current_stats.aggregated.file_size|filesizeformat}}
+                    </a>
+                </td>
+                <td>Total File Size</td>
+            </tr>
+            <tr>
+                <td id="failed-download-count">
+                    <a href="download.html">
+                    {{current_stats.download_errors|length}}
+                    </a>
+                </td>
+                <td>Files Fail to Download</td>
+            </tr>
+            <tr>
+                <td id="poorly-formed-xml-file-count">
+                    <a href="xml.html">
+                    {{current_stats.aggregated.invalidxml}}
+                    </a>
+                </td>
+                <td>Files where XML is not well-formed</td>
+            </tr>
+            <tr>
+                <td id="non-standard-roots-file-count">
+                    <a href="xml.html">
+                    {{current_stats.aggregated.nonstandardroots}}
+                    </a>
+                </td>
+                <td>Files with Nonstandard Roots</td>
+            </tr>
+            <tr>
+                <td id="too-large-files-count">
+                    {{current_stats.aggregated.toolarge}}
+                </td>
+                <td>Files that are too large to be processed</td>
+            </tr>
+            <tr>
+                <td id="cannot-validate-file-count">
+                    <a href="validation.html">
+                    {{current_stats.aggregated.validation.fail}}
+                    </a>
+                </td>
+                <td>Files don't validate against the schema</td>
+            </tr>
+            <tr>
+                <td id="publishers-with-non-valid-files-count">
+                    <a href="validation.html">
+                    {{current_stats.aggregated.publishers_validation.fail}}
+                    </a>
+                </td>
+                <td>Publishers have non-validating files</td>
+            </tr>
+            <tr>
+                <td id="publishers-with-no-org-file-count">
+                    <a href="organisation.html">
+                    {{current_stats.aggregated.publisher_has_org_file.no}}
+                    </a>
+                </td>
+                <td>Publishers with no organisation file</td>
+            </tr>
+        </body>
+    </table>
+</div>
+
+{% endblock %}

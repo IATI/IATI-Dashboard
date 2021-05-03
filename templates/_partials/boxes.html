@@ -1,0 +1,26 @@
+{% macro box(title, number, image, json, legend, folderextra, description) %}
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              {% set title_id = title.replace(' ', '-').lower() %}
+              <span id="{{title_id}}" class="title-number">{{number}}</span>
+              <span class="title-text">{{title}}</span>
+            </h3>
+            {% if json %}
+            <!-- <a href="{{stats_url}}/gitaggregate{{folderextra}}-dated/{{json}}" style="float:right">(J)</a> -->
+            {% endif %}
+            <div class="clearfix"></div>
+          </div>
+          {% if path_exists(image) %}
+          <div class="panel-body">
+            <p>{{description|safe}}</p>
+            <img src="{{ image }}" width="100%" />
+            {% if legend %}
+            <img src="{{ legend }}" width="100%" />
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+{% endmacro %}
