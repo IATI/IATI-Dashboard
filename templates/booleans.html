@@ -4,7 +4,7 @@
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
-        <p>(<a href="{{stats_url}}/current/inverted-publisher/boolean_values.json">This table as JSON</a>)</p>
+        <p>(<a href="{{ stats_url }}/current/inverted-publisher/boolean_values.json">This table as JSON</a>)</p>
 
         <div class="panel panel-default">
           <div class="panel-body">
@@ -15,11 +15,11 @@
             <thead><tr><th>Element</th><th>Values</th><th>Publishers</th></tr></thead>
             <tbody>
               {% for boolean, values in current_stats.inverted_publisher.boolean_values.items() %}
-                  {% for value, publishers in values.items()%}
+                  {% for value, publishers in values.items() %}
                       <tr>
-                          <td><a href="{{boolean|xpath_to_url}}">{{boolean}}</a></td>
-                          <td>{{value}}</td>
-                          <td>{%for publisher in publishers%}{{publisher}} {%endfor%}</td>
+                          <td><a href="{{ boolean|xpath_to_url }}">{{ boolean }}</a></td>
+                          <td>{{ value }}</td>
+                          <td>{% for publisher in publishers %}{{ publisher }} {% endfor %}</td>
                       </tr>
                   {% endfor %}
               {% endfor %}
