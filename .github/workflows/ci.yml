@@ -32,8 +32,8 @@ jobs:
         curl --compressed "https://raw.githubusercontent.com/codeforIATI/IATI-Stats-public/gh-pages/metadata.json" > stats-calculated/metadata.json
     - name: Run tests
       run: pytest --cov .
-    # - name: Coveralls
-    #   run: coveralls --service=github-actions
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+    - name: Coveralls
+      run: coveralls --service=github-actions
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

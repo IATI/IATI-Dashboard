@@ -13,7 +13,7 @@ columns = [
     ('appeal_emergency', 'Appeal or Emergency Details'),
     ('clusters', 'Clusters'),
     ('average', 'Average')
-    ]
+]
 
 
 def table():
@@ -38,20 +38,20 @@ def table():
         # Calculate percentage of all humanitarian activities that are defined using the @humanitarian attribute
         row['humanitarian_attrib'] = (
             publisher_stats.get('humanitarian', {}).get('is_humanitarian_by_attrib', '0') / float(row['num_activities'])
-              if int(row['num_activities']) > 0 else 0
-            ) * 100
+            if int(row['num_activities']) > 0 else 0
+        ) * 100
 
         # Calculate percentage of all humanitarian activities that use the <humanitarian-scope> element to define an appeal or emergency
         row['appeal_emergency'] = (
             publisher_stats.get('humanitarian', {}).get('contains_humanitarian_scope', '0') / float(row['num_activities'])
-              if int(row['num_activities']) > 0 else 0
-            ) * 100
+            if int(row['num_activities']) > 0 else 0
+        ) * 100
 
         # Calculate percentage of all humanitarian activities that use clusters
         row['clusters'] = (
             publisher_stats.get('humanitarian', {}).get('uses_humanitarian_clusters_vocab', '0') / float(row['num_activities'])
-              if int(row['num_activities']) > 0 else 0
-            ) * 100
+            if int(row['num_activities']) > 0 else 0
+        ) * 100
 
         # Calculate the mean average
         row['average'] = (row['publishing_humanitarian'] + row['humanitarian_attrib'] + row['appeal_emergency'] + row['clusters']) / float(4)

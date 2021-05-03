@@ -3,7 +3,7 @@ from os import path
 
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 
-import comprehensiveness
+import comprehensiveness  # noqa: E402
 
 mock_stats = {
     'comprehensiveness': {
