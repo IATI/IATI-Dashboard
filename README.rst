@@ -4,6 +4,9 @@ Code for IATI Dashboard
 .. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
     :target: https://github.com/codeforIATI/dashboard/blob/main/LICENSE.md
 
+.. image:: https://coveralls.io/repos/github/codeforIATI/dashboard/badge.svg?branch=main
+    :target: https://coveralls.io/github/codeforIATI/dashboard?branch=main
+
 Introduction
 ------------
 
