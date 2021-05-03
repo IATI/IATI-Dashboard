@@ -62,7 +62,7 @@
             </thead>
             <tbody>
                 {% for row in forwardlooking.table() %}
-                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
+                <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
                     <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
 
                     {% for column in row.year_columns %}
@@ -72,7 +72,17 @@
                             </td>
                         {% endfor %}
                     {% endfor %}
-                    <td style="border-left: 1px solid gray; border-right: 1px solid gray{% if (row['flag']) and (row['budget_not_provided']) %};background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="{{row['flag']}}"><a href="#h_exceptions">*</a>{% elif row['budget_not_provided'] %};background-color: #fcf8aa" data-severity="{{row['budget_not_provided']}}"><a href="#h_exceptions"></a>{% elif row['flag'] %};background-color: #f2aaaa" data-severity="{{row['flag']}}"><a href="#h_exceptions"></a>{% else %}">{% endif %}</td>
+                    <td style="border-left: 1px solid gray; border-right: 1px solid gray;
+                    {%- if row['flag'] and row['budget_not_provided'] -%}
+                    background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="3"><a href="#h_exceptions">*</a>
+                    {%- elif row['budget_not_provided'] -%}
+                    background-color: #fcf8aa" data-severity="1"><a href="#h_exceptions">*</a>
+                    {%- elif row['flag'] -%}
+                    background-color: #f2aaaa" data-severity="2"><a href="#h_exceptions">*</a>
+                    {%- else -%}
+                    " data-severity="0">
+                    {%- endif -%}
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -232,8 +242,10 @@ Else
         9: function(node,table,cellIndex) {
             if ($(node).text().indexOf('-') > 0) return '0';
             else return $(node).text();
+        },
+        10: function(node,table,cellIndex) {
+            return $(node).attr('data-severity');
         }
     }
 }{% endblock %}
 {% block tablesortertarget %}table#main_table{% endblock %}
-
