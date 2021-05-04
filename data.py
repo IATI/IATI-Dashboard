@@ -1,4 +1,5 @@
-from collections import OrderedDict, MutableMapping
+from collections import OrderedDict
+from collections.abc import MutableMapping
 import json
 import os
 import re
@@ -135,12 +136,13 @@ def get_registry_id_matches():
     """
 
     # Load registry IDs for publishers who have changed their registry ID
-    reader = csv.DictReader(open('registry_id_relationships.csv', 'rU'), delimiter=',')
-
-    # Load this data into a dictonary
-    registry_matches = {}
-    for row in reader:
-        registry_matches[row['previous_registry_id']] = row['current_registry_id']
+    with open('registry_id_relationships.csv') as f:
+        reader = csv.DictReader(f)
+        # Load this data into a dictonary
+        registry_matches = {
+            row['previous_registry_id']: row['current_registry_id']
+            for row in reader
+        }
 
     return registry_matches
 
@@ -181,6 +183,7 @@ current_stats = {
     'download_errors': []
 }
 ckan_publishers = JSONDir('./data/ckan_publishers')
+github_issues = JSONDir('./data/github/publishers')
 ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
 dataset_to_publisher_dict = {
     dataset: publisher

@@ -7,16 +7,14 @@ information in one file per publisher.
 We're particulary looking for information such as
 name, organisation type, and the link back to the registry
 """
-
-import requests
+from pathlib import Path
 import os
 import json
 
+import requests
+
 # Make a directory to save the data about each publisher
-try:
-    os.makedirs(os.path.join('data', 'ckan_publishers'))
-except OSError:
-    pass
+os.makedirs(Path('data/ckan_publishers'), exist_ok=True)
 
 page_size = 50
 url = 'https://iatiregistry.org/api/3/action/organization_list'

@@ -4,9 +4,13 @@
 mkdir -p data/downloads/
 wget "https://gist.githubusercontent.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/raw/errors" -O data/downloads/errors
 
-# Get CKAN (IATI Registry) data
+# Get CKAN (IATI Registry)
 rm -rf data/ckan_publishers/
 python fetch_data.py
+
+# Get GitHub data
+rm -rf data/github/
+python fetch_github_issues.py
 
 # Generate a csv file with the number of download errors logged since 2013
 cd data/downloads

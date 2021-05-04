@@ -138,8 +138,11 @@
 
     <h2 id="h_dataquality">Data Quality</h2>
 
-    {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
+    {% set data_quality_issue = false %}
+
     <div class="row">
+    {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
+        {% set data_quality_issue = true %}
         <div class="col-md-6">
             <div class="panel panel-default" id="p_validation">
               <!-- Default panel contents -->
@@ -174,14 +177,10 @@
               </ul>
             </div>
         </div>
-    {% else %}
-
-    <p>No issues were found.</p>
-
-    <div class="row">
     {% endif %}
 
     {% if 1 in publisher_inverted.invalidxml.values() %}
+    {% set data_quality_issue = true %}
     <div class="col-md-6">
     <div class="panel panel-default" id="p_invalid">
     <div class="panel-heading">
@@ -209,6 +208,7 @@
     {% endif %}
 
     {% if 1 in publisher_inverted.nonstandardroots.values() %}
+    {% set data_quality_issue = true %}
     <div class="col-md-6">
     <div class="panel panel-default" id="p_nonstandardroots">
     <table class="table table-striped">
@@ -237,6 +237,42 @@
     {% endif %}
 
     </div><!-- .row -->
+
+    {% if github_issues and publisher in github_issues %}
+    {% set data_quality_issue = true %}
+    <div class="panel panel-default" id="p_github_issues">
+    <div class="panel-heading">
+        <h3 class="panel-title">Issues Raised</h3>
+    </div>
+    <div class="panel-body">
+        <p>Data and metadata issues are raised on <a href="https://github.com/codeforIATI/iati-data-bugtracker/issues">this Github issue tracker</a>. If you spot a problem with IATI data or metadata, please <a href="https://github.com/codeforIATI/iati-data-bugtracker/issues/new/choose">raise an issue</a>.</p>
+    </div>
+    <table class="table table-striped exploring-data">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Labels</th>
+                <th>Created</th>
+                <th>Last updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for issue in github_issues[publisher] %}
+            <tr>
+                <td><a href="{{ issue.html_url }}">{{ issue.title }}</a></td>
+                <td>{% for label in issue.labels %}<span class="label" style="background-color:#{{ label.color }}">{{ label.name }}</span> {% endfor %}</td>
+                <td>{{ issue.created_at[:10] }}</td>
+                <td>{{ issue.updated_at[:10] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    {% endif %}
+
+    {% if not data_quality_issue %}
+    <p>No issues were found.</p>
+    {% endif %}
 
     <h2 id="h_financial">Financial</h2>
 
