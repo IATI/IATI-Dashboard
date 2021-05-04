@@ -135,12 +135,13 @@ def get_registry_id_matches():
     """
 
     # Load registry IDs for publishers who have changed their registry ID
-    reader = csv.DictReader(open('registry_id_relationships.csv', 'rU'), delimiter=',')
-
-    # Load this data into a dictonary
-    registry_matches = {}
-    for row in reader:
-        registry_matches[row['previous_registry_id']] = row['current_registry_id']
+    with open('registry_id_relationships.csv') as f:
+        reader = csv.DictReader(f)
+        # Load this data into a dictonary
+        registry_matches = {
+            row['previous_registry_id']: row['current_registry_id']
+            for row in reader
+        }
 
     return registry_matches
 
