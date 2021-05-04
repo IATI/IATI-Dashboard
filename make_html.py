@@ -9,8 +9,8 @@ import re
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
-
 import pytz
+
 import licenses
 import timeliness
 import forwardlooking
@@ -29,6 +29,7 @@ from data import (
     codelist_sets,
     current_stats,
     dataset_to_publisher_dict,
+    github_issues,
     get_publisher_stats,
     MAJOR_VERSIONS,
     metadata,
@@ -94,7 +95,7 @@ def get_codelist_values(codelist_values_for_element):
        Input: Set of codelist values for a given element (listed by publisher), for example:
               current_stats['inverted_publisher']['codelist_values_by_major_version']['1']['.//@xml:lang']
     """
-    return list(set([y for x in codelist_values_for_element.items() for y in list(x[1])]))
+    return list(set([y for x in codelist_values_for_element.items() for y in list(x[1].keys())]))
 
 
 # Store data processing times
@@ -128,6 +129,7 @@ app.jinja_env.globals['navigation_reverse'].update({k: k for k in text.navigatio
 app.jinja_env.globals['current_stats'] = current_stats
 app.jinja_env.globals['ckan'] = ckan
 app.jinja_env.globals['ckan_publishers'] = ckan_publishers
+app.jinja_env.globals['github_issues'] = github_issues
 app.jinja_env.globals['publisher_name'] = publisher_name
 app.jinja_env.globals['publishers_ordered_by_title'] = publishers_ordered_by_title
 app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
