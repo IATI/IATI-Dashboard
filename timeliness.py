@@ -1,4 +1,4 @@
-# This file converts raw timeliness data into the associated Dashboard assessments
+# This file converts raw timeliness data into the associated Publishing Statistics assessments
 
 from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
@@ -86,7 +86,7 @@ def publisher_frequency():
         first_published_string = sorted(agg['most_recent_transaction_date'])[0]
         first_published = parse_iso_date(first_published_string)
 
-        # Implement the assessment logic on http://dashboard.iatistandard.org/timeliness.html#h_assesment
+        # Implement the assessment logic on https://analytics.codeforiati.org/timeliness.html#h_assesment
 
         if first_published >= previous_month_days[2]:
             # This is a publisher of less than 3 months
