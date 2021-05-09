@@ -12,7 +12,6 @@
             {% endif %}
             <div class="clearfix"></div>
           </div>
-          {% if path_exists(image) %}
           <div class="panel-body">
             <p>{{description|safe}}</p>
             <img src="{{ image }}" width="100%" />
@@ -20,7 +19,6 @@
             <img src="{{ legend }}" width="100%" />
             {% endif %}
           </div>
-          {% endif %}
         </div>
       </div>
 {% endmacro %}
