@@ -10,7 +10,7 @@ top_titles = {
 }
 
 page_titles = {
-    'index': 'Code for IATI Dashboard',
+    'index': 'Code for IATI Analytics',
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',
@@ -43,7 +43,7 @@ page_titles = {
 }
 
 page_leads = {
-    'index': 'The Code for IATI Dashboard provides statistics, charts and metrics on data accessed via the IATI Registry.',
+    'index': 'Statistics, charts and metrics on data accessed via the IATI Registry.',
     'data_quality': 'What needs fixing in IATI data?',
     'exploring_data': 'Which parts of the IATI Standard are being used?',
     'headlines': 'What is the size, scope and scale of published IATI data?',
@@ -68,13 +68,13 @@ page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
     'files': 'Files are logged on the IATI Registry by publishers The files contain data on activities and the organisation.  A publisher may have multiple files, which can contain multiple activities.',
     'activities': 'Activities are the individual projects found in files.  A file can contain one or many activities, from a publisher.',
-    'download': 'Files that failed to download, when accessed via the IATI Registry. Note: This may because no URL is listed on the registry, or when requesting the URL the publisher\'s server returns an error message (e.g. because there is no file at that location). Since the dashboard\'s download occurs routinely, some files that failed to download may now be available.',
-    'xml': 'This page shows files that are not well-formed XML, accessed via the IATI Registry. ',
+    'download': 'Files that failed to download, when accessed via the IATI Registry. Note: This may because no URL is listed on the registry, or when requesting the URL the publisher\'s server returns an error message (e.g. because there is no file at that location). Some files that failed to download when last checked may since have become available.',
+    'xml': 'This page shows files that are not well-formed XML, accessed via the IATI Registry.',
     'validation': 'IATI files are validated against the appropriate <a href="https://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
     'versions': 'Files are reported against a specific version of the IATI Standard, using the <code>version</code> attribute in the <code>iati-activities</code> element.',
     'rulesets': 'The IATI Ruleset describe constraints, conditions and logics that are additional to the IATI schema. Note: Currently, on the IATI Standard Ruleset is tested.',
-    'licenses': 'Licences are applied to files by publishers on the IATI Registry, and explain how data can be used. ',
-    'organisation': 'Checking the IATI Registry for files that have <code>iati-organisations</code> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain. ',
+    'licenses': 'Licences are applied to files by publishers on the IATI Registry, and explain how data can be used.',
+    'organisation': 'Checking the IATI Registry for files that have <code>iati-organisations</code> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain.',
     'identifiers': 'Checking the <code>iati-identifier</code> element for duplicate values per publisher. A duplicate appears if a publisher creates two activities with the same identifier.',
     'reporting_orgs': 'Checking the <code>reporting-org</code> identifiers in IATI data.',
     'elements': 'Checking usage of all elements within the IATI Standard.',
