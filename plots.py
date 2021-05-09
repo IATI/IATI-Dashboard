@@ -12,11 +12,12 @@ and num2date
 
 """
 import datetime
-import numpy as np  # noqa: F401
 import os
+from os.path import exists
 import csv
+from collections import defaultdict
 import json
-# import common
+import common
 import data
 from vars import expected_versions
 from git import Repo
@@ -27,20 +28,23 @@ import matplotlib.dates as mdates  # noqa: E402
 
 
 class GitJSONDir(data.JSONDir):
-    def __init__(self, folder, repo_path):
+    def __init__(self, folder, repo_path, lookup=None):
         self.repo_path = repo_path
         self.folder = folder
         self.repo = Repo(repo_path)
-        metadata_file = 'metadata.json'
-        commits = self.repo.git.log(
-            '--format=%h',
-            '--',
-            metadata_file).split('\n')
-        dates = []
-        for commit in commits:
-            content = self.get_contents(commit, metadata_file)
-            dates.append(json.loads(content)['updated_at'])
-        self.lookup = list(zip(commits, dates))
+        if lookup:
+            self.lookup = lookup
+        else:
+            metadata_file = 'metadata.json'
+            commits = self.repo.git.log(
+                '--format=%h',
+                '--',
+                metadata_file).split('\n')
+            dates = []
+            for commit in commits:
+                content = self.get_contents(commit, metadata_file)
+                dates.append(json.loads(content)['updated_at'])
+            self.lookup = list(zip(commits, dates))
 
     def get_contents(self, commit, path):
         blob = self.repo.git.ls_tree(commit, path).split()[2]
@@ -53,40 +57,41 @@ class GitJSONDir(data.JSONDir):
         if key == 'failed_downloads':
             with open('data/downloads/history.csv') as f:
                 return dict((row[0], row[1]) for row in csv.reader(f))
+        if key == 'publisher_types':
+            out = defaultdict(lambda: defaultdict(int))
+            gitaggregate_publisher = GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
+            for publisher, publisher_data in gitaggregate_publisher.items():
+                if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
+                    for datestring, count in publisher_data['activities'].items():
+                        out[datestring][organization_type] += 1
+                else:
+                    print('Publisher not matched:', publisher)
+            return out
+        elif key == 'activities_per_publisher_type':
+            out = defaultdict(lambda: defaultdict(int))
+            gitaggregate_publisher = GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
+            for publisher, publisher_data in gitaggregate_publisher.items():
+                if publisher in data.ckan_publishers:
+                    organization_type = common.get_publisher_type(publisher)['name']
+                    for datestring, count in publisher_data['activities'].items():
+                        out[datestring][organization_type] += count
+                else:
+                    print('Publisher not matched:', publisher)
+            return out
+        elif exists(self.repo_path + self.folder + key):
+            return GitJSONDir(self.folder + key + '/', self.repo_path, self.lookup)
         else:
             items = {}
             for commit, date in self.lookup:
                 try:
-                    item = self.get_contents(
-                        commit,
-                        self.folder + key + '.json')
+                    items[date] = json.loads(
+                        self.get_contents(
+                            commit,
+                            self.folder + key + '.json'))
                 except IndexError:
                     continue
-                items[date] = json.loads(item)
             return items
-
-        # if key == 'publisher_types':
-        #     out = defaultdict(lambda: defaultdict(int))
-        #     for publisher, publisher_data in gitaggregate_publisher.items():
-        #         if publisher in data.ckan_publishers:
-        #             organization_type = common.get_publisher_type(publisher)['name']
-        #             for datestring, count in publisher_data['activities'].items():
-        #                 out[datestring][organization_type] += 1
-        #         else:
-        #             print('Publisher not matched:', publisher)
-        #     return out
-        # elif key == 'activities_per_publisher_type':
-        #     out = defaultdict(lambda: defaultdict(int))
-        #     for publisher, publisher_data in gitaggregate_publisher.items():
-        #         if publisher in data.ckan_publishers:
-        #             organization_type = common.get_publisher_type(publisher)['name']
-        #             for datestring, count in publisher_data['activities'].items():
-        #                 out[datestring][organization_type] += count
-        #         else:
-        #             print('Publisher not matched:', publisher)
-        #     return out
-        # else:
-        #     return super().__getitem__(key)
 
 
 gitjsondir = GitJSONDir('current/aggregated/', './stats-calculated/')
@@ -193,8 +198,8 @@ for stat_path in [
         ('publishers_per_version', lambda x: x in expected_versions, '_expected'),
         ('publishers_per_version', lambda x: x not in expected_versions, '_other'),
         ('file_size_bins', lambda x: True, ''),
-        # ('publisher_types', lambda x: True, ''),
-        # ('activities_per_publisher_type', lambda x: True, '')
+        ('publisher_types', lambda x: True, ''),
+        ('activities_per_publisher_type', lambda x: True, '')
 ]:
     make_plot(stat_path, gitjsondir)
 
@@ -206,8 +211,8 @@ try:
 except OSError:
     pass
 
-git_stats_publisher = GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
-for publisher in git_stats_publisher.keys():
+git_stats_publishers = GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
+for publisher, git_stats_publisher in git_stats_publishers.items():
     for stat_path in [
             'activities',
             'activity_files',
@@ -219,5 +224,4 @@ for publisher in git_stats_publisher.keys():
             ('validation', lambda x: x == 'fail', ''),
             ('versions', lambda x: True, ''),
     ]:
-        git_stats_publisher.folder = 'current/aggregated-publisher/' + publisher + '/'
         make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
