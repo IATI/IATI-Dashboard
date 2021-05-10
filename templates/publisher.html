@@ -167,7 +167,7 @@
                     </div>
                     <div class="col-md-2 break">
                       {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                      <!-- <a href="http://validator.iatistandard.org/?url={{ckan[publisher][dataset_name].resource.url|urlencode}}">validator</a> -->
+                      <a href="https://iati-validator.herokuapp.com/?url={{ ckan[publisher][dataset_name].resource.url|urlencode }}">validator</a>
                       {% endif %}
                     </div>
                   </div>
