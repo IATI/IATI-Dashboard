@@ -1,11 +1,12 @@
 Code for IATI Analytics
 =======================
 
-.. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
-    :target: https://github.com/codeforIATI/analytics/blob/main/LICENSE.md
-
+.. image:: https://github.com/codeforIATI/analytics/actions/workflows/ci.yml/badge.svg?branch=main
+    :target: https://github.com/codeforIATI/analytics/actions/workflows/ci.yml
 .. image:: https://coveralls.io/repos/github/codeforIATI/analytics/badge.svg?branch=main
     :target: https://coveralls.io/github/codeforIATI/analytics?branch=main
+.. image:: https://img.shields.io/badge/license-GPLv3-blue.svg
+    :target: https://github.com/codeforIATI/analytics/blob/main/LICENSE.md
 
 Introduction
 ------------
