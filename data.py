@@ -67,21 +67,21 @@ class JSONDir(MutableMapping):
             with open(os.path.join(self.folder, key + '.json')) as fp:
                 data = json.load(fp, object_pairs_hook=OrderedDict)
 
-            # Deal with publishers who had an old registry ID
-            # If this publisher had at least one old ID in the past
-            if (self.get_publisher_name() in get_registry_id_matches().values()) and ('gitaggregate' in self.folder):
-                # Perform the merging
-                # Look over the set of changed registry IDs
-                for previous_id, current_id in get_registry_id_matches().items():
-                    folder = self.folder
-                    previous_path = os.path.join(folder.replace(current_id, previous_id), key + '.json')
-                    #  If this publisher has had an old ID and there is data for it
-                    if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
-                        # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
-                        with open(previous_path) as old_fp:
-                            old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
-                            deep_merge(data, old_pub_data)
-                            # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
+            # # Deal with publishers who had an old registry ID
+            # # If this publisher had at least one old ID in the past
+            # if (self.get_publisher_name() in get_registry_id_matches().values()) and ('gitaggregate' in self.folder):
+            #     # Perform the merging
+            #     # Look over the set of changed registry IDs
+            #     for previous_id, current_id in get_registry_id_matches().items():
+            #         folder = self.folder
+            #         previous_path = os.path.join(folder.replace(current_id, previous_id), key + '.json')
+            #         #  If this publisher has had an old ID and there is data for it
+            #         if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
+            #             # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
+            #             with open(previous_path) as old_fp:
+            #                 old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
+            #                 deep_merge(data, old_pub_data)
+            #                 # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
         else:
             # No value found as either a folder or json file
             raise KeyError(key)
