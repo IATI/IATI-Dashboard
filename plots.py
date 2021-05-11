@@ -164,20 +164,20 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     fig.savefig('out/{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
     plt.close('all')
 
-    fn = 'out/{0}{1}.csv'.format(img_prefix, stat_name)
-    with open(fn, 'w') as fp:
-        writer = csv.writer(fp)
-        if keys:
-            sorted_keys = sorted(list(keys))
-            writer.writerow(['date'] + sorted_keys)
-        else:
-            writer.writerow(['date', 'value'])
-        for k, v in items:
-            if keys:
-                writer.writerow([k] + [v.get(key) for key in sorted_keys])
-            else:
-                writer.writerow([k, v])
-        del writer
+    # fn = 'out/{0}{1}.csv'.format(img_prefix, stat_name)
+    # with open(fn, 'w') as fp:
+    #     writer = csv.writer(fp)
+    #     if keys:
+    #         sorted_keys = sorted(list(keys))
+    #         writer.writerow(['date'] + sorted_keys)
+    #     else:
+    #         writer.writerow(['date', 'value'])
+    #     for k, v in items:
+    #         if keys:
+    #             writer.writerow([k] + [v.get(key) for key in sorted_keys])
+    #         else:
+    #             writer.writerow([k, v])
+    #     del writer
 
 
 for stat_path in [
