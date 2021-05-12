@@ -12,26 +12,30 @@ and num2date
 
 """
 import datetime
-import os
-import csv
+import numpy as np  # noqa: F401
 from collections import defaultdict
+import os  # noqa: F401
+import csv
 import common
 import data
-from vars import expected_versions
+from vars import expected_versions  # noqa: F401
 import matplotlib as mpl
 mpl.use('Agg')
 import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.dates as mdates  # noqa: E402
 
+#  Import failed_downloads as a global
+failed_downloads = csv.reader(open('data/downloads/history.csv'))
 
-class AugmentedGitJSONDir(data.GitJSONDir):
+gitaggregate_publisher = data.JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+
+
+class AugmentedJSONDir(data.JSONDir):
     def __getitem__(self, key):
         if key == 'failed_downloads':
-            with open('data/downloads/history.csv') as f:
-                return dict((row[0], row[1]) for row in csv.reader(f))
-        if key == 'publisher_types':
+            return dict((row[0], row[1]) for row in failed_downloads)
+        elif key == 'publisher_types':
             out = defaultdict(lambda: defaultdict(int))
-            gitaggregate_publisher = data.GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
             for publisher, publisher_data in gitaggregate_publisher.items():
                 if publisher in data.ckan_publishers:
                     organization_type = common.get_publisher_type(publisher)['name']
@@ -42,7 +46,6 @@ class AugmentedGitJSONDir(data.GitJSONDir):
             return out
         elif key == 'activities_per_publisher_type':
             out = defaultdict(lambda: defaultdict(int))
-            gitaggregate_publisher = data.GitJSONDir('current/aggregated-publisher/', './stats-calculated/')
             for publisher, publisher_data in gitaggregate_publisher.items():
                 if publisher in data.ckan_publishers:
                     organization_type = common.get_publisher_type(publisher)['name']
@@ -52,23 +55,16 @@ class AugmentedGitJSONDir(data.GitJSONDir):
                     print('Publisher not matched:', publisher)
             return out
         else:
-            return super().__getitem__(key)
+            return super(AugmentedJSONDir, self).__getitem__(key)
 
 
-historical = data.JSONDir(
-    './data/historical/gitaggregate-dated')
-gitjsondir = AugmentedGitJSONDir(
-    'current/aggregated/', './stats-calculated/')
-
-
-def make_plot(stat_path, historical_stats, git_stats, img_prefix=''):
+def make_plot(stat_path, git_stats, img_prefix=''):
     if type(stat_path) == tuple:
         stat_name = stat_path[0]
     else:
         stat_name = stat_path
 
-    stat_dict = git_stats.get(stat_name, {})
-    stat_dict = {**historical_stats.get(stat_name, {}), **stat_dict}
+    stat_dict = git_stats.get(stat_name)
     if not stat_dict:
         return
     items = sorted(stat_dict.items())
@@ -129,21 +125,25 @@ def make_plot(stat_path, historical_stats, git_stats, img_prefix=''):
     fig.savefig('out/{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
     plt.close('all')
 
-    # fn = 'out/{0}{1}.csv'.format(img_prefix, stat_name)
-    # with open(fn, 'w') as fp:
-    #     writer = csv.writer(fp)
-    #     if keys:
-    #         sorted_keys = sorted(list(keys))
-    #         writer.writerow(['date'] + sorted_keys)
-    #     else:
-    #         writer.writerow(['date', 'value'])
-    #     for k, v in items:
-    #         if keys:
-    #             writer.writerow([k] + [v.get(key) for key in sorted_keys])
-    #         else:
-    #             writer.writerow([k, v])
-    #     del writer
+    fn = 'out/{0}{1}.csv'.format(img_prefix, stat_name)
+    with open(fn, 'w') as fp:
+        writer = csv.writer(fp)
+        if keys:
+            sorted_keys = sorted(list(keys))
+            writer.writerow(['date'] + sorted_keys)
+        else:
+            writer.writerow(['date', 'value'])
+        for k, v in items:
+            if keys:
+                writer.writerow([k] + [v.get(key) for key in sorted_keys])
+            else:
+                writer.writerow([k, v])
+        del writer
 
+
+# Load aggregated stats for all data
+print("All data")
+git_stats = AugmentedJSONDir('./stats-calculated/gitaggregate-dated')
 
 for stat_path in [
         'activities',
@@ -166,20 +166,17 @@ for stat_path in [
         ('publisher_types', lambda x: True, ''),
         ('activities_per_publisher_type', lambda x: True, '')
 ]:
-    make_plot(stat_path, historical, gitjsondir)
+    make_plot(stat_path, git_stats)
 
-# Delete gitjsondir variable to save memory
-del gitjsondir
+# Delete git_stats variable to save memory
+del git_stats
 
 try:
     os.makedirs('out/publisher_imgs')
 except OSError:
     pass
 
-historical_publishers = data.JSONDir(
-    './data/historical/gitaggregate-publisher-dated')
-git_stats_publishers = AugmentedGitJSONDir(
-    'current/aggregated-publisher/', './stats-calculated/')
+git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.items():
     for stat_path in [
             'activities',
@@ -192,4 +189,4 @@ for publisher, git_stats_publisher in git_stats_publishers.items():
             ('validation', lambda x: x == 'fail', ''),
             ('versions', lambda x: True, ''),
     ]:
-        make_plot(stat_path, historical_publishers.get(publisher, {}), git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+        make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))

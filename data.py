@@ -5,7 +5,6 @@ import os
 import re
 import csv
 from decimal import Decimal
-from git import Repo
 
 
 # Modified from:
@@ -68,21 +67,21 @@ class JSONDir(MutableMapping):
             with open(os.path.join(self.folder, key + '.json')) as fp:
                 data = json.load(fp, object_pairs_hook=OrderedDict)
 
-            # # Deal with publishers who had an old registry ID
-            # # If this publisher had at least one old ID in the past
-            # if (self.get_publisher_name() in get_registry_id_matches().values()) and ('gitaggregate' in self.folder):
-            #     # Perform the merging
-            #     # Look over the set of changed registry IDs
-            #     for previous_id, current_id in get_registry_id_matches().items():
-            #         folder = self.folder
-            #         previous_path = os.path.join(folder.replace(current_id, previous_id), key + '.json')
-            #         #  If this publisher has had an old ID and there is data for it
-            #         if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
-            #             # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
-            #             with open(previous_path) as old_fp:
-            #                 old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
-            #                 deep_merge(data, old_pub_data)
-            #                 # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
+            # Deal with publishers who had an old registry ID
+            # If this publisher had at least one old ID in the past
+            if (self.get_publisher_name() in get_registry_id_matches().values()) and ('gitaggregate' in self.folder):
+                # Perform the merging
+                # Look over the set of changed registry IDs
+                for previous_id, current_id in get_registry_id_matches().items():
+                    folder = self.folder
+                    previous_path = os.path.join(folder.replace(current_id, previous_id), key + '.json')
+                    #  If this publisher has had an old ID and there is data for it
+                    if (current_id == self.get_publisher_name()) and os.path.exists(previous_path):
+                        # Get the corresponding value for the old publisher ID, and merge with the existing value for this publisher
+                        with open(previous_path) as old_fp:
+                            old_pub_data = json.load(old_fp, object_pairs_hook=OrderedDict)
+                            deep_merge(data, old_pub_data)
+                            # FIXME i) Should deep_merge attempt to sort this ordereddict ii) Should there be an attempt to aggregate/average conflicting values?
         else:
             # No value found as either a folder or json file
             raise KeyError(key)
@@ -117,47 +116,6 @@ class JSONDir(MutableMapping):
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
         return None
-
-
-class GitJSONDir(JSONDir):
-    def __init__(self, folder, repo_path, lookup=None):
-        self.repo_path = repo_path
-        self.folder = folder
-        self.repo = Repo(repo_path)
-        if lookup:
-            self.lookup = lookup
-        else:
-            metadata_file = 'metadata.json'
-            commits = self.repo.git.log(
-                '--format=%h',
-                '--',
-                metadata_file).split('\n')
-            dates = []
-            for commit in commits:
-                content = self.get_contents(commit, metadata_file)
-                dates.append(json.loads(content)['updated_at'])
-            self.lookup = list(zip(commits, dates))
-
-    def get_contents(self, commit, path):
-        blob = self.repo.git.ls_tree(commit, path).split()[2]
-        return self.repo.git.cat_file('blob', blob)
-
-    def keys(self):
-        return [x for x in os.listdir(self.repo_path + self.folder)]
-
-    def __getitem__(self, key):
-        if os.path.exists(self.repo_path + self.folder + key):
-            return GitJSONDir(self.folder + key + '/', self.repo_path, self.lookup)
-        items = {}
-        for commit, date in self.lookup:
-            try:
-                items[date] = json.loads(
-                    self.get_contents(
-                        commit,
-                        self.folder + key + '.json'))
-            except IndexError:
-                continue
-        return items
 
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
