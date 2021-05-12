@@ -5,6 +5,7 @@ import os
 import re
 import csv
 from decimal import Decimal
+from git import Repo
 
 
 # Modified from:
@@ -116,6 +117,47 @@ class JSONDir(MutableMapping):
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
         return None
+
+
+class GitJSONDir(JSONDir):
+    def __init__(self, folder, repo_path, lookup=None):
+        self.repo_path = repo_path
+        self.folder = folder
+        self.repo = Repo(repo_path)
+        if lookup:
+            self.lookup = lookup
+        else:
+            metadata_file = 'metadata.json'
+            commits = self.repo.git.log(
+                '--format=%h',
+                '--',
+                metadata_file).split('\n')
+            dates = []
+            for commit in commits:
+                content = self.get_contents(commit, metadata_file)
+                dates.append(json.loads(content)['updated_at'])
+            self.lookup = list(zip(commits, dates))
+
+    def get_contents(self, commit, path):
+        blob = self.repo.git.ls_tree(commit, path).split()[2]
+        return self.repo.git.cat_file('blob', blob)
+
+    def keys(self):
+        return [x for x in os.listdir(self.repo_path + self.folder)]
+
+    def __getitem__(self, key):
+        if os.path.exists(self.repo_path + self.folder + key):
+            return GitJSONDir(self.folder + key + '/', self.repo_path, self.lookup)
+        items = {}
+        for commit, date in self.lookup:
+            try:
+                items[date] = json.loads(
+                    self.get_contents(
+                        commit,
+                        self.folder + key + '.json'))
+            except IndexError:
+                continue
+        return items
 
 
 def get_publisher_stats(publisher, stats_type='aggregated'):
