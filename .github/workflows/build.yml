@@ -1,5 +1,8 @@
 name: Build
 on:
+  push:
+    branches:
+      - dev
   schedule:
     - cron: '0 8 * * *'
 jobs:
@@ -40,13 +43,33 @@ jobs:
       run: python make_html.py
     - name: Add static files to output
       run: cp -r static/* out
-    - name: Deploy 🚀
+    - name: Set CNAME (production)
+      if: github.ref == 'refs/heads/main'
+      run: echo "analytics.codeforiati.org" > out/CNAME
+    - name: Deploy (production) 🚀
+      if: github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GIT_CONFIG_NAME: Code for IATI bot
         GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
         GITHUB_TOKEN: ${{ secrets.TOKEN }}
         REPOSITORY_NAME: codeforIATI/analytics-public
+        BRANCH: gh-pages
+        FOLDER: out
+        CLEAN: true
+        SILENT: true
+        SINGLE_COMMIT: true
+    - name: Set CNAME (dev)
+      if: github.ref == 'refs/heads/dev'
+      run: echo "dev.analytics.codeforiati.org" > out/CNAME
+    - name: Deploy (dev) 🚀
+      if: github.ref == 'refs/heads/dev'
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        GIT_CONFIG_NAME: Code for IATI bot
+        GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+        REPOSITORY_NAME: codeforIATI/analytics-dev
         BRANCH: gh-pages
         FOLDER: out
         CLEAN: true
