@@ -192,4 +192,4 @@ for publisher, git_stats_publisher in git_stats_publishers.items():
             ('validation', lambda x: x == 'fail', ''),
             ('versions', lambda x: True, ''),
     ]:
-        make_plot(stat_path, historical_publishers[publisher], git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+        make_plot(stat_path, historical_publishers.get(publisher, {}), git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
