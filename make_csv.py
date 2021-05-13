@@ -92,15 +92,17 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 
 previous_months = timeliness.previous_months_reversed
 
-for fname, f, assessment_label in (
-    ('timeliness_frequency.csv', timeliness.publisher_frequency_sorted, 'Frequency'),
-    ('timeliness_timelag.csv', timeliness.publisher_timelag_sorted, 'Time lag')
-):
-    with open(os.path.join('out', fname), 'w') as fp:
-        writer = csv.writer(fp)
-        writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + [assessment_label])
-        for publisher, publisher_title, per_month, assessment, hft in f():
-            writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
+with open(os.path.join('out', 'timeliness_frequency.csv'), 'w') as fp:
+    writer = csv.writer(fp)
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Frequency', 'First published'])
+    for publisher, publisher_title, per_month, assessment, hft, first_published_band in timeliness.publisher_frequency_sorted():
+        writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment, first_published_band])
+
+with open(os.path.join('out', 'timeliness_timelag.csv'), 'w') as fp:
+    writer = csv.writer(fp)
+    writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Time lag'])
+    for publisher, publisher_title, per_month, assessment, hft in timeliness.publisher_timelag_sorted():
+        writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
 with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
     writer = csv.writer(fp)

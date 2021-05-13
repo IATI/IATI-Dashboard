@@ -202,3 +202,20 @@ For each transaction (of any type) in the publisher's data:
     </div>
     </div>
 {% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders'],
+    textExtraction: {
+        4: function(node, table, cellIndex) {
+            return $(node).attr('data-index');
+        },
+        14: function(node, table, cellIndex) {
+            return $(node).attr('data-severity');
+        },
+        15: function(node, table, cellIndex) {
+            return $(node).attr('data-index');
+        }
+    }
+}
+{% endblock %}

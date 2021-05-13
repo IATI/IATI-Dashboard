@@ -92,16 +92,18 @@ def publisher_frequency():
 
         if first_published >= previous_month_days[2]:
             # This is a publisher of less than 3 months
-            # if True in [ x in updates_per_month for x in previous_months[:3] ]:
+            first_published_band = 'Less than 3 months ago'
             frequency = 'Annual'
         elif first_published >= previous_month_days[5]:
             # This is a publisher of less than 6 months
+            first_published_band = 'Less than 6 months ago'
             if all([x in updates_per_month for x in previous_months[:3]]):
                 frequency = 'Monthly'
             else:
                 frequency = 'Annual'
         elif first_published >= previous_month_days[11]:
             # This is a publisher of less than 12 months
+            first_published_band = 'Less than 1 year ago'
             if [x in updates_per_month for x in previous_months[:6]].count(True) >= 4:
                 frequency = 'Monthly'
             elif any([x in updates_per_month for x in previous_months[:3]]) and any([x in updates_per_month for x in previous_months[3:6]]):
@@ -109,6 +111,7 @@ def publisher_frequency():
             else:
                 frequency = 'Annual'
         else:
+            first_published_band = 'More than 1 year ago'
             # This is a publisher of 1 year or more
             if ([x in updates_per_month for x in previous_months[:12]].count(True) >= 7) and ([x in updates_per_month for x in previous_months[:2]].count(True) >= 1):
                 # Data updated in 7 or more of past 12 full months AND data updated at least once in last 2 full months.
@@ -128,7 +131,7 @@ def publisher_frequency():
 
         # If the publisher is in the list of current publishers, return a generator object
         if publisher in publisher_name:
-            yield publisher, publisher_name.get(publisher), updates_per_month, frequency, hft
+            yield publisher, publisher_name.get(publisher), updates_per_month, frequency, hft, first_published_band
 
 
 def frequency_index(frequency):
@@ -150,11 +153,15 @@ def publisher_frequency_dict():
 
 
 def publisher_frequency_summary():
-    return Counter(frequency for _, _, _, frequency, _ in publisher_frequency())
+    return Counter(frequency for _, _, _, frequency, _, _ in publisher_frequency())
 
 
 def timelag_index(timelag):
     return ['One month', 'A quarter', 'Six months', 'One year', 'More than one year'].index(timelag)
+
+
+def first_published_band_index(first_published_band):
+    return ['More than 1 year ago', 'Less than 1 year ago', 'Less than 6 months ago', 'Less than 3 months ago'].index(first_published_band)
 
 
 def publisher_timelag_sorted():
