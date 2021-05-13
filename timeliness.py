@@ -45,7 +45,7 @@ today = datetime.date.today()
 this_month = '{}-{}'.format(today.year, str(today.month).zfill(2))
 
 # Store a list of the past 12 months from today
-previous_month_days = [today - relativedelta(months=x) for x in range(1, 13)]
+previous_month_days = [today - relativedelta(months=x) for x in range(13)]
 
 # Store the current month and year numbers
 this_month_number = datetime.datetime.today().month
@@ -90,18 +90,18 @@ def publisher_frequency():
 
         # Implement the assessment logic on https://analytics.codeforiati.org/timeliness.html#h_assesment
 
-        if first_published >= previous_month_days[2]:
+        if first_published >= previous_month_days[3]:
             # This is a publisher of less than 3 months
             first_published_band = 'Less than 3 months ago'
             frequency = 'Annual'
-        elif first_published >= previous_month_days[5]:
+        elif first_published >= previous_month_days[6]:
             # This is a publisher of less than 6 months
             first_published_band = 'Less than 6 months ago'
             if all([x in updates_per_month for x in previous_months[:3]]):
                 frequency = 'Monthly'
             else:
                 frequency = 'Annual'
-        elif first_published >= previous_month_days[11]:
+        elif first_published >= previous_month_days[12]:
             # This is a publisher of less than 12 months
             first_published_band = 'Less than 1 year ago'
             if [x in updates_per_month for x in previous_months[:6]].count(True) >= 4:
