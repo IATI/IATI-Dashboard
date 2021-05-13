@@ -61,7 +61,7 @@ jobs:
         SINGLE_COMMIT: true
     - name: Set CNAME (dev)
       if: github.ref == 'refs/heads/dev'
-      run: echo "dev.analytics.codeforiati.org" > out/CNAME
+      run: echo "analytics-dev.codeforiati.org" > out/CNAME
     - name: Deploy (dev) 🚀
       if: github.ref == 'refs/heads/dev'
       uses: JamesIves/github-pages-deploy-action@3.7.1
