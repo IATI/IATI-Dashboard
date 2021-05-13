@@ -37,7 +37,7 @@
             <tbody>
               {% for i, (element,publishers) in enumerate(current_stats.inverted_publisher.elements.items()) %}
               <tr>
-                <td><a href="element/{{slugs.element.by_i[i]}}.html">{{element}}</a></td>
+                <td class="break"><a href="element/{{slugs.element.by_i[i]}}.html">{{element}}</a></td>
                 <td><a href="element/{{slugs.element.by_i[i]}}.html">{{publishers|length}}</a></td>
                 <td>{{current_stats.aggregated.elements[element]}}</td>
                 <td>{{current_stats.aggregated.elements_total[element]}}</td>

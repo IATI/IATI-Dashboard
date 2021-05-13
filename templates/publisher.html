@@ -341,7 +341,7 @@
         <tbody>
             {% for package, activities in publisher_inverted.activities.items() %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
                 <td>{{activities}}</td>
                 <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
                 <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
