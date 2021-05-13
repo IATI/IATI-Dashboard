@@ -46,6 +46,7 @@ this_month = '{}-{}'.format(today.year, str(today.month).zfill(2))
 
 # Store a list of the past 12 months from today
 previous_month_days = [today - relativedelta(months=x) for x in range(13)]
+previous_year_days = [today - relativedelta(years=x) for x in range(6)]
 
 # Store the current month and year numbers
 this_month_number = datetime.datetime.today().month
@@ -96,14 +97,14 @@ def publisher_frequency():
             frequency = 'Annual'
         elif first_published >= previous_month_days[6]:
             # This is a publisher of less than 6 months
-            first_published_band = 'Less than 6 months ago'
+            first_published_band = '3-6 months ago'
             if all([x in updates_per_month for x in previous_months[:3]]):
                 frequency = 'Monthly'
             else:
                 frequency = 'Annual'
         elif first_published >= previous_month_days[12]:
             # This is a publisher of less than 12 months
-            first_published_band = 'Less than 1 year ago'
+            first_published_band = '6-12 months ago'
             if [x in updates_per_month for x in previous_months[:6]].count(True) >= 4:
                 frequency = 'Monthly'
             elif any([x in updates_per_month for x in previous_months[:3]]) and any([x in updates_per_month for x in previous_months[3:6]]):
@@ -111,7 +112,12 @@ def publisher_frequency():
             else:
                 frequency = 'Annual'
         else:
-            first_published_band = 'More than 1 year ago'
+            if first_published >= previous_year_days[3]:
+                first_published_band = '1-3 years ago'
+            elif first_published >= previous_year_days[5]:
+                first_published_band = '3-5 years ago'
+            else:
+                first_published_band = 'More than 5 years ago'
             # This is a publisher of 1 year or more
             if ([x in updates_per_month for x in previous_months[:12]].count(True) >= 7) and ([x in updates_per_month for x in previous_months[:2]].count(True) >= 1):
                 # Data updated in 7 or more of past 12 full months AND data updated at least once in last 2 full months.
@@ -161,7 +167,7 @@ def timelag_index(timelag):
 
 
 def first_published_band_index(first_published_band):
-    return ['More than 1 year ago', 'Less than 1 year ago', 'Less than 6 months ago', 'Less than 3 months ago'].index(first_published_band)
+    return ['More than 5 years ago', '3-5 years ago', '1-3 years ago', '6-12 months ago', '3-6 months ago', 'Less than 3 months ago'].index(first_published_band)
 
 
 def publisher_timelag_sorted():
