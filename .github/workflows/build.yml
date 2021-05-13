@@ -43,9 +43,6 @@ jobs:
       run: python make_html.py
     - name: Add static files to output
       run: cp -r static/* out
-    - name: Set CNAME (production)
-      if: github.ref == 'refs/heads/main'
-      run: echo "analytics.codeforiati.org" > out/CNAME
     - name: Deploy (production) 🚀
       if: github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@3.7.1
