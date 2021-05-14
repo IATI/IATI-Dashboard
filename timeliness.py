@@ -170,19 +170,18 @@ def first_published_band_index(first_published_band):
     return ['More than 5 years ago', '3-5 years ago', '1-3 years ago', '6-12 months ago', '3-6 months ago', 'Less than 3 months ago'].index(first_published_band)
 
 
+def publisher_timelag():
+    return [(publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag'], has_future_transactions(publisher)) for publisher, agg in JSONDir('./stats-calculated/current/aggregated-publisher').items()]
+
+
 def publisher_timelag_sorted():
-    publisher_timelags = [(publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag'], has_future_transactions(publisher)) for publisher, agg in JSONDir('./stats-calculated/current/aggregated-publisher').items()]
     return sorted(
-        publisher_timelags,
+        publisher_timelag(),
         key=lambda tup: (timelag_index(tup[3]), tup[1]))
 
 
 def publisher_timelag_dict():
-    publisher_timelags = [(publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag'], has_future_transactions(publisher)) for publisher, agg in JSONDir('./stats-calculated/current/aggregated-publisher').items()]
-    data = {}
-    for v in publisher_timelags:
-        data[v[0]] = v
-    return data
+    return {v[0]: v for v in publisher_timelag()}
 
 
 def publisher_timelag_summary():
