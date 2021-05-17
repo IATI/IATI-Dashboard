@@ -269,6 +269,7 @@ def element(slug):
                            element=element,
                            publishers=publishers,
                            url=lambda x: '../' + x,
+                           element_or_attribute='attribute' if '@' in element else 'element',
                            page='elements')
 
 

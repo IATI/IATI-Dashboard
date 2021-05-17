@@ -8,6 +8,10 @@
   <h1>Usage of <code>{{ element }}</code></h1>
   <p class="lead">Who uses <code>{{ element }}</code>?</p>
   <p>Checking usage of <code><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
+
+  {% if element_or_attribute == 'attribute' %}
+  <p>Attributes containing an empty value are treated as not published.</p>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
