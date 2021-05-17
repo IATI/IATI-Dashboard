@@ -76,7 +76,7 @@ page_sub_leads = {
     'organisation': 'Checking the IATI Registry for files that have <code>iati-organisations</code> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain.',
     'identifiers': 'Checking the <code>iati-identifier</code> element for duplicate values per publisher. A duplicate appears if a publisher creates two activities with the same identifier.',
     'reporting_orgs': 'Checking the <code>reporting-org</code> identifiers in IATI data.',
-    'elements': 'Checking usage of all elements within the IATI Standard.',
+    'elements': 'Checking usage of all elements/attributes within the IATI Standard.',
     'codelists': 'Checking usage of codelists across IATI data files.',
     'booleans': 'Checking usage of booleans across IATI data files. Booleans are values that are either true or false. In XML <code>true</code> or <code>1</code> can be used for true and <code>false</code> or <code>0</code> can be used for false.',
 }
