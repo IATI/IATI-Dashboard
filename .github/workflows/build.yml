@@ -4,7 +4,8 @@ on:
     branches:
       - dev
   repository_dispatch:
-    types: [build]
+    types:
+      - build
 jobs:
   build:
     runs-on: ubuntu-latest
