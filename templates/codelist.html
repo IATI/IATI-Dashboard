@@ -9,7 +9,7 @@
 <p class="lead">Who uses <code>{{codelist_mapping[major_version].get(element)}}</code> in <code><a href="{{element|xpath_to_url}}">{{element}}</a></code>?</p>
 <p class="lead">(for files published to version {{major_version}}.xx of the standard)</p>
 <p style="float:right">(<a href="{{stats_url}}/current/inverted-publisher/codelist_values.json">This page in JSON format</a>)</p>
-<p>Values should be on the <code><a href="https://iatistandard.org/{% if major_version=='1' %}105/{%endif%}codelists/{{codelist_mapping[major_version].get(element)}}/">{{codelist_mapping[major_version].get(element)}}</a></code> codelist.</p>
+<p>Values should be on the <code><a href="{% if major_version=='2' %}https://codelists.codeforiati.org/{% else %}https://iatistandard.org/105/codelists/{% endif %}{{codelist_mapping[major_version].get(element)}}/">{{codelist_mapping[major_version].get(element)}}</a></code> codelist.</p>
 {% endblock %}
 
 {% block content %}
