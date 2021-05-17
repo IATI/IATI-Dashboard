@@ -71,11 +71,14 @@ def firstint(s):
 def xpath_to_url(path):
     path = path.strip('./')
     if path.startswith('iati-activity'):
-        return 'https://reference.codeforiati.org/activity-standard/iati-activities/' + path.split('@')[0]
+        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/' + path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        return 'https://reference.codeforiati.org/organisation-standard/iati-organisations/' + path.split('@')[0]
+        url = 'https://reference.codeforiati.org/organisation-standard/iati-organisations/' + path.split('@')[0]
     else:
-        return 'https://reference.codeforiati.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
+        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
+    if '@' in path:
+        url += '#attributes'
+    return url
 
 
 def registration_agency(orgid):
