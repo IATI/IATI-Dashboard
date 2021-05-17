@@ -10,7 +10,7 @@
   <p>Checking usage of <code><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
 
   {% if element_or_attribute == 'attribute' %}
-  <p>Attributes containing an empty value are treated as not published.</p>
+  <p>An empty value for the attribute is treated the same as if the attribute is not present.</p>
   {% endif %}
 {% endblock %}
 
