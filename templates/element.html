@@ -27,16 +27,16 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Publishing this element</h3>
+          <h3 class="panel-title">Publishing this {{ element_or_attribute }}</h3>
         </div>
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
-                <td>Files with Element</td>
-                <td>Total Files</td>
-                <td>Activities/Orgs with Element</td>
-                <td>Total Instances of Element</td>
-                <td>Total Activities</td>
+                <td>Files with {{ element_or_attribute }}</td>
+                <td>Total files</td>
+                <td>Activities/Orgs with {{ element_or_attribute }}</td>
+                <td>Total instances of {{ element_or_attribute }}</td>
+                <td>Total activities</td>
           </thead>
           <tbody>
             {% for publisher in sorted(publishers) %}
@@ -61,14 +61,14 @@
     <div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">Not publishing this element</h3>
+          <h3 class="panel-title">Not publishing this {{ element_or_attribute }}</h3>
         </div>
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
-                <td>Total Files</td>
-                <td>Total Activities</td>
-                <td>Total Organisations</td>
+                <td>Total files</td>
+                <td>Total activities</td>
+                <td>Total organisations</td>
           </thead>
           <tbody>
             {% for publisher in current_stats.inverted_publisher.publishers %}
