@@ -10,7 +10,7 @@
 
     <div class="panel panel-default" id="h_table">
         <div class="panel-heading">
-            <span class="pull-right"><a href="{{url('humanitarian.csv')}}">(This table as CSV)</a></span>
+            <span class="pull-right"><a href="{{ url('humanitarian.csv') }}">(This table as CSV)</a></span>
             <h3 class="panel-title">Humanitarian</h3>
         </div>
 
@@ -28,20 +28,20 @@
                 <tr>
                     <th style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
                     {% for _, column_header in humanitarian.columns %}
-                    <th style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
+                    <th style="vertical-align:middle; border: 1px solid gray;">{{ column_header }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in humanitarian.table() %}
                 <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
                     {% for column_slug, _ in humanitarian.columns %}
                       <td style="border-right: 1px solid gray; border-left: 1px solid gray;">
                         {%- if column_slug == 'publisher_type' -%}
-                          {{row[column_slug]}}
+                          {{ row[column_slug] }}
                         {%- else -%}
-                          {{row[column_slug]|int}}
+                          {{ row[column_slug]|int }}
                         {%- endif -%}
                       </td>
                     {% endfor %}

@@ -90,7 +90,7 @@
   }
   </style>
   <link rel="icon" href="/favicon.ico">
-  <title>{% block title %}Code for IATI Analytics - {{page_titles[page]}}{% endblock %}</title>
+  <title>{% block title %}Code for IATI Analytics - {{ page_titles[page] }}{% endblock %}</title>
 
   {% block extrahead %}{% endblock %}
 </head>
@@ -117,7 +117,7 @@
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
         {% for item in navigation[navigation_reverse[page]] %}
-            <li{% if item==page %} class="active"{% endif %}><a href="{{url(item+'.html')}}">{{short_page_titles[item]}}</a></li>
+            <li{% if item==page %} class="active"{% endif %}><a href="{{ url(item+'.html') }}">{{ short_page_titles[item] }}</a></li>
         {% endfor %}
         </ul>
       </div><!--/.nav-collapse -->
@@ -128,9 +128,9 @@
       {% block page_header_div %}
         <div class="page-header">
           {% block page_header %}
-          <h1>{{page_titles[page]}}</h1>
-          {% if page in page_leads %}<p class="lead">{{page_leads[page]|safe}}</p>{% endif %}
-          {% if page in page_sub_leads %}<p>{{page_sub_leads[page]|safe}}</p>{% endif %}
+          <h1>{{ page_titles[page] }}</h1>
+          {% if page in page_leads %}<p class="lead">{{ page_leads[page]|safe }}</p>{% endif %}
+          {% if page in page_sub_leads %}<p>{{ page_sub_leads[page]|safe }}</p>{% endif %}
           {% endblock %}
         </div>
       {% endblock %}

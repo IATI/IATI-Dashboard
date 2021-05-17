@@ -22,7 +22,7 @@
     <div class="panel panel-default" id="h_table">
 
         <div class="panel-heading">
-            <span class="pull-right"><a href="{{url('forwardlooking.csv')}}">(This table as CSV)</a></span>
+            <span class="pull-right"><a href="{{ url('forwardlooking.csv') }}">(This table as CSV)</a></span>
             <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
         </div>
 
@@ -48,14 +48,14 @@
                 <tr>
                     <th rowspan="2" style="vertical-align:middle; border: 1px solid gray;">Publisher Name</th>
                     {% for column_header in forwardlooking.column_headers %}
-                    <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{column_header}}</th>
+                    <th colspan="3" style="vertical-align:middle; border: 1px solid gray;">{{ column_header }}</th>
                     {% endfor %}
                     <th style="border: 1px solid gray;" rowspan="2"></td>
                 </tr>
                 <tr>
                     {% for i in range(0,3) %}
                     {% for year in forwardlooking.years %}
-                    <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{year}}</td>
+                    <td style="border-bottom: 1px solid gray;{% if loop.first %} border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">{{ year }}</td>
                     {% endfor %}
                     {% endfor %}
                 </tr>
@@ -63,12 +63,12 @@
             <tbody>
                 {% for row in forwardlooking.table() %}
                 <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{row.publisher}}.html">{{row.publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
 
                     {% for column in row.year_columns %}
                         {% for year in forwardlooking.years %}
                             <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
-                                {{column[year]}}
+                                {{ column[year] }}
                             </td>
                         {% endfor %}
                     {% endfor %}

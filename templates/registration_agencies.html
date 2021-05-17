@@ -21,9 +21,9 @@
   <tbody>
 {% for registration_agency, count in sorted(registration_agencies.items()) %}
     <tr>
-        <td>{{registration_agency}}</td>
-        <td>{{count}}</td>
-        <td>{{registration_agencies_publishers[registration_agency]|count}}</td>
+        <td>{{ registration_agency }}</td>
+        <td>{{ count }}</td>
+        <td>{{ registration_agencies_publishers[registration_agency]|count }}</td>
     </tr>
 {% endfor %}
   <tbody>
@@ -50,10 +50,10 @@
 {% for orgid, publishers in nonmatching %}
 {% for publisher, count in publishers.items() %}
     <tr>
-        <td><code>{{orgid|replace(' ', ' ')}}</code></td>
-        <td><a href="publisher/{{publisher}}.html">{{publisher}}</a></td>
-        <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
-        <td>{{count}}</td>
+        <td><code>{{ orgid|replace(' ', ' ') }}</code></td>
+        <td><a href="publisher/{{ publisher }}.html">{{ publisher }}</a></td>
+        <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
+        <td>{{ count }}</td>
     </tr>
 {% endfor %}
 {% endfor %}

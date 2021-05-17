@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes %}
 {% block title %}
-{{ super () }} Publisher: {{publisher_name[publisher]}}
+{{ super () }} Publisher: {{ publisher_name[publisher] }}
 {% endblock %}
 {% block page_header %}
-<a href="{{stats_gh_url}}/current/aggregated-publisher/{{publisher}}/" style="float:right">(Publisher Stats JSON)</a>
-<h1>Publisher: {{publisher_name[publisher]}}</h1>
+<a href="{{ stats_gh_url }}/current/aggregated-publisher/{{ publisher }}/" style="float:right">(Publisher Stats JSON)</a>
+<h1>Publisher: {{ publisher_name[publisher] }}</h1>
 <p class="lead"></p>
 {% endblock %}
 
@@ -53,60 +53,60 @@
         <tbody>
             <tr>
                 <td>On the Registry</td>
-                <td><a href="http://iatiregistry.org/publisher/{{publisher}}">{{publisher}}</a></td>
+                <td><a href="http://iatiregistry.org/publisher/{{ publisher }}">{{ publisher }}</a></td>
             </tr>
             <tr>
                 <td>Reporting Org on Registry</td>
                 <td>{% if ckan_publishers and publisher in ckan_publishers %}
-                    <code>{{ckan_publishers[publisher].result.publisher_iati_id}}</code>
+                    <code>{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
                     {% endif %}
                 </td>
             </tr>
             <tr>
                 <td>Reporting Org(s) in Data</td>
                 <td>
-                {% for org in publisher_stats.reporting_orgs%}
-                <code>{{org|replace(' ', ' ')}}</code>
+                {% for org in publisher_stats.reporting_orgs %}
+                <code>{{ org|replace(' ', ' ') }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
                 <td>Activity Files</td>
-                <td>{{publisher_stats.activity_files}}</td>
+                <td>{{ publisher_stats.activity_files }}</td>
             </tr><tr>
                 <td>Organisation Files</td>
-                <td>{{publisher_stats.organisation_files}}</td>
+                <td>{{ publisher_stats.organisation_files }}</td>
             </tr><tr>
                 <td>Total File Size</td>
-                <td>{{publisher_stats.file_size|filesizeformat}}</td>
+                <td>{{ publisher_stats.file_size|filesizeformat }}</td>
             </tr><tr>
                 <td>Activities</td>
-                <td>{{publisher_stats.activities}}</td>
+                <td>{{ publisher_stats.activities }}</td>
             </tr><tr>
                 <td>Unique Activities</td>
-                <td>{{publisher_stats.iati_identifiers|count}}</td>
+                <td>{{ publisher_stats.iati_identifiers|count }}</td>
             </tr><tr>
                 <td>Organisations</td>
-                <td>{{publisher_stats.organisations}}</td>
+                <td>{{ publisher_stats.organisations }}</td>
             </tr><tr>
                 <td>Versions</td>
                 <td>
-                {%for version in publisher_stats.versions.keys() %}
-                <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
-                {%endfor%}
+                {% for version in publisher_stats.versions.keys() %}
+                <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                {% endfor %}
                 </td>
             </tr><tr>
                 <td>Hierarchies</td>
                 <td>
-                {%for hierarchy in publisher_stats.hierarchies %}
-                <code>{{hierarchy}}</code>
-                {%endfor%}
+                {% for hierarchy in publisher_stats.hierarchies %}
+                <code>{{ hierarchy }}</code>
+                {% endfor %}
                 </td>
             </tr><tr>
                 <td>Licenses</td>
                 <td>
-                {%for license in publisher_licenses %}
-                <code><a href="../license/{{license}}.html">{{license}}</a></code>
-                {%endfor%}
+                {% for license in publisher_licenses %}
+                <code><a href="../license/{{ license }}.html">{{ license }}</a></code>
+                {% endfor %}
                 </td>
             </tr><tr>
                 <td>Files failing validation</td>
@@ -118,22 +118,22 @@
     </table>
     </div>
     </div>
-    {{boxes.box('Activities', publisher_stats.activities, '../publisher_imgs/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher')}}
+    {{ boxes.box('Activities', publisher_stats.activities, '../publisher_imgs/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{boxes.box('Activity Files', publisher_stats.activity_files, '../publisher_imgs/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher')}}
-        {{boxes.box('Organisation Files', publisher_stats.organisation_files, '../publisher_imgs/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher')}}
+        {{ boxes.box('Activity Files', publisher_stats.activity_files, '../publisher_imgs/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
+        {{ boxes.box('Organisation Files', publisher_stats.organisation_files, '../publisher_imgs/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{boxes.box('Files per version', '', '../publisher_imgs/'+publisher+'_versions.png', publisher+'/versions.json', '../publisher_imgs/'+publisher+'_versions_legend.png', '-publisher')}}
-        {{boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, '../publisher_imgs/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher')}}
+        {{ boxes.box('Files per version', '', '../publisher_imgs/'+publisher+'_versions.png', publisher+'/versions.json', '../publisher_imgs/'+publisher+'_versions_legend.png', '-publisher') }}
+        {{ boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, '../publisher_imgs/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{boxes.box('Files failing validation', publisher_stats.validation.fail, '../publisher_imgs/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher')}}
-        {{boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher')}}
+        {{ boxes.box('Files failing validation', publisher_stats.validation.fail, '../publisher_imgs/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
+        {{ boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
     </div>
 
     <h2 id="h_dataquality">Data Quality</h2>
@@ -158,11 +158,11 @@
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4 break">
-                      <a href="http://iatiregistry.org/dataset/{{dataset_name}}">{{dataset_name}}</a>
+                      <a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a>
                     </div>
                     <div class="col-md-6 break">
                       {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                      <a href="{{ckan[publisher][dataset_name].resource.url}}">{{ckan[publisher][dataset_name].resource.url|url_to_filename}}</a>
+                      <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
                       {% endif %}
                     </div>
                     <div class="col-md-2 break">
@@ -184,7 +184,7 @@
     <div class="col-md-6">
     <div class="panel panel-default" id="p_invalid">
     <div class="panel-heading">
-        <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/invalidxml.json" style="float:right">(J)</a>
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/invalidxml.json" style="float:right">(J)</a>
         <h3 class="panel-title">Files where XML is not well-formed</h3>
     </div>
     <table class="table table-striped">
@@ -197,7 +197,7 @@
             {% for dataset, invalid in publisher_inverted.invalidxml.items() %}
             {% if invalid %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -213,7 +213,7 @@
     <div class="panel panel-default" id="p_nonstandardroots">
     <table class="table table-striped">
     <div class="panel-heading">
-        <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/nonstandardroots.json" style="float:right">(J)</a>
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/nonstandardroots.json" style="float:right">(J)</a>
         <h3 class="panel-title">Files with non-standard roots</h3>
     </div>
     <table class="table table-striped">
@@ -226,7 +226,7 @@
             {% for dataset, nonstandard in publisher_inverted.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{dataset[:-4]}}">{{dataset[:-4]}}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -280,7 +280,7 @@
     {% if d %}
     {% for currency, value in d.items() %}
     {% if value!=None %}
-    {{value}} {{currency}}</br>
+    {{ value }} {{ currency }}</br>
     {% endif %}
     {% endfor %}
     {% endif %}
@@ -308,13 +308,13 @@
         <tbody>
         {% for row in budget_table %}
             <tr>
-                <td>{{row.year}}</td>
-                <td>{% if row.count_total %}{{row.count_total}}{% endif %}</td>
-                <td>{% if row.sum_total %}{{currency_value(row.sum_total)}}{% endif %}</td>
-                <td>{% if row.count_original %}{{row.count_original}}{% endif %}</td>
-                <td>{{currency_value(row.sum_original)}}</td>
-                <td>{% if row.count_revised %}{{row.count_revised}}{% endif %}</td>
-                <td>{{currency_value(row.sum_revised)}}</td>
+                <td>{{ row.year }}</td>
+                <td>{% if row.count_total %}{{ row.count_total }}{% endif %}</td>
+                <td>{% if row.sum_total %}{{ currency_value(row.sum_total) }}{% endif %}</td>
+                <td>{% if row.count_original %}{{ row.count_original }}{% endif %}</td>
+                <td>{{ currency_value(row.sum_original) }}</td>
+                <td>{% if row.count_revised %}{{ row.count_revised }}{% endif %}</td>
+                <td>{{ currency_value(row.sum_revised) }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -332,20 +332,20 @@
         <thead>
             <tr>
                 <th>Package</th>
-                <th>Activities <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/activities.json">(J)</a></th>
-                <th>Organisations <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/organisations.json">(J)</a></th>
-                <th>File Size <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/file_size.json">(J)</a></th>
-                <th>Version <a href="{{stats_url}}/current/inverted-file-publisher/{{publisher}}/versions.json">(J)</a></th>
+                <th>Activities <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/activities.json">(J)</a></th>
+                <th>Organisations <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/organisations.json">(J)</a></th>
+                <th>File Size <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/file_size.json">(J)</a></th>
+                <th>Version <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/versions.json">(J)</a></th>
             </tr>
         </thead>
         <tbody>
             {% for package, activities in publisher_inverted.activities.items() %}
             <tr>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{package[:-4]}}">{{package[:-4]}}</a></td>
-                <td>{{activities}}</td>
-                <td>{{current_stats.inverted_file.organisations.get(package)}}</td>
-                <td data-bytes="{{current_stats.inverted_file.file_size.get(package)}}">{{current_stats.inverted_file.file_size.get(package)|filesizeformat}}</td>
-                <td>{{current_stats.aggregated_file[publisher][package]['versions'].keys()|first}}</td>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{ package[:-4] }}">{{ package[:-4] }}</a></td>
+                <td>{{ activities }}</td>
+                <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
+                <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
+                <td>{{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -357,8 +357,8 @@
     <div class="panel panel-default" id="p_codelists">
     <table class="table table-striped">
     <div class="panel-heading">
-        <a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/codelist_values.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Codelist Values (version {{major_version}}.xx)</h3>
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/codelist_values.json" style="float:right">(J)</a>
+        <h3 class="panel-title">Codelist Values (version {{ major_version }}.xx)</h3>
     </div>
     <table class="table table-striped">
         <thead>
@@ -374,23 +374,23 @@
             {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i]))}}">{{element}}</a></td>
-                <td><a href="https://codelists.codeforiati.org/{{codelist_mapping[major_version].get(element)}}">{{codelist_mapping[major_version].get(element)}}</a></td>
+                <td><a href="{{ url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i])) }}">{{ element }}</a></td>
+                <td><a href="https://codelists.codeforiati.org/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
                 {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
-                    <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{element}}" data-content="{% for code in codes %}<code>{{code}}</code> {% endfor %}">{{codes|count}}</a>
-                    {%else%}{{codes|count}}{%endif%}
+                    <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{ element }}" data-content="{% for code in codes %}<code>{{ code }}</code> {% endfor %}">{{ codes|count }}</a>
+                    {% else %}{{ codes|count }}{% endif %}
                 </td>
                 {% endwith %}
                 {% with codes=sorted(set(values.keys()).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
                 <td>
                     {% if codes|count %}
-                        <a href="javascript: return false;" class="popover-html" title="Values not on codelist for {{element}}" data-content="{% for code in codes %}<code>{{code}}</code> {% endfor %}">
-                            {{codes|count}}
+                        <a href="javascript: return false;" class="popover-html" title="Values not on codelist for {{ element }}" data-content="{% for code in codes %}<code>{{ code }}</code> {% endfor %}">
+                            {{ codes|count }}
                         </a>
-                    {%else%}
-                        {{codes|count}}
-                    {%endif%}
+                    {% else %}
+                        {{ codes|count }}
+                    {% endif %}
                 </td>
                 {% endwith %}
             {% endwith %}
@@ -406,7 +406,7 @@
     <div class="panel panel-default" id="p_elements">
     <table class="table table-striped">
     <div class="panel-heading">
-        <a href="{{stats_url}}/current/aggregated-publisher/{{publisher}}/elements.json" style="float:right">(J)</a>
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/elements.json" style="float:right">(J)</a>
         <h3 class="panel-title">Elements and Attributes Published</h3>
     </div>
     <table class="table table-striped">
@@ -422,9 +422,9 @@
             {% for element, count in publisher_stats['elements'].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}">{{element}}</a></td>
-                <td>{{count}}</td>
-                <td><a href="{{url('element/{0}.html'.format(slugs.element.by_i[element_i]))}}#files_{{publisher}}">{{publisher_inverted.elements[element]|count}}</a></td>
+                <td><a href="{{ url('element/{0}.html'.format(slugs.element.by_i[element_i])) }}">{{ element }}</a></td>
+                <td>{{ count }}</td>
+                <td><a href="{{ url('element/{0}.html'.format(slugs.element.by_i[element_i])) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
             {% endwith %}
             </tr>
             {% endfor %}
@@ -446,5 +446,5 @@ $('.popover-html').popover({
 
 {% block tablesorterscript %}
 <script>$(function() { $("table.table:not(.exploring-data)").tablesorter(); });</script>
-<script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); }}}); });</script>
+<script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); } }}); });</script>
 {% endblock %}

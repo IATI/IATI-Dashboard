@@ -7,7 +7,7 @@
     <div class="panel panel-default" id="h_table">
 
         <div class="panel-heading">
-            <span class="pull-right"><a href="{{url('timeliness_frequency.csv')}}">(This table as CSV)</a></span>
+            <span class="pull-right"><a href="{{ url('timeliness_frequency.csv') }}">(This table as CSV)</a></span>
             <h3 class="panel-title">Table of Frequency assessments</h3>
         </div>
 
@@ -31,28 +31,28 @@
                 <tr>
                     <th style="border: 1px solid gray; vertical-align:middle;" rowspan="2">Publisher Name</td>
                     <th style="border: 1px solid gray; vertical-align:middle;" rowspan="2">First published</td>
-                    <th style="border: 1px solid gray;" colspan="{{13-timeliness.this_month_number}}">{{timeliness.this_year-1}}</td>
-                    <th style="border: 1px solid gray;" colspan="{{timeliness.this_month_number}}">{{timeliness.this_year}}</td>
+                    <th style="border: 1px solid gray;" colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</td>
+                    <th style="border: 1px solid gray;" colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</td>
                     <th style="border-left: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray;" rowspan="2"></td>
                     <th style="border-right: 1px solid gray; border-top: 1px solid gray; border-bottom: 1px solid gray; vertical-align:middle;" rowspan="2">Frequency</td>
                 </tr>
                 <tr>
                     {% for month in timeliness.previous_months_reversed %}
-                    <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{timeliness.short_month(month)}}</td>
+                    <td style="border-top: 1px solid gray; border-bottom: 1px solid gray;">{{ timeliness.short_month(month) }}</td>
                     {% endfor %}
-                    <td style="border: 1px solid gray;">{{timeliness.short_month(timeliness.this_month)}}</td>
+                    <td style="border: 1px solid gray;">{{ timeliness.short_month(timeliness.this_month) }}</td>
                 </tr>
             </thead>
             <tbody>
                 {% for publisher, publisher_title, per_month, assessment, hft, first_published_band in timeliness.publisher_frequency_sorted() %}
                 <tr{% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{publisher}}.html">{{publisher_title}}</a></td>
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ publisher }}.html">{{ publisher_title }}</a></td>
                     <td data-index="{{ timeliness.first_published_band_index(first_published_band) }}" style="border-right: 1px solid gray; border-left: 1px solid gray;">{{ first_published_band }}</td>
                     {% for month in timeliness.previous_months_reversed %}
-                    <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{per_month[month] or 0}}</td>
+                    <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
                     {% endfor %}
-                    <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{per_month[timeliness.this_month] or 0}}</td>
-                    <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa'}}{% endif %}" data-severity="{{hft}}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td style="border-left: 1px solid gray" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{ per_month[timeliness.this_month] or 0 }}</td>
+                    <td style="border-left: 1px solid gray{% if hft %};background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa' }}{% endif %}" data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
                     <td style="border-right: 1px solid gray" data-index="{{ timeliness.frequency_index(assessment) }}">{{ assessment }}</td>
                 </tr>
                 {% endfor %}
@@ -76,15 +76,15 @@
         {% set summary = timeliness.publisher_frequency_summary() %}
         {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.frequency_index) %}
             <tr>
-                <td>{{assessment}}</td>
-                <td>{{count}}</td>
+                <td>{{ assessment }}</td>
+                <td>{{ count }}</td>
             </tr>
         {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td>Total</td>
-                <td>{{summary.values()|sum}}</td>
+                <td>{{ summary.values()|sum }}</td>
             </tr>
     </table>
     </div>

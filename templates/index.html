@@ -18,7 +18,7 @@
             <tr>
                 <td id="activities-count">
                     <a href="activities.html">
-                    {{current_stats.aggregated.activities}}
+                    {{ current_stats.aggregated.activities }}
                     </a>
                 </td>
                 <td>Activities</td>
@@ -26,7 +26,7 @@
             <tr>
                 <td id="unique-activities-count">
                     <a href="activities.html">
-                    {{current_stats.aggregated.iati_identifiers|count}}
+                    {{ current_stats.aggregated.iati_identifiers|count }}
                     </a>
                 </td>
                 <td>Unique Activities</td>
@@ -34,7 +34,7 @@
             <tr>
                 <td id="publishers-count">
                     <a href="publishers.html">
-                    {{current_stats.aggregated.publishers}}
+                    {{ current_stats.aggregated.publishers }}
                     </a>
                 </td>
                 <td>Publishers</td>
@@ -42,7 +42,7 @@
             <tr>
                 <td id="activity-files-count">
                     <a href="files.html">
-                    {{current_stats.aggregated.activity_files}}
+                    {{ current_stats.aggregated.activity_files }}
                     </a>
                 </td>
                 <td>Activity Files</td>
@@ -50,7 +50,7 @@
             <tr>
                 <td id="organisation-files-count">
                     <a href="files.html">
-                    {{current_stats.aggregated.organisation_files}}
+                    {{ current_stats.aggregated.organisation_files }}
                     </a>
                 </td>
                 <td>Organisation Files</td>
@@ -58,7 +58,7 @@
             <tr>
                 <td id="total-file-size">
                     <a href="files.html">
-                    {{current_stats.aggregated.file_size|filesizeformat}}
+                    {{ current_stats.aggregated.file_size|filesizeformat }}
                     </a>
                 </td>
                 <td>Total File Size</td>
@@ -66,7 +66,7 @@
             <tr>
                 <td id="failed-download-count">
                     <a href="download.html">
-                    {{current_stats.download_errors|length}}
+                    {{ current_stats.download_errors|length }}
                     </a>
                 </td>
                 <td>Files Fail to Download</td>
@@ -74,7 +74,7 @@
             <tr>
                 <td id="poorly-formed-xml-file-count">
                     <a href="xml.html">
-                    {{current_stats.aggregated.invalidxml}}
+                    {{ current_stats.aggregated.invalidxml }}
                     </a>
                 </td>
                 <td>Files where XML is not well-formed</td>
@@ -82,21 +82,21 @@
             <tr>
                 <td id="non-standard-roots-file-count">
                     <a href="xml.html">
-                    {{current_stats.aggregated.nonstandardroots}}
+                    {{ current_stats.aggregated.nonstandardroots }}
                     </a>
                 </td>
                 <td>Files with Nonstandard Roots</td>
             </tr>
             <tr>
                 <td id="too-large-files-count">
-                    {{current_stats.aggregated.toolarge}}
+                    {{ current_stats.aggregated.toolarge }}
                 </td>
                 <td>Files that are too large to be processed</td>
             </tr>
             <tr>
                 <td id="cannot-validate-file-count">
                     <a href="validation.html">
-                    {{current_stats.aggregated.validation.fail}}
+                    {{ current_stats.aggregated.validation.fail }}
                     </a>
                 </td>
                 <td>Files don't validate against the schema</td>
@@ -104,7 +104,7 @@
             <tr>
                 <td id="publishers-with-non-valid-files-count">
                     <a href="validation.html">
-                    {{current_stats.aggregated.publishers_validation.fail}}
+                    {{ current_stats.aggregated.publishers_validation.fail }}
                     </a>
                 </td>
                 <td>Publishers have non-validating files</td>
@@ -112,7 +112,7 @@
             <tr>
                 <td id="publishers-with-no-org-file-count">
                     <a href="organisation.html">
-                    {{current_stats.aggregated.publisher_has_org_file.no}}
+                    {{ current_stats.aggregated.publisher_has_org_file.no }}
                     </a>
                 </td>
                 <td>Publishers with no organisation file</td>

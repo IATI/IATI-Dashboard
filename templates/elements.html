@@ -30,19 +30,19 @@
           <table class="table table-striped">
             <thead><tr>
               <th>Element/Attribute</th>
-              <th>Publishers <a href="{{stats_url}}/current/inverted-publisher/elements.json">(J)</a></th>
-              <th>Activities/Orgs with element <a href="{{stats_url}}/current/aggregated/elements.json">(J)</a></th>
-              <th>Total Instances of Element <a href="{{stats_url}}/current/aggregated/elements_total.json">(J)</a></th>
+              <th>Publishers <a href="{{ stats_url }}/current/inverted-publisher/elements.json">(J)</a></th>
+              <th>Activities/Orgs with element <a href="{{ stats_url }}/current/aggregated/elements.json">(J)</a></th>
+              <th>Total Instances of Element <a href="{{ stats_url }}/current/aggregated/elements_total.json">(J)</a></th>
             </tr></thead>
             <tbody>
               {% for i, (element,publishers) in enumerate(current_stats.inverted_publisher.elements.items()) %}
               <tr>
-                <td class="break"><a href="element/{{slugs.element.by_i[i]}}.html">{{element}}</a></td>
-                <td><a href="element/{{slugs.element.by_i[i]}}.html">{{publishers|length}}</a></td>
-                <td>{{current_stats.aggregated.elements[element]}}</td>
-                <td>{{current_stats.aggregated.elements_total[element]}}</td>
+                <td class="break"><a href="element/{{ slugs.element.by_i[i] }}.html">{{ element }}</a></td>
+                <td><a href="element/{{ slugs.element.by_i[i] }}.html">{{ publishers|length }}</a></td>
+                <td>{{ current_stats.aggregated.elements[element] }}</td>
+                <td>{{ current_stats.aggregated.elements_total[element] }}</td>
               </tr>
-              {% endfor%}
+              {% endfor %}
             </tbody>
           </table>
         </div>

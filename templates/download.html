@@ -2,15 +2,15 @@
 {% import '_partials/boxes.html' as boxes %}
 {% block content %}
     <div class="row">
-      {{boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png',
-        description='Count of files that fail to download, over time.')}}
+      {{ boxes.box('Files that fail to download', current_stats.download_errors|length, 'failed_downloads.png',
+        description='Count of files that fail to download, over time.') }}
     </div>
 
     <div class="row">
       <div class="col-xs-12">
         <p><a href="https://gist.github.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/revisions">History of Download Errors</a></p>
 
-        <p><a href="{{url('data/download_errors.json')}}">This table as JSON</a></p>
+        <p><a href="{{ url('data/download_errors.json') }}">This table as JSON</a></p>
 
         <div class="panel panel-default">
           <div class="panel-body">

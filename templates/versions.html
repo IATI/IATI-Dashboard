@@ -6,10 +6,10 @@
       {{ boxes.box('Files per version (other)', '', 'versions_other.png', 'versions.json', 'versions_other_legend.png', description='Count of files per other versions, over time. These values do not actually exist as IATI versions.') }}
     </div>
     <div class="row">
-      {{boxes.box('Publishers per version (expected)', '', 'publishers_per_version_expected.png', 'publishers_per_version.json',
-        description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.')}}
-      {{boxes.box('Publishers per version (other)', '', 'publishers_per_version_other.png', 'publishers_per_version.json',
-        description='Count of publishers per other version, over time')}}
+      {{ boxes.box('Publishers per version (expected)', '', 'publishers_per_version_expected.png', 'publishers_per_version.json',
+        description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.') }}
+      {{ boxes.box('Publishers per version (other)', '', 'publishers_per_version_other.png', 'publishers_per_version.json',
+        description='Count of publishers per other version, over time') }}
     </div>
 
     {% if 'true' in current_stats.aggregated.version_mismatch %}
@@ -48,7 +48,7 @@
     <div class="col-xs-12">
     <h2>Publishers by version</h2>
 
-    <p>(<a href="{{stats_url}}/current/inverted-publisher/versions.json">In JSON format</a>)</p>
+    <p>(<a href="{{ stats_url }}/current/inverted-publisher/versions.json">In JSON format</a>)</p>
     </div>
     </div>
 
@@ -64,11 +64,11 @@
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version in expected_versions %}
             <div class="col-md-4">
-              <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
+              <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                  <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>
@@ -91,11 +91,11 @@
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version not in expected_versions %}
             <div class="col-md-4">
-              <code>{{version|replace(' ', '&nbsp;')|safe}}</code>
+              <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{publisher}}.html">{{publisher_name[publisher]}}</a></td>
+                  <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>
