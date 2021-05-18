@@ -7,3 +7,4 @@ pytz
 matplotlib==2.2.5
 requests
 Werkzeug==0.12.2
+xmlschema==1.6.2

@@ -6,6 +6,8 @@ import re
 import csv
 from decimal import Decimal
 
+from xmlschema import XMLSchema
+
 
 # Modified from:
 #   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
@@ -195,6 +197,29 @@ with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
+
+sources105 = [
+    './data/schemas/1.05/iati-activities-schema.xsd',
+    './data/schemas/1.05/iati-organisations-schema.xsd']
+sources203 = [
+    './data/schemas/2.03/iati-activities-schema.xsd',
+    './data/schemas/2.03/iati-organisations-schema.xsd']
+schema105 = XMLSchema(sources105)
+schema203 = XMLSchema(sources203)
+
+
+def is_valid_element(path):
+    try:
+        if schema203.get_element(None, path=path):
+            return True
+    except AttributeError:
+        pass
+    try:
+        if schema105.get_element(None, path=path):
+            return True
+    except AttributeError:
+        pass
+    return False
 
 
 def transform_codelist_mapping_keys(codelist_mapping):

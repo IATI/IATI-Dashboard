@@ -1,5 +1,5 @@
-stats-calculated*
-data
+/stats-calculated/
+/data/
 out
 
 # Byte-compiled / optimized / DLL files

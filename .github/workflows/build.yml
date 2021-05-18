@@ -42,6 +42,8 @@ jobs:
       run: python make_csv.py
     - name: Build HTML output
       run: python make_html.py
+    - name: Delete files
+      run: rm -rf data stats-calculated
     - name: Add static files to output
       run: cp -r static/* out
     - name: Deploy (production) 🚀

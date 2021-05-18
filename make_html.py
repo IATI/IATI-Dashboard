@@ -35,6 +35,7 @@ from data import (
     metadata,
     publisher_name,
     publishers_ordered_by_title,
+    is_valid_element,
     slugs)
 
 app = Flask(__name__)
@@ -144,6 +145,7 @@ app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
 app.jinja_env.globals['codelist_sets'] = codelist_sets
 app.jinja_env.globals['get_codelist_values'] = get_codelist_values
+app.jinja_env.globals['is_valid_element'] = is_valid_element
 
 basic_page_names = [
     'index',
