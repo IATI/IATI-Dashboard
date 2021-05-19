@@ -12,7 +12,7 @@ columns = [
     ('publisher_type', 'Publisher Type'),
     ('timeliness', 'Timeliness'),
     ('forwardlooking', 'Forward looking'),
-    ('comprehensive', 'Comprehensive'),
+    ('comprehensiveness', 'Comprehensiveness'),
     ('score', 'Score')
 ]
 
@@ -104,15 +104,15 @@ def table():
         # Compute and store the mean average for these fields
         row['forwardlooking'] = sum(int(round(y)) for y in numbers) / len(publisher_forwardlooking_data['year_columns'][2])
 
-        # Compute comprehensive statistic
+        # Compute comprehensiveness statistic
         # Get the comprehensiveness data for this publisher
         publisher_comprehensiveness_data = comprehensiveness.generate_row(publisher)
 
-        # Set the comprehensive value to be the summary average for valid data
-        row['comprehensive'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
+        # Set the comprehensiveness value to be the summary average for valid data
+        row['comprehensiveness'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
 
         # Compute score
-        row['score'] = int(round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensive']) / 3))
+        row['score'] = int(round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensiveness']) / 3))
 
         # Return a generator object
         yield row
