@@ -27,9 +27,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Fetch data
-      run: |
-        ./fetch_data.sh
-        git clone --quiet https://github.com/codeforIATI/IATI-Stats-historical data/historical
+      run: ./fetch_data.sh
     - name: Fetch stats
       run: |
         mkdir out
