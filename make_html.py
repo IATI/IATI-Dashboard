@@ -71,6 +71,8 @@ def firstint(s):
 
 def xpath_to_url(path):
     path = path.strip('./')
+    # remove conditions
+    path = re.sub(r'\[[^]]+\]', '', path)
     if path.startswith('iati-activity'):
         url = 'https://reference.codeforiati.org/activity-standard/iati-activities/' + path.split('@')[0]
     elif path.startswith('iati-organisation'):
