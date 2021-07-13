@@ -87,7 +87,12 @@ license_names = {
 with open('./stats-calculated/ckan.json') as handler:
     ckan = json.load(handler, object_pairs_hook=OrderedDict)
 
-licenses = [package.get('license_id') for _, publisher in ckan.items() for _, package in publisher.items()]
+licenses = [
+    package['license_id']
+    if package['license_id'] is not None
+    else 'notspecified'
+    for _, publisher in ckan.items()
+    for _, package in publisher.items()]
 
 
 def licenses_for_publisher(publisher_name):
@@ -97,15 +102,24 @@ def licenses_for_publisher(publisher_name):
         return set()
 
     # Return unique licenses used
-    return set([package.get('license_id') for package in ckan[publisher_name].values()])
+    return set([
+        package['license_id']
+        if package['license_id'] is not None
+        else 'notspecified'
+        for package in ckan[publisher_name].values()])
 
 
 def main():
-    licenses_and_publisher = set([(package.get('license_id') if package.get('license_id') else 'notspecified', publisher_name) for publisher_name, publisher in ckan.items() for package_name, package in publisher.items()])
+    licenses_and_publisher = set([
+        (package['license_id']
+         if package['license_id'] is not None
+         else 'notspecified', publisher_name)
+        for publisher_name, publisher in ckan.items()
+        for package_name, package in publisher.items()])
     licenses_per_publisher = [license for license, publisher in licenses_and_publisher]
     return render_template('licenses.html',
                            license_names=license_names,
-                           license_count=dict((x if x else 'notspecified', licenses.count(x)) for x in set(licenses)),
+                           license_count=dict((x, licenses.count(x)) for x in set(licenses)),
                            publisher_license_count=dict((x, licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
                            sorted=sorted,
                            page='licenses',
@@ -113,9 +127,12 @@ def main():
 
 
 def individual_license(license):
-    if license == 'None':
-        license = None
-    publishers = [publisher_name for publisher_name, publisher in ckan.items() for _, package in publisher.items() if package.get('license_id') == license]
+    publishers = [
+        publisher_name
+        for publisher_name, publisher in ckan.items()
+        for _, package in publisher.items()
+        if package['license_id'] == license or (
+            license == 'notspecified' and package['license_id'] is None)]
     publisher_counts = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
     return render_template('license.html',
                            url=lambda x: '../' + x,
