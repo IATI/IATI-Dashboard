@@ -8,10 +8,11 @@
             <p>Count of publishers per licences in use on the IATI Registry.</p>
             {% include '_partials/tablesorter_instructions.html' %}
           </div>
-          <table class="table table-striped">
+          <table class="table table-sm table-striped">
             <thead>
                 <tr>
                     <th>License Name</th>
+                    <th>License Url</th>
                     <th>License Id</th>
                     <th>Files</th>
                     <th>Publishers</th>
@@ -21,6 +22,7 @@
                 {% for license, files in sorted(license_count.items()) %}
                 <tr>
                     <td><a href="license/{{ license }}.html">{{ license_names[license] }}</a></td>
+                    <td><a href="license/{{ license }}.html">{{ license_url[license] }}</a></td>
                     <td><a href="license/{{ license }}.html">{{ license }}</a></td>
                     <td>{{ files }}</td>
                     <td>{{ publisher_license_count[license] }}</td>
