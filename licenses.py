@@ -83,7 +83,7 @@ license_names = {
     'xnet': 'OSI Approved::X.Net License',
     'zpl': 'OSI Approved::Zope Public License',
     'zlib-license': 'OSI Approved::zlib/libpng license'}
-   
+
 license_url = {
     'cc-nc': 'https://licenses.opendefinition.org/licenses/CC-BY-NC-4.0.json',
     'cc-by': 'http://www.opendefinition.org/licenses/cc-by',
