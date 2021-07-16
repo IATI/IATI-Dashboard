@@ -12,7 +12,6 @@
             <thead>
                 <tr>
                     <th>License Name</th>
-                    <th>License Url</th>
                     <th>License Id</th>
                     <th>Files</th>
                     <th>Publishers</th>
@@ -21,8 +20,7 @@
             <tbody>
                 {% for license, files in sorted(license_count.items()) %}
                 <tr>
-                    <td><a href="license/{{ license }}.html">{{ license_names[license] }}</a></td>
-                    <td><a href="license/{{ license }}.html">{{ license_url[license] }}</a></td>
+                    <td><a href="{{ license_url[license] }}">{{ license_names[license] }}</a></td>
                     <td><a href="license/{{ license }}.html">{{ license }}</a></td>
                     <td>{{ files }}</td>
                     <td>{{ publisher_license_count[license] }}</td>
