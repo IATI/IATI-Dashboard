@@ -84,6 +84,20 @@ license_names = {
     'zpl': 'OSI Approved::Zope Public License',
     'zlib-license': 'OSI Approved::zlib/libpng license'}
 
+license_url = {
+    'cc-nc': 'https://licenses.opendefinition.org/licenses/CC-BY-NC-4.0.json',
+    'cc-by': 'http://www.opendefinition.org/licenses/cc-by',
+    'cc-by-sa': 'http://www.opendefinition.org/licenses/cc-by-sa',
+    'cc-zero': 'http://www.opendefinition.org/licenses/cc-zero',
+    'odc-by': 'http://www.opendefinition.org/licenses/odc-by',
+    'odc-odbl': 'http://www.opendefinition.org/licenses/odc-odbl',
+    'odc-pddl': 'http://www.opendefinition.org/licenses/odc-pddl',
+    'other-at': 'https://licenses.opendefinition.org/licenses/other-at.json',
+    'other-open': 'https://licenses.opendefinition.org/licenses/other-open.json',
+    'other-pd': 'https://licenses.opendefinition.org/licenses/other-pd.json',
+    'other-nc': 'https://licenses.opendefinition.org/licenses/other-nc.json',
+    'uk-ogl': 'http://reference.data.gov.uk/id/open-government-licence'}
+
 with open('./stats-calculated/ckan.json') as handler:
     ckan = json.load(handler, object_pairs_hook=OrderedDict)
 
@@ -119,6 +133,7 @@ def main():
     licenses_per_publisher = [license for license, publisher in licenses_and_publisher]
     return render_template('licenses.html',
                            license_names=license_names,
+                           license_url=license_url,
                            license_count=dict((x, licenses.count(x)) for x in set(licenses)),
                            publisher_license_count=dict((x, licenses_per_publisher.count(x)) for x in set(licenses_per_publisher)),
                            sorted=sorted,
@@ -138,6 +153,7 @@ def individual_license(license):
                            url=lambda x: '../' + x,
                            license=license,
                            license_names=license_names,
+                           license_url=license_url,
                            publisher_counts=publisher_counts,
                            page='licenses',
                            licenses=True)
