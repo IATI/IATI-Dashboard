@@ -11,8 +11,8 @@
           <table class="table table-sm table-striped">
             <thead>
                 <tr>
-                    <th>License Name</th>
-                    <th>License Id</th>
+                    <th>License</th>
+                    <th>License ID</th>
                     <th>Files</th>
                     <th>Publishers</th>
                 </tr>
@@ -20,7 +20,7 @@
             <tbody>
                 {% for license, files in sorted(license_count.items()) %}
                 <tr>
-                    <td><a href="{{ license_url[license] }}">{{ license_names[license] }}</a></td>
+                    <td>{% if license_urls.get(license) %}<a href="{{ license_urls[license] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
                     <td><a href="license/{{ license }}.html">{{ license }}</a></td>
                     <td>{{ files }}</td>
                     <td>{{ publisher_license_count[license] }}</td>
