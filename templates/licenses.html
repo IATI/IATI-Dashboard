@@ -20,8 +20,8 @@
             <tbody>
                 {% for license, files in sorted(license_count.items()) %}
                 <tr>
-                    <td>{% if license_urls.get(license) %}<a href="{{ license_urls[license] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
-                    <td><a href="license/{{ license }}.html">{{ license }}</a></td>
+                    <td><a href="license/{{ license }}.html">{{ license_names[license] }}</a></td>
+                    <td>{% if license_urls.get(license) %}<a href="{{ license_urls[license] }}">{{ license }}</a>{% else %}{{ license }}{% endif %}</td>
                     <td>{{ files }}</td>
                     <td>{{ publisher_license_count[license] }}</td>
                 </tr>
