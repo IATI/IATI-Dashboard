@@ -142,7 +142,7 @@ def individual_license(license):
                            url=lambda x: '../' + x,
                            license=license,
                            license_names=license_names,
-                           license_url=license_url,
+                           license_urls=license_urls,
                            publisher_counts=publisher_counts,
                            page='licenses',
                            licenses=True)

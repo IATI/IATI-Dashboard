@@ -2,7 +2,13 @@
 {% import '_partials/boxes.html' as boxes %}
 {% block page_header %}
 <h1>{{ license_names[license] }}</h1>
-<p class="lead">License id: <code>{{ license }}</code></p>
+<p class="lead">License ID:
+    {% if license_urls[license]['url'] %}
+    <a href="{{ license_urls[license]['url'] }}"><code>{{ license }}</code></a>
+    {% else %}
+    <code>{{ license }}</code>
+    {% endif %}
+</p>
 {% endblock %}
 
 {% block content %}
