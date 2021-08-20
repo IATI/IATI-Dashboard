@@ -8,28 +8,23 @@ We're particulary looking for information such as
 name, organisation type, and the link back to the registry
 """
 from pathlib import Path
-import os
+from os.path import join
+from os import makedirs
 import json
-import time
 
 import requests
 
 # Make a directory to save the data about each publisher
-os.makedirs(Path('data/ckan_publishers'), exist_ok=True)
+output_path = Path('data/ckan_publishers')
+makedirs(output_path, exist_ok=True)
 
-page_size = 50
-res = requests.get('https://iatiregistry.org/api/3/action/organization_list')
+res = requests.get('https://registry.codeforiati.org/publisher_list.json')
 res.raise_for_status()
-publisher_ids = res.json()['result']
-url = 'https://iatiregistry.org/api/3/action/organization_show'
+publishers = res.json()['result']
 
 # Loop through the publisher list, saving a file of information about each publisher
-for publisher_id in publisher_ids:
-    res = requests.get(url, params={'id': publisher_id})
-    time.sleep(0.1)
-    res.raise_for_status()
-    publisher = res.json()['result']
+for publisher in publishers:
     name = publisher.get('name')
     output = {'result': publisher}
-    with open(os.path.join('data', 'ckan_publishers', name + '.json'), 'w') as fp:
+    with open(join(output_path, name + '.json'), 'w') as fp:
         _ = json.dump(output, fp)
