@@ -226,7 +226,7 @@ def transform_codelist_mapping_keys(codelist_mapping):
     # Perform the same transformation as https://github.com/IATI/IATI-Stats/blob/d622f8e88af4d33b1161f906ec1b53c63f2f0936/stats.py#L12
     codelist_mapping = {k: v for k, v in codelist_mapping.items() if not k.startswith('//iati-organisation')}
     codelist_mapping = {re.sub(r'^\/\/iati-activity', './', k): v for k, v in codelist_mapping.items()}
-    codelist_mapping = {re.sub(r'^\/\/', './/', k): v for k, v, in codelist_mapping.items()}
+    codelist_mapping = {re.sub(r'^\/\/', './/', k): v for k, v in codelist_mapping.items()}
     return codelist_mapping
 
 
