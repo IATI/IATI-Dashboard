@@ -98,7 +98,10 @@ class JSONDir(object, UserDict.DictMixin):
         else:
             # No value found as either a folder or json file
             raise KeyError, key
-
+        if hasattr(data, "keys"):
+            for k in data.keys():
+                if len(k) >= 255:
+                    data.pop(k)
         return data
 
     def keys(self):
