@@ -22,6 +22,9 @@
                         {% if failure_count > 0 %}
                         <li><a href="#p_validation">Files Failing Validation</a>
                         {% endif %}
+                        {% if github_issues and publisher in github_issues %}
+                        <li><a href="#p_github_issues">Issues Raised</a>
+                        {% endif %}
                         {% if 1 in publisher_inverted.invalidxml.values() %}
                         <li><a href="#p_invalid">Files where XML is not well-formed</a>
                         {% endif %}
