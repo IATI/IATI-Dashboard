@@ -33,7 +33,7 @@ gitaggregate_publisher = data.JSONDir('./stats-calculated/gitaggregate-publisher
 class AugmentedJSONDir(data.JSONDir):
     def __getitem__(self, key):
         if key == 'failed_downloads':
-            return dict((row[0],row[1]) for row in failed_downloads)
+            return dict((row[0],row[1]) for row in failed_downloads if len(row) > 1)
         elif key == 'publisher_types':
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in gitaggregate_publisher.iteritems():
