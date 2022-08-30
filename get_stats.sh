@@ -1,3 +1,3 @@
 #!/bin/bash
 
-git clone --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats-public stats-calculated
+git clone --depth=1 --quiet --branch gh-pages https://github.com/codeforIATI/IATI-Stats-public stats-calculated
