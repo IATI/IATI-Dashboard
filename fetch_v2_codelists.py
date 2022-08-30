@@ -29,7 +29,7 @@ def mapping_to_json(mappings):
 
 
 mapping_urls = [
-    'https://raw.githubusercontent.com/IATI/IATI-Codelists/version-2.03/mapping.xml',
+    'https://raw.githubusercontent.com/codeforIATI/IATI-Codelists/version-2.03/mapping.xml',
     'https://raw.githubusercontent.com/codeforIATI/Unofficial-Codelists/master/mapping.xml']
 mappings = []
 for mapping_url in mapping_urls:

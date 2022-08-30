@@ -34,7 +34,7 @@ cd ../../../
 # Get codelists for versions v1.x and v2.x of the IATI Standard
 rm -rf data/IATI-Codelists-1
 echo "cloning Codelists-1"
-git clone --branch version-1.05 https://github.com/IATI/IATI-Codelists.git data/IATI-Codelists-1
+git clone --branch version-1.05 https://github.com/codeforIATI/IATI-Codelists.git data/IATI-Codelists-1
 cd data/IATI-Codelists-1
 echo "running gen.sh for Codelist-1"
 ./gen.sh
