@@ -27,6 +27,7 @@ from data import (
     ckan_publishers,
     codelist_mapping,
     codelist_sets,
+    codelist_lookup,
     current_stats,
     dataset_to_publisher_dict,
     github_issues,
@@ -146,6 +147,7 @@ app.jinja_env.globals['MAJOR_VERSIONS'] = MAJOR_VERSIONS
 app.jinja_env.globals['slugs'] = slugs
 app.jinja_env.globals['codelist_mapping'] = codelist_mapping
 app.jinja_env.globals['codelist_sets'] = codelist_sets
+app.jinja_env.globals['codelist_lookup'] = codelist_lookup
 app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 app.jinja_env.globals['is_valid_element'] = is_valid_element
 
