@@ -253,6 +253,10 @@ codelist_sets = {
         cname: set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
     } for major_version in MAJOR_VERSIONS}
 
+codelist_lookup = {
+    major_version: {
+        cname: {c['code']: c for c in codelist['data']} for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+    } for major_version in MAJOR_VERSIONS}
 
 # Simple look up to map publisher id to a publishers given name (title)
 publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in ckan_publishers.items()}
