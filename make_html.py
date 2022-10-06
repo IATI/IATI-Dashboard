@@ -112,9 +112,8 @@ app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transac
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
-app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%Y-%m-%d %H:%M:%S %Z')
-app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%Y-%m-%d %H:%M:%S %Z')
-app.jinja_env.globals['datetime_data_homepage'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M)')
+app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
+app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['stats_url'] = 'https://stats.codeforiati.org'
 app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats-public/tree/gh-pages'
 app.jinja_env.globals['sorted'] = sorted
@@ -138,7 +137,7 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
-app.jinja_env.globals['current_year'] = datetime.now().year
+app.jinja_env.globals['current_year'] = datetime.utcnow().year
 # Following variables set in coverage branch but not in master
 # app.jinja_env.globals['float'] = float
 # app.jinja_env.globals['dac2012'] = dac2012
