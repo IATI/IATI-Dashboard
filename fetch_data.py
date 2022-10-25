@@ -33,7 +33,7 @@ params = {
 page = 0
 while True:
     params['offset'] = page_size * page
-    res = requests.get(url, params=params).json()['result']
+    res = requests.get(url, params=params, verify=False).json()['result']
     if res == []:
         break
     for publisher in res:
