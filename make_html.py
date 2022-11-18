@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 from collections import defaultdict
 
 from flask import Flask, render_template, redirect, abort, Response
@@ -114,6 +115,9 @@ app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transac
 app.jinja_env.globals['url'] = lambda x: x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')
+app.jinja_env.globals['commit_hash'] = subprocess.run(
+    'git show --format=%H --no-patch'.split(),
+    capture_output=True).stdout.decode().strip()
 app.jinja_env.globals['stats_url'] = 'https://stats.codeforiati.org'
 app.jinja_env.globals['stats_gh_url'] = 'https://github.com/codeforIATI/IATI-Stats-public/tree/gh-pages'
 app.jinja_env.globals['sorted'] = sorted
