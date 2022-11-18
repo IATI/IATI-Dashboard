@@ -27,11 +27,11 @@ def is_number(s):
         return False
 
 
-def convert_to_int(x):
+def convert_to_float(x):
     """ @todo Document this function
     """
     if is_number(x):
-        return int(x)
+        return float(x)
     else:
         return 0
 
@@ -92,7 +92,7 @@ def table():
             timelag_score = 0
 
         # Compute the percentage
-        row['timeliness'] = int(round((float(frequency_score + timelag_score) / 8) * 100))
+        row['timeliness'] = (float(frequency_score + timelag_score) / 8) * 100
 
         # Compute forward-looking statistic
         # Get the forward-looking data for this publisher
@@ -109,10 +109,10 @@ def table():
         publisher_comprehensiveness_data = comprehensiveness.generate_row(publisher)
 
         # Set the comprehensiveness value to be the summary average for valid data
-        row['comprehensiveness'] = convert_to_int(publisher_comprehensiveness_data['summary_average_valid'])
+        row['comprehensiveness'] = convert_to_float(publisher_comprehensiveness_data['summary_average_valid'])
 
         # Compute score
-        row['score'] = int(round(float(row['timeliness'] + row['forwardlooking'] + row['comprehensiveness']) / 3))
+        row['score'] = float(row['timeliness'] + row['forwardlooking'] + row['comprehensiveness']) / 3
 
         # Return a generator object
         yield row

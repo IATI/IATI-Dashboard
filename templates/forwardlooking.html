@@ -68,7 +68,7 @@
                     {% for column in row.year_columns %}
                         {% for year in forwardlooking.years %}
                             <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid gray;{% endif %}{% if loop.last %} border-right: 1px solid gray;{% endif %}">
-                                {{ column[year] }}
+                                {% if column[year] != '-' %}{{ column[year] | round(2) }}{% else %}-{% endif %}
                             </td>
                         {% endfor %}
                     {% endfor %}

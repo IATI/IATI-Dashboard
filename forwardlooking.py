@@ -67,12 +67,12 @@ def generate_row(publisher):
             if not int(row['year_columns'][0][year]):
                 row['year_columns'][2][year] = '-'
             else:
-                row['year_columns'][2][year] = int(round(float(row['year_columns'][1][year]) / float(row['year_columns'][0][year]) * 100))
+                row['year_columns'][2][year] = float(row['year_columns'][1][year]) / float(row['year_columns'][0][year]) * 100
         else:
             # Else if either 'forwardlooking_activities_current' or 'forwardlooking_activities_with_budgets' are not in the bottom hierarchy, set data zero
             # This should only occur if a publisher has 0 activities
-            row['year_columns'][0][year] = '0'
-            row['year_columns'][1][year] = '0'
+            row['year_columns'][0][year] = 0
+            row['year_columns'][1][year] = 0
             row['year_columns'][2][year] = '-'
 
     return row
