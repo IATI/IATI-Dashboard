@@ -13,8 +13,8 @@ columns = {
     ],
     'core': [
         ('version', 'Version', 1),
-        ('reporting-org', 'Reporting-Org', 1),
-        ('iati-identifier', 'Iati-identifier', 1),
+        ('reporting-org', 'Reporting Organisation', 1),
+        ('iati-identifier', 'IATI Identifier', 1),
         ('participating-org', 'Participating Organisation', 1),
         ('title', 'Title', 1),
         ('description', 'Description', 1),

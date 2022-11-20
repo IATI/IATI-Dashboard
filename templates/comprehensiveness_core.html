@@ -3,7 +3,7 @@
 
 
 {% block heading_detail %}
-	<p>Core elements are those that are mandatory in version 2.01 of the IATI Activity standard. The core elements are: Version, Reporting-Organisation, IATI-identifier, Participating Organisation, Title, Description, Status, Activity Date, Sector, and Country or Region.</p>
+	<p>Core elements are those that are mandatory in version 2.01 of the IATI Activity standard. The core elements are: Version, Reporting Organisation, IATI Identifier, Participating Organisation, Title, Description, Status, Activity Date, Sector, and Country or Region.</p>
 
 	<p>This table shows the percentage of <strong><em>current</em></strong> activities where the core elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.) The scoring for the <a href="summary_stats.html">Summary Stats page</a> recognises the importance of the core by giving it double weighting in the overall comprehensiveness component.</p>
 
@@ -23,10 +23,10 @@
 	<h5>Version</h5>
 	<p>Percentage of all current activities which contain a valid version number in the <code>&lt;iati-activities&gt;</code> file header element.</p>
 
-	<h5>Reporting-Org</h5>
+	<h5>Reporting Organisation</h5>
 	<p>Percentage of all current activities which contain both a name and an identifier for the reporting organisation. (In future this will also check that the identifier contains a valid prefix identifying a registration agency.)</p>
 
-	<h5>Iati-identifier</h5>
+	<h5>IATI Identifier</h5>
 	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with either the identifier reported for the reporting organisation, or (if publishing at v2.xx) an identifier reported in the <code>&lt;other-identifier&gt;</code> element. (In future this will also check that each identifier is globally unique.)</p>
 
 	<h5>Participating Organisation</h5>
