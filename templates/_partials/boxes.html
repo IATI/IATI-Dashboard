@@ -4,7 +4,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               {% set title_id = title.replace(' ', '-').lower() %}
-              <span id="{{ title_id }}" class="title-number">{{ number }}</span>
+              <span id="{{ title_id }}" class="title-number">{% if number %}{{ "{:,}".format(number) }}{% endif %}</span>
               <span class="title-text">{{ title }}</span>
             </h3>
             {% if json %}
