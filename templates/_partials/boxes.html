@@ -14,7 +14,7 @@
           </div>
           <div class="panel-body">
             <p>{{ description|safe }}</p>
-            {% if json and not legend %}
+            {% if json and legend == "" %}
             <canvas id="graph-{{ title_id }}"></canvas>
             <script>
             (async function() {
