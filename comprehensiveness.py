@@ -68,11 +68,11 @@ def denominator(key, stats):
 
     # If there is a specific denominator for the given key, return this
     if key in stats['comprehensiveness_denominators']:
-        return int(stats['comprehensiveness_denominators'][key])
+        return float(stats['comprehensiveness_denominators'][key])
 
     # Otherwise, return the default denominator
     else:
-        return int(stats['comprehensiveness_denominator_default'])
+        return float(stats['comprehensiveness_denominator_default'])
 
 
 def get_hierarchy_with_most_budgets(stats):
@@ -156,23 +156,16 @@ def generate_row(publisher):
 
         if denominator(slug, publisher_base) != 0:
             # Populate the row with the %age
-            row[slug] = int(round(
-                float(numerator_all) / denominator(slug, publisher_base) * 100
-            ))
-            row[slug + '_valid'] = int(round(
-                float(numerator_valid) / denominator(slug, publisher_base) * 100
-            ))
+            row[slug] = float(numerator_all) / denominator(slug, publisher_base) * 100
+            row[slug + '_valid'] = float(numerator_valid) / denominator(slug, publisher_base) * 100
 
     # Loop for averages
     # Calculate the average for each grouping, and the overall 'summary' average
     for page in ['core', 'financials', 'valueadded', 'summary']:
         # Note that the summary must be last, so that it can use the average calculations from the other groupings
-        row[page + '_average'] = int(round(
-            sum((row.get(x[0]) or 0) * x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
-        ))
-        row[page + '_average_valid'] = int(round(
-            sum((row.get(x[0] + '_valid') or 0) * x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
-        ))
+        row[page + '_average'] = sum((row.get(x[0]) or 0) * x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
+
+        row[page + '_average_valid'] = sum((row.get(x[0] + '_valid') or 0) * x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
 
     return row
 
