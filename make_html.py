@@ -71,10 +71,12 @@ def firstint(s):
     return int(m.group(0))
 
 
-def pretty_float(f, ndigits=2):
-    if int(f) == f:
-        return int(f)
-    return round(f, ndigits)
+def round_nicely(val, ndigits=2):
+    """ Round a float, but remove the trailing .0 from integers that python insists on
+    """
+    if int(val) == float(val):
+        return int(val)
+    return round(float(val), ndigits)
 
 
 def xpath_to_url(path):
@@ -116,7 +118,7 @@ app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
-app.jinja_env.filters['pretty_float'] = pretty_float
+app.jinja_env.filters['round_nicely'] = round_nicely
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x

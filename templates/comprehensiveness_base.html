@@ -59,9 +59,9 @@
                 <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
                 {% for column_slug in comprehensiveness.column_slugs[tab] %}
                 <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{% if column_slug in row %}
-                    {{ row[column_slug+'_valid'] | pretty_float }}
+                    {{ row[column_slug+'_valid'] | round_nicely }}
                     {% if row[column_slug+'_valid'] != row[column_slug] %}
-                    <span class="text-muted">({{ row[column_slug] | pretty_float }})</td>
+                    <span class="text-muted">({{ row[column_slug] | round_nicely }})</td>
                     {% endif %}
                     {% else %}-{% endif %}</td>
                 {% endfor %}
