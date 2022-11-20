@@ -43,7 +43,7 @@
                         {%- elif column_slug in ['num_activities', 'publishing_humanitarian'] -%}
                           {{ row[column_slug]|int }}
                         {%- else -%}
-                          {{ row[column_slug]|round(2) }}
+                          {{ row[column_slug]|pretty_float }}
                         {%- endif -%}
                       </td>
                     {% endfor %}

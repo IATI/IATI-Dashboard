@@ -71,6 +71,12 @@ def firstint(s):
     return int(m.group(0))
 
 
+def pretty_float(f, ndigits=2):
+    if int(f) == f:
+        return int(f)
+    return round(f, ndigits)
+
+
 def xpath_to_url(path):
     path = path.strip('./')
     # remove conditions
@@ -110,6 +116,7 @@ app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
 app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
+app.jinja_env.filters['pretty_float'] = pretty_float
 
 # Custom Jinja globals
 app.jinja_env.globals['url'] = lambda x: x
