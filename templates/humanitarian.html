@@ -40,8 +40,10 @@
                       <td style="border-right: 1px solid gray; border-left: 1px solid gray;">
                         {%- if column_slug == 'publisher_type' -%}
                           {{ row[column_slug] }}
-                        {%- else -%}
+                        {%- elif column_slug in ['num_activities', 'publishing_humanitarian'] -%}
                           {{ row[column_slug]|int }}
+                        {%- else -%}
+                          {{ row[column_slug]|round(2) }}
                         {%- endif -%}
                       </td>
                     {% endfor %}
