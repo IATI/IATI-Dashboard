@@ -63,7 +63,7 @@ page_leads = {
     'codelists': 'How are codelists used in IATI data?',
     'booleans': 'How are booleans used in IATI data?',
     'dates': 'What date ranges do publishers publish data for?',
-    'traceability': 'How much of a publisher\'s spending is traceable to other publisher\'s activities?',
+    'traceability': 'How much of a publisher\'s spending is traceable to other publishers\' activities?',
 }
 page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
