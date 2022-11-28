@@ -193,6 +193,7 @@ basic_page_names = [
     'codelists',
     'booleans',
     'dates',
+    'traceability',
     'faq',
 ]
 

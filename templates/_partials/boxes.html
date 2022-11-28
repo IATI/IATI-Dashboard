@@ -4,7 +4,7 @@
           <div class="panel-heading">
             <h3 class="panel-title">
               {% set title_id = title.replace(' ', '-').lower() %}
-              <span id="{{ title_id }}" class="title-number">{{ number }}</span>
+              <span id="{{ title_id }}" class="title-number">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number }}{% endif %}</span>
               <span class="title-text">{{ title }}</span>
             </h3>
             {% if json %}
@@ -14,9 +14,40 @@
           </div>
           <div class="panel-body">
             <p>{{ description|safe }}</p>
-            <img src="{{ image }}" width="100%" />
-            {% if legend %}
-            <img src="{{ legend }}" width="100%" />
+            {% if json and not legend %}
+            <canvas id="graph-{{ title_id }}"></canvas>
+            <script>
+            (async function() {
+              axios.get('{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}').then(function (resp) {
+                new Chart(
+                  document.getElementById('graph-{{ title_id }}'),
+                  {
+                    type: 'line',
+                    data: {
+                      labels: Object.keys(resp.data).map(el => el.substring(0, 10)),
+                      datasets: [{
+                        pointRadius: 1,
+                        data: Object.values(resp.data)
+                      }]
+                    },
+                    options: {
+                      plugins: {
+                        legend: {
+                          display: false
+                        }
+                      },
+                      animation: false
+                    }
+                  }
+                );
+              })
+            })();
+            </script>
+            {% else %}
+              <img src="{{ image }}" width="100%" />
+              {% if legend %}
+                <img src="{{ legend }}" width="100%" />
+              {% endif %}
             {% endif %}
           </div>
         </div>
