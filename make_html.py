@@ -313,12 +313,6 @@ def registration_agencies():
                            nonmatching=nonmatching)
 
 
-# Serve static files through the development server (--live)
-@app.route('/static/<filename>')
-def static_development(filename):
-    return send_from_directory('static', filename)
-
-
 # Serve favicon through the development server (--live)
 @app.route('/favicon.ico')
 def favicon_development():
