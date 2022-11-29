@@ -335,7 +335,6 @@ def csv_development(name):
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
-    print(image)
     return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
 
 
