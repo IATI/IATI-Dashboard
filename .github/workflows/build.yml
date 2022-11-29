@@ -42,7 +42,7 @@ jobs:
     - name: Delete files
       run: rm -rf data stats-calculated
     - name: Add static files to output
-      run: cp -r static/* out
+      run: cp -r static out
     - name: Deploy (production) 🚀
       if: github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@3.7.1
