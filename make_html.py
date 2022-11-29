@@ -2,15 +2,13 @@
 # This uses Jinja templating to render the HTML templates in the 'templates' folder
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
-import mimetypes
 import argparse
 import json
-import os
 import re
 import subprocess
 from collections import defaultdict
 
-from flask import Flask, render_template, redirect, abort, Response
+from flask import Flask, render_template, redirect, abort, Response, send_from_directory
 import pytz
 
 import licenses
@@ -318,24 +316,23 @@ def registration_agencies():
 # Serve static files through the development server (--live)
 @app.route('/static/<filename>')
 def static_development(filename):
-    mimetype = mimetypes.guess_type(filename)[0]
-    return Response(open(os.path.join('static', filename)).read(), mimetype=mimetype)
+    return send_from_directory('static', filename)
 
 
 # Serve favicon through the development server (--live)
 @app.route('/favicon.ico')
 def favicon_development():
-    return Response(open(os.path.join('static', 'favicon.ico')).read(), mimetype='image/vnd.microsoft.icon')
+    return send_from_directory('static', 'favicon.ico')
 
 
 @app.route('/<name>.csv')
 def csv_development(name):
-    return Response(open(os.path.join('out', name + '.csv')).read(), mimetype='text/csv')
+    return send_from_directory('out', name + '.csv')
 
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
-    return Response(open(os.path.join('out', 'publisher_imgs', image + '.png')).read(), mimetype='image/png')
+    return send_from_directory('out', 'publisher_imgs', image + '.png')
 
 
 if __name__ == '__main__':
