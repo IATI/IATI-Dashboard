@@ -2,6 +2,7 @@
 # This uses Jinja templating to render the HTML templates in the 'templates' folder
 # Data is based on the files in the 'stats-calculated' folder, and extra logic in other files in this repository
 
+import mimetypes
 import argparse
 import json
 import os
@@ -314,10 +315,17 @@ def registration_agencies():
                            nonmatching=nonmatching)
 
 
-# Server an image through the development server (--live)
-@app.route('/<image>.png')
-def image_development(image):
-    return Response(open(os.path.join('out', image + '.png')).read(), mimetype='image/png')
+# Serve static files through the development server (--live)
+@app.route('/static/<filename>')
+def static_development(filename):
+    mimetype = mimetypes.guess_type(filename)[0]
+    return Response(open(os.path.join('static', filename)).read(), mimetype=mimetype)
+
+
+# Serve favicon through the development server (--live)
+@app.route('/favicon.ico')
+def favicon_development():
+    return Response(open(os.path.join('static', 'favicon.ico')).read(), mimetype='image/vnd.microsoft.icon')
 
 
 @app.route('/<name>.csv')
