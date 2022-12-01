@@ -47,18 +47,18 @@
     <table class="table table-striped" id="main_table">
         <thead>
             <tr>
-                <th style="border: 1px solid gray;">Publisher Name</th>
+                <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
                 {% for column_header in comprehensiveness.column_headers[tab] %}
-                <th style="border: 1px solid gray;">{{ column_header }}</th>
+                <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                 {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% for row in comprehensiveness.table() %}
-            <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+            <tr>
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
                 {% for column_slug in comprehensiveness.column_slugs[tab] %}
-                <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{% if column_slug in row %}
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in row %}
                     {{ row[column_slug+'_valid'] | round_nicely }}
                     {% if row[column_slug+'_valid'] != row[column_slug] %}
                     <span class="text-muted">({{ row[column_slug] | round_nicely }})</td>

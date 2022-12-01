@@ -26,18 +26,18 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th style="border: 1px solid gray;">Publisher Name</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
                     {% for _, column_header in humanitarian.columns %}
-                    <th style="border: 1px solid gray;">{{ column_header }}</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in humanitarian.table() %}
-                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+                <tr>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
                     {% for column_slug, _ in humanitarian.columns %}
-                      <td style="border-right: 1px solid gray; border-left: 1px solid gray;">
+                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">
                         {%- if column_slug == 'publisher_type' -%}
                           {{ row[column_slug] }}
                         {%- else -%}

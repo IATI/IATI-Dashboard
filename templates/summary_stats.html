@@ -30,18 +30,18 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th style="border: 1px solid gray;">Publisher Name</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
                     {% for column_slug, column_header in summary_stats.columns %}
-                    <th style="border: 1px solid gray;">{{ column_header }}</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
                 {% for row in summary_stats.table() %}
-                <tr {% if loop.last %} style="border-bottom: 1px solid gray;"{% endif %}>
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+                <tr>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
                     {% for column_slug, column_header in summary_stats.columns %}
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray;">{% if column_slug == "publisher_type" %}{{ row[column_slug] }}{% else %}{{ row[column_slug] | round_nicely }}{% endif %}</th>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ row[column_slug] }}{% else %}{{ row[column_slug] | round_nicely }}{% endif %}</th>
                     {% endfor %}
                     </td>
                 </tr>
