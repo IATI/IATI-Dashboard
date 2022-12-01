@@ -332,7 +332,7 @@ def csv_development(name):
 
 @app.route('/publisher_imgs/<image>.png')
 def image_development_publisher(image):
-    return send_from_directory('out', 'publisher_imgs', image + '.png')
+    return send_from_directory('out/publisher_imgs', image + '.png')
 
 
 if __name__ == '__main__':
