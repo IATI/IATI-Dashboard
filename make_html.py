@@ -120,7 +120,7 @@ app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transac
 app.jinja_env.filters['round_nicely'] = round_nicely
 
 # Custom Jinja globals
-app.jinja_env.globals['url'] = lambda x: x
+app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['commit_hash'] = subprocess.run(
@@ -163,7 +163,6 @@ app.jinja_env.globals['get_codelist_values'] = get_codelist_values
 app.jinja_env.globals['is_valid_element'] = is_valid_element
 
 basic_page_names = [
-    'index',
     'headlines',
     'data_quality',
     'exploring_data',
