@@ -8,7 +8,7 @@ import re
 import subprocess
 from collections import defaultdict
 
-from flask import Flask, render_template, redirect, abort, Response, send_from_directory
+from flask import Flask, render_template, abort, Response, send_from_directory
 import pytz
 
 import licenses
@@ -231,7 +231,11 @@ def download_errors_json():
     return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
 
 
-app.add_url_rule('/', 'index_redirect', lambda: redirect('index.html'))
+@app.route('/')
+def homepage():
+    return render_template('index.html', page='index')
+
+
 app.add_url_rule('/licenses.html', 'licenses', licenses.main)
 app.add_url_rule('/license/<license>.html', 'licenses_individual_license', licenses.individual_license)
 
