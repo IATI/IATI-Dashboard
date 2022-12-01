@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes %}
 
-{% block page_header %}
-{{ super () }}
-
-{% endblock %}
-
 {% block content %}
-
     <div class="row">
       {{ boxes.box('Files where XML is not well-formed', current_stats.aggregated.invalidxml, 'invalidxml.png', 'invalidxml.json',
         description='Count of files where the XML that is not well-formed, over time. Note: this is different from <a href="validation.html">validation against the schema</a>.') }}
