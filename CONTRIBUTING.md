@@ -7,28 +7,27 @@ If you would like to contribute to the Code for IATI Analytics project, you can.
 
 ## How to report a bug or request a feature
 
-If you are able to work with GitHub then please "Create an issue"
+If you are able to work with GitHub then please [create an issue](https://github.com/codeforIATI/analytics/issues/new/choose).
 
-Before creating a new issue check to see if the issue already exists. If not then please do report it.
+Before creating a new issue check to see if the issue already exists. If not then please do create it.
 
-If you are not comfortable working with GitHub, but would still like to contribute, then talk to us.  Details at: https://github.com/codeforIATI
+If you are not comfortable working with GitHub, but would still like to contribute, then talk to us. Details at: https://codeforiati.org/get-involved/
 
 ## How to contribute code and documents
 
 ### How we use branches in this repository
 
-* master represents our main development branch
-* live is the branch we are currently using for our deployed instance of the code
+* `main` represents our main development branch, and is the branch we are currently using for our deployed instance of the code
 * Other branches represent development work or bug fixes.
 
 ### Submitting changes
 
 * Fork this repository (if you haven't previously)
-* Make sure you're working on top of an up to date copy of IATI's master branch
+* Make sure you're working on top of an up to date copy of the `main` branch
     - Create a branch named after the work you're doing (if you're targeting a specific issue, start the branch name with the issue number e.g. `42-feature-name`)
 * Do your work
     - If your work addresses a specific issue, reference that issue in your commit message by starting the commit message with `[#issue number]` e.g. `[#64]`
-* Create a pull request
+* Create a pull request against `main`
 
 ## Specific Tasks:
 
@@ -59,4 +58,4 @@ We mark some of issues as 'Bitesize'. Generally these will help ease you into th
 
 ## Talk to us
 
-We'd love to hear from you. Details at: https://github.com/codeforIATI
+We'd love to hear from you. Details at: https://codeforiati.org/get-involved/
