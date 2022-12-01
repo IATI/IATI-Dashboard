@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes %}
 {% block title %}
-Publisher: {{ publisher_name[publisher] }} {{ super () }}
+Publisher: {{ publisher_name[publisher] }} {{ super() }}
 {% endblock %}
 {% block page_header %}
 <a href="{{ stats_gh_url }}/current/aggregated-publisher/{{ publisher }}/" style="float:right">(Publisher Stats JSON)</a>
