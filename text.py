@@ -94,7 +94,7 @@ short_page_titles.update({
     'identifiers': 'Duplicate Identifiers',
 })
 
-top_navigation = ['index', 'headlines', 'data_quality', 'publishing_stats', 'exploring_data', 'faq']
+top_navigation = ['headlines', 'data_quality', 'publishing_stats', 'exploring_data', 'faq']
 navigation = {
     'headlines': ['publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],

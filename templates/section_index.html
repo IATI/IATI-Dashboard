@@ -27,12 +27,10 @@
       </div>
       <ul class="list-group">
       {% for item in (top_navigation if page=='index' else navigation[navigation_reverse[page]]) %}
-        {% if item!='index' %}
-          <li class="list-group-item">
-          <h4><a href="{{ url(item+'.html') }}">{{ page_titles[item] }}</a></h4>
-          <p>{{ page_leads[item]|safe }}</p>
-          </li>
-        {% endif %}
+        <li class="list-group-item">
+        <h4><a href="{{ url_for('basic_page', page_name=item) }}">{{ page_titles[item] }}</a></h4>
+        <p>{{ page_leads[item]|safe }}</p>
+        </li>
       {% endfor %}
       </ul>
     </div>

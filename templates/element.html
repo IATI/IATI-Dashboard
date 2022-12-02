@@ -38,7 +38,7 @@
           <tbody>
             {% for publisher in sorted(publishers) %}
             <tr>
-                <td><a href="{{ url('publisher/{0}.html'.format(publisher)) }}">{{ publisher }}</a></td>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td>
                 {% with publisher_inverted=get_publisher_stats(publisher, 'inverted-file') %}
                 <td><a href="#files_{{ publisher }}">{% if 'elements' in publisher_inverted %}{{ publisher_inverted.elements[element]|count }}{% endif %}</a></td>
                 {% endwith %}
@@ -71,7 +71,7 @@
             {% for publisher in current_stats.inverted_publisher.publishers %}
             {% if publisher not in publishers %}
             <tr>
-                <td><a href="{{ url('publisher/{0}.html'.format(publisher)) }}">{{ publisher }}</a></td>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td>
                 <td>{{ current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher) }}</td>
                 <td>{{ current_stats.inverted_publisher.activities[publisher] }}</td>
                 <td>{{ current_stats.inverted_publisher.organisations[publisher] }}</td>
@@ -98,7 +98,7 @@
             {% for publisher in current_stats.inverted_file_publisher %}
               {% with datasets = current_stats.inverted_file_publisher[publisher].elements.get(element) %}
               {% if datasets %}
-                <tr><td id="files_{{ publisher }}"><a href="{{ url('publisher/{0}.html'.format(publisher)) }}">{{ publisher }}</a></td><td>
+                <tr><td id="files_{{ publisher }}"><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td><td>
                 {% for dataset in datasets.keys() %}
                     <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
                 {% endfor %}
