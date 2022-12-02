@@ -13,7 +13,7 @@
     <div class="col-xs-12">
     <div class="panel panel-default">
     <div class="panel-body">
-        <p style="float:right"><a href="{{ url('publishers.csv') }}">(This table as CSV)</a></p>
+        <p style="float:right"><a href="{{ url_for('static', filename='publishers.csv') }}">(This table as CSV)</a></p>
         <p>List of current active IATI publishers,  Click on the publisher name for more details.</p>
         {% include '_partials/tablesorter_instructions.html' %}
     </div>
