@@ -27,12 +27,48 @@
               {% set publisher_stats = get_publisher_stats(publisher) %}
                   <tr>
                       <td><a href="publisher/{{ publisher }}.html">{{ publisher_title }}</a></td>
-                      <td>{% if publisher_stats.traceable_activities_by_publisher_id %}{{ '{:,}'.format(publisher_stats.traceable_activities_by_publisher_id) }}{% endif %}</td>
-                      <td>{% if publisher_stats.traceable_activities_by_publisher_id_denominator %}{{ '{:,}'.format(publisher_stats.traceable_activities_by_publisher_id_denominator) }}{% endif %}</td>
-                      <td>{% if publisher_stats.traceable_activities_by_publisher_id and publisher_stats.traceable_activities_by_publisher_id_denominator %}{{ (publisher_stats.traceable_activities_by_publisher_id / publisher_stats.traceable_activities_by_publisher_id_denominator * 100) | round_nicely }}{% endif %}</td>
-                      <td>{% if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id %}{{ '{:,.2f}'.format(publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id) }}{% endif %}</td>
-                      <td>{% if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator %}{{ '{:,.2f}'.format(publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator) }}{% endif %}</td>
-                      <td>{% if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id and publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator %}{{ (publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id / publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator * 100) | round_nicely }}{% endif %}</td>
+                      <td>
+                        {%- if publisher_stats.traceable_activities_by_publisher_id -%}
+                          {{ '{:,}'.format(publisher_stats.traceable_activities_by_publisher_id) }}
+                        {%- else -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher_stats.traceable_activities_by_publisher_id_denominator -%}
+                          {{ '{:,}'.format(publisher_stats.traceable_activities_by_publisher_id_denominator) }}
+                        {%- else -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher_stats.traceable_activities_by_publisher_id and publisher_stats.traceable_activities_by_publisher_id_denominator -%}
+                          {{ (publisher_stats.traceable_activities_by_publisher_id / publisher_stats.traceable_activities_by_publisher_id_denominator * 100) | round_nicely }}
+                        {%- elif publisher_stats.traceable_activities_by_publisher_id_denominator -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id -%}
+                          {{ '{:,.2f}'.format(publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id) }}
+                        {%- else -%}
+                          0.00
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          {{ '{:,.2f}'.format(publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator) }}
+                        {%- else -%}
+                          0.00
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id and publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          {{ (publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id / publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator * 100) | round_nicely }}
+                        {%- elif publisher_stats.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          0
+                        {%- endif -%}
+                      </td>
                   </tr>
               {% endfor %}
             </tbody>
