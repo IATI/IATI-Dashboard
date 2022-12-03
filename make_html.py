@@ -39,7 +39,7 @@ from data import (
     is_valid_element,
     slugs)
 
-app = Flask(__name__, static_folder='')
+app = Flask(__name__, static_url_path='')
 
 
 def dictinvert(d):
