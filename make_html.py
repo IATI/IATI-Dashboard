@@ -115,11 +115,11 @@ date_time_data_obj = parser.parse(metadata['created_at'])
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
-app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 app.jinja_env.filters['round_nicely'] = round_nicely
 
 # Custom Jinja globals
+app.jinja_env.globals['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')

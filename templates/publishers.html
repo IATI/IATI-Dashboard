@@ -34,8 +34,8 @@
             {% for publisher_title,publisher in publishers_ordered_by_title %}
             {% set publisher_stats = get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
-                <td><a href="publisher/{{ publisher }}.html">{{ publisher }}</a></td>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td>
                 <td>{{ current_stats.inverted_publisher.activities[publisher] }}</td>
                 <td>{{ publisher_stats.organisations }}</td>
                 <td>{{ current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher) }}</td>

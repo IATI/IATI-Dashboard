@@ -26,7 +26,7 @@
               {% for publisher_title,publisher in publishers_ordered_by_title %}
               {% set publisher_stats = get_publisher_stats(publisher) %}
                   <tr>
-                      <td><a href="publisher/{{ publisher }}.html">{{ publisher_title }}</a></td>
+                      <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_title }}</a></td>
                       <td>
                         {%- if publisher_stats.traceable_activities_by_publisher_id -%}
                           {{ '{:,}'.format(publisher_stats.traceable_activities_by_publisher_id) }}

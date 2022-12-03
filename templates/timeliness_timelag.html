@@ -42,7 +42,7 @@
             <tbody>
                 {% for publisher, publisher_title, per_month, assessment, hft in timeliness.publisher_timelag_sorted() %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ publisher }}.html">{{ publisher_title }}</a></td>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_title }}</a></td>
                     {% for month in timeliness.previous_months_reversed %}
                     <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
                     {% endfor %}

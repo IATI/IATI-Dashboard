@@ -18,7 +18,7 @@
         <div class="panel-body">
             <p>This table assesses the extent to which IATI publishers are reporting on humanitarian attributes.</p>
 
-            <p>The statistics on this page do not form part of the <a href="summary_stats.html">Summary Statstics</a>.</p>
+            <p>The statistics on this page do not form part of the <a href="{{ url_for('basic_page', page_name='summary_stats') }}">Summary Statstics</a>.</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
         </div>
@@ -35,7 +35,7 @@
             <tbody>
                 {% for row in humanitarian.table() %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=row.publisher) }}">{{ row.publisher_title }}</a></td>
                     {% for column_slug, _ in humanitarian.columns %}
                       <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">
                         {%- if column_slug == 'publisher_type' -%}

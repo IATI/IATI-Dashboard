@@ -45,7 +45,7 @@
                   <tr><td>{{ value }}</td>
                     <td>{{ codelist_lookup[major_version].get(codelist_mapping[major_version].get(element))[value]['name'] }}</td>
                     <td>
-                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in sorted(publishers.items()) %}<a href='../../publisher/{{ publisher }}.html#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
+                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in sorted(publishers.items()) %}<a href='{{ url_for('publisher', publisher=publisher) }}#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
                   </td></tr>
                   {% endif %}
               {% endfor %}
@@ -68,7 +68,7 @@
               {% for value, publishers in values.items() %}
                   {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
                   <tr><td>{{ value }}</td><td>
-                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in sorted(publishers.items()) %}<a href='../../publisher/{{ publisher }}.html#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
+                      <a href="javascript: return false;" class="popover-html" title="Publishers using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in sorted(publishers.items()) %}<a href='{{ url_for('publisher', publisher=publisher) }}#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
                   </td></tr>
                   {% endif %}
               {% endfor %}

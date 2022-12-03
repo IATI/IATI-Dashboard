@@ -5,8 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-  <link rel="stylesheet" type="text/css" href="/style.css" />
-  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <title>{% block title %}{{ page_titles[page] }} – Code for IATI Analytics{% endblock %}</title>
 
   {% block extrahead %}{% endblock %}
@@ -72,7 +72,7 @@
 
           (NB This is the time the download task started. Any changes made after this time may not be reflected).<br />
 
-          For details on how often these updates are applied, see the <a href="/faq.html">Code for IATI Analytics FAQ</a>.
+          For details on how often these updates are applied, see the <a href="{{ url_for('basic_page', page_name='faq') }}">Code for IATI Analytics FAQ</a>.
     </div>
 </div>
 

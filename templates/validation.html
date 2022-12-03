@@ -24,7 +24,7 @@
         {% if datasets %}
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><a href="publisher/{{ publisher }}.html" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</div>
+          <div class="panel-heading"><a href="{{ url_for('publisher', publisher=publisher) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</div>
           <!--<div class="panel-body">
             <p>...</p>
           </div>-->

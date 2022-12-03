@@ -108,7 +108,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code><a href="../license/{{ license }}.html">{{ license }}</a></code>
+                <code><a href="{{ url_for('licenses_individual_license', license=license) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>

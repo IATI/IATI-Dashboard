@@ -68,7 +68,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
+                  <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>
@@ -95,7 +95,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></td>
+                  <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>

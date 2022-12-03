@@ -49,7 +49,7 @@
             <tbody>
                 {% for package, activities in current_stats.inverted_file.activities.items() %}
                 <tr>
-                    <td class="break"><a href="publisher/{{ package[:-4]|dataset_to_publisher }}.html">{{ publisher_name[package[:-4]|dataset_to_publisher] }}</a></td>
+                    <td class="break"><a href="{{ url_for('publisher', publisher=dataset_to_publisher(package[:-4])) }}">{{ dataset_to_publisher(publisher_name[package[:-4]]) }}</a></td>
                     <td class="break"><a href="http://iatiregistry.org/dataset/{{ package[:-4] }}">{{ package[:-4] }}</a></td>
                     <td>{{ activities }}</td>
                     <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>

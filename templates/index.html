@@ -1,7 +1,7 @@
 {% extends 'section_index.html' %}
 {% block title %}Code for IATI Analytics{% endblock %}
 {% block about %}
-<p>These analytics are generated daily, with the last update based on data in the IATI Registry on <strong>{{ datetime_data }}</strong>. For more information, see the <a href="faq.html">FAQ</a>.</p>
+<p>These analytics are generated daily, with the last update based on data in the IATI Registry on <strong>{{ datetime_data }}</strong>. For more information, see the <a href="{{ url_for('basic_page', page_name='faq') }}">FAQ</a>.</p>
 <p>Many of the tables are sortable by clicking on the headers.</p>
 <p>Many of the datasets are available in machine readable JSON format. Some links to JSON are abbreviated to <code>(J)</code>.</p>
 {% endblock %}
@@ -18,7 +18,7 @@
         <tbody>
             <tr>
                 <td id="activities-count">
-                    <a href="activities.html">
+                    <a href="{{ url_for('basic_page', page_name='activities') }}">
                     {{ current_stats.aggregated.activities }}
                     </a>
                 </td>
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td id="unique-activities-count">
-                    <a href="activities.html">
+                    <a href="{{ url_for('basic_page', page_name='activities') }}">
                     {{ current_stats.aggregated.iati_identifiers|count }}
                     </a>
                 </td>
@@ -34,7 +34,7 @@
             </tr>
             <tr>
                 <td id="publishers-count">
-                    <a href="publishers.html">
+                    <a href="{{ url_for('basic_page', page_name='publishers') }}">
                     {{ current_stats.aggregated.publishers }}
                     </a>
                 </td>
@@ -42,7 +42,7 @@
             </tr>
             <tr>
                 <td id="activity-files-count">
-                    <a href="files.html">
+                    <a href="{{ url_for('basic_page', page_name='files') }}">
                     {{ current_stats.aggregated.activity_files }}
                     </a>
                 </td>
@@ -50,7 +50,7 @@
             </tr>
             <tr>
                 <td id="organisation-files-count">
-                    <a href="files.html">
+                    <a href="{{ url_for('basic_page', page_name='files') }}">
                     {{ current_stats.aggregated.organisation_files }}
                     </a>
                 </td>
@@ -58,7 +58,7 @@
             </tr>
             <tr>
                 <td id="total-file-size">
-                    <a href="files.html">
+                    <a href="{{ url_for('basic_page', page_name='files') }}">
                     {{ current_stats.aggregated.file_size|filesizeformat }}
                     </a>
                 </td>
@@ -66,7 +66,7 @@
             </tr>
             <tr>
                 <td id="failed-download-count">
-                    <a href="download.html">
+                    <a href="{{ url_for('basic_page', page_name='download') }}">
                     {{ current_stats.download_errors|length }}
                     </a>
                 </td>
@@ -74,7 +74,7 @@
             </tr>
             <tr>
                 <td id="poorly-formed-xml-file-count">
-                    <a href="xml.html">
+                    <a href="{{ url_for('basic_page', page_name='xml') }}">
                     {{ current_stats.aggregated.invalidxml }}
                     </a>
                 </td>
@@ -82,7 +82,7 @@
             </tr>
             <tr>
                 <td id="non-standard-roots-file-count">
-                    <a href="xml.html">
+                    <a href="{{ url_for('basic_page', page_name='xml') }}">
                     {{ current_stats.aggregated.nonstandardroots }}
                     </a>
                 </td>
@@ -96,7 +96,7 @@
             </tr>
             <tr>
                 <td id="cannot-validate-file-count">
-                    <a href="validation.html">
+                    <a href="{{ url_for('basic_page', page_name='validation') }}">
                     {{ current_stats.aggregated.validation.fail }}
                     </a>
                 </td>
@@ -104,7 +104,7 @@
             </tr>
             <tr>
                 <td id="publishers-with-non-valid-files-count">
-                    <a href="validation.html">
+                    <a href="{{ url_for('basic_page', page_name='validation') }}">
                     {{ current_stats.aggregated.publishers_validation.fail }}
                     </a>
                 </td>
@@ -112,7 +112,7 @@
             </tr>
             <tr>
                 <td id="publishers-with-no-org-file-count">
-                    <a href="organisation.html">
+                    <a href="{{ url_for('basic_page', page_name='organisation') }}">
                     {{ current_stats.aggregated.publisher_has_org_file.no }}
                     </a>
                 </td>

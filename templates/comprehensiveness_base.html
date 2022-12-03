@@ -8,10 +8,10 @@
     {% endblock %}
 
     <ul class="nav nav-tabs" role="tablist">
-      <li{% if tab=='summary' %} class="active"{% endif %}><a href="comprehensiveness.html">Summary</a></li>
-      <li{% if tab=='core' %} class="active"{% endif %}><a href="comprehensiveness_core.html">Core</a></li>
-      <li{% if tab=='financials' %} class="active"{% endif %}><a href="comprehensiveness_financials.html">Financials</a></li>
-      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="comprehensiveness_valueadded.html">Value added</a></li>
+      <li{% if tab=='summary' %} class="active"{% endif %}><a href="{{ url_for('basic_page', page_name='comprehensiveness') }}">Summary</a></li>
+      <li{% if tab=='core' %} class="active"{% endif %}><a href="{{ url_for('basic_page', page_name='comprehensiveness_core') }}">Core</a></li>
+      <li{% if tab=='financials' %} class="active"{% endif %}><a href="{{ url_for('basic_page', page_name='comprehensiveness_financials') }}">Financials</a></li>
+      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="{{ url_for('basic_page', page_name='comprehensiveness_valueadded') }}">Value added</a></li>
     </ul>
 
     <ul class="list-inline" style="padding: 1em">
@@ -54,7 +54,7 @@
         <tbody>
             {% for row in comprehensiveness.table() %}
             <tr>
-                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=row.publisher) }}">{{ row.publisher_title }}</a></td>
                 {% for column_slug in comprehensiveness.column_slugs[tab] %}
                 <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in row %}
                     {{ row[column_slug+'_valid'] | round_nicely }}
