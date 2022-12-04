@@ -365,9 +365,7 @@ if __name__ == '__main__':
                         'slug': slug,
                         'major_version': major_version
                     }
-            for license in licenses.licenses:
-                if license is None:
-                    license = 'None'
+            for license in set(licenses.licenses):
                 yield 'licenses_individual_license', {'license': license}
 
         freezer.freeze()
