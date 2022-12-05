@@ -39,7 +39,7 @@ from data import (
     is_valid_element,
     slugs)
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 
 def dictinvert(d):
@@ -115,11 +115,11 @@ date_time_data_obj = parser.parse(metadata['created_at'])
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url
 app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1]
-app.jinja_env.filters['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 app.jinja_env.filters['round_nicely'] = round_nicely
 
 # Custom Jinja globals
+app.jinja_env.globals['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')
@@ -264,7 +264,6 @@ def publisher(publisher):
                           ]
     failure_count = len(current_stats['inverted_file_publisher'][publisher]['validation'].get('fail', {}))
     return render_template('publisher.html',
-                           url=lambda x: '../' + x,
                            publisher=publisher,
                            publisher_stats=publisher_stats,
                            failure_count=failure_count,
@@ -282,7 +281,6 @@ def codelist(major_version, slug):
                            element=element,
                            values=values,
                            reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()},
-                           url=lambda x: '../../' + x,
                            major_version=major_version,
                            page='codelists')
 
@@ -295,7 +293,6 @@ def element(slug):
     return render_template('element.html',
                            element=element,
                            publishers=publishers,
-                           url=lambda x: '../' + x,
                            element_or_attribute='attribute' if '@' in element else 'element',
                            page='elements')
 
@@ -365,9 +362,7 @@ if __name__ == '__main__':
                         'slug': slug,
                         'major_version': major_version
                     }
-            for license in licenses.licenses:
-                if license is None:
-                    license = 'None'
+            for license in set(licenses.licenses):
                 yield 'licenses_individual_license', {'license': license}
 
         freezer.freeze()

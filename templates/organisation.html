@@ -17,7 +17,7 @@
             <p>The following publishers do not have an organisation file listed on the IATI Registry.</p>
             <ul>
             {% for publisher in sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
-              <li><a href="publisher/{{ publisher }}.html">{{ publisher_name[publisher] }}</a></li>
+              <li><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></li>
             {% endfor %}
             </ul>
           </div>

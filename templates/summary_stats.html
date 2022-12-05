@@ -12,7 +12,7 @@
 
     <div class="panel panel-default" id="h_table">
         <div class="panel-heading">
-            <span class="pull-right"><a href="{{ url('summary_stats.csv') }}">(This table as CSV)</a></span>
+            <span class="pull-right"><a href="{{ url_for('static', filename='summary_stats.csv') }}">(This table as CSV)</a></span>
             <h3 class="panel-title">Summary Statistics</h3>
         </div>
 
@@ -37,7 +37,7 @@
             <tbody>
                 {% for row in summary_stats.table() %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="publisher/{{ row.publisher }}.html">{{ row.publisher_title }}</a></td>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=row.publisher) }}">{{ row.publisher_title }}</a></td>
                     {% for column_slug, column_header in summary_stats.columns %}
                     <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ row[column_slug] }}{% else %}{{ row[column_slug] | round_nicely }}{% endif %}</th>
                     {% endfor %}
@@ -55,10 +55,10 @@
         </div>
         <div class="panel-body">
             <h4>Timeliness</h5>
-            <p>This is calculated by scoring the assessments made on the <a href="timeliness.html">
-               frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages on a scale of
+            <p>This is calculated by scoring the assessments made on the <a href="{{ url_for('basic_page', page_name='timeliness') }}">
+               frequency</a> and <a href="{{ url_for('basic_page', page_name='timeliness_timelag') }}">timelag</a> pages on a scale of
                0 to 4 (as below), dividing the sum of the two scores by 8, and expressing the result as
-               a percentage. The methodology used in making the assesments is detailed on the <a href="timeliness.html">frequency</a> and <a href="timeliness_timelag.html">timelag</a> pages.
+               a percentage. The methodology used in making the assesments is detailed on the <a href="{{ url_for('basic_page', page_name='timeliness') }}">frequency</a> and <a href="{{ url_for('basic_page', page_name='timeliness_timelag') }}">timelag</a> pages.
             </p>
 
             <table class="table table-striped">
@@ -118,12 +118,12 @@
 
             <h4>Forward looking</h4>
             <p>The average percentage of current activities with budgets for each of the years {{ current_year }} - {{ current_year + 2 }}.
-               The component values and a detailed methodology are displayed on the <a href="forwardlooking.html">forward looking</a> page.
+               The component values and a detailed methodology are displayed on the <a href="{{ url_for('basic_page', page_name='forwardlooking') }}">forward looking</a> page.
             </p>
 
 
             <h4>Comprehensiveness</h4>
-            <p>The average of <a href="comprehensiveness.html">comprehensiveness</a> averages for core, financials and value-added. The core average has a double-weighting.</p>
+            <p>The average of <a href="{{ url_for('basic_page', page_name='comprehensiveness') }}">comprehensiveness</a> averages for core, financials and value-added. The core average has a double-weighting.</p>
 
 
             <h4>Score</h4>

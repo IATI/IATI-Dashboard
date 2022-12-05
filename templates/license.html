@@ -22,7 +22,7 @@
             <tbody>
                 {% for publisher, files in publisher_counts %}
                 <tr>
-                    <td><a href="../publisher/{{ publisher }}.html">{{ publisher }}</a></td>
+                    <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td>
                     <td>{{ files }}</td>
                 </tr>
                 {% endfor %}

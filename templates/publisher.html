@@ -108,7 +108,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code><a href="../license/{{ license }}.html">{{ license }}</a></code>
+                <code><a href="{{ url_for('licenses_individual_license', license=license) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -377,7 +377,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url('codelist/{}/{}.html'.format(major_version, slugs.codelist[major_version].by_i[element_i])) }}">{{ element }}</a></td>
+                <td><a href="{{ url_for('codelist', major_version=major_version, slug=slugs.codelist[major_version].by_i[element_i]) }}">{{ element }}</a></td>
                 <td><a href="https://codelists.codeforiati.org/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
                 {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
@@ -425,9 +425,9 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% for element, count in publisher_stats['elements'].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url('element/{0}.html'.format(slugs.element.by_i[element_i])) }}">{{ element }}</a></td>
+                <td><a href="{{ url_for('element', slug=slugs.element.by_i[element_i]) }}">{{ element }}</a></td>
                 <td>{{ count }}</td>
-                <td><a href="{{ url('element/{0}.html'.format(slugs.element.by_i[element_i])) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
+                <td><a href="{{ url_for('element', slug=slugs.element.by_i[element_i]) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
             {% endwith %}
             </tr>
             {% endfor %}

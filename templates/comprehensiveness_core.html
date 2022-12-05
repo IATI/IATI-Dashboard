@@ -5,7 +5,7 @@
 {% block heading_detail %}
 	<p>Core elements are those that are mandatory in version 2.01 of the IATI Activity standard. The core elements are: Version, Reporting Organisation, IATI Identifier, Participating Organisation, Title, Description, Status, Activity Date, Sector, and Country or Region.</p>
 
-	<p>This table shows the percentage of <strong><em>current</em></strong> activities where the core elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.) The scoring for the <a href="summary_stats.html">Summary Stats page</a> recognises the importance of the core by giving it double weighting in the overall comprehensiveness component.</p>
+	<p>This table shows the percentage of <strong><em>current</em></strong> activities where the core elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.) The scoring for the <a href="{{ url_for('basic_page', page_name='summary_stats') }}">Summary Stats page</a> recognises the importance of the core by giving it double weighting in the overall comprehensiveness component.</p>
 
 	<p><strong>Key:</strong><br/>
         Dashes: Where a publisher has published to IATI in the past but whose portfolio contains no current activities.
