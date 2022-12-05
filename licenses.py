@@ -139,7 +139,6 @@ def individual_license(license):
             license == 'notspecified' and package['license_id'] is None)]
     publisher_counts = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
     return render_template('license.html',
-                           url=lambda x: '../' + x,
                            license=license,
                            license_names=license_names,
                            license_urls=license_urls,
