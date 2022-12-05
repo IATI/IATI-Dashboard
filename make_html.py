@@ -264,7 +264,6 @@ def publisher(publisher):
                           ]
     failure_count = len(current_stats['inverted_file_publisher'][publisher]['validation'].get('fail', {}))
     return render_template('publisher.html',
-                           url=lambda x: '../' + x,
                            publisher=publisher,
                            publisher_stats=publisher_stats,
                            failure_count=failure_count,
@@ -282,7 +281,6 @@ def codelist(major_version, slug):
                            element=element,
                            values=values,
                            reverse_codelist_mapping={major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()},
-                           url=lambda x: '../../' + x,
                            major_version=major_version,
                            page='codelists')
 
@@ -295,7 +293,6 @@ def element(slug):
     return render_template('element.html',
                            element=element,
                            publishers=publishers,
-                           url=lambda x: '../' + x,
                            element_or_attribute='attribute' if '@' in element else 'element',
                            page='elements')
 
