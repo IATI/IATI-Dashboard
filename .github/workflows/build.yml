@@ -11,12 +11,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+      with:
+        persist-credentials: false
     - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: 3.7
-    - uses: actions/cache@v2
+    - uses: actions/cache@v3
       name: Cache dependencies
       with:
         path: ~/.cache/pip
@@ -45,30 +48,30 @@ jobs:
       run: cp -r static/* out
     - name: Deploy (production) 🚀
       if: github.ref == 'refs/heads/main'
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GIT_CONFIG_NAME: Code for IATI bot
-        GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        REPOSITORY_NAME: codeforIATI/analytics-public
-        BRANCH: gh-pages
-        FOLDER: out
-        CLEAN: true
-        SILENT: true
-        SINGLE_COMMIT: true
+        git-config-name: Code for IATI bot
+        git-config-email: 57559326+codeforIATIbot@users.noreply.github.com
+        token: ${{ secrets.TOKEN }}
+        repository-name: codeforIATI/analytics-public
+        branch: gh-pages
+        folder: out
+        clean: true
+        silent: true
+        single-commit: true
     - name: Set CNAME (dev)
       if: github.ref == 'refs/heads/dev'
       run: echo "analytics-dev.codeforiati.org" > out/CNAME
     - name: Deploy (dev) 🚀
       if: github.ref == 'refs/heads/dev'
-      uses: JamesIves/github-pages-deploy-action@3.7.1
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        GIT_CONFIG_NAME: Code for IATI bot
-        GIT_CONFIG_EMAIL: 57559326+codeforIATIbot@users.noreply.github.com
-        GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        REPOSITORY_NAME: codeforIATI/analytics-dev
-        BRANCH: gh-pages
-        FOLDER: out
-        CLEAN: true
-        SILENT: true
-        SINGLE_COMMIT: true
+        git-config-name: Code for IATI bot
+        git-config-email: 57559326+codeforIATIbot@users.noreply.github.com
+        token: ${{ secrets.TOKEN }}
+        repository-name: codeforIATI/analytics-dev
+        branch: gh-pages
+        folder: out
+        clean: true
+        silent: true
+        single-commit: true
