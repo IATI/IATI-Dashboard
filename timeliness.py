@@ -1,6 +1,6 @@
 # This file converts raw timeliness data into the associated Publishing Statistics assessments
 
-from data import JSONDir, publishers_ordered_by_title, publisher_name, get_publisher_stats, get_registry_id_matches
+from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict, Counter
@@ -61,9 +61,7 @@ def publisher_frequency():
     gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
 
     # Loop over each publisher - i.e. a publisher folder within 'gitaggregate-publisher-dated'
-
-    for publisher_title, publisher in publishers_ordered_by_title:
-        agg = gitaggregate_publisher[publisher]
+    for publisher, agg in gitaggregate_publisher.items():
 
         # Skip to the next publisher if there is no data for 'most_recent_transaction_date' for this publisher
         if 'most_recent_transaction_date' not in agg:
@@ -137,8 +135,9 @@ def publisher_frequency():
                 # There has been an update in none of the last 12 months
                 frequency = 'Less than Annual'
 
-        # return a generator object
-        yield publisher, publisher_title, updates_per_month, frequency, hft, first_published_band
+        # If the publisher is in the list of current publishers, return a generator object
+        if publisher in publisher_name:
+            yield publisher, publisher_name.get(publisher), updates_per_month, frequency, hft, first_published_band
 
 
 def frequency_index(frequency):
