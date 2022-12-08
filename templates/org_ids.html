@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        {% include '_partials/tablesorter_instructions.html' %}
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Org Type</th>
+                <th>Total Org Elements</th>
+                <th>Total Refs</th>
+                <th>Total Non-Empty Refs</th>
+                <th>Total Refs Excluding Self Refs</th>
+                <th>Total Valid Refs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slug in slugs.org_type.by_slug %}
+            {% set transaction_stats = current_stats.aggregated[slug + '_transaction_stats'] %}
+            <tr>
+                <td><a href="org_type/{{ slug }}.html" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                <td>{{ '{:,}'.format(transaction_stats.total_orgs) if transaction_stats.total_orgs else '' }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_refs) if transaction_stats.total_refs else '' }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_full_refs) if transaction_stats.total_full_refs else '' }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_notself_refs) if transaction_stats.total_notself_refs else '' }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_valid_refs) if transaction_stats.total_valid_refs else '' }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}

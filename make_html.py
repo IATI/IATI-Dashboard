@@ -195,6 +195,7 @@ basic_page_names = [
     'booleans',
     'dates',
     'traceability',
+    'org_ids',
     'faq',
 ]
 
@@ -300,6 +301,14 @@ def element(slug):
                            page='elements')
 
 
+@app.route('/org_type/<slug>.html')
+def org_type(slug):
+    assert slug in slugs['org_type']['by_slug']
+    return render_template('org_type.html',
+                           slug=slug,
+                           page='org_ids')
+
+
 @app.route('/registration_agencies.html')
 def registration_agencies():
     registration_agencies = defaultdict(int)
@@ -366,6 +375,8 @@ if __name__ == '__main__':
                         'slug': slug,
                         'major_version': major_version
                     }
+            for slug in slugs['org_type']['by_slug']:
+                yield 'org_type', {'slug': slug}
             for license in set(licenses.licenses):
                 yield 'licenses_individual_license', {'license': license}
 

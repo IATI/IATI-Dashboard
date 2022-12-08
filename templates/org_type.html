@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
+{% endblock %}
+
+{% block page_header %}
+<h1>Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="panel panel-default">
+    <div class="panel-body">
+        <p>Blurb</p>
+        {% include '_partials/tablesorter_instructions.html' %}
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Publisher Name</th>
+                <th>Publisher Registry Id</th>
+                <th>Total Org Elements</th>
+                <th>Total Refs</th>
+                <th>Total Non-Empty Refs</th>
+                <th>Total Refs Excluding Self Refs</th>
+                <th>Total Valid Refs</th>
+                <th>Percentage of Org Elements with Valid Refs</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher_title, publisher in publishers_ordered_by_title %}
+            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
+            <tr>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}#p_org_ids">{{ publisher_name[publisher] }}</a></td>
+                <td><a href="{{ url_for('publisher', publisher=publisher) }}#p_org_ids">{{ publisher }}</a></td>
+                <td>{{ '{:,}'.format(transaction_stats.total_orgs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_full_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_notself_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_valid_refs or 0) }}</th>
+                <td>{{ '{:,.2f}'.format((transaction_stats.total_valid_refs or 0) / transaction_stats.total_orgs * 100) if transaction_stats.total_orgs else 0 }}</th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+{% endblock %}

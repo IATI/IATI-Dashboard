@@ -39,6 +39,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                         <li><a href="#p_files">Files</a>
                         <li><a href="#p_codelists">Codelist values</a>
                         <li><a href="#p_elements">Elements and Attributes published</a>
+                        <li><a href="#p_org_ids">Organisation Identifiers</a>
                     </ul>
                 </li>
             </ul>
@@ -432,6 +433,40 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             </tr>
             {% endfor %}
             {% endwith %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="panel panel-default" id="p_org_ids">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <h3 class="panel-title">Organisation Identifiers</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Org Type</th>
+                <th>Total Org Elements</th>
+                <th>Total Refs</th>
+                <th>Total Non-Empty Refs</th>
+                <th>Total Refs Excluding Self Refs</th>
+                <th>Total Valid Refs</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for slug in slugs.org_type.by_slug %}
+            {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
+            <tr>
+                <td><a href="../org_type/{{ slug }}.html" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                <td>{{ '{:,}'.format(transaction_stats.total_orgs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_full_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_notself_refs or 0) }}</th>
+                <td>{{ '{:,}'.format(transaction_stats.total_valid_refs or 0) }}</th>
+                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
     </div>

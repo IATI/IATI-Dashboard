@@ -33,6 +33,7 @@ page_titles = {
     'booleans': 'Booleans',
     'dates': 'Dates',
     'traceability': 'Traceability',
+    'org_ids': 'Organisation Identifiers',
     'publishing_stats': 'Publishing Statistics',
     'coverage': 'Coverage',
     'timeliness': 'Timeliness',
@@ -64,6 +65,7 @@ page_leads = {
     'booleans': 'How are booleans used in IATI data?',
     'dates': 'What date ranges do publishers publish data for?',
     'traceability': 'How much of a publisher’s spending is traceable to other publishers’ activities?',
+    'org_ids': 'Are organisation identifiers being used correctly?',
 }
 page_sub_leads = {
     'publishers': 'Publishers represent organisation accounts in the IATI Registry.',
@@ -98,6 +100,6 @@ top_navigation = ['headlines', 'data_quality', 'publishing_stats', 'exploring_da
 navigation = {
     'headlines': ['publishers', 'files', 'activities'],
     'data_quality': ['download', 'xml', 'validation', 'versions', 'licenses', 'organisation', 'identifiers', 'reporting_orgs'],
-    'exploring_data': ['elements', 'codelists', 'booleans', 'dates', 'traceability'],
+    'exploring_data': ['elements', 'codelists', 'booleans', 'dates', 'traceability', 'org_ids'],
     'publishing_stats': ['timeliness', 'forwardlooking', 'comprehensiveness', 'summary_stats', 'humanitarian']
 }
