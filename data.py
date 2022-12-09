@@ -291,5 +291,6 @@ slugs = {
         if major_version in current_stats['inverted_publisher']['codelist_values_by_major_version']
         else make_slugs([])
     ) for major_version in MAJOR_VERSIONS},
-    'element': make_slugs(current_stats['inverted_publisher']['elements'].keys())
+    'element': make_slugs(current_stats['inverted_publisher']['elements'].keys()),
+    'org_type': make_slugs(['accountable_org', 'extending_org', 'funding_org', 'implementing_org', 'provider_org', 'receiver_org']),
 }

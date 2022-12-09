@@ -39,6 +39,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                         <li><a href="#p_files">Files</a>
                         <li><a href="#p_codelists">Codelist values</a>
                         <li><a href="#p_elements">Elements and Attributes published</a>
+                        <li><a href="#p_org_ids">Organisation Identifiers</a>
                     </ul>
                 </li>
             </ul>
@@ -432,6 +433,32 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             </tr>
             {% endfor %}
             {% endwith %}
+        </tbody>
+    </table>
+    </div>
+
+    <div class="panel panel-default" id="p_org_ids">
+    <table class="table table-striped">
+    <div class="panel-heading">
+        <h3 class="panel-title">Organisation Identifiers</h3>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
+                {% set extra_column = true %}
+                {% include 'org_id_table_header.html' %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for slug in slugs.org_type.by_slug %}
+            {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
+            <tr>
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('org_type', slug=slug) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                {% include 'org_id_table_cells.html' %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
     </div>
