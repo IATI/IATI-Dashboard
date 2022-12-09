@@ -445,26 +445,18 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Org Type</th>
-                <th>Total Org Elements</th>
-                <th>Total Refs</th>
-                <th>Total Non-Empty Refs</th>
-                <th>Total Refs Excluding Self Refs</th>
-                <th>Total Valid Refs</th>
-                <th></th>
+                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
+                {% set extra_column = true %}
+                {% include 'org_id_table_header.html' %}
             </tr>
         </thead>
         <tbody>
             {% for slug in slugs.org_type.by_slug %}
             {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
             <tr>
-                <td><a href="../org_type/{{ slug }}.html" >{{ slug.replace('_org', '') | capitalize }}</a></td>
-                <td>{{ '{:,}'.format(transaction_stats.total_orgs or 0) }}</th>
-                <td>{{ '{:,}'.format(transaction_stats.total_refs or 0) }}</th>
-                <td>{{ '{:,}'.format(transaction_stats.total_full_refs or 0) }}</th>
-                <td>{{ '{:,}'.format(transaction_stats.total_notself_refs or 0) }}</th>
-                <td>{{ '{:,}'.format(transaction_stats.total_valid_refs or 0) }}</th>
-                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('org_type', slug=slug) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                {% include 'org_id_table_cells.html' %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
             </tr>
             {% endfor %}
         </tbody>
