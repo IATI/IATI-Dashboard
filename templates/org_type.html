@@ -22,14 +22,13 @@ Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Publisher Name</th>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Publisher Registry Id</th>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" colspan="3">Total</th>
-                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">Self Refs</th>
+                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Self Refs</th>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" colspan="5">Excluding Self Refs</th>
             </tr>
             <tr>
                 <th>Org Elements</th>
                 <th>Refs</th>
                 <th>Non-Empty Refs</th>
-                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">Self Refs</th>
                 <th>Org Elements</th>
                 <th>Refs</th>
                 <th>Non-Empty Refs</th>
@@ -55,7 +54,7 @@ Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
                 <td>{{ '{:,}'.format(total_refs_excluding_self_refs) }}</th>
                 <td>{{ '{:,}'.format(transaction_stats.total_notself_refs or 0) }}</th>
                 <td>{{ '{:,}'.format(transaction_stats.total_valid_refs or 0) }}</th>
-                <td>{{ '{:,.2f}'.format((transaction_stats.total_valid_refs or 0) / total_org_elements_excluding_self_refs * 100) if total_org_elements_excluding_self_refs else 0 }}</th>
+                <td>{{ (((transaction_stats.total_valid_refs or 0) / total_org_elements_excluding_self_refs * 100) if total_org_elements_excluding_self_refs else 0) | round_nicely }}</th>
             </tr>
             {% endfor %}
         </tbody>
