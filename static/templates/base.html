@@ -95,6 +95,19 @@ html,body{height:100%;}
   /*]]>*/</script>
   <!-- End of IATI Zendesk Widget script -->
 
+  <script defer data-domain="dashboard.iatistandard.org" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  <script>
+    var responseStart = window.performance.getEntriesByType('navigation')[0].responseStart;
+    plausible(
+      'TTFB', {
+        props: {
+            event_category: 'PageSpeed',
+            event_label: responseStart,
+        },
+    });
+  </script>
+
   {% block extrahead %}{% endblock %}
 </head>
 <body>
