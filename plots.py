@@ -168,18 +168,26 @@ for stat_path in [
         ('publisher_types', lambda x: True, '' ),
         ('activities_per_publisher_type', lambda x: True, '' )
         ]:
+    print("make_plot called for "+str(stat_path))
     make_plot(stat_path, git_stats)
+
+print("1")
 
 # Delete git_stats variable to save memory
 del git_stats
+
+print("2")
 
 try:
     os.makedirs('out/publisher_imgs')
 except OSError:
     pass
 
+print("3")
+
 git_stats_publishers = AugmentedJSONDir('./stats-calculated/gitaggregate-publisher-dated/')
 for publisher, git_stats_publisher in git_stats_publishers.iteritems():
+    print("PUBLISHER "+str(publisher))
     for stat_path in [
             'activities',
             'activity_files',
@@ -191,4 +199,7 @@ for publisher, git_stats_publisher in git_stats_publishers.iteritems():
             ('validation', lambda x: x=='fail', ''),
             ('versions', lambda x: True, ''),
             ]:
+        print("make_plot called for "+str(stat_path))
         make_plot(stat_path, git_stats_publisher, 'publisher_imgs/{0}_'.format(publisher))
+
+print("Done")
