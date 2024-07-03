@@ -1,16 +1,7 @@
 #!/usr/bin/env python
+""" Generates static images of stats graphs using matplotlib.
 """
-Show how to make date plots in matplotlib using date tick locators and
-formatters.  See major_minor_demo1.py for more information on
-controlling major and minor ticks
 
-All matplotlib date plotting is done by converting date instances into
-days since the 0001-01-01 UTC.  The conversion, tick locating and
-formatting is done behind the scenes so this is most transparent to
-you.  The dates module provides several converter functions date2num
-and num2date
-
-"""
 import datetime
 import numpy as np  # noqa: F401
 from collections import defaultdict
@@ -68,7 +59,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     if not stat_dict:
         return
     items = sorted(stat_dict.items())
-    x_values = [datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])).toordinal() for x, y in items]
+    x_values = [datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])) for x, y in items]
     if type(stat_path) == tuple:
         y_values = [dict((k, v) for k, v in y.items() if stat_path[1](k)) for x, y in items]
     else:
@@ -92,10 +83,10 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         if stat_name in ['publisher_types', 'activities_per_publisher_type']:
             # Sort by the most recent value for the key
             sorted_items = sorted(plots.items(), key=lambda x: y_values[-1][x[0]], reverse=True)
-            fig_legend.legend([x[1] for x in sorted_items], [x[0] for x in sorted_items], 'center', ncol=1)
+            fig_legend.legend([x[1] for x in sorted_items], [x[0] for x in sorted_items], loc='center', ncol=1)
             fig_legend.set_size_inches(600.0 / dpi, 300.0 / dpi)
         else:
-            fig_legend.legend(plots.values(), plots.keys(), 'center', ncol=4)
+            fig_legend.legend(plots.values(), plots.keys(), loc='center', ncol=4)
             fig_legend.set_size_inches(600.0 / dpi, 100.0 / dpi)
         fig_legend.savefig('out/{0}{1}{2}_legend.png'.format(img_prefix, stat_name, stat_path[2]))
     else:
@@ -121,6 +112,8 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     # rotates and right aligns the x labels, and moves the bottom of the
     # axes up to make room for them
     fig.autofmt_xdate()
+
+    ax.ticklabel_format(axis='y', style='plain', useOffset=False)
 
     fig.savefig('out/{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
     plt.close('all')
@@ -167,6 +160,7 @@ for stat_path in [
         ('activities_per_publisher_type', lambda x: True, '')
 ]:
     make_plot(stat_path, git_stats)
+
 
 # Delete git_stats variable to save memory
 del git_stats
