@@ -1,12 +1,9 @@
-flask==0.12.3       # Note: 2.2.4 is the latest version that supports Python 3.7
+flask==0.12.3
 frozen-flask==0.15
 jinja2==2.11.3
-
 python-dateutil==2.8.1
 pytz
-
-matplotlib==3.5.3   # Pinned as last version supporting Python 3.7
-
+matplotlib==3.9.0
 werkzeug==0.16.1
 xmlschema==1.6.2
 lxml
