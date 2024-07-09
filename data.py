@@ -88,6 +88,11 @@ class JSONDir(MutableMapping):
             # No value found as either a folder or json file
             raise KeyError(key)
 
+        # Because these keys are used as filenames, they can never exceed 255 characters
+        if hasattr(data, "keys"):
+            for k in data.keys():
+                if len(k) >= 255:
+                    data.pop(k)
         return data
 
     def keys(self):

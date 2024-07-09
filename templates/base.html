@@ -9,6 +9,19 @@
   <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <title>{% block title %}{{ page_titles[page] }} – Code for IATI Analytics{% endblock %}</title>
 
+  <script defer data-domain="dashboard.iatistandard.org" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  <script>
+    var responseStart = window.performance.getEntriesByType('navigation')[0].responseStart;
+    plausible(
+      'TTFB', {
+        props: {
+            event_category: 'PageSpeed',
+            event_label: responseStart,
+        },
+    });
+  </script>
+
   {% block extrahead %}{% endblock %}
 </head>
 <body>
@@ -41,6 +54,11 @@
       </div><!--/.nav-collapse -->
     </div>
   </div>
+  {% if page_titles[page] == "Data Quality" %}
+    <div class="warning" style="background-color:#06dbe4;text-align: center;padding-top: 10px;padding-bottom: 10px;">
+      <span>Organisations who publish IATI data are encouraged to use IATI’s new Validator tool to understand how to improve the quality of their data. <a href="https://iativalidator.iatistandard.org/">See more information.</a> </span>
+    </div>
+  {% endif %}
   <div class="container">
     {% block container %}
       {% block page_header_div %}
@@ -73,6 +91,8 @@
           (NB This is the time the download task started. Any changes made after this time may not be reflected).<br />
 
           For details on how often these updates are applied, see the <a href="{{ url_for('basic_page', page_name='faq') }}">Code for IATI Analytics FAQ</a>.
+
+          <a href="https://iatistandard.org/en/privacy-policy/">Privacy Policy</a></p>
     </div>
 </div>
 
