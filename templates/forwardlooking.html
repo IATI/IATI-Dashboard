@@ -114,7 +114,7 @@
     </div>
     <div class="panel-body">
         <p>No separate assessment is provided as the percentage of current activities containing budgets for this and the next two years is the de facto assessment. No attempt is currently being made to turn these into a descriptive summary (as, for example, "Frequency = "Monthly"). The percentage for the middle year (i.e. 'next year') is of most relevance to developing countries.</p>
-
+        <p>Activities with any <code>budget</code> elements that are also found to contain the <code>budget-not-provided</code> attribute will not receive a forward looking score.</p>
     </div>
     </div>
 
@@ -189,7 +189,9 @@ end =
 
 If start and end are both not null
     If (end - start <= 370 days)
-        If end month >= 7
+        If end year == start year
+            budget year = end year
+        Elif end month >= 7
             budget year = end year
         Else
             budget year = end year - 1

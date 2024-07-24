@@ -15,7 +15,8 @@ Table of Financial values
 	<p>The statistics on this page are calculated based on either i) the data in each publishers' lowest hierarchy, or ii) data in the hierarchy which contains the greatest number of budgets for the given publisher - see the <a href="#h_narrative">narrative section</a> for full details.</p>
 
 	<p><strong>Key:</strong><br/>
-        Dashes: Where a publisher has published to IATI in the past but whose portfolio contains no current activities.
+        Dashes: Where a publisher has published to IATI in the past but whose portfolio contains no current activities.<br/>
+        <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.
     </p>
 {% endblock %}
 
@@ -40,6 +41,7 @@ Table of Financial values
 
 {% block assessment_text %}
 	<p>Only elements containing valid data are counted. Where applicable a total including invalid data is provided in parentheses.</p>
+	<p>Activities with the <code>budget-not-provided</code> attribute will not be counted as valid if any <code>budget</code> elements are found.</p>
 {% endblock %}
 
 

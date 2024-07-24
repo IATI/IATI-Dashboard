@@ -146,6 +146,7 @@ def generate_row(publisher):
         if slug == 'budget':
             budget_all = publisher_base.get('comprehensiveness', {}).get(slug, 0)
             budget_not_provided_all = publisher_base.get('comprehensiveness', {}).get('budget_not_provided', 0)
+            row['flag'] = budget_not_provided_all > 0
             numerator_all = budget_all + budget_not_provided_all
             budget_valid = publisher_base.get('comprehensiveness_with_validation', {}).get(slug, 0)
             budget_not_provided_valid = publisher_base.get('comprehensiveness_with_validation', {}).get('budget_not_provided', 0)

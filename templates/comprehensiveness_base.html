@@ -49,6 +49,9 @@
                 {% for column_header in comprehensiveness.column_headers[tab] %}
                 <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                 {% endfor %}
+                {% if tab == 'financials' %}
+                    <th style="vertical-align:middle; border: 1px solid gray;"></th> 
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -63,6 +66,9 @@
                     {% endif %}
                     {% else %}-{% endif %}</td>
                 {% endfor %}
+                {% if tab == 'financials' %}
+                    <td style="border-right: 1px solid gray; border-left: 1px solid gray; {% if row['flag'] %};background-color: #fcf8aa{% endif %}"></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
