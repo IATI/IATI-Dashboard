@@ -1,5 +1,5 @@
 -r requirements.txt
-pytest==8.2.2
-pytest-cov==5.0.0
-coveralls==4.0.1
-flake8==3.7.7
+pytest
+pytest-cov
+coveralls
+flake8
