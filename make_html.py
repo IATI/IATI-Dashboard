@@ -82,11 +82,11 @@ def xpath_to_url(path):
     # remove conditions
     path = re.sub(r'\[[^]]+\]', '', path)
     if path.startswith('iati-activity'):
-        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/' + path.split('@')[0]
+        url = 'http://iatistandard.org/activity-standard/iati-activities/' + path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        url = 'https://reference.codeforiati.org/organisation-standard/iati-organisations/' + path.split('@')[0]
+        url = 'http://iatistandard.org/organisation-standard/iati-organisations/' + path.split('@')[0]
     else:
-        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
+        url = 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
     if '@' in path:
         url += '#attributes'
     return url
@@ -117,7 +117,8 @@ app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 app.jinja_env.filters['round_nicely'] = round_nicely
 
-# Custom Jinja globals
+# Custom Jinja globals - NOTE: codeforIATI stats URLs have not been
+# changed.
 app.jinja_env.globals['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.now(UTC).strftime('%-d %B %Y (at %H:%M %Z)')
