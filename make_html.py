@@ -231,7 +231,7 @@ def basic_page(page_name):
 
 @app.route('/data/download_errors.json')
 def download_errors_json():
-    return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
+    return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json')
 
 
 @app.route('/')
