@@ -328,10 +328,22 @@ def registration_agencies():
                            nonmatching=nonmatching)
 
 
-# Serve static files through the development server (--live)
-@app.route('/<any("favicon.ico", "style.css", "img/tablesorter-icons.gif"):filename>')
-def favicon_development(filename):
-    return send_from_directory('static', filename)
+@app.route('/<any("img/tablesorter-icons.gif", "img/favicon.ico", "img/favicon-16x16.png", "img/favicon-32x32.png"):filename>')
+def serve_images_development(filename):
+    """Serve static images through the development server (--live)"""
+    return send_from_directory('static/', filename)
+
+
+@app.route('/<any("style.css"):filename>')
+def serve_css_development(filename):
+    """Serve static css through the development server (--live)"""
+    return send_from_directory('static/', filename)
+
+
+@app.route('/favicon.ico')
+def favicon_root():
+    """Serve favicon from img folder when requested from root"""
+    return send_from_directory('static/img', 'favicon.ico')
 
 
 @app.route('/<name>.csv')
