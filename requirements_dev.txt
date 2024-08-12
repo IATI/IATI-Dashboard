@@ -4,6 +4,10 @@
 #
 #    pip-compile requirements_dev.in
 #
+blinker==1.8.2
+    # via
+    #   -r requirements.txt
+    #   flask
 certifi==2024.7.4
     # via
     #   -r requirements.txt
@@ -40,7 +44,7 @@ entrypoints==0.3
     # via flake8
 flake8==3.7.7
     # via -r requirements_dev.in
-flask==0.12.3
+flask==3.0.3
     # via
     #   -r requirements.txt
     #   frozen-flask
@@ -48,7 +52,7 @@ fonttools==4.53.1
     # via
     #   -r requirements.txt
     #   matplotlib
-frozen-flask==0.15
+frozen-flask==1.0.2
     # via -r requirements.txt
 idna==3.7
     # via
@@ -56,11 +60,11 @@ idna==3.7
     #   requests
 iniconfig==2.0.0
     # via pytest
-itsdangerous==2.0.1
+itsdangerous==2.1.2
     # via
     #   -r requirements.txt
     #   flask
-jinja2==2.11.3
+jinja2==3.1.2
     # via
     #   -r requirements.txt
     #   flask
@@ -70,10 +74,11 @@ kiwisolver==1.4.5
     #   matplotlib
 lxml==5.2.2
     # via -r requirements.txt
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via
     #   -r requirements.txt
     #   jinja2
+    #   werkzeug
 matplotlib==3.9.0
     # via -r requirements.txt
 mccabe==0.6.1
@@ -126,7 +131,7 @@ urllib3==2.2.2
     # via
     #   -r requirements.txt
     #   requests
-werkzeug==0.16.1
+werkzeug==3.0.0
     # via
     #   -r requirements.txt
     #   flask

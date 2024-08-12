@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements.in
 #
+blinker==1.8.2
+    # via flask
 certifi==2024.7.4
     # via requests
 charset-normalizer==3.3.2
@@ -16,21 +18,21 @@ cycler==0.12.1
     # via matplotlib
 elementpath==2.5.3
     # via xmlschema
-flask==0.12.3
+flask==3.0.3
     # via
     #   -r requirements.in
     #   frozen-flask
 fonttools==4.53.1
     # via matplotlib
-frozen-flask==0.15
+frozen-flask==1.0.2
     # via -r requirements.in
 idna==3.7
     # via requests
-itsdangerous==2.0.1
+itsdangerous==2.1.2
     # via
     #   -r requirements.in
     #   flask
-jinja2==2.11.3
+jinja2==3.1.2
     # via
     #   -r requirements.in
     #   flask
@@ -38,10 +40,11 @@ kiwisolver==1.4.5
     # via matplotlib
 lxml==5.2.2
     # via -r requirements.in
-markupsafe==2.0.1
+markupsafe==2.1.1
     # via
     #   -r requirements.in
     #   jinja2
+    #   werkzeug
 matplotlib==3.9.0
     # via -r requirements.in
 numpy==2.0.0
@@ -66,7 +69,7 @@ six==1.16.0
     # via python-dateutil
 urllib3==2.2.2
     # via requests
-werkzeug==0.16.1
+werkzeug==3.0.0
     # via
     #   -r requirements.in
     #   flask
