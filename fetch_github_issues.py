@@ -22,8 +22,8 @@ with open(Path('data/github/issues.json')) as f:
     issues = json.load(f)
 for issue in issues:
     awaiting_triage = [
-        l for l in issue['labels']
-        if l['name'] == 'awaiting triage']
+        x for x in issue['labels']
+        if x['name'] == 'awaiting triage']
     if awaiting_triage:
         # ignore these
         continue
@@ -38,7 +38,7 @@ for issue in issues:
             'created_at': issue['created_at'],
             'updated_at': issue['updated_at'],
             'state': issue['state'],
-            'labels': [l for l in issue['labels'] if not l['name'].startswith('publisher: ')],
+            'labels': [x for x in issue['labels'] if not x['name'].startswith('publisher: ')],
         })
 for pub_id, issues in publishers.items():
     with open(Path(f'data/github/publishers/{pub_id}.json'), 'w') as f:

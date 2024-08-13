@@ -9,7 +9,6 @@ import subprocess
 from collections import defaultdict
 
 from flask import Flask, render_template, abort, Response, send_from_directory
-import pytz
 
 import licenses
 import timeliness
@@ -20,7 +19,7 @@ import summary_stats
 import humanitarian
 from vars import expected_versions
 import text
-from datetime import datetime
+from datetime import datetime, UTC
 from dateutil import parser
 from data import (
     ckan,
@@ -121,7 +120,7 @@ app.jinja_env.filters['round_nicely'] = round_nicely
 # Custom Jinja globals
 app.jinja_env.globals['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
-app.jinja_env.globals['datetime_generated'] = lambda: datetime.utcnow().replace(tzinfo=pytz.utc).strftime('%-d %B %Y (at %H:%M %Z)')
+app.jinja_env.globals['datetime_generated'] = lambda: datetime.now(UTC).strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['datetime_data'] = date_time_data_obj.strftime('%-d %B %Y (at %H:%M %Z)')
 app.jinja_env.globals['commit_hash'] = subprocess.run(
     'git show --format=%H --no-patch'.split(),
@@ -152,7 +151,7 @@ app.jinja_env.globals['get_publisher_stats'] = get_publisher_stats
 app.jinja_env.globals['set'] = set
 app.jinja_env.globals['firstint'] = firstint
 app.jinja_env.globals['expected_versions'] = expected_versions
-app.jinja_env.globals['current_year'] = datetime.utcnow().year
+app.jinja_env.globals['current_year'] = datetime.now(UTC).year
 # Following variables set in coverage branch but not in master
 # app.jinja_env.globals['float'] = float
 # app.jinja_env.globals['dac2012'] = dac2012
@@ -231,7 +230,7 @@ def basic_page(page_name):
 
 @app.route('/data/download_errors.json')
 def download_errors_json():
-    return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json'),
+    return Response(json.dumps(current_stats['download_errors'], indent=2), mimetype='application/json')
 
 
 @app.route('/')

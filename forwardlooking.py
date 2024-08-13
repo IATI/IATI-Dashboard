@@ -47,7 +47,7 @@ def generate_row(publisher):
 
     # Loop over each of the three years (i.e. this year and the following two years) to generate the statistics for the table
     for year in years:
-        if(len(hierarchies_with_budget_not_provided) > 0):
+        if (len(hierarchies_with_budget_not_provided) > 0):
             row['budget_not_provided'] = True
         # If 'forwardlooking_activities_current' and 'forwardlooking_activities_with_budgets' or 'forwardlooking_activities_with_budget_not_provided' are in the bottom hierarchy
         if 'forwardlooking_activities_current' in publisher_stats['bottom_hierarchy'] and ('forwardlooking_activities_with_budgets' in publisher_stats['bottom_hierarchy'] or 'forwardlooking_activities_with_budget_not_provided' in publisher_stats['bottom_hierarchy']):
