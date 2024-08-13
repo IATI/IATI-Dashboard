@@ -50,7 +50,7 @@ class AugmentedJSONDir(data.JSONDir):
 
 
 def make_plot(stat_path, git_stats, img_prefix=''):
-    if type(stat_path) == tuple:
+    if type(stat_path) is tuple:
         stat_name = stat_path[0]
     else:
         stat_name = stat_path
@@ -60,7 +60,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         return
     items = sorted(stat_dict.items())
     x_values = [datetime.date(int(x[0:4]), int(x[5:7]), int(x[8:10])) for x, y in items]
-    if type(stat_path) == tuple:
+    if type(stat_path) is tuple:
         y_values = [dict((k, v) for k, v in y.items() if stat_path[1](k)) for x, y in items]
     else:
         y_values = [float(y) for x, y in items]
@@ -75,7 +75,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
     dpi = 96
     fig.set_size_inches(600.0 / dpi, 600.0 / dpi)
 
-    if type(y_values[0]) == dict:
+    if type(y_values[0]) is dict:
         keys = set([tm for y in y_values for tm in y.keys()])
         plots = {}
         for key in keys:
@@ -115,7 +115,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
 
     ax.ticklabel_format(axis='y', style='plain', useOffset=False)
 
-    fig.savefig('out/{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) == tuple else ''), dpi=dpi)
+    fig.savefig('out/{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) is tuple else ''), dpi=dpi)
     plt.close('all')
 
     fn = 'out/{0}{1}.csv'.format(img_prefix, stat_name)
