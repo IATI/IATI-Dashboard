@@ -1,3 +1,5 @@
+"""Text fragments for page titles, navigation and page leaders/sub-leaders
+"""
 import copy
 
 top_titles = {
@@ -10,7 +12,7 @@ top_titles = {
 }
 
 page_titles = {
-    'index': 'Code for IATI Analytics',
+    'index': 'Dashboard Home',
     'headlines': 'Headlines',
     'data_quality': 'Data Quality',
     'exploring_data': 'Exploring Data',

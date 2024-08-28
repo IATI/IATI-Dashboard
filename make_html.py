@@ -82,11 +82,11 @@ def xpath_to_url(path):
     # remove conditions
     path = re.sub(r'\[[^]]+\]', '', path)
     if path.startswith('iati-activity'):
-        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/' + path.split('@')[0]
+        url = 'http://iatistandard.org/activity-standard/iati-activities/' + path.split('@')[0]
     elif path.startswith('iati-organisation'):
-        url = 'https://reference.codeforiati.org/organisation-standard/iati-organisations/' + path.split('@')[0]
+        url = 'http://iatistandard.org/organisation-standard/iati-organisations/' + path.split('@')[0]
     else:
-        url = 'https://reference.codeforiati.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
+        url = 'http://iatistandard.org/activity-standard/iati-activities/iati-activity/' + path.split('@')[0]
     if '@' in path:
         url += '#attributes'
     return url
@@ -117,7 +117,8 @@ app.jinja_env.filters['url_to_filename'] = lambda x: x.rstrip('/').split('/')[-1
 app.jinja_env.filters['has_future_transactions'] = timeliness.has_future_transactions
 app.jinja_env.filters['round_nicely'] = round_nicely
 
-# Custom Jinja globals
+# Custom Jinja globals - NOTE: codeforIATI stats URLs have not been
+# changed.
 app.jinja_env.globals['dataset_to_publisher'] = dataset_to_publisher
 app.jinja_env.globals['url'] = lambda x: '/' if x == 'index.html' else x
 app.jinja_env.globals['datetime_generated'] = lambda: datetime.now(UTC).strftime('%-d %B %Y (at %H:%M %Z)')
@@ -327,10 +328,22 @@ def registration_agencies():
                            nonmatching=nonmatching)
 
 
-# Serve static files through the development server (--live)
-@app.route('/<any("favicon.ico", "style.css", "img/tablesorter-icons.gif"):filename>')
-def favicon_development(filename):
-    return send_from_directory('static', filename)
+@app.route('/<any("img/tablesorter-icons.gif", "img/favicon.ico", "img/favicon-16x16.png", "img/favicon-32x32.png"):filename>')
+def serve_images_development(filename):
+    """Serve static images through the development server (--live)"""
+    return send_from_directory('static/', filename)
+
+
+@app.route('/<any("style.css"):filename>')
+def serve_css_development(filename):
+    """Serve static css through the development server (--live)"""
+    return send_from_directory('static/', filename)
+
+
+@app.route('/favicon.ico')
+def favicon_root():
+    """Serve favicon from img folder when requested from root"""
+    return send_from_directory('static/img', 'favicon.ico')
 
 
 @app.route('/<name>.csv')

@@ -171,7 +171,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                     </div>
                     <div class="col-md-2 break">
                       {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                      <a href="https://iati-validator.herokuapp.com/?url={{ ckan[publisher][dataset_name].resource.url|urlencode }}">validator</a>
+                      <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
                       {% endif %}
                     </div>
                   </div>
@@ -295,7 +295,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <h3 class="panel-title">Budgets</h3>
     </div>
     <div class="panel-body">
-        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://reference.codeforiati.org/activity-standard/iati-activities/iati-activity/budget/#iati-activities-iati-activity-budget-type">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
+        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
     </div>
     <table class="table table-striped">
         <thead>
@@ -379,7 +379,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             <tr>
             {% with element_i=element_list.index(element) %}
                 <td><a href="{{ url_for('codelist', major_version=major_version, slug=slugs.codelist[major_version].by_i[element_i]) }}">{{ element }}</a></td>
-                <td><a href="https://codelists.codeforiati.org/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
+                <td><a href="https://iatistandard.org/codelists/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
                 {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
                     <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{ element }}" role="button" tabindex="0" data-trigger="focus" data-content="{% for code in codes %}<code>{{ code }}</code>:&nbsp;{{ values.get(code) }} {% endfor %}">{{ codes|count }}</a>

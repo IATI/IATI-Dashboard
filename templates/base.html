@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
-  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <title>{% block title %}{{ page_titles[page] }} – Code for IATI Analytics{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+  <title>IATI Dashboard – {% block title %}{{ page_titles[page] }}{% endblock %}</title>
 
   <script defer data-domain="dashboard.iatistandard.org" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
   <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
@@ -28,15 +28,6 @@
 <div id="wrap">
   <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
-      <div class="navbar-header">
-        <a href="#" class="navbar-brand" data-c4i-toggle="sidebar" aria-controls="c4i-sidebar" aria-expanded="false" aria-label="Toggle Code for IATI sidebar"><img src="https://codeforiati.org/assets/img/logo.png" alt="Code for IATI" /></a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        </button>
-      </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li {% if page=='index' %}class="active"{% endif %}><a href="{{ url_for('homepage') }}">{{ top_titles['index'] }}</a></li>
@@ -82,21 +73,20 @@
 <div id="footer">
     <div class="container">
         <p class="text-muted">
-          <a href="https://github.com/codeforIATI/analytics/tree/{{ commit_hash }}">Source code</a>.
+          <a href="https://github.com/IATI/IATI-Dashboard/">Source code</a>.
 
-          <a href="https://github.com/codeforIATI/analytics/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>
+          <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>
 
           Generated on <em>{{ datetime_generated() }}</em> from data downloaded on <em>{{ datetime_data }}</em>.<br/>
 
           (NB This is the time the download task started. Any changes made after this time may not be reflected).<br />
 
-          For details on how often these updates are applied, see the <a href="{{ url_for('basic_page', page_name='faq') }}">Code for IATI Analytics FAQ</a>.
+          For details on how often these updates are applied, see the <a href="{{ url_for('basic_page', page_name='faq') }}">IATI Dashboard FAQ</a>.
 
           <a href="https://iatistandard.org/en/privacy-policy/">Privacy Policy</a></p>
     </div>
 </div>
 
-<script src="//codeforiati.org/sidebar/sidebar.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
