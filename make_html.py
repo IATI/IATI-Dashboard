@@ -32,7 +32,6 @@ from data import (
     github_issues,
     get_publisher_stats,
     MAJOR_VERSIONS,
-    metadata,
     publisher_name,
     publishers_ordered_by_title,
     is_valid_element,
@@ -109,7 +108,8 @@ def get_codelist_values(codelist_values_for_element):
 
 
 # Store data processing times
-date_time_data_obj = parser.parse(metadata['created_at'])
+date_time_data_str = max(json.load(open("stats-calculated/gitdate.json")).values())
+date_time_data_obj = parser.parse(date_time_data_str)
 
 # Custom Jinja filters
 app.jinja_env.filters['xpath_to_url'] = xpath_to_url

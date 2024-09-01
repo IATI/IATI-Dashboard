@@ -197,7 +197,7 @@ dataset_to_publisher_dict = {
     for publisher, publisher_dict in ckan.items()
     for dataset in publisher_dict.keys()
 }
-metadata = json.load(open('./stats-calculated/metadata.json'), object_pairs_hook=OrderedDict)
+#metadata = json.load(open('./stats-calculated/metadata.json'), object_pairs_hook=OrderedDict)
 with open('./data/downloads/errors') as fp:
     for line in fp:
         if line != '.\n':
