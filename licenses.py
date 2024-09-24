@@ -1,7 +1,8 @@
 import json
 from collections import OrderedDict
-from flask import render_template
 
+from flask import render_template
+import config
 
 license_names = {
     'notspecified': 'Other::License Not Specified',
@@ -84,10 +85,10 @@ license_names = {
     'zpl': 'OSI Approved::Zope Public License',
     'zlib-license': 'OSI Approved::zlib/libpng license'}
 
-with open('./stats-calculated/licenses.json') as handler:
+with open(config.join_stats_path('licenses.json')) as handler:
     license_urls = json.load(handler)
 
-with open('./stats-calculated/ckan.json') as handler:
+with open(config.join_stats_path('ckan.json')) as handler:
     ckan = json.load(handler, object_pairs_hook=OrderedDict)
 
 licenses = [

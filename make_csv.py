@@ -1,7 +1,6 @@
 # Script to generate CSV files from data in the 'stats-calculated' folder,
 # and extra logic in other files in this repository
 import csv
-import os
 import data
 
 # Timeliness CSV files (frequency and timelag)
@@ -21,6 +20,8 @@ import summary_stats
 
 # Humanitarian CSV file
 import humanitarian
+
+import config
 
 publisher_name = {publisher: publisher_json['result']['title'] for publisher, publisher_json in data.ckan_publishers.items()}
 
@@ -47,7 +48,7 @@ def publisher_dicts():
         }
 
 
-with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
+with open(config.join_out_path('publishers.csv'), 'w') as fp:
     writer = csv.DictWriter(fp, [
         'Publisher Name',
         'Publisher Registry Id',
@@ -69,21 +70,21 @@ with open(os.path.join('out', 'publishers.csv'), 'w') as fp:
 
 publishers = list(data.current_stats['inverted_publisher']['activities'].keys())
 
-with open(os.path.join('out', 'elements.csv'), 'w') as fp:
+with open(config.join_out_path('elements.csv'), 'w') as fp:
     writer = csv.DictWriter(fp, ['Element'] + publishers)
     writer.writeheader()
     for element, publisher_dict in data.current_stats['inverted_publisher']['elements'].items():
         publisher_dict['Element'] = element
         writer.writerow(publisher_dict)
 
-with open(os.path.join('out', 'elements_total.csv'), 'w') as fp:
+with open(config.join_out_path('elements_total.csv'), 'w') as fp:
     writer = csv.DictWriter(fp, ['Element'] + publishers)
     writer.writeheader()
     for element, publisher_dict in data.current_stats['inverted_publisher']['elements_total'].items():
         publisher_dict['Element'] = element
         writer.writerow(publisher_dict)
 
-with open(os.path.join('out', 'registry.csv'), 'w') as fp:
+with open(config.join_out_path('registry.csv'), 'w') as fp:
     keys = ['name', 'title', 'publisher_frequency', 'publisher_frequency_select', 'publisher_implementation_schedule', 'publisher_ui', 'publisher_field_exclusions', 'publisher_contact', 'image_url', 'display_name', 'publisher_iati_id', 'publisher_units', 'publisher_record_exclusions', 'publisher_data_quality', 'publisher_country', 'publisher_description', 'publisher_refs', 'publisher_thresholds' 'publisher_agencies', 'publisher_constraints', 'publisher_organization_type', 'publisher_segmentation', 'license_id', 'state', 'publisher_timeliness']
     writer = csv.DictWriter(fp, keys)
     writer.writeheader()
@@ -92,26 +93,26 @@ with open(os.path.join('out', 'registry.csv'), 'w') as fp:
 
 previous_months = timeliness.previous_months_reversed
 
-with open(os.path.join('out', 'timeliness_frequency.csv'), 'w') as fp:
+with open(config.join_out_path('timeliness_frequency.csv'), 'w') as fp:
     writer = csv.writer(fp)
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Frequency', 'First published'])
     for publisher, publisher_title, per_month, assessment, hft, first_published_band in timeliness.publisher_frequency_sorted():
         writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment, first_published_band])
 
-with open(os.path.join('out', 'timeliness_timelag.csv'), 'w') as fp:
+with open(config.join_out_path('timeliness_timelag.csv'), 'w') as fp:
     writer = csv.writer(fp)
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + previous_months + ['Time lag'])
     for publisher, publisher_title, per_month, assessment, hft in timeliness.publisher_timelag_sorted():
         writer.writerow([publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment])
 
-with open(os.path.join('out', 'forwardlooking.csv'), 'w') as fp:
+with open(config.join_out_path('forwardlooking.csv'), 'w') as fp:
     writer = csv.writer(fp)
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + ['{} ({})'.format(header, year) for header in forwardlooking.column_headers for year in forwardlooking.years])
     for row in forwardlooking.table():
         writer.writerow([row['publisher_title'], row['publisher']] + [year_column[year] for year_column in row['year_columns'] for year in forwardlooking.years])
 
 for tab in comprehensiveness.columns.keys():
-    with open(os.path.join('out', 'comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
+    with open(config.join_out_path('comprehensiveness_{}.csv'.format(tab)), 'w') as fp:
         writer = csv.writer(fp)
         if tab == 'financials':
             writer.writerow(['Publisher Name', 'Publisher Registry Id'] +
@@ -164,7 +165,7 @@ for tab in comprehensiveness.columns.keys():
 #             row['spend_data_error_reported_flag']
 #         ])
 
-with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
+with open(config.join_out_path('summary_stats.csv'), 'w') as fp:
     writer = csv.writer(fp)
     # Add column headers
     writer.writerow(['Publisher Name', 'Publisher Registry Id'] + [header for slug, header in summary_stats.columns])
@@ -172,7 +173,7 @@ with open(os.path.join('out', 'summary_stats.csv'), 'w') as fp:
         # Write each row
         writer.writerow([row['publisher_title'], row['publisher']] + [row[slug] for slug, header in summary_stats.columns])
 
-with open(os.path.join('out', 'humanitarian.csv'), 'w') as fp:
+with open(config.join_out_path('humanitarian.csv'), 'w') as fp:
     writer = csv.writer(fp)
     # Add column headers
     writer.writerow([

@@ -8,6 +8,8 @@ from decimal import Decimal
 
 from xmlschema import XMLSchema
 
+import config
+
 
 # Modified from:
 #   https://github.com/IATI/IATI-Stats/blob/1d20ed1e/stats/common/decorators.py#L5-L13
@@ -118,7 +120,7 @@ class JSONDir(MutableMapping):
 
         # Loop over this list and return the publisher name if it is found within the historic list of publishers
         for x in path_components:
-            if x in JSONDir('./stats-calculated/current/aggregated-publisher').keys():
+            if x in JSONDir(config.join_stats_path('current/aggregated-publisher')).keys():
                 return x
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
@@ -131,7 +133,7 @@ def get_publisher_stats(publisher, stats_type='aggregated'):
              is not found.
     """
     try:
-        return JSONDir('./stats-calculated/current/{0}-publisher/{1}'.format(stats_type, publisher))
+        return JSONDir(config.join_stats_path('current/{0}-publisher/{1}'.format(stats_type, publisher)))
     except IOError:
         return {}
 
@@ -143,7 +145,7 @@ def get_registry_id_matches():
     """
 
     # Load registry IDs for publishers who have changed their registry ID
-    with open('registry_id_relationships.csv') as f:
+    with open(config.join_base_path('registry_id_relationships.csv')) as f:
         reader = csv.DictReader(f)
         # Load this data into a dictonary
         registry_matches = {
@@ -182,33 +184,33 @@ def deep_merge(obj1, obj2):
 
 
 current_stats = {
-    'aggregated': JSONDir('./stats-calculated/current/aggregated'),
-    'aggregated_file': JSONDir('./stats-calculated/current/aggregated-file'),
-    'inverted_publisher': JSONDir('./stats-calculated/current/inverted-publisher'),
-    'inverted_file': JSONDir('./stats-calculated/current/inverted-file'),
-    'inverted_file_publisher': JSONDir('./stats-calculated/current/inverted-file-publisher'),
+    'aggregated': JSONDir(config.join_stats_path('current/aggregated')),
+    'aggregated_file': JSONDir(config.join_stats_path('current/aggregated-file')),
+    'inverted_publisher': JSONDir(config.join_stats_path('current/inverted-publisher')),
+    'inverted_file': JSONDir(config.join_stats_path('current/inverted-file')),
+    'inverted_file_publisher': JSONDir(config.join_stats_path('current/inverted-file-publisher')),
     'download_errors': []
 }
-ckan_publishers = JSONDir('./data/ckan_publishers')
-github_issues = JSONDir('./data/github/publishers')
-ckan = json.load(open('./stats-calculated/ckan.json'), object_pairs_hook=OrderedDict)
+ckan_publishers = JSONDir(config.join_data_path('ckan_publishers'))
+github_issues = JSONDir(config.join_data_path('github/publishers'))
+ckan = json.load(open(config.join_stats_path('ckan.json')), object_pairs_hook=OrderedDict)
 dataset_to_publisher_dict = {
     dataset: publisher
     for publisher, publisher_dict in ckan.items()
     for dataset in publisher_dict.keys()
 }
-metadata = json.load(open('./stats-calculated/metadata.json'), object_pairs_hook=OrderedDict)
-with open('./data/downloads/errors') as fp:
+metadata = json.load(open(config.join_stats_path('metadata.json')), object_pairs_hook=OrderedDict)
+with open(config.join_data_path('downloads/errors')) as fp:
     for line in fp:
         if line != '.\n':
             current_stats['download_errors'].append(line.strip('\n').split(' ', 3))
 
 sources105 = [
-    './data/schemas/1.05/iati-activities-schema.xsd',
-    './data/schemas/1.05/iati-organisations-schema.xsd']
+    config.join_data_path('schemas/1.05/iati-activities-schema.xsd'),
+    config.join_data_path('schemas/1.05/iati-organisations-schema.xsd')]
 sources203 = [
-    './data/schemas/2.03/iati-activities-schema.xsd',
-    './data/schemas/2.03/iati-organisations-schema.xsd']
+    config.join_data_path('schemas/2.03/iati-activities-schema.xsd'),
+    config.join_data_path('schemas/2.03/iati-organisations-schema.xsd')]
 schema105 = XMLSchema(sources105)
 schema203 = XMLSchema(sources203)
 
@@ -237,7 +239,7 @@ def transform_codelist_mapping_keys(codelist_mapping):
 
 def create_codelist_mapping(major_version):
     codelist_mapping = {}
-    for x in json.load(open('data/IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version))):
+    for x in json.load(open(config.join_data_path('IATI-Codelists-{}/out/clv2/mapping.json'.format(major_version)))):
         if 'condition' in x:
             pref, attr = x['path'].rsplit('/', 1)
             path = '{0}[{1}]/{2}'.format(
@@ -255,12 +257,12 @@ codelist_mapping = {v: create_codelist_mapping(v) for v in MAJOR_VERSIONS}
 # Create a big dictionary of all codelist values by version and codelist name
 codelist_sets = {
     major_version: {
-        cname: set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+        cname: set(c['code'] for c in codelist['data']) for cname, codelist in JSONDir(config.join_data_path('IATI-Codelists-{}/out/clv2/json/en/'.format(major_version))).items()
     } for major_version in MAJOR_VERSIONS}
 
 codelist_lookup = {
     major_version: {
-        cname: {c['code']: c for c in codelist['data']} for cname, codelist in JSONDir('data/IATI-Codelists-{}/out/clv2/json/en/'.format(major_version)).items()
+        cname: {c['code']: c for c in codelist['data']} for cname, codelist in JSONDir(config.join_data_path('IATI-Codelists-{}/out/clv2/json/en/'.format(major_version))).items()
     } for major_version in MAJOR_VERSIONS}
 
 # Simple look up to map publisher id to a publishers given name (title)
@@ -270,11 +272,11 @@ publishers_ordered_by_title = [(publisher_name[publisher], publisher) for publis
 publishers_ordered_by_title.sort(key=lambda x: (x[0]).lower())
 
 # List of publishers who report all their activities as a secondary publisher
-secondary_publishers = [publisher for publisher, stats in JSONDir('./stats-calculated/current/aggregated-publisher').items()
+secondary_publishers = [publisher for publisher, stats in JSONDir(config.join_stats_path('current/aggregated-publisher')).items()
                         if int(stats['activities']) == len(stats['activities_secondary_reported']) and int(stats['activities']) > 0]
 
 try:
-    dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open('data/dac2012.csv'))}
+    dac2012 = {x[0]: Decimal(x[1].replace(',', '')) for x in csv.reader(open(config.join_data_path('dac2012.csv')))}
 except IOError:
     dac2012 = {}
 

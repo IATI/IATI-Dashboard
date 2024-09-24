@@ -1,11 +1,11 @@
-# Script to define useful functions
-
+"""Load IATI OrganisationType codelist into a global and provide function to get publisher type"""
 import data
 import json
 
+import config
 
 #  Import organisation_type_codelist as a global, then delete when used to save memory
-with open('data/IATI-Codelists-2/out/clv2/json/en/OrganisationType.json') as fh:
+with open(config.join_data_path('IATI-Codelists-2/out/clv2/json/en/OrganisationType.json')) as fh:
     organisation_type_codelist = json.load(fh)
 organisation_type_dict = {c['code']: c['name'] for c in organisation_type_codelist['data']}
 del organisation_type_codelist

@@ -4,17 +4,19 @@ import csv
 from collections import defaultdict
 from itertools import zip_longest
 
+import config
+
 
 def codelist_dict(codelist_path):
     codelist_json = json.load(open(codelist_path))
     return {c['code']: c['name'] for c in codelist_json['data']}
 
 
-organisation_type_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/OrganisationType.json')
-country_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/Country.json')
-region_dict = codelist_dict('data/IATI-Codelists-2/out/clv2/json/en/Region.json')
+organisation_type_dict = codelist_dict(config.join_data_path('IATI-Codelists-2/out/clv2/json/en/OrganisationType.json'))
+country_dict = codelist_dict(config.join_data_path('IATI-Codelists-2/out/clv2/json/en/Country.json'))
+region_dict = codelist_dict(config.join_data_path('IATI-Codelists-2/out/clv2/json/en/Region.json'))
 
-aggregated_publisher = data.JSONDir('./stats-calculated/current/aggregated-publisher/')
+aggregated_publisher = data.JSONDir(config.join_stats_path('current/aggregated-publisher/'))
 
 activities_by = defaultdict(lambda: defaultdict(int))
 publishers_by = defaultdict(lambda: defaultdict(int))
@@ -46,7 +48,7 @@ for publisher, publisher_data in aggregated_publisher.items():
 fieldnames = ['publisher_type', 'publishers_by_type', '', 'publisher_country', 'publishers_by_country', '', 'date', 'publishers_quarterly', '', 'activity_country', 'activities_by_country', '', 'activity_region', 'activities_by_region']
 
 publishers_quarterly = []
-publishers_by_date = json.load(open('./stats-calculated/gitaggregate-dated/publishers.json'))
+publishers_by_date = json.load(open(config.join_stats_path('gitaggregate-dated/publishers.json')))
 for date, publishers in sorted(publishers_by_date.items()):
     if (date[8:10] == '30' and date[5:7] in ['06', '09']) or (date[8:10] == '31' and date[5:7] in ['03', '12']):
         publishers_quarterly.append((date, publishers))
@@ -56,7 +58,7 @@ def sort_second(x):
     return sorted(x, key=lambda y: y[1], reverse=True)
 
 
-with open('out/speakers_kit.csv', 'w') as fp:
+with open(config.join_out_path('speakers_kit.csv'), 'w') as fp:
     writer = csv.DictWriter(fp, fieldnames)
     writer.writeheader()
     for publishers_by_type, publishers_by_country, publishers_quarterly_, activities_by_country, activities_by_region in zip_longest(
