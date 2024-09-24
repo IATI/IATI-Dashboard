@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-2 break">
                    {% if publisher in ckan and dataset in ckan[publisher] %}
-                   <a href="https://iativalidator.iatistandard.org/view/dqf/files/{{ckan[publisher][dataset].resource.package_id|urlencode}}">validator</a>
+                   <a href="https://validator.iatistandard.org/report/{{ dataset }}">validator</a>
                    {% endif %}
                 </div>
               </div>
