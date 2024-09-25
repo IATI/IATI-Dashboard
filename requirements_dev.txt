@@ -4,11 +4,15 @@
 #
 #    pip-compile requirements_dev.in
 #
+asgiref==3.8.1
+    # via
+    #   -r requirements.txt
+    #   django
 blinker==1.8.2
     # via
     #   -r requirements.txt
     #   flask
-certifi==2024.7.4
+certifi==2024.8.30
     # via
     #   -r requirements.txt
     #   requests
@@ -20,7 +24,7 @@ click==8.1.7
     # via
     #   -r requirements.txt
     #   flask
-contourpy==1.2.1
+contourpy==1.3.0
     # via
     #   -r requirements.txt
     #   matplotlib
@@ -34,9 +38,11 @@ cycler==0.12.1
     # via
     #   -r requirements.txt
     #   matplotlib
+django==5.1.1
+    # via -r requirements.txt
 docopt==0.6.2
     # via coveralls
-elementpath==4.4.0
+elementpath==4.5.0
     # via
     #   -r requirements.txt
     #   xmlschema
@@ -46,13 +52,13 @@ flask==3.0.3
     # via
     #   -r requirements.txt
     #   frozen-flask
-fonttools==4.53.1
+fonttools==4.54.1
     # via
     #   -r requirements.txt
     #   matplotlib
 frozen-flask==1.0.2
     # via -r requirements.txt
-idna==3.7
+idna==3.10
     # via
     #   -r requirements.txt
     #   requests
@@ -66,7 +72,7 @@ jinja2==3.1.4
     # via
     #   -r requirements.txt
     #   flask
-kiwisolver==1.4.5
+kiwisolver==1.4.7
     # via
     #   -r requirements.txt
     #   matplotlib
@@ -81,7 +87,7 @@ matplotlib==3.9.2
     # via -r requirements.txt
 mccabe==0.7.0
     # via flake8
-numpy==2.0.1
+numpy==2.1.1
     # via
     #   -r requirements.txt
     #   contourpy
@@ -101,11 +107,11 @@ pycodestyle==2.12.1
     # via flake8
 pyflakes==3.2.0
     # via flake8
-pyparsing==3.1.2
+pyparsing==3.1.4
     # via
     #   -r requirements.txt
     #   matplotlib
-pytest==8.3.2
+pytest==8.3.3
     # via
     #   -r requirements_dev.in
     #   pytest-cov
@@ -115,7 +121,7 @@ python-dateutil==2.9.0.post0
     # via
     #   -r requirements.txt
     #   matplotlib
-pytz==2024.1
+pytz==2024.2
     # via -r requirements.txt
 requests==2.32.3
     # via
@@ -125,13 +131,17 @@ six==1.16.0
     # via
     #   -r requirements.txt
     #   python-dateutil
-urllib3==2.2.2
+sqlparse==0.5.1
+    # via
+    #   -r requirements.txt
+    #   django
+urllib3==2.2.3
     # via
     #   -r requirements.txt
     #   requests
-werkzeug==3.0.3
+werkzeug==3.0.4
     # via
     #   -r requirements.txt
     #   flask
-xmlschema==3.3.2
+xmlschema==3.4.2
     # via -r requirements.txt
