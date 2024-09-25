@@ -7,10 +7,10 @@ a different module, but for now this helps in refactoring the code.
 import os.path
 
 
-STATS_DIRECTORY = "./stats-calculated"
-DATA_DIRECTORY = "./data"
-BASE_DIRECTORY = "./"
-OUT_DIRECTORY = "./out"
+STATS_DIRECTORY = "../stats-calculated"
+DATA_DIRECTORY = "../data"
+BASE_DIRECTORY = "../"
+OUT_DIRECTORY = "../out"
 
 
 def join_stats_path(p: str) -> str:
