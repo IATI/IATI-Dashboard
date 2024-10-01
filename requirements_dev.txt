@@ -135,6 +135,8 @@ sqlparse==0.5.1
     # via
     #   -r requirements.txt
     #   django
+tqdm==4.66.5
+    # via -r requirements.txt
 urllib3==2.2.3
     # via
     #   -r requirements.txt
