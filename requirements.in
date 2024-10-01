@@ -11,3 +11,4 @@ lxml
 requests
 markupsafe
 itsdangerous
+tqdm

@@ -73,6 +73,8 @@ six==1.16.0
     # via python-dateutil
 sqlparse==0.5.1
     # via django
+tqdm==4.66.5
+    # via -r requirements.in
 urllib3==2.2.3
     # via requests
 werkzeug==3.0.4
