@@ -8,15 +8,19 @@
               <span class="title-text">{{ title }}</span>
             </h3>
             {% if json %}
-            <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" style="float:right">(J)</a>
+              {% if folderextra %}
+                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" style="float:right">(J)</a>
+              {% else %}
+                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" style="float:right">(J)</a>
+              {% endif %}
             {% endif %}
             <div class="clearfix"></div>
           </div>
           <div class="panel-body">
             <p>{{ description|safe }}</p>
-            <img src="{{ image }}" width="100%" />
+            <img src="{{ static(image) }}" width="100%" />
             {% if legend %}
-            <img src="{{ legend }}" width="100%" />
+            <img src="{{ static(legend) }}" width="100%" />
             {% endif %}
           </div>
         </div>

@@ -28,8 +28,10 @@
       <ul class="list-group">
       {% for item in (top_navigation if page=='index' else navigation[navigation_reverse[page]]) %}
         <li class="list-group-item">
-        <h4><a href="{{ url_for('basic_page', page_name=item) }}">{{ page_titles[item] }}</a></h4>
-        <p>{{ page_leads[item]|safe }}</p>
+        <h4><a href="{{ url(page_view_names[item]) }}">{{ page_titles[item] }}</a></h4>
+        {% if item in page_leads %}
+          <p>{{ page_leads[item]|safe }}</p>
+        {% endif %}
         </li>
       {% endfor %}
       </ul>
