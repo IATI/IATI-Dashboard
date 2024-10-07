@@ -18,12 +18,12 @@
                 </tr>
             </thead>
             <tbody>
-                {% for license, files in sorted(license_count.items()) %}
+                {% for license, files in func.sorted(license_count.items()) %}
                 <tr>
                     <td>{% if license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
                     <td>{{ license }}</td>
                     <td>{{ files }}</td>
-                    <td><a href="{{ url_for('licenses_individual_license', license=license) }}">{{ publisher_license_count[license] }}</a></td>
+                    <td><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
