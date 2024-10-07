@@ -7,6 +7,7 @@
 
 import dateutil.parser
 import subprocess
+import json
 
 from django.http import HttpResponse
 from django.template import loader
@@ -40,6 +41,28 @@ STATS_COMMIT_HASH = subprocess.run('git -C stats-calculated show --format=%H --n
                                    cwd=config.join_base_path(""),
                                    capture_output=True).stdout.decode().strip()
 STATS_GH_URL = 'https://github.com/codeforIATI/IATI-Stats-public/tree/' + STATS_COMMIT_HASH
+
+# Load all the licenses and generate data for each licence and publisher.
+with open(config.join_stats_path('licenses.json')) as handler:
+    LICENSE_URLS = json.load(handler)
+
+LICENSES = [
+    package['license_id']
+    if package['license_id'] is not None
+    else 'notspecified'
+    for _, publisher in ckan.items()
+    for _, package in publisher.items()]
+
+LICENCE_COUNT = dict((x, LICENSES.count(x)) for x in set(LICENSES))
+
+LICENSES_AND_PUBLISHER = set([(package['license_id']
+                              if package['license_id'] is not None
+                              else 'notspecified', publisher_name)
+                              for publisher_name, publisher in ckan.items()
+                              for package_name, package in publisher.items()])
+
+LICENSES_PER_PUBLISHER = [license for license, publisher in LICENSES_AND_PUBLISHER]
+PUBLISHER_LICENSE_COUNT = dict((x, LICENSES_PER_PUBLISHER.count(x)) for x in set(LICENSES_PER_PUBLISHER))
 
 
 def _make_context(page_name: str):
@@ -172,3 +195,51 @@ def headlines_files(request):
 def headlines_publisher_detail(request, publisher=None):
     # Not implemented yet.
     return None
+
+
+#
+# Views to generate data quality pages.
+#
+def dataquality_licenses(request):
+    template = loader.get_template("licenses.html")
+    context = _make_context("licenses")
+    context["license_urls"] = LICENSE_URLS
+    context["license_names"] = text.LICENSE_NAMES
+    context["licenses"] = True
+    context["license_count"] = LICENCE_COUNT
+    context["publisher_license_count"] = PUBLISHER_LICENSE_COUNT
+    return HttpResponse(template.render(context, request))
+
+
+def dataquality_licenses_detail(request, license_id=None):
+    template = loader.get_template("license.html")
+
+    publishers = [
+        publisher_name
+        for publisher_name, publisher in ckan.items()
+        for _, package in publisher.items()
+        if package['license_id'] == license_id or (
+            license_id == 'notspecified' and package['license_id'] is None)]
+    context = _make_context("licenses")
+    context["license_urls"] = LICENSE_URLS
+    context["license_names"] = text.LICENSE_NAMES
+    context["licenses"] = True
+    context["license"] = license_id
+    context["publisher_counts"] = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
+    return HttpResponse(template.render(context, request))
+
+
+def _unused_licenses_for_publisher(publisher_name):
+    # Unused code from the original Dashboard.
+    #
+    # Check publisher is in the compiled list of CKAN data
+    # Arises from https://github.com/IATI/IATI-Dashboard/issues/408
+    if publisher_name not in ckan.keys():
+        return set()
+
+    # Return unique licenses used
+    return set([
+        package['license_id']
+        if package['license_id'] is not None
+        else 'notspecified'
+        for package in ckan[publisher_name].values()])

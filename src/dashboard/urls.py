@@ -44,7 +44,8 @@ urlpatterns = [
     path('data-quality/validation', lambda x: None, name="dash-dataquality-validation"),
     path('data-quality/versions', lambda x: None, name="dash-dataquality-versions"),
     path('data-quality/organisation-xml', lambda x: None, name="dash-dataquality-organisation"),
-    path('data-quality/licenses', lambda x: None, name="dash-dataquality-licenses"),
+    path('data-quality/licenses', dashboard.views.dataquality_licenses, name="dash-dataquality-licenses"),
+    path('data-quality/licenses/<slug:license_id>', dashboard.views.dataquality_licenses_detail, name="dash-dataquality-licenses-detail"),
     path('data-quality/identifiers', lambda x: None, name="dash-dataquality-identifiers"),
     path('data-quality/reporting-orgs', lambda x: None, name="dash-dataquality-reportingorgs"),
 
@@ -63,10 +64,6 @@ urlpatterns = [
     path('publishing-statistics/coverage', lambda x: None, name="dash-publishingstats-coverage"),
     path('publishing-statistics/summary-statistics', lambda x: None, name="dash-publishingstats-summarystats"),
     path('publishing-statistics/humanitarian-reporting', lambda x: None, name="dash-publishingstats-humanitarian"),
-
-    # Licenses
-    path('licenses/<slug:licence_id>', lambda x: None, name="dash-licence-detail"),
-    path('licenses', lambda x: None, name="dash-licences")
 
     # Redirects to support any users with bookmarks to pages on the old Dashboard.
     # path('timeliness.html', redirect("dash-publishingstats-timeliness")),
