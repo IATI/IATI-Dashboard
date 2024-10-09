@@ -51,11 +51,14 @@ urlpatterns = [
 
     # Exploring data pages.
     path('exploring-data/elements', lambda x: None, name="dash-exploringdata-elements"),
+    path('exploring-data/elements/<str:element>', lambda x: None, name="dash-exploringdata-elements-detail"),
     path('exploring-data/codelists', lambda x: None, name="dash-exploringdata-codelists"),
+    path('exploring-data/codelists/<int:major_version>/<str:attribute>', lambda x: None, name="dash-exploringdata-codelists-detail"),
     path('exploring-data/booleans', lambda x: None, name="dash-exploringdata-booleans"),
     path('exploring-data/dates', lambda x: None, name="dash-exploringdata-dates"),
     path('exploring-data/traceability', lambda x: None, name="dash-exploringdata-traceability"),
     path('exploring-data/organisation-identifiers', lambda x: None, name="dash-exploringdata-orgids"),
+    path('exploring-data/organisation-types/<slug:org_type>', lambda x: None, name="dash-exploringdata-orgtypes-detail"),
 
     # Publishing statistics pages.
     path('publishing-statistics/timeliness', lambda x: None, name="dash-publishingstats-timeliness"),

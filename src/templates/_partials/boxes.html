@@ -17,7 +17,9 @@
             <div class="clearfix"></div>
           </div>
           <div class="panel-body">
-            <p>{{ description|safe }}</p>
+            {% if description %}
+              <p>{{ description|safe }}</p>
+            {% endif %}
             <img src="{{ static(image) }}" width="100%" />
             {% if legend %}
             <img src="{{ static(legend) }}" width="100%" />

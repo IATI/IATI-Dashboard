@@ -9,7 +9,7 @@ import dateutil.parser
 import subprocess
 import json
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import loader
 
 import config
@@ -63,6 +63,20 @@ LICENSES_AND_PUBLISHER = set([(package['license_id']
 
 LICENSES_PER_PUBLISHER = [license for license, publisher in LICENSES_AND_PUBLISHER]
 PUBLISHER_LICENSE_COUNT = dict((x, LICENSES_PER_PUBLISHER.count(x)) for x in set(LICENSES_PER_PUBLISHER))
+
+
+def _get_licenses_for_publisher(publisher_name):
+    # Check publisher is in the compiled list of CKAN data
+    # Arises from https://github.com/IATI/IATI-Dashboard/issues/408
+    if publisher_name not in ckan.keys():
+        return set()
+
+    # Return unique licenses used
+    return set([
+        package['license_id']
+        if package['license_id'] is not None
+        else 'notspecified'
+        for package in ckan[publisher_name].values()])
 
 
 def _make_context(page_name: str):
@@ -134,7 +148,9 @@ def _make_context(page_name: str):
               "firstint": dashboard.template_funcs.firstint,
               "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
               "get_publisher_stats": get_publisher_stats,
-              "is_valid_element": is_valid_element}
+              "is_valid_element": is_valid_element,
+              "set": set
+              }
     )
     context["navigation_reverse"].update({k: k for k in text.navigation})
 
@@ -193,8 +209,38 @@ def headlines_files(request):
 
 
 def headlines_publisher_detail(request, publisher=None):
-    # Not implemented yet.
-    return None
+    template = loader.get_template("publisher.html")
+
+    context = _make_context("publishers")
+    context["publisher"] = publisher
+    context["publisher_inverted"] = get_publisher_stats(publisher, 'inverted-file')
+    context["publisher_licenses"] = _get_licenses_for_publisher(publisher)
+    publisher_stats = get_publisher_stats(publisher)
+    context["publisher_stats"] = publisher_stats
+
+    try:
+        context["budget_table"] = [{
+                        'year': 'Total',
+                        'count_total': sum(sum(x.values()) for x in publisher_stats['count_budgets_by_type_by_year'].values()),
+                        'sum_total': {currency: sum(sums.values()) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency, sums in by_currency.items()},
+                        'count_original': sum(publisher_stats['count_budgets_by_type_by_year']['1'].values()) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                        'sum_original': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+                        'count_revised': sum(publisher_stats['count_budgets_by_type_by_year']['2'].values()) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                        'sum_revised': {k: sum(v.values()) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+                        }] + [{'year': year,
+                               'count_total': sum(x[year] for x in publisher_stats['count_budgets_by_type_by_year'].values() if year in x),
+                               'sum_total': {currency: sums.get(year) for by_currency in publisher_stats['sum_budgets_by_type_by_year'].values() for currency, sums in by_currency.items()},
+                               'count_original': publisher_stats['count_budgets_by_type_by_year']['1'].get(year) if '1' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                               'sum_original': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['1'].items()} if '1' in publisher_stats['sum_budgets_by_type_by_year'] else None,
+                               'count_revised': publisher_stats['count_budgets_by_type_by_year']['2'].get(year) if '2' in publisher_stats['count_budgets_by_type_by_year'] else None,
+                               'sum_revised': {k: v.get(year) for k, v in publisher_stats['sum_budgets_by_type_by_year']['2'].items()} if '2' in publisher_stats['sum_budgets_by_type_by_year'] else None
+                               } for year in sorted(set(sum((list(x.keys()) for x in publisher_stats['count_budgets_by_type_by_year'].values()), [])))
+                              ]
+        context["failure_count"] = len(current_stats['inverted_file_publisher'][publisher]['validation'].get('fail', {}))
+    except KeyError:
+        raise Http404("Publisher does not exist")
+
+    return HttpResponse(template.render(context, request))
 
 
 #
@@ -227,19 +273,3 @@ def dataquality_licenses_detail(request, license_id=None):
     context["license"] = license_id
     context["publisher_counts"] = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
     return HttpResponse(template.render(context, request))
-
-
-def _unused_licenses_for_publisher(publisher_name):
-    # Unused code from the original Dashboard.
-    #
-    # Check publisher is in the compiled list of CKAN data
-    # Arises from https://github.com/IATI/IATI-Dashboard/issues/408
-    if publisher_name not in ckan.keys():
-        return set()
-
-    # Return unique licenses used
-    return set([
-        package['license_id']
-        if package['license_id'] is not None
-        else 'notspecified'
-        for package in ckan[publisher_name].values()])
