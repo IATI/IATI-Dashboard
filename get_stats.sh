@@ -2,7 +2,7 @@
 # but with only the dated historical aggregates.
 mkdir stats-calculated
 for f in ckan gitdate; do
-    curl --compressed "http://dashboard.iatistandard.org/stats/${f}.json" > stats-calculated/${f}.json
+    curl --compressed "https://dashboard.iatistandard.org/stats/${f}.json" > stats-calculated/${f}.json
 done
 
 mkdir stats-blacklist
