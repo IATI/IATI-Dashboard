@@ -262,6 +262,12 @@ def dataquality_xml(request):
     return HttpResponse(template.render(context, request))
 
 
+def dataquality_validation(request):
+    template = loader.get_template("validation.html")
+    context = _make_context("validation")
+    return HttpResponse(template.render(context, request))
+
+
 def dataquality_licenses(request):
     template = loader.get_template("licenses.html")
     context = _make_context("licenses")

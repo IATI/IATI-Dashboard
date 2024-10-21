@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% import '_partials/boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'validation.png', 'validation.json',
+      {{ boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'img/aggregate/validation.png', 'validation.json',
         description='Count of files that do not validate against the relevant schema, over time.') }}
-      {{ boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'publishers_validation.png', 'publishers_validation.json',
+      {{ boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'img/aggregate/publishers_validation.png', 'publishers_validation.json',
         description='Count of publishers that have at least one invalid file, over time') }}
     </div>
 
@@ -24,7 +24,7 @@
         {% if datasets %}
         <div class="panel panel-default">
           <!-- Default panel contents -->
-          <div class="panel-heading"><a href="{{ url_for('publisher', publisher=publisher) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</div>
+          <div class="panel-heading"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</div>
           <!--<div class="panel-body">
             <p>...</p>
           </div>-->
