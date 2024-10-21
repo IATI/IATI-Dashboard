@@ -15,6 +15,7 @@ from django.template import loader
 import config
 import text
 import ui.template_funcs
+import vars
 
 from data import (
     ckan,
@@ -137,6 +138,7 @@ def _make_context(page_name: str):
         codelist_sets=codelist_sets,
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
+        expected_versions = vars.expected_versions,
         metadata=metadata,
         slugs=slugs,
         datetime_data=dateutil.parser.parse(metadata['created_at']).strftime('%-d %B %Y (at %H:%M %Z)'),
@@ -265,6 +267,12 @@ def dataquality_xml(request):
 def dataquality_validation(request):
     template = loader.get_template("validation.html")
     context = _make_context("validation")
+    return HttpResponse(template.render(context, request))
+
+
+def dataquality_versions(request):
+    template = loader.get_template("versions.html")
+    context = _make_context("versions")
     return HttpResponse(template.render(context, request))
 
 

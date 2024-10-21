@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% import '_partials/boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Files per version (expected)', '', 'versions_expected.png', 'versions.json', 'versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
-      {{ boxes.box('Files per version (other)', '', 'versions_other.png', 'versions.json', 'versions_other_legend.png', description='Count of files per other versions, over time. These values do not actually exist as IATI versions.') }}
+      {{ boxes.box('Files per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
+      {{ boxes.box('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values do not actually exist as IATI versions.') }}
     </div>
     <div class="row">
-      {{ boxes.box('Publishers per version (expected)', '', 'publishers_per_version_expected.png', 'publishers_per_version.json', 'versions_expected_legend.png',
+      {{ boxes.box('Publishers per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
         description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.') }}
-      {{ boxes.box('Publishers per version (other)', '', 'publishers_per_version_other.png', 'publishers_per_version.json', 'versions_other_legend.png',
+      {{ boxes.box('Publishers per version (other)', '', 'img/aggregate/publishers_per_version_other.png', 'publishers_per_version.json', 'img/aggregate/versions_other_legend.png',
         description='Count of publishers per other version, over time') }}
     </div>
 
@@ -29,7 +29,7 @@
             {% for publisher in current_stats.inverted_file_publisher %}
               {% with datasets = current_stats.inverted_file_publisher[publisher].version_mismatch.get('true', {}) %}
                 {% if datasets %}
-                <tr><td id="files_{{ publisher }}"><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td><td>
+                <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td><td>
                 {% for dataset in datasets.keys() %}
                     <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
                 {% endfor %}
@@ -68,7 +68,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
+                  <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>
@@ -95,7 +95,7 @@
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
-                  <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
+                  <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
                 </tr>
                 {% endfor %}
               </table>
