@@ -39,7 +39,8 @@ urlpatterns = [
     path('headlines/publishers/<slug:publisher>', ui.views.headlines_publisher_detail, name='dash-headlines-publisher-detail'),
 
     # Data quality pages.
-    path('data-quality/download-errors', lambda x: None, name="dash-dataquality-download"),
+    path('data-quality/download-errors', ui.views.dataquality_download, name="dash-dataquality-download"),
+    path('data/download_errors.json', ui.views.dataquality_download_errorsjson, name="dash-dataquality-download-json"),
     path('data-quality/xml-errors', lambda x: None, name="dash-dataquality-xml"),
     path('data-quality/validation', lambda x: None, name="dash-dataquality-validation"),
     path('data-quality/versions', lambda x: None, name="dash-dataquality-versions"),

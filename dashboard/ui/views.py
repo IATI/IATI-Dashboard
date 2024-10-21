@@ -246,6 +246,16 @@ def headlines_publisher_detail(request, publisher=None):
 #
 # Views to generate data quality pages.
 #
+def dataquality_download(request):
+    template = loader.get_template("download.html")
+    context = _make_context("download")
+    return HttpResponse(template.render(context, request))
+
+
+def dataquality_download_errorsjson(request):
+    return HttpResponse(json.dumps(current_stats['download_errors'], indent=2), content_type='application/json')
+
+
 def dataquality_licenses(request):
     template = loader.get_template("licenses.html")
     context = _make_context("licenses")
