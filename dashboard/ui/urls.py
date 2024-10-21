@@ -41,7 +41,7 @@ urlpatterns = [
     # Data quality pages.
     path('data-quality/download-errors', ui.views.dataquality_download, name="dash-dataquality-download"),
     path('data/download_errors.json', ui.views.dataquality_download_errorsjson, name="dash-dataquality-download-json"),
-    path('data-quality/xml-errors', lambda x: None, name="dash-dataquality-xml"),
+    path('data-quality/xml-errors', ui.views.dataquality_xml, name="dash-dataquality-xml"),
     path('data-quality/validation', lambda x: None, name="dash-dataquality-validation"),
     path('data-quality/versions', lambda x: None, name="dash-dataquality-versions"),
     path('data-quality/organisation-xml', lambda x: None, name="dash-dataquality-organisation"),

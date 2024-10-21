@@ -256,6 +256,12 @@ def dataquality_download_errorsjson(request):
     return HttpResponse(json.dumps(current_stats['download_errors'], indent=2), content_type='application/json')
 
 
+def dataquality_xml(request):
+    template = loader.get_template("xml.html")
+    context = _make_context("xml")
+    return HttpResponse(template.render(context, request))
+
+
 def dataquality_licenses(request):
     template = loader.get_template("licenses.html")
     context = _make_context("licenses")
