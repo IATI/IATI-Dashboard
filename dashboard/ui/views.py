@@ -14,7 +14,7 @@ from django.template import loader
 
 import config
 import text
-import dashboard.template_funcs
+import ui.template_funcs
 
 from data import (
     ckan,
@@ -145,7 +145,7 @@ def _make_context(page_name: str):
         commit_hash=COMMIT_HASH,
         stats_commit_hash=STATS_COMMIT_HASH,
         func={"sorted": sorted,
-              "firstint": dashboard.template_funcs.firstint,
+              "firstint": ui.template_funcs.firstint,
               "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
               "get_publisher_stats": get_publisher_stats,
               "is_valid_element": is_valid_element,

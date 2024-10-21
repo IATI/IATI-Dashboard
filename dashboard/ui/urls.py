@@ -18,25 +18,25 @@ from django.contrib import admin
 from django.urls import path
 # from django.shortcuts import redirect
 
-import dashboard.views
+import ui.views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Top level dashboard pages.
-    path('', dashboard.views.index, name="dash-index"),
-    path('headlines', dashboard.views.headlines, name="dash-headlines"),
-    path('data-quality', dashboard.views.data_quality, name="dash-dataquality"),
-    path('publishing-statistics', dashboard.views.publishing_stats, name="dash-publishingstats"),
-    path('exploring-data', dashboard.views.exploring_data, name="dash-exploringdata"),
-    path('faq', dashboard.views.faq, name="dash-faq"),
+    path('', ui.views.index, name="dash-index"),
+    path('headlines', ui.views.headlines, name="dash-headlines"),
+    path('data-quality', ui.views.data_quality, name="dash-dataquality"),
+    path('publishing-statistics', ui.views.publishing_stats, name="dash-publishingstats"),
+    path('exploring-data', ui.views.exploring_data, name="dash-exploringdata"),
+    path('faq', ui.views.faq, name="dash-faq"),
 
     # Headlines pages and detail pages - placeholders for now.
-    path('headlines/publishers', dashboard.views.headlines_publishers, name="dash-headlines-publishers"),
-    path('headlines/files', dashboard.views.headlines_files, name="dash-headlines-files"),
-    path('headlines/activities', dashboard.views.headlines_activities, name="dash-headlines-activities"),
-    path('headlines/publishers/<slug:publisher>', dashboard.views.headlines_publisher_detail, name='dash-headlines-publisher-detail'),
+    path('headlines/publishers', ui.views.headlines_publishers, name="dash-headlines-publishers"),
+    path('headlines/files', ui.views.headlines_files, name="dash-headlines-files"),
+    path('headlines/activities', ui.views.headlines_activities, name="dash-headlines-activities"),
+    path('headlines/publishers/<slug:publisher>', ui.views.headlines_publisher_detail, name='dash-headlines-publisher-detail'),
 
     # Data quality pages.
     path('data-quality/download-errors', lambda x: None, name="dash-dataquality-download"),
@@ -44,8 +44,8 @@ urlpatterns = [
     path('data-quality/validation', lambda x: None, name="dash-dataquality-validation"),
     path('data-quality/versions', lambda x: None, name="dash-dataquality-versions"),
     path('data-quality/organisation-xml', lambda x: None, name="dash-dataquality-organisation"),
-    path('data-quality/licenses', dashboard.views.dataquality_licenses, name="dash-dataquality-licenses"),
-    path('data-quality/licenses/<slug:license_id>', dashboard.views.dataquality_licenses_detail, name="dash-dataquality-licenses-detail"),
+    path('data-quality/licenses', ui.views.dataquality_licenses, name="dash-dataquality-licenses"),
+    path('data-quality/licenses/<slug:license_id>', ui.views.dataquality_licenses_detail, name="dash-dataquality-licenses-detail"),
     path('data-quality/identifiers', lambda x: None, name="dash-dataquality-identifiers"),
     path('data-quality/reporting-orgs', lambda x: None, name="dash-dataquality-reportingorgs"),
 
