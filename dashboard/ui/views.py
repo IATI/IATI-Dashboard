@@ -315,3 +315,9 @@ def dataquality_identifiers(request):
     template = loader.get_template("identifiers.html")
     context = _make_context("identifiers")
     return HttpResponse(template.render(context, request))
+
+
+def dataquality_reportingorgs(request):
+    template = loader.get_template("reporting_orgs.html")
+    context = _make_context("reporting_orgs")
+    return HttpResponse(template.render(context, request))
