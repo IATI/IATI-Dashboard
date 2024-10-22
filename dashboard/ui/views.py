@@ -309,3 +309,9 @@ def dataquality_orgxml(request):
     template = loader.get_template("organisation.html")
     context = _make_context("organisation")
     return HttpResponse(template.render(context, request))
+
+
+def dataquality_identifiers(request):
+    template = loader.get_template("identifiers.html")
+    context = _make_context("identifiers")
+    return HttpResponse(template.render(context, request))

@@ -47,7 +47,7 @@ urlpatterns = [
     path('data-quality/organisation', ui.views.dataquality_orgxml, name="dash-dataquality-organisation"),
     path('data-quality/licenses', ui.views.dataquality_licenses, name="dash-dataquality-licenses"),
     path('data-quality/licenses/<slug:license_id>', ui.views.dataquality_licenses_detail, name="dash-dataquality-licenses-detail"),
-    path('data-quality/identifiers', lambda x: None, name="dash-dataquality-identifiers"),
+    path('data-quality/identifiers', ui.views.dataquality_identifiers, name="dash-dataquality-identifiers"),
     path('data-quality/reporting-orgs', lambda x: None, name="dash-dataquality-reportingorgs"),
 
     # Exploring data pages.
