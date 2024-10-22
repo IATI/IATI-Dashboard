@@ -138,7 +138,7 @@ def _make_context(page_name: str):
         codelist_sets=codelist_sets,
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
-        expected_versions = vars.expected_versions,
+        expected_versions=vars.expected_versions,
         metadata=metadata,
         slugs=slugs,
         datetime_data=dateutil.parser.parse(metadata['created_at']).strftime('%-d %B %Y (at %H:%M %Z)'),
@@ -302,4 +302,10 @@ def dataquality_licenses_detail(request, license_id=None):
     context["licenses"] = True
     context["license"] = license_id
     context["publisher_counts"] = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
+    return HttpResponse(template.render(context, request))
+
+
+def dataquality_orgxml(request):
+    template = loader.get_template("organisation.html")
+    context = _make_context("organisation")
     return HttpResponse(template.render(context, request))
