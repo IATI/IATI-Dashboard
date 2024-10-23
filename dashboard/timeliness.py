@@ -4,6 +4,7 @@ from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_m
 import datetime
 from dateutil.relativedelta import relativedelta
 from collections import defaultdict, Counter
+import config
 
 
 def short_month(month_str):
@@ -58,7 +59,7 @@ def publisher_frequency():
     """
 
     # Load all the data from 'gitaggregate-publisher-dated' into memory
-    gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated')
+    gitaggregate_publisher = JSONDir(config.join_stats_path('gitaggregate-publisher-dated'))
 
     # Loop over each publisher - i.e. a publisher folder within 'gitaggregate-publisher-dated'
     for publisher, agg in gitaggregate_publisher.items():
@@ -171,7 +172,7 @@ def first_published_band_index(first_published_band):
 
 
 def publisher_timelag():
-    return [(publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag'], has_future_transactions(publisher)) for publisher, agg in JSONDir('./stats-calculated/current/aggregated-publisher').items()]
+    return [(publisher, publisher_name.get(publisher), agg['transaction_months_with_year'], agg['timelag'], has_future_transactions(publisher)) for publisher, agg in JSONDir(config.join_stats_path('current/aggregated-publisher')).items()]
 
 
 def publisher_timelag_sorted():
@@ -204,7 +205,7 @@ def has_future_transactions(publisher):
                 if transaction_date and transaction_date > datetime.date.today():
                     return 2
 
-    gitaggregate_publisher = JSONDir('./stats-calculated/gitaggregate-publisher-dated').get(publisher, {})
+    gitaggregate_publisher = JSONDir(config.join_stats_path('gitaggregate-publisher-dated')).get(publisher, {})
     mindate = datetime.date(today.year - 1, today.month, 1)
     for date, activity_blacklist in gitaggregate_publisher.get('activities_with_future_transactions', {}).items():
         if parse_iso_date(date) >= mindate and activity_blacklist:

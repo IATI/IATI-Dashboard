@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% import '_partials/boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes with context %}
 {% block title %}
 Publisher: {{ publisher_name[publisher] }} {{ super() }}
 {% endblock %}
@@ -109,7 +109,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code><a href="{{ url_for('licenses_individual_license', license=license) }}">{{ license }}</a></code>
+                <code><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -122,22 +122,23 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     </table>
     </div>
     </div>
-    {{ boxes.box('Activities', publisher_stats.activities, '../publisher_imgs/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }}
+    {{ boxes.box(
+        'Activities', publisher_stats.activities, 'img/publishers/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }} 
     </div>
 
     <div class="row">
-        {{ boxes.box('Activity Files', publisher_stats.activity_files, '../publisher_imgs/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
-        {{ boxes.box('Organisation Files', publisher_stats.organisation_files, '../publisher_imgs/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
+        {{ boxes.box('Activity Files', publisher_stats.activity_files, 'img/publishers/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
+        {{ boxes.box('Organisation Files', publisher_stats.organisation_files, 'img/publishers/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{ boxes.box('Files per version', '', '../publisher_imgs/'+publisher+'_versions.png', publisher+'/versions.json', '../publisher_imgs/'+publisher+'_versions_legend.png', '-publisher') }}
-        {{ boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, '../publisher_imgs/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
+        {{ boxes.box('Files per version', '', 'img/publishers/'+publisher+'_versions.png', publisher+'/versions.json', 'img/publishers/'+publisher+'_versions_legend.png', '-publisher') }}
+        {{ boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, 'img/publishers/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{ boxes.box('Files failing validation', publisher_stats.validation.fail, '../publisher_imgs/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
-        {{ boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, '../publisher_imgs/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
+        {{ boxes.box('Files failing validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
+        {{ boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
     </div>
 
     <h2 id="h_dataquality">Data Quality</h2>
@@ -378,15 +379,15 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url_for('codelist', major_version=major_version, slug=slugs.codelist[major_version].by_i[element_i]) }}">{{ element }}</a></td>
+                <td><a href="{{ url('dash-exploringdata-codelists-detail', args=[major_version, slugs.codelist[major_version].by_i[element_i]]) }}">{{ element }}</a></td>
                 <td><a href="https://iatistandard.org/codelists/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
-                {% with codes=sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
+                {% with codes=func.sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>{% if codes|count %}
                     <a href="javascript: return false;" class="popover-html" title="Values on codelist for {{ element }}" role="button" tabindex="0" data-trigger="focus" data-content="{% for code in codes %}<code>{{ code }}</code>:&nbsp;{{ values.get(code) }} {% endfor %}">{{ codes|count }}</a>
                     {% else %}{{ codes|count }}{% endif %}
                 </td>
                 {% endwith %}
-                {% with codes=sorted(set(values.keys()).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
+                {% with codes=func.sorted(func.set(values.keys()).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
                 <td>
                     {% if codes|count %}
                         <a href="javascript: return false;" class="popover-html" title="Values not on codelist for {{ element }}" role="button" tabindex="0" data-trigger="focus" data-content="{% for code in codes %}<code>{{ code }}</code>:&nbsp;{{ values.get(code) }} {% endfor %}">
@@ -426,9 +427,9 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% for element, count in publisher_stats['elements'].items() %}
             <tr>
             {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url_for('element', slug=slugs.element.by_i[element_i]) }}">{{ element }}</a></td>
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}">{{ element }}</a></td>
                 <td>{{ count }}</td>
-                <td><a href="{{ url_for('element', slug=slugs.element.by_i[element_i]) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
             {% endwith %}
             </tr>
             {% endfor %}
@@ -447,15 +448,15 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             <tr>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
                 {% set extra_column = true %}
-                {% include 'org_id_table_header.html' %}
+                {% include '_partials/org_id_table_header.html' with context %}
             </tr>
         </thead>
         <tbody>
             {% for slug in slugs.org_type.by_slug %}
             {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
             <tr>
-                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('org_type', slug=slug) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
-                {% include 'org_id_table_cells.html' %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url('dash-exploringdata-orgtypes-detail', args=[slug]) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                {% include '_partials/org_id_table_cells.html'  with context %}
                 <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
             </tr>
             {% endfor %}

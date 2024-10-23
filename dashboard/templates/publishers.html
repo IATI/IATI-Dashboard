@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% import '_partials/boxes.html' as boxes %}
+{% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Publishers', current_stats.aggregated.publishers, 'publishers.png', 'publishers.json',
+      {{ boxes.box('Publishers', current_stats.aggregated.publishers, 'img/aggregate/publishers.png', 'publishers.json',
         description='This graph shows the number of organisations publishing IATI data over time.') }}
-      {{ boxes.box('Publishers by type', '', 'publisher_types.png', None, 'publisher_types_legend.png',
+      {{ boxes.box('Publishers by type', '', 'img/aggregate/publisher_types.png', None, 'img/aggregate/publisher_types_legend.png',
         description='This graph show the various types of organisations publishing IATI data.') }}
     </div>
 
@@ -13,7 +13,7 @@
     <div class="col-xs-12">
     <div class="panel panel-default">
     <div class="panel-body">
-        <p style="float:right"><a href="{{ url_for('static', filename='publishers.csv') }}">(This table as CSV)</a></p>
+        <p style="float:right"><a href="{{ static('data/csv/publishers.csv') }}">(This table as CSV)</a></p>
         <p>List of current active IATI publishers,  Click on the publisher name for more details.</p>
         {% include '_partials/tablesorter_instructions.html' %}
     </div>
@@ -32,10 +32,10 @@
         </thead>
         <tbody>
             {% for publisher_title,publisher in publishers_ordered_by_title %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% set publisher_stats = func.get_publisher_stats(publisher) %}
             <tr>
-                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher_name[publisher] }}</a></td>
-                <td><a href="{{ url_for('publisher', publisher=publisher) }}">{{ publisher }}</a></td>
+                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
+                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
                 <td>{{ current_stats.inverted_publisher.activities[publisher] }}</td>
                 <td>{{ publisher_stats.organisations }}</td>
                 <td>{{ current_stats.inverted_publisher.activity_files.get(publisher)+current_stats.inverted_publisher.organisation_files.get(publisher) }}</td>

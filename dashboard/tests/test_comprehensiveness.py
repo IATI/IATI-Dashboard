@@ -1,7 +1,7 @@
-import sys
+import os
 from os import path
 
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+os.chdir(path.normpath(path.join(path.abspath(__file__), "../..")))
 
 import comprehensiveness  # noqa: E402
 
