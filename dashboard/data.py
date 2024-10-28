@@ -6,7 +6,7 @@ import re
 import csv
 from decimal import Decimal
 
-from xmlschema import XMLSchema
+import xmlschema
 
 import config
 
@@ -211,21 +211,28 @@ sources105 = [
 sources203 = [
     config.join_data_path('schemas/2.03/iati-activities-schema.xsd'),
     config.join_data_path('schemas/2.03/iati-organisations-schema.xsd')]
-schema105 = XMLSchema(sources105)
-schema203 = XMLSchema(sources203)
+schema105 = xmlschema.XMLSchema(sources105)
+schema203 = xmlschema.XMLSchema(sources203)
 
 
-def is_valid_element(path):
-    try:
-        if schema203.get_element(None, path=path):
-            return True
-    except AttributeError:
-        pass
-    try:
-        if schema105.get_element(None, path=path):
-            return True
-    except AttributeError:
-        pass
+def is_valid_element_or_attribute(path: str) -> bool:
+    """Checks to see if a path is in either the 2.03 or 1.05 schema
+
+    Parameters
+    ----------
+    path : str
+        Path to the element or attribute to find.
+
+    Returns
+    -------
+    bool
+        True if the path is a known element or attribute.
+    """
+    if isinstance(schema203.find(path), (xmlschema.XsdElement, xmlschema.XsdAttribute)):
+        return True
+    if isinstance(schema105.find(path), (xmlschema.XsdElement, xmlschema.XsdAttribute)):
+        return True
+
     return False
 
 

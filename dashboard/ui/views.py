@@ -31,7 +31,7 @@ from data import (
     metadata,
     publisher_name,
     publishers_ordered_by_title,
-    is_valid_element,
+    is_valid_element_or_attribute,
     slugs)
 
 
@@ -150,8 +150,9 @@ def _make_context(page_name: str):
               "firstint": ui.template_funcs.firstint,
               "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
               "get_publisher_stats": get_publisher_stats,
-              "is_valid_element": is_valid_element,
-              "set": set
+              "is_valid_element_or_attribute": is_valid_element_or_attribute,
+              "set": set,
+              "enumerate": enumerate
               }
     )
     context["navigation_reverse"].update({k: k for k in text.navigation})
@@ -320,4 +321,22 @@ def dataquality_identifiers(request):
 def dataquality_reportingorgs(request):
     template = loader.get_template("reporting_orgs.html")
     context = _make_context("reporting_orgs")
+    return HttpResponse(template.render(context, request))
+
+
+#
+# Exploring data pages.
+#
+def exploringdata_elements(request):
+    template = loader.get_template("elements.html")
+    return HttpResponse(template.render(_make_context("elements"), request))
+
+
+def exploringdata_element_detail(request, element=None):
+    template = loader.get_template("element.html")
+    context = _make_context("elements")
+    i = slugs['element']['by_slug'][element]
+    context["element"] = list(current_stats['inverted_publisher']['elements'])[i]
+    context["publishers"] = list(current_stats['inverted_publisher']['elements'].values())[i]
+    context["element_or_attribute"] = 'attribute' if '@' in context["element"] else 'element'
     return HttpResponse(template.render(context, request))

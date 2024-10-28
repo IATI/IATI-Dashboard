@@ -51,8 +51,8 @@ urlpatterns = [
     path('data-quality/reporting-orgs', ui.views.dataquality_reportingorgs, name="dash-dataquality-reportingorgs"),
 
     # Exploring data pages.
-    path('exploring-data/elements', lambda x: None, name="dash-exploringdata-elements"),
-    path('exploring-data/elements/<str:element>', lambda x: None, name="dash-exploringdata-elements-detail"),
+    path('exploring-data/elements', ui.views.exploringdata_elements, name="dash-exploringdata-elements"),
+    path('exploring-data/elements/<str:element>', ui.views.exploringdata_element_detail, name="dash-exploringdata-elements-detail"),
     path('exploring-data/codelists', lambda x: None, name="dash-exploringdata-codelists"),
     path('exploring-data/codelists/<int:major_version>/<str:attribute>', lambda x: None, name="dash-exploringdata-codelists-detail"),
     path('exploring-data/booleans', lambda x: None, name="dash-exploringdata-booleans"),
