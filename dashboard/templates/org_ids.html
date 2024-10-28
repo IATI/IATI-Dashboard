@@ -10,15 +10,15 @@
         <thead>
             <tr>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
-                {% include 'org_id_table_header.html' %}
+                {% include '_partials/org_id_table_header.html' %}
             </tr>
         </thead>
         <tbody>
             {% for slug in slugs.org_type.by_slug %}
             {% set transaction_stats = current_stats.aggregated[slug + '_transaction_stats'] %}
             <tr>
-                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('org_type', slug=slug) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
-                {% include 'org_id_table_cells.html' %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url('dash-exploringdata-orgtypes-detail', args=[slug]) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                {% include '_partials/org_id_table_cells.html' %}
             </tr>
             {% endfor %}
         </tbody>

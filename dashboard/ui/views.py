@@ -340,3 +340,16 @@ def exploringdata_element_detail(request, element=None):
     context["publishers"] = list(current_stats['inverted_publisher']['elements'].values())[i]
     context["element_or_attribute"] = 'attribute' if '@' in context["element"] else 'element'
     return HttpResponse(template.render(context, request))
+
+
+def exploringdata_orgids(request):
+    template = loader.get_template("org_ids.html")
+    return HttpResponse(template.render(_make_context("org_ids"), request))
+
+
+def exploringdata_orgtypes_detail(request, org_type=None):
+    assert org_type in slugs['org_type']['by_slug']
+    template = loader.get_template("org_type.html")
+    context = _make_context("org_ids")
+    context["slug"] = org_type
+    return HttpResponse(template.render(context, request))

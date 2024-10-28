@@ -58,8 +58,8 @@ urlpatterns = [
     path('exploring-data/booleans', lambda x: None, name="dash-exploringdata-booleans"),
     path('exploring-data/dates', lambda x: None, name="dash-exploringdata-dates"),
     path('exploring-data/traceability', lambda x: None, name="dash-exploringdata-traceability"),
-    path('exploring-data/organisation-identifiers', lambda x: None, name="dash-exploringdata-orgids"),
-    path('exploring-data/organisation-types/<slug:org_type>', lambda x: None, name="dash-exploringdata-orgtypes-detail"),
+    path('exploring-data/organisation-identifiers', ui.views.exploringdata_orgids, name="dash-exploringdata-orgids"),
+    path('exploring-data/organisation-type/<slug:org_type>', ui.views.exploringdata_orgtypes_detail, name="dash-exploringdata-orgtypes-detail"),
 
     # Publishing statistics pages.
     path('publishing-statistics/timeliness', lambda x: None, name="dash-publishingstats-timeliness"),
