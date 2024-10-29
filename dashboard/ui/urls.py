@@ -55,9 +55,9 @@ urlpatterns = [
     path('exploring-data/elements/<str:element>', ui.views.exploringdata_element_detail, name="dash-exploringdata-elements-detail"),
     path('exploring-data/codelists', ui.views.exploringdata_codelists, name="dash-exploringdata-codelists"),
     path('exploring-data/codelists/<str:major_version>/<str:attribute>', ui.views.exploringdata_codelists_detail, name="dash-exploringdata-codelists-detail"),
-    path('exploring-data/booleans', lambda x: None, name="dash-exploringdata-booleans"),
-    path('exploring-data/dates', lambda x: None, name="dash-exploringdata-dates"),
-    path('exploring-data/traceability', lambda x: None, name="dash-exploringdata-traceability"),
+    path('exploring-data/booleans', ui.views.exploringdata_booleans, name="dash-exploringdata-booleans"),
+    path('exploring-data/dates', ui.views.exploringdata_dates, name="dash-exploringdata-dates"),
+    path('exploring-data/traceability', ui.views.exploringdata_traceability, name="dash-exploringdata-traceability"),
     path('exploring-data/organisation-identifiers', ui.views.exploringdata_orgids, name="dash-exploringdata-orgids"),
     path('exploring-data/organisation-type/<slug:org_type>', ui.views.exploringdata_orgtypes_detail, name="dash-exploringdata-orgtypes-detail"),
 

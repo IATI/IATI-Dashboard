@@ -390,3 +390,18 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     context["major_version"] = major_version
 
     return HttpResponse(template.render(context, request))
+
+
+def exploringdata_booleans(request):
+    template = loader.get_template("booleans.html")
+    return HttpResponse(template.render(_make_context("booleans"), request))
+
+
+def exploringdata_dates(request):
+    template = loader.get_template("dates.html")
+    return HttpResponse(template.render(_make_context("dates"), request))
+
+
+def exploringdata_traceability(request):
+    template = loader.get_template("traceability.html")
+    return HttpResponse(template.render(_make_context("traceability"), request))
