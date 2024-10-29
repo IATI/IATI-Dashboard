@@ -39,15 +39,16 @@ urlpatterns = [
     path('headlines/publishers/<slug:publisher>', ui.views.headlines_publisher_detail, name='dash-headlines-publisher-detail'),
 
     # Data quality pages.
-    path('data-quality/download-errors', lambda x: None, name="dash-dataquality-download"),
-    path('data-quality/xml-errors', lambda x: None, name="dash-dataquality-xml"),
-    path('data-quality/validation', lambda x: None, name="dash-dataquality-validation"),
-    path('data-quality/versions', lambda x: None, name="dash-dataquality-versions"),
-    path('data-quality/organisation-xml', lambda x: None, name="dash-dataquality-organisation"),
+    path('data-quality/download-errors', ui.views.dataquality_download, name="dash-dataquality-download"),
+    path('data/download_errors.json', ui.views.dataquality_download_errorsjson, name="dash-dataquality-download-json"),
+    path('data-quality/xml-errors', ui.views.dataquality_xml, name="dash-dataquality-xml"),
+    path('data-quality/validation', ui.views.dataquality_validation, name="dash-dataquality-validation"),
+    path('data-quality/versions', ui.views.dataquality_versions, name="dash-dataquality-versions"),
+    path('data-quality/organisation', ui.views.dataquality_orgxml, name="dash-dataquality-organisation"),
     path('data-quality/licenses', ui.views.dataquality_licenses, name="dash-dataquality-licenses"),
     path('data-quality/licenses/<slug:license_id>', ui.views.dataquality_licenses_detail, name="dash-dataquality-licenses-detail"),
-    path('data-quality/identifiers', lambda x: None, name="dash-dataquality-identifiers"),
-    path('data-quality/reporting-orgs', lambda x: None, name="dash-dataquality-reportingorgs"),
+    path('data-quality/identifiers', ui.views.dataquality_identifiers, name="dash-dataquality-identifiers"),
+    path('data-quality/reporting-orgs', ui.views.dataquality_reportingorgs, name="dash-dataquality-reportingorgs"),
 
     # Exploring data pages.
     path('exploring-data/elements', lambda x: None, name="dash-exploringdata-elements"),
