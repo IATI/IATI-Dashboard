@@ -53,8 +53,8 @@ urlpatterns = [
     # Exploring data pages.
     path('exploring-data/elements', ui.views.exploringdata_elements, name="dash-exploringdata-elements"),
     path('exploring-data/elements/<str:element>', ui.views.exploringdata_element_detail, name="dash-exploringdata-elements-detail"),
-    path('exploring-data/codelists', lambda x: None, name="dash-exploringdata-codelists"),
-    path('exploring-data/codelists/<int:major_version>/<str:attribute>', lambda x: None, name="dash-exploringdata-codelists-detail"),
+    path('exploring-data/codelists', ui.views.exploringdata_codelists, name="dash-exploringdata-codelists"),
+    path('exploring-data/codelists/<str:major_version>/<str:attribute>', ui.views.exploringdata_codelists_detail, name="dash-exploringdata-codelists-detail"),
     path('exploring-data/booleans', lambda x: None, name="dash-exploringdata-booleans"),
     path('exploring-data/dates', lambda x: None, name="dash-exploringdata-dates"),
     path('exploring-data/traceability', lambda x: None, name="dash-exploringdata-traceability"),

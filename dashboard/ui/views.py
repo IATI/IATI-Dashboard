@@ -8,6 +8,7 @@
 import dateutil.parser
 import subprocess
 import json
+import collections
 
 from django.http import HttpResponse, Http404
 from django.template import loader
@@ -80,6 +81,21 @@ def _get_licenses_for_publisher(publisher_name):
         for package in ckan[publisher_name].values()])
 
 
+def dictinvert(d):
+    inv = collections.defaultdict(list)
+    for k, v in d.items():
+        inv[v].append(k)
+    return inv
+
+
+def nested_dictinvert(d):
+    inv = collections.defaultdict(lambda: collections.defaultdict(int))
+    for k, v in d.items():
+        for k2, v2 in v.items():
+            inv[k2][k] += v2
+    return inv
+
+
 def _make_context(page_name: str):
     """Make a basic context dictionary for a given page
     """
@@ -148,6 +164,7 @@ def _make_context(page_name: str):
         stats_commit_hash=STATS_COMMIT_HASH,
         func={"sorted": sorted,
               "firstint": ui.template_funcs.firstint,
+              "get_codelist_values": ui.template_funcs.get_codelist_values,
               "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
               "get_publisher_stats": get_publisher_stats,
               "is_valid_element_or_attribute": is_valid_element_or_attribute,
@@ -352,4 +369,24 @@ def exploringdata_orgtypes_detail(request, org_type=None):
     template = loader.get_template("org_type.html")
     context = _make_context("org_ids")
     context["slug"] = org_type
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_codelists(request):
+    template = loader.get_template("codelists.html")
+    return HttpResponse(template.render(_make_context("codelists"), request))
+
+
+def exploringdata_codelists_detail(request, major_version=None, attribute=None):
+    template = loader.get_template("codelist.html")
+
+    context = _make_context("codelists")
+    i = slugs['codelist'][major_version]['by_slug'][attribute]
+    element = list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version])[i]
+    values = nested_dictinvert(list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values())[i])
+    context["element"] = element
+    context["values"] = values
+    context["reverse_codelist_mapping"] = {major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()}
+    context["major_version"] = major_version
+
     return HttpResponse(template.render(context, request))
