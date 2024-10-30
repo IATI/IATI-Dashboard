@@ -62,7 +62,8 @@ urlpatterns = [
     path('exploring-data/organisation-type/<slug:org_type>', ui.views.exploringdata_orgtypes_detail, name="dash-exploringdata-orgtypes-detail"),
 
     # Publishing statistics pages.
-    path('publishing-statistics/timeliness', lambda x: None, name="dash-publishingstats-timeliness"),
+    path('publishing-statistics/timeliness', ui.views.pubstats_timeliness, name="dash-publishingstats-timeliness"),
+    path('publishing-statistics/timeliness-timelag', ui.views.pubstats_timeliness_timelag, name="dash-publishingstats-timeliness-timelag"),
     path('publishing-statistics/forward-looking', lambda x: None, name="dash-publishingstats-forwardlooking"),
     path('publishing-statistics/comprehensiveness', ui.views.pubstats_comprehensiveness, name="dash-publishingstats-comprehensiveness"),
     path('publishing-statistics/comprehensiveness/core', ui.views.pubstats_comprehensiveness_core, name="dash-publishingstats-comprehensiveness-core"),

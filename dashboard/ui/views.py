@@ -16,6 +16,7 @@ from django.template import loader
 import comprehensiveness
 import config
 import text
+import timeliness
 import ui.template_funcs
 import vars
 
@@ -433,4 +434,16 @@ def pubstats_comprehensiveness_valueadded(request):
     template = loader.get_template("comprehensiveness_valueadded.html")
     context = _make_context("comprehensiveness")
     context["comprehensiveness"] = comprehensiveness
+    return HttpResponse(template.render(context, request))
+
+def pubstats_timeliness(request):
+    template = loader.get_template("timeliness.html")
+    context = _make_context("timeliness")
+    context["timeliness"] = timeliness
+    return HttpResponse(template.render(context, request))
+
+def pubstats_timeliness_timelag(request):
+    template = loader.get_template("timeliness_timelag.html")
+    context = _make_context("timeliness")
+    context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
