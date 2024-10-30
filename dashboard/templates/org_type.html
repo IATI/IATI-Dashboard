@@ -20,17 +20,17 @@ Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
             <tr>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Publisher Name</th>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Publisher Registry Id</th>
-                {% include 'org_id_table_header.html' %}
+                {% include '_partials/org_id_table_header.html' %}
             </tr>
         </thead>
         <tbody>
             {% for publisher_title, publisher in publishers_ordered_by_title %}
-            {% set publisher_stats = get_publisher_stats(publisher) %}
+            {% set publisher_stats = func.get_publisher_stats(publisher) %}
             {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
             <tr>
-                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=publisher) }}#p_org_ids">{{ publisher_name[publisher] }}</a></td>
-                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url_for('publisher', publisher=publisher) }}#p_org_ids">{{ publisher }}</a></td>
-                {% include 'org_id_table_cells.html' %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}#p_org_ids">{{ publisher_name[publisher] }}</a></td>
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}#p_org_ids">{{ publisher }}</a></td>
+                {% include '_partials/org_id_table_cells.html' %}
             </tr>
             {% endfor %}
         </tbody>

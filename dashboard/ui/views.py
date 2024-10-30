@@ -8,6 +8,7 @@
 import dateutil.parser
 import subprocess
 import json
+import collections
 
 from django.http import HttpResponse, Http404
 from django.template import loader
@@ -31,7 +32,7 @@ from data import (
     metadata,
     publisher_name,
     publishers_ordered_by_title,
-    is_valid_element,
+    is_valid_element_or_attribute,
     slugs)
 
 
@@ -78,6 +79,21 @@ def _get_licenses_for_publisher(publisher_name):
         if package['license_id'] is not None
         else 'notspecified'
         for package in ckan[publisher_name].values()])
+
+
+def dictinvert(d):
+    inv = collections.defaultdict(list)
+    for k, v in d.items():
+        inv[v].append(k)
+    return inv
+
+
+def nested_dictinvert(d):
+    inv = collections.defaultdict(lambda: collections.defaultdict(int))
+    for k, v in d.items():
+        for k2, v2 in v.items():
+            inv[k2][k] += v2
+    return inv
 
 
 def _make_context(page_name: str):
@@ -148,10 +164,12 @@ def _make_context(page_name: str):
         stats_commit_hash=STATS_COMMIT_HASH,
         func={"sorted": sorted,
               "firstint": ui.template_funcs.firstint,
+              "get_codelist_values": ui.template_funcs.get_codelist_values,
               "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
               "get_publisher_stats": get_publisher_stats,
-              "is_valid_element": is_valid_element,
-              "set": set
+              "is_valid_element_or_attribute": is_valid_element_or_attribute,
+              "set": set,
+              "enumerate": enumerate
               }
     )
     context["navigation_reverse"].update({k: k for k in text.navigation})
@@ -321,3 +339,69 @@ def dataquality_reportingorgs(request):
     template = loader.get_template("reporting_orgs.html")
     context = _make_context("reporting_orgs")
     return HttpResponse(template.render(context, request))
+
+
+#
+# Exploring data pages.
+#
+def exploringdata_elements(request):
+    template = loader.get_template("elements.html")
+    return HttpResponse(template.render(_make_context("elements"), request))
+
+
+def exploringdata_element_detail(request, element=None):
+    template = loader.get_template("element.html")
+    context = _make_context("elements")
+    i = slugs['element']['by_slug'][element]
+    context["element"] = list(current_stats['inverted_publisher']['elements'])[i]
+    context["publishers"] = list(current_stats['inverted_publisher']['elements'].values())[i]
+    context["element_or_attribute"] = 'attribute' if '@' in context["element"] else 'element'
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_orgids(request):
+    template = loader.get_template("org_ids.html")
+    return HttpResponse(template.render(_make_context("org_ids"), request))
+
+
+def exploringdata_orgtypes_detail(request, org_type=None):
+    assert org_type in slugs['org_type']['by_slug']
+    template = loader.get_template("org_type.html")
+    context = _make_context("org_ids")
+    context["slug"] = org_type
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_codelists(request):
+    template = loader.get_template("codelists.html")
+    return HttpResponse(template.render(_make_context("codelists"), request))
+
+
+def exploringdata_codelists_detail(request, major_version=None, attribute=None):
+    template = loader.get_template("codelist.html")
+
+    context = _make_context("codelists")
+    i = slugs['codelist'][major_version]['by_slug'][attribute]
+    element = list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version])[i]
+    values = nested_dictinvert(list(current_stats['inverted_publisher']['codelist_values_by_major_version'][major_version].values())[i])
+    context["element"] = element
+    context["values"] = values
+    context["reverse_codelist_mapping"] = {major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()}
+    context["major_version"] = major_version
+
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_booleans(request):
+    template = loader.get_template("booleans.html")
+    return HttpResponse(template.render(_make_context("booleans"), request))
+
+
+def exploringdata_dates(request):
+    template = loader.get_template("dates.html")
+    return HttpResponse(template.render(_make_context("dates"), request))
+
+
+def exploringdata_traceability(request):
+    template = loader.get_template("traceability.html")
+    return HttpResponse(template.render(_make_context("traceability"), request))
