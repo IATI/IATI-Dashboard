@@ -13,6 +13,7 @@ import collections
 from django.http import HttpResponse, Http404
 from django.template import loader
 
+import comprehensiveness
 import config
 import text
 import ui.template_funcs
@@ -405,3 +406,31 @@ def exploringdata_dates(request):
 def exploringdata_traceability(request):
     template = loader.get_template("traceability.html")
     return HttpResponse(template.render(_make_context("traceability"), request))
+
+
+#
+# Publishing statistics pages.
+#
+def pubstats_comprehensiveness(request):
+    template = loader.get_template("comprehensiveness.html")
+    context = _make_context("comprehensiveness")
+    context["comprehensiveness"] = comprehensiveness
+    return HttpResponse(template.render(context, request))
+
+def pubstats_comprehensiveness_core(request):
+    template = loader.get_template("comprehensiveness_core.html")
+    context = _make_context("comprehensiveness")
+    context["comprehensiveness"] = comprehensiveness
+    return HttpResponse(template.render(context, request))
+
+def pubstats_comprehensiveness_financials(request):
+    template = loader.get_template("comprehensiveness_financials.html")
+    context = _make_context("comprehensiveness")
+    context["comprehensiveness"] = comprehensiveness
+    return HttpResponse(template.render(context, request))
+
+def pubstats_comprehensiveness_valueadded(request):
+    template = loader.get_template("comprehensiveness_valueadded.html")
+    context = _make_context("comprehensiveness")
+    context["comprehensiveness"] = comprehensiveness
+    return HttpResponse(template.render(context, request))

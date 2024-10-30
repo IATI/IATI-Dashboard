@@ -64,7 +64,10 @@ urlpatterns = [
     # Publishing statistics pages.
     path('publishing-statistics/timeliness', lambda x: None, name="dash-publishingstats-timeliness"),
     path('publishing-statistics/forward-looking', lambda x: None, name="dash-publishingstats-forwardlooking"),
-    path('publishing-statistics/comprehensiveness', lambda x: None, name="dash-publishingstats-comprehensiveness"),
+    path('publishing-statistics/comprehensiveness', ui.views.pubstats_comprehensiveness, name="dash-publishingstats-comprehensiveness"),
+    path('publishing-statistics/comprehensiveness/core', ui.views.pubstats_comprehensiveness_core, name="dash-publishingstats-comprehensiveness-core"),
+    path('publishing-statistics/comprehensiveness/financials', ui.views.pubstats_comprehensiveness_financials, name="dash-publishingstats-comprehensiveness-financials"),
+    path('publishing-statistics/comprehensiveness/value-added', ui.views.pubstats_comprehensiveness_valueadded, name="dash-publishingstats-comprehensiveness-valueadded"),
     path('publishing-statistics/coverage', lambda x: None, name="dash-publishingstats-coverage"),
     path('publishing-statistics/summary-statistics', lambda x: None, name="dash-publishingstats-summarystats"),
     path('publishing-statistics/humanitarian-reporting', lambda x: None, name="dash-publishingstats-humanitarian"),
