@@ -64,14 +64,14 @@ urlpatterns = [
     # Publishing statistics pages.
     path('publishing-statistics/timeliness', ui.views.pubstats_timeliness, name="dash-publishingstats-timeliness"),
     path('publishing-statistics/timeliness-timelag', ui.views.pubstats_timeliness_timelag, name="dash-publishingstats-timeliness-timelag"),
-    path('publishing-statistics/forward-looking', lambda x: None, name="dash-publishingstats-forwardlooking"),
+    path('publishing-statistics/forward-looking', ui.views.pubstats_forwardlooking, name="dash-publishingstats-forwardlooking"),
     path('publishing-statistics/comprehensiveness', ui.views.pubstats_comprehensiveness, name="dash-publishingstats-comprehensiveness"),
     path('publishing-statistics/comprehensiveness/core', ui.views.pubstats_comprehensiveness_core, name="dash-publishingstats-comprehensiveness-core"),
     path('publishing-statistics/comprehensiveness/financials', ui.views.pubstats_comprehensiveness_financials, name="dash-publishingstats-comprehensiveness-financials"),
     path('publishing-statistics/comprehensiveness/value-added', ui.views.pubstats_comprehensiveness_valueadded, name="dash-publishingstats-comprehensiveness-valueadded"),
     path('publishing-statistics/coverage', lambda x: None, name="dash-publishingstats-coverage"),
-    path('publishing-statistics/summary-statistics', lambda x: None, name="dash-publishingstats-summarystats"),
-    path('publishing-statistics/humanitarian-reporting', lambda x: None, name="dash-publishingstats-humanitarian"),
+    path('publishing-statistics/summary-statistics', ui.views.pubstats_summarystats, name="dash-publishingstats-summarystats"),
+    path('publishing-statistics/humanitarian-reporting', ui.views.pubstats_humanitarian, name="dash-publishingstats-humanitarian"),
 
     # Redirects to support any users with bookmarks to pages on the old Dashboard.
     # path('timeliness.html', redirect("dash-publishingstats-timeliness")),

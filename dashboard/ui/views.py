@@ -5,6 +5,7 @@
 # so not sure where they should fit.  I've not included them in the page_view_names so hopefully
 # an exception will be raised if they are referenced somewhere.
 
+import datetime
 import dateutil.parser
 import subprocess
 import json
@@ -15,8 +16,11 @@ from django.template import loader
 
 import comprehensiveness
 import config
+import forwardlooking
+import humanitarian
 import text
 import timeliness
+import summary_stats
 import ui.template_funcs
 import vars
 
@@ -160,6 +164,7 @@ def _make_context(page_name: str):
         metadata=metadata,
         slugs=slugs,
         datetime_data=dateutil.parser.parse(metadata['created_at']).strftime('%-d %B %Y (at %H:%M %Z)'),
+        current_year=datetime.datetime.now(datetime.UTC).year,
         stats_url='https://stats.codeforiati.org',
         stats_gh_url=STATS_GH_URL,
         commit_hash=COMMIT_HASH,
@@ -418,11 +423,13 @@ def pubstats_comprehensiveness(request):
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
+
 def pubstats_comprehensiveness_core(request):
     template = loader.get_template("comprehensiveness_core.html")
     context = _make_context("comprehensiveness")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
+
 
 def pubstats_comprehensiveness_financials(request):
     template = loader.get_template("comprehensiveness_financials.html")
@@ -430,11 +437,13 @@ def pubstats_comprehensiveness_financials(request):
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
+
 def pubstats_comprehensiveness_valueadded(request):
     template = loader.get_template("comprehensiveness_valueadded.html")
     context = _make_context("comprehensiveness")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
+
 
 def pubstats_timeliness(request):
     template = loader.get_template("timeliness.html")
@@ -442,8 +451,30 @@ def pubstats_timeliness(request):
     context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
 
+
 def pubstats_timeliness_timelag(request):
     template = loader.get_template("timeliness_timelag.html")
     context = _make_context("timeliness")
     context["timeliness"] = timeliness
+    return HttpResponse(template.render(context, request))
+
+
+def pubstats_summarystats(request):
+    template = loader.get_template("summary_stats.html")
+    context = _make_context("summary_stats")
+    context["summary_stats"] = summary_stats
+    return HttpResponse(template.render(context, request))
+
+
+def pubstats_forwardlooking(request):
+    template = loader.get_template("forwardlooking.html")
+    context = _make_context("forwardlooking")
+    context["forwardlooking"] = forwardlooking
+    return HttpResponse(template.render(context, request))
+
+
+def pubstats_humanitarian(request):
+    template = loader.get_template("humanitarian.html")
+    context = _make_context("humanitarian")
+    context["humanitarian"] = humanitarian
     return HttpResponse(template.render(context, request))
