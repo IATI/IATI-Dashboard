@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-# from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 
 import ui.views
 
@@ -73,6 +73,10 @@ urlpatterns = [
     path('publishing-statistics/summary-statistics', ui.views.pubstats_summarystats, name="dash-publishingstats-summarystats"),
     path('publishing-statistics/humanitarian-reporting', ui.views.pubstats_humanitarian, name="dash-publishingstats-humanitarian"),
 
+    # Registration agencies.
+    path('registration-agencies', ui.views.registration_agencies, name="dash-registrationagencies"),
+    path("registration_agencies.html", RedirectView.as_view(pattern_name="dash-registrationagencies", permanent=True))
+
     # Redirects to support any users with bookmarks to pages on the old Dashboard.
     # path('timeliness.html', redirect("dash-publishingstats-timeliness")),
     # path('index.html', redirect("dash-index")),
@@ -80,4 +84,3 @@ urlpatterns = [
     # path('exploring_data.html', redirect("dash-exploringdata"))
 
 ]
-# Unsure where "rulesets" and "registration_agencies" should belong - can't find the route to these in make_html.py

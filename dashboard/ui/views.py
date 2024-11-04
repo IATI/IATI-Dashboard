@@ -87,6 +87,12 @@ def _get_licenses_for_publisher(publisher_name):
         for package in ckan[publisher_name].values()])
 
 
+def _registration_agency(orgid):
+    for code in codelist_sets['2']['OrganisationRegistrationAgency']:
+        if orgid.startswith(code):
+            return code
+
+
 def dictinvert(d):
     inv = collections.defaultdict(list)
     for k, v in d.items():
@@ -477,4 +483,25 @@ def pubstats_humanitarian(request):
     template = loader.get_template("humanitarian.html")
     context = _make_context("humanitarian")
     context["humanitarian"] = humanitarian
+    return HttpResponse(template.render(context, request))
+
+
+#
+# Registration agencies page.
+#
+def registration_agencies(request):
+    template = loader.get_template("registration_agencies.html")
+
+    context = _make_context("registration_agencies")
+    context["registration_agencies"] = collections.defaultdict(int)
+    context["registration_agencies_publishers"] = collections.defaultdict(list)
+    context["nonmatching"] = []
+    for orgid, publishers in current_stats['inverted_publisher']['reporting_orgs'].items():
+        reg_ag = _registration_agency(orgid)
+        if reg_ag:
+            context["registration_agencies"][reg_ag] += 1
+            context["registration_agencies_publishers"][reg_ag] += list(publishers)
+        else:
+            context["nonmatching"].append((orgid, publishers))
+
     return HttpResponse(template.render(context, request))
