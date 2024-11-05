@@ -321,6 +321,9 @@ def dataquality_licenses(request):
 def dataquality_licenses_detail(request, license_id=None):
     template = loader.get_template("license.html")
 
+    if license_id not in LICENSE_URLS:
+        raise Http404("Unknown license")
+
     publishers = [
         publisher_name
         for publisher_name, publisher in ckan.items()
@@ -365,6 +368,10 @@ def exploringdata_elements(request):
 def exploringdata_element_detail(request, element=None):
     template = loader.get_template("element.html")
     context = _make_context("elements")
+
+    if element not in slugs['element']['by_slug']:
+        raise Http404("Unknown element or attribute")
+
     i = slugs['element']['by_slug'][element]
     context["element"] = list(current_stats['inverted_publisher']['elements'])[i]
     context["publishers"] = list(current_stats['inverted_publisher']['elements'].values())[i]
@@ -378,7 +385,9 @@ def exploringdata_orgids(request):
 
 
 def exploringdata_orgtypes_detail(request, org_type=None):
-    assert org_type in slugs['org_type']['by_slug']
+    if org_type not in slugs['org_type']['by_slug']:
+        raise Http404("Unknown organisation type")
+
     template = loader.get_template("org_type.html")
     context = _make_context("org_ids")
     context["slug"] = org_type
@@ -392,6 +401,11 @@ def exploringdata_codelists(request):
 
 def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     template = loader.get_template("codelist.html")
+
+    if major_version not in slugs['codelist']:
+        raise Http404("Unknown major version of the IATI standard")
+    if attribute not in slugs['codelist'][major_version]['by_slug']:
+        raise Http404("Unknown attribute")
 
     context = _make_context("codelists")
     i = slugs['codelist'][major_version]['by_slug'][attribute]

@@ -30,7 +30,7 @@ The IATI Dashboard is mostly written in Python but also has some helper Bash scr
 3. Build the static graphs and other data that will be served via the Dashboard.
 4. Run the web server.
 
-Paths to different directories are set in `./src/config.py`.
+Paths to different directories are set in `./dashboard/config.py`.
 
 ### 1. Setup environment
 
@@ -64,7 +64,7 @@ Bash scripts are used to fetch the data that the Dashboard will present.  They w
 
 ```
 mkdir out
-cd src
+cd dashboard
 python make_plots.py
 python make_csv.py
 python speakers_kit.py
@@ -75,7 +75,7 @@ cp ../img/publishers static/
 
 ### 4. Run the webserver.
 
-From `./src/`:
+From `./dashboard/`:
 
 ```
 python manage.py runserver
@@ -85,6 +85,21 @@ The Dashboard will now be accessible from `localhost:8000/`.
 
 
 ## Development
+
+### Automated tests
+There are some unit tests written using `pytest` and site testing using Django's own testing framework.
+
+Once the development dependencies have been installed the unit tests can be run with:
+
+```
+pytest
+```
+
+The Django site tests can be run from the `dashboard/` directory with:
+
+```
+python manage.py test -v 2
+```
 
 ### Calculating your own statistics
 
