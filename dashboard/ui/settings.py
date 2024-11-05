@@ -136,3 +136,11 @@ STATICFILES_DIRS = [BASE_DIR / 'static',]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#
+# Relative (to dashboard/) paths to IATI data and output directories.
+#
+DASHBOARD_STATS_DIRECTORY = "../stats-calculated"
+DASHBOARD_DATA_DIRECTORY = "../data"
+DASHBOARD_BASE_DIRECTORY = "../"
+DASHBOARD_OUT_DIRECTORY = "../out"
