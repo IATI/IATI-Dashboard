@@ -37,7 +37,6 @@ page_titles = {
     'traceability': 'Traceability',
     'org_ids': 'Organisation Identifiers',
     'publishing_stats': 'Publishing Statistics',
-    'coverage': 'Coverage',
     'timeliness': 'Timeliness',
     'forwardlooking': 'Forward Looking',
     'comprehensiveness': 'Comprehensiveness',

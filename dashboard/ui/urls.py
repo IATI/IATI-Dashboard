@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-# from django.shortcuts import redirect
+from django.views.generic.base import RedirectView
 
 import ui.views
 
@@ -62,12 +62,20 @@ urlpatterns = [
     path('exploring-data/organisation-type/<slug:org_type>', ui.views.exploringdata_orgtypes_detail, name="dash-exploringdata-orgtypes-detail"),
 
     # Publishing statistics pages.
-    path('publishing-statistics/timeliness', lambda x: None, name="dash-publishingstats-timeliness"),
-    path('publishing-statistics/forward-looking', lambda x: None, name="dash-publishingstats-forwardlooking"),
-    path('publishing-statistics/comprehensiveness', lambda x: None, name="dash-publishingstats-comprehensiveness"),
+    path('publishing-statistics/timeliness', ui.views.pubstats_timeliness, name="dash-publishingstats-timeliness"),
+    path('publishing-statistics/timeliness-timelag', ui.views.pubstats_timeliness_timelag, name="dash-publishingstats-timeliness-timelag"),
+    path('publishing-statistics/forward-looking', ui.views.pubstats_forwardlooking, name="dash-publishingstats-forwardlooking"),
+    path('publishing-statistics/comprehensiveness', ui.views.pubstats_comprehensiveness, name="dash-publishingstats-comprehensiveness"),
+    path('publishing-statistics/comprehensiveness/core', ui.views.pubstats_comprehensiveness_core, name="dash-publishingstats-comprehensiveness-core"),
+    path('publishing-statistics/comprehensiveness/financials', ui.views.pubstats_comprehensiveness_financials, name="dash-publishingstats-comprehensiveness-financials"),
+    path('publishing-statistics/comprehensiveness/value-added', ui.views.pubstats_comprehensiveness_valueadded, name="dash-publishingstats-comprehensiveness-valueadded"),
     path('publishing-statistics/coverage', lambda x: None, name="dash-publishingstats-coverage"),
-    path('publishing-statistics/summary-statistics', lambda x: None, name="dash-publishingstats-summarystats"),
-    path('publishing-statistics/humanitarian-reporting', lambda x: None, name="dash-publishingstats-humanitarian"),
+    path('publishing-statistics/summary-statistics', ui.views.pubstats_summarystats, name="dash-publishingstats-summarystats"),
+    path('publishing-statistics/humanitarian-reporting', ui.views.pubstats_humanitarian, name="dash-publishingstats-humanitarian"),
+
+    # Registration agencies.
+    path('registration-agencies', ui.views.registration_agencies, name="dash-registrationagencies"),
+    path("registration_agencies.html", RedirectView.as_view(pattern_name="dash-registrationagencies", permanent=True))
 
     # Redirects to support any users with bookmarks to pages on the old Dashboard.
     # path('timeliness.html', redirect("dash-publishingstats-timeliness")),
@@ -76,4 +84,3 @@ urlpatterns = [
     # path('exploring_data.html', redirect("dash-exploringdata"))
 
 ]
-# Unsure where "rulesets" and "registration_agencies" should belong - can't find the route to these in make_html.py
