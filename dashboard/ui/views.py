@@ -1,10 +1,5 @@
 """Views for the IATI Dashboard"""
 
-# Note: in the page views I am unsure where "rulesets" and "registration_agencies" should
-# belong - they exist in text.page_tiles but I can't find the route to these in make_html.py
-# so not sure where they should fit.  I've not included them in the page_view_names so hopefully
-# an exception will be raised if they are referenced somewhere.
-
 import datetime
 import dateutil.parser
 import subprocess
@@ -15,7 +10,7 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 
 import comprehensiveness
-import config
+import filepaths
 import forwardlooking
 import humanitarian
 import text
@@ -43,15 +38,15 @@ from data import (
 
 
 COMMIT_HASH = subprocess.run('git show --format=%H --no-patch'.split(),
-                             cwd=config.join_base_path(""),
+                             cwd=filepaths.join_base_path(""),
                              capture_output=True).stdout.decode().strip()
 STATS_COMMIT_HASH = subprocess.run('git -C stats-calculated show --format=%H --no-patch'.split(),
-                                   cwd=config.join_base_path(""),
+                                   cwd=filepaths.join_base_path(""),
                                    capture_output=True).stdout.decode().strip()
 STATS_GH_URL = 'https://github.com/codeforIATI/IATI-Stats-public/tree/' + STATS_COMMIT_HASH
 
 # Load all the licenses and generate data for each licence and publisher.
-with open(config.join_stats_path('licenses.json')) as handler:
+with open(filepaths.join_stats_path('licenses.json')) as handler:
     LICENSE_URLS = json.load(handler)
 
 LICENSES = [

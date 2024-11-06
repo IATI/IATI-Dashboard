@@ -6,7 +6,7 @@ from data import get_registry_id_matches
 from data import publisher_name
 from data import publishers_ordered_by_title
 from data import secondary_publishers
-import config
+import filepaths
 
 
 def is_number(s):
@@ -180,7 +180,7 @@ def table():
 
 
 # Compile a list of Development finance institutions (DFIs)
-with open(config.join_base_path('dfi_publishers.csv'), 'r') as csv_file:
+with open(filepaths.join_base_path('dfi_publishers.csv'), 'r') as csv_file:
     reader = csv.reader(csv_file, delimiter=',')
     dfi_publishers = []
     for line in reader:
