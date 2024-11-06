@@ -1,12 +1,14 @@
 FROM python:3.12-bookworm
 
-WORKDIR /work
+WORKDIR /work/IATI-Dashboard/dashboard
 
 COPY requirements.txt /work/IATI-Dashboard/requirements.txt
 
 RUN git config --global --add safe.directory /work/IATI-Stats/data
 
 RUN pip install -r /work/IATI-Dashboard/requirements.txt
+
+COPY . /work/IATI-Dashboard
 
 # 2024-03-20: Emergency fix
 # We were seeing cert errors inside the docker container after a new Lets Encrypt was issued.
@@ -17,3 +19,5 @@ RUN pip install -r /work/IATI-Dashboard/requirements.txt
 # I tried installing the LE root cert's manually but that didn't work.
 # As live is broken for now we need this emergency fix, but we should remove it in the future.
 RUN echo "check_certificate=off" > /root/.wgetrc
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--timeout", "120", "ui.wsgi:application"]

@@ -1,4 +1,5 @@
 django
+gunicorn
 flask
 frozen-flask
 jinja2
