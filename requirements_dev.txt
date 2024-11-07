@@ -58,6 +58,8 @@ fonttools==4.54.1
     #   matplotlib
 frozen-flask==1.0.2
     # via -r requirements.txt
+gunicorn==23.0.0
+    # via -r requirements.txt
 idna==3.10
     # via
     #   -r requirements.txt
@@ -95,6 +97,7 @@ numpy==2.1.1
 packaging==24.1
     # via
     #   -r requirements.txt
+    #   gunicorn
     #   matplotlib
     #   pytest
 pillow==10.4.0
