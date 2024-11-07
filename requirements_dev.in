@@ -3,3 +3,6 @@ pytest
 pytest-cov
 coveralls
 flake8
+flake8-pyproject
+isort
+black
