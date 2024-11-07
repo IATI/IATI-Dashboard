@@ -1,10 +1,5 @@
 """Views for the IATI Dashboard"""
 
-# Note: in the page views I am unsure where "rulesets" and "registration_agencies" should
-# belong - they exist in text.page_tiles but I can't find the route to these in make_html.py
-# so not sure where they should fit.  I've not included them in the page_view_names so hopefully
-# an exception will be raised if they are referenced somewhere.
-
 import datetime
 import dateutil.parser
 import subprocess
@@ -15,7 +10,7 @@ from django.http import HttpResponse, Http404
 from django.template import loader
 
 import comprehensiveness
-import config
+import filepaths
 import forwardlooking
 import humanitarian
 import text
@@ -43,15 +38,15 @@ from data import (
 
 
 COMMIT_HASH = subprocess.run('git show --format=%H --no-patch'.split(),
-                             cwd=config.join_base_path(""),
+                             cwd=filepaths.join_base_path(""),
                              capture_output=True).stdout.decode().strip()
 STATS_COMMIT_HASH = subprocess.run('git -C stats-calculated show --format=%H --no-patch'.split(),
-                                   cwd=config.join_base_path(""),
+                                   cwd=filepaths.join_base_path(""),
                                    capture_output=True).stdout.decode().strip()
 STATS_GH_URL = 'https://github.com/codeforIATI/IATI-Stats-public/tree/' + STATS_COMMIT_HASH
 
 # Load all the licenses and generate data for each licence and publisher.
-with open(config.join_stats_path('licenses.json')) as handler:
+with open(filepaths.join_stats_path('licenses.json')) as handler:
     LICENSE_URLS = json.load(handler)
 
 LICENSES = [
@@ -321,6 +316,9 @@ def dataquality_licenses(request):
 def dataquality_licenses_detail(request, license_id=None):
     template = loader.get_template("license.html")
 
+    if license_id not in LICENSE_URLS:
+        raise Http404("Unknown license")
+
     publishers = [
         publisher_name
         for publisher_name, publisher in ckan.items()
@@ -365,6 +363,10 @@ def exploringdata_elements(request):
 def exploringdata_element_detail(request, element=None):
     template = loader.get_template("element.html")
     context = _make_context("elements")
+
+    if element not in slugs['element']['by_slug']:
+        raise Http404("Unknown element or attribute")
+
     i = slugs['element']['by_slug'][element]
     context["element"] = list(current_stats['inverted_publisher']['elements'])[i]
     context["publishers"] = list(current_stats['inverted_publisher']['elements'].values())[i]
@@ -378,7 +380,9 @@ def exploringdata_orgids(request):
 
 
 def exploringdata_orgtypes_detail(request, org_type=None):
-    assert org_type in slugs['org_type']['by_slug']
+    if org_type not in slugs['org_type']['by_slug']:
+        raise Http404("Unknown organisation type")
+
     template = loader.get_template("org_type.html")
     context = _make_context("org_ids")
     context["slug"] = org_type
@@ -392,6 +396,11 @@ def exploringdata_codelists(request):
 
 def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     template = loader.get_template("codelist.html")
+
+    if major_version not in slugs['codelist']:
+        raise Http404("Unknown major version of the IATI standard")
+    if attribute not in slugs['codelist'][major_version]['by_slug']:
+        raise Http404("Unknown attribute")
 
     context = _make_context("codelists")
     i = slugs['codelist'][major_version]['by_slug'][attribute]

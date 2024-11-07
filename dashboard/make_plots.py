@@ -13,7 +13,7 @@ import numpy as np  # noqa: F401
 from tqdm import tqdm
 import common
 import data
-import config
+import filepaths
 from vars import expected_versions  # noqa: F401
 import matplotlib as mpl
 mpl.use('Agg')
@@ -96,7 +96,7 @@ def make_plot(stat_path, git_stats, img_prefix=''):
         else:
             fig_legend.legend(plots.values(), plots.keys(), loc='center', ncol=4)
             fig_legend.set_size_inches(600.0 / dpi, 100.0 / dpi)
-        fig_legend.savefig(config.join_out_path('{0}{1}{2}_legend.png'.format(img_prefix, stat_name, stat_path[2])))
+        fig_legend.savefig(filepaths.join_out_path('{0}{1}{2}_legend.png'.format(img_prefix, stat_name, stat_path[2])))
     else:
         keys = None
         ax.plot(x_values, y_values)
@@ -123,10 +123,10 @@ def make_plot(stat_path, git_stats, img_prefix=''):
 
     ax.ticklabel_format(axis='y', style='plain', useOffset=False)
 
-    fig.savefig(config.join_out_path('{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) is tuple else '')), dpi=dpi)
+    fig.savefig(filepaths.join_out_path('{0}{1}{2}.png'.format(img_prefix, stat_name, stat_path[2] if type(stat_path) is tuple else '')), dpi=dpi)
     plt.close('all')
 
-    fn = config.join_out_path('{0}{1}.csv'.format(img_prefix, stat_name))
+    fn = filepaths.join_out_path('{0}{1}.csv'.format(img_prefix, stat_name))
     with open(fn, 'w') as fp:
         writer = csv.writer(fp)
         if keys:
@@ -148,15 +148,15 @@ def main():
     args = parser.parse_args()
 
     # Load data required for loading stats.
-    failed_downloads = csv.reader(open(config.join_data_path('downloads/history.csv')))
-    gitaggregate_publisher = data.JSONDir(config.join_stats_path('gitaggregate-publisher-dated'))
+    failed_downloads = csv.reader(open(filepaths.join_data_path('downloads/history.csv')))
+    gitaggregate_publisher = data.JSONDir(filepaths.join_stats_path('gitaggregate-publisher-dated'))
 
     # Generate plots for aggregated stats for all data.
     logger.info("Generating plots for all aggregated data")
-    git_stats = AugmentedJSONDir(config.join_stats_path('gitaggregate-dated'),
+    git_stats = AugmentedJSONDir(filepaths.join_stats_path('gitaggregate-dated'),
                                  failed_downloads,
                                  gitaggregate_publisher)
-    os.makedirs(config.join_out_path('img/aggregate'), exist_ok=True)
+    os.makedirs(filepaths.join_out_path('img/aggregate'), exist_ok=True)
 
     _paths = [
             'activities',
@@ -192,10 +192,10 @@ def main():
 
     # Generate plots for each publisher.
     logger.info("Generating plots for all publishers")
-    git_stats_publishers = AugmentedJSONDir(config.join_stats_path('gitaggregate-publisher-dated/'),
+    git_stats_publishers = AugmentedJSONDir(filepaths.join_stats_path('gitaggregate-publisher-dated/'),
                                             failed_downloads,
                                             gitaggregate_publisher)
-    os.makedirs(config.join_out_path('img/publishers'), exist_ok=True)
+    os.makedirs(filepaths.join_out_path('img/publishers'), exist_ok=True)
 
     with tqdm(total=len(git_stats_publishers)) as pbar:
         if args.verbose:

@@ -6,32 +6,28 @@ a different module, but for now this helps in refactoring the code.
 
 import os.path
 
-
-STATS_DIRECTORY = "../stats-calculated"
-DATA_DIRECTORY = "../data"
-BASE_DIRECTORY = "../"
-OUT_DIRECTORY = "../out"
+import ui.settings
 
 
 def join_stats_path(p: str) -> str:
     """Make a path to a file or directory within the downloaded stats directory
     """
-    return os.path.join(STATS_DIRECTORY, p)
+    return os.path.join(ui.settings.DASHBOARD_STATS_DIRECTORY, p)
 
 
 def join_data_path(p: str) -> str:
     """Make a path to a file or directory within the downloaded data directory
     """
-    return os.path.join(DATA_DIRECTORY, p)
+    return os.path.join(ui.settings.DASHBOARD_DATA_DIRECTORY, p)
 
 
 def join_base_path(p: str) -> str:
     """Make a path to a file or directory relative to the base of the dashboard directory
     """
-    return os.path.join(BASE_DIRECTORY, p)
+    return os.path.join(ui.settings.DASHBOARD_BASE_DIRECTORY, p)
 
 
 def join_out_path(p: str) -> str:
     """Make a path to a file or directory relative to the base of the out directory
     """
-    return os.path.join(OUT_DIRECTORY, p)
+    return os.path.join(ui.settings.DASHBOARD_OUT_DIRECTORY, p)
