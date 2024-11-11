@@ -1,20 +1,19 @@
 """Generates CSV files from data in the 'stats-calculated' folder and using additional logic
 """
 
+import argparse
 import csv
+import logging
 import os
 import sys
-import argparse
-import logging
 
-import data
-import timeliness
-import forwardlooking
 import comprehensiveness
-import summary_stats
-import humanitarian
+import data
 import filepaths
-
+import forwardlooking
+import humanitarian
+import summary_stats
+import timeliness
 
 logger = logging.getLogger(__name__)
 

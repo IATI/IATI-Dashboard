@@ -1,12 +1,14 @@
 # This file converts a range coverage data to variables which can be outputted on the coverage page
 import csv
 
-from data import get_publisher_stats
-from data import get_registry_id_matches
-from data import publisher_name
-from data import publishers_ordered_by_title
-from data import secondary_publishers
 import filepaths
+from data import (
+    get_publisher_stats,
+    get_registry_id_matches,
+    publisher_name,
+    publishers_ordered_by_title,
+    secondary_publishers,
+)
 
 
 def is_number(s):

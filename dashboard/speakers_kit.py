@@ -1,9 +1,9 @@
-import json
-import data
 import csv
+import json
 from collections import defaultdict
 from itertools import zip_longest
 
+import data
 import filepaths
 
 

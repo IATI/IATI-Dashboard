@@ -1,7 +1,8 @@
 # This file converts raw forward-looking data to percentages
 
-from data import publishers_ordered_by_title, get_publisher_stats, publisher_name
 import datetime
+
+from data import get_publisher_stats, publisher_name, publishers_ordered_by_title
 
 # Create a variable with the current year as an integer
 this_year = datetime.date.today().year

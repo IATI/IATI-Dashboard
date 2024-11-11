@@ -1,10 +1,12 @@
 # This file converts raw timeliness data into the associated Publishing Statistics assessments
 
-from data import JSONDir, publisher_name, get_publisher_stats, get_registry_id_matches
 import datetime
+from collections import Counter, defaultdict
+
 from dateutil.relativedelta import relativedelta
-from collections import defaultdict, Counter
+
 import filepaths
+from data import JSONDir, get_publisher_stats, get_registry_id_matches, publisher_name
 
 
 def short_month(month_str):

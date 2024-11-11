@@ -21,7 +21,6 @@ from django.views.generic.base import RedirectView
 
 import ui.views
 
-
 urlpatterns = [
     path("admin/", admin.site.urls),
     # Top level dashboard pages.

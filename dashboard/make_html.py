@@ -7,38 +7,38 @@ import json
 import re
 import subprocess
 from collections import defaultdict
-
-from flask import Flask, render_template, abort, Response, send_from_directory
+from datetime import UTC, datetime
 
 import licenses
-import timeliness
-import forwardlooking
+from dateutil import parser
+from flask import Flask, Response, abort, render_template, send_from_directory
+
 import comprehensiveness
+import forwardlooking
+import humanitarian
 
 # import coverage
 import summary_stats
-import humanitarian
-from vars import expected_versions
 import text
-from datetime import datetime, UTC
-from dateutil import parser
+import timeliness
 from data import (
+    MAJOR_VERSIONS,
     ckan,
     ckan_publishers,
+    codelist_lookup,
     codelist_mapping,
     codelist_sets,
-    codelist_lookup,
     current_stats,
     dataset_to_publisher_dict,
-    github_issues,
     get_publisher_stats,
-    MAJOR_VERSIONS,
+    github_issues,
+    is_valid_element,
     metadata,
     publisher_name,
     publishers_ordered_by_title,
-    is_valid_element,
     slugs,
 )
+from vars import expected_versions
 
 app = Flask(__name__, static_url_path="")
 

@@ -1,42 +1,40 @@
 """Views for the IATI Dashboard"""
 
-import datetime
-import dateutil.parser
-import subprocess
-import json
 import collections
+import datetime
+import json
+import subprocess
 
-from django.http import HttpResponse, Http404
+import dateutil.parser
+from django.http import Http404, HttpResponse
 from django.template import loader
 
 import comprehensiveness
 import filepaths
 import forwardlooking
 import humanitarian
+import summary_stats
 import text
 import timeliness
-import summary_stats
 import ui.template_funcs
 import vars
-
 from data import (
+    MAJOR_VERSIONS,
     ckan,
     ckan_publishers,
+    codelist_lookup,
     codelist_mapping,
     codelist_sets,
-    codelist_lookup,
     current_stats,
     dataset_to_publisher_dict,
-    github_issues,
     get_publisher_stats,
-    MAJOR_VERSIONS,
+    github_issues,
+    is_valid_element_or_attribute,
     metadata,
     publisher_name,
     publishers_ordered_by_title,
-    is_valid_element_or_attribute,
     slugs,
 )
-
 
 COMMIT_HASH = (
     subprocess.run("git show --format=%H --no-patch".split(), cwd=filepaths.join_base_path(""), capture_output=True)

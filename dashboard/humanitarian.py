@@ -1,7 +1,7 @@
 # This file builds a table to show humanitarian reporting for each publisher
 
-from data import publishers_ordered_by_title, get_publisher_stats
 import common
+from data import get_publisher_stats, publishers_ordered_by_title
 
 # Set column groupings, to be displayed in the user output
 columns = [

@@ -1,6 +1,6 @@
 # This file converts raw comprehensiveness data to percentages, and calculates averages.
 
-from data import publishers_ordered_by_title, get_publisher_stats, publisher_name
+from data import get_publisher_stats, publisher_name, publishers_ordered_by_title
 
 columns = {
     "summary": [

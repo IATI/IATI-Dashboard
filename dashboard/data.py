@@ -1,9 +1,9 @@
-from collections import OrderedDict
-from collections.abc import MutableMapping
+import csv
 import json
 import os
 import re
-import csv
+from collections import OrderedDict
+from collections.abc import MutableMapping
 from decimal import Decimal
 
 import xmlschema

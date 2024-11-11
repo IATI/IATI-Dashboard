@@ -1,8 +1,8 @@
 """Load IATI OrganisationType codelist into a global and provide function to get publisher type"""
 
-import data
 import json
 
+import data
 import filepaths
 
 #  Import organisation_type_codelist as a global, then delete when used to save memory

@@ -1,10 +1,10 @@
 # This file converts a range of transparency data to percentages
 
-from data import publishers_ordered_by_title, get_publisher_stats, secondary_publishers
 import common
-import timeliness
-import forwardlooking
 import comprehensiveness
+import forwardlooking
+import timeliness
+from data import get_publisher_stats, publishers_ordered_by_title, secondary_publishers
 
 # Set column groupings, to be displayed in the user output
 columns = [

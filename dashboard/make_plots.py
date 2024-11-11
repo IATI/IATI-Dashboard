@@ -2,25 +2,25 @@
 """ Generates static images of stats graphs using matplotlib.
 """
 
-import logging
-import datetime
 import argparse
+import csv
+import datetime
+import logging
 import os  # noqa: F401
 from collections import defaultdict
-import csv
 
+import matplotlib as mpl
 import numpy as np  # noqa: F401
 from tqdm import tqdm
+
 import common
 import data
 import filepaths
 from vars import expected_versions  # noqa: F401
-import matplotlib as mpl
 
 mpl.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.dates as mdates  # noqa: E402
-
+import matplotlib.pyplot as plt  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
