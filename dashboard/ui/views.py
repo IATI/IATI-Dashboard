@@ -30,7 +30,6 @@ from data import (
     get_publisher_stats,
     github_issues,
     is_valid_element_or_attribute,
-    metadata,
     publisher_name,
     publishers_ordered_by_title,
     slugs,
@@ -113,6 +112,10 @@ def nested_dictinvert(d):
 
 def _make_context(page_name: str):
     """Make a basic context dictionary for a given page"""
+
+    date_time_data_str = max(json.load(open("../stats-calculated/gitdate.json")).values())
+    date_time_data_obj = dateutil.parser.parse(date_time_data_str)
+
     context = dict(
         page=page_name,
         top_titles=text.top_titles,
@@ -166,9 +169,8 @@ def _make_context(page_name: str):
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
-        metadata=metadata,
         slugs=slugs,
-        datetime_data=dateutil.parser.parse(metadata["created_at"]).strftime("%-d %B %Y (at %H:%M %Z)"),
+        datetime_data=date_time_data_obj.strftime("%-d %B %Y (at %H:%M %Z)"),
         current_year=datetime.datetime.now(datetime.UTC).year,
         stats_url="/stats",
         generated_url="/generated",
