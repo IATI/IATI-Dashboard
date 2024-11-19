@@ -10,11 +10,13 @@ from jinja2 import Environment
 import timeliness
 
 
-def round_nicely(val, ndigits=2):
+def round_nicely(val, ndigits=0):
     """Round a float, but remove the trailing .0 from integers that python insists on"""
-    if int(val) == float(val):
+    if val == "-":
+        return val
+    val = round(float(val), ndigits)
+    if val == int(val):
         return int(val)
-    return round(float(val), ndigits)
 
 
 def xpath_to_url(path):

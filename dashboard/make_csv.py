@@ -14,6 +14,7 @@ import forwardlooking
 import humanitarian
 import summary_stats
 import timeliness
+from ui.jinja2 import round_nicely
 
 logger = logging.getLogger(__name__)
 
@@ -173,7 +174,11 @@ def main():
         for row in forwardlooking.table():
             writer.writerow(
                 [row["publisher_title"], row["publisher"]]
-                + [year_column[year] for year_column in row["year_columns"] for year in forwardlooking.years]
+                + [
+                    round_nicely(year_column[year])
+                    for year_column in row["year_columns"]
+                    for year in forwardlooking.years
+                ]
             )
 
     for tab in comprehensiveness.columns.keys():
@@ -191,10 +196,13 @@ def main():
                     writer.writerow(
                         [row["publisher_title"], row["publisher"]]
                         + [
-                            row[slug + "_valid"] if slug in row else "-"
+                            round_nicely(row[slug + "_valid"]) if slug in row else "-"
                             for slug in comprehensiveness.column_slugs[tab]
                         ]
-                        + [row[slug] if slug in row else "-" for slug in comprehensiveness.column_slugs[tab]]
+                        + [
+                            round_nicely(row[slug]) if slug in row else "-"
+                            for slug in comprehensiveness.column_slugs[tab]
+                        ]
                         + ["Yes" if row["flag"] else "-"]
                     )
             else:
@@ -207,10 +215,13 @@ def main():
                     writer.writerow(
                         [row["publisher_title"], row["publisher"]]
                         + [
-                            row[slug + "_valid"] if slug in row else "-"
+                            round_nicely(row[slug + "_valid"]) if slug in row else "-"
                             for slug in comprehensiveness.column_slugs[tab]
                         ]
-                        + [row[slug] if slug in row else "-" for slug in comprehensiveness.column_slugs[tab]]
+                        + [
+                            round_nicely(row[slug]) if slug in row else "-"
+                            for slug in comprehensiveness.column_slugs[tab]
+                        ]
                     )
 
     logger.info("Generating summary_stats.csv")
@@ -223,7 +234,11 @@ def main():
         for row in summary_stats.table():
             # Write each row
             writer.writerow(
-                [row["publisher_title"], row["publisher"]] + [row[slug] for slug, header in summary_stats.columns]
+                [row["publisher_title"], row["publisher"]]
+                + [
+                    row[slug] if header == "Publisher Type" else round_nicely(row[slug])
+                    for slug, header in summary_stats.columns
+                ]
             )
 
     logger.info("Generating humanitarian.csv")
@@ -250,11 +265,11 @@ def main():
                     row["publisher"],
                     row["publisher_type"],
                     row["num_activities"],
-                    row["publishing_humanitarian"],
-                    row["humanitarian_attrib"],
-                    row["appeal_emergency"],
-                    row["clusters"],
-                    row["average"],
+                    round_nicely(row["publishing_humanitarian"]),
+                    round_nicely(row["humanitarian_attrib"]),
+                    round_nicely(row["appeal_emergency"]),
+                    round_nicely(row["clusters"]),
+                    round_nicely(row["average"]),
                 ]
             )
 
