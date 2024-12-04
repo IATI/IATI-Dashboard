@@ -7,10 +7,10 @@ information in one file per publisher.
 We're particulary looking for information such as
 name, organisation type, and the link back to the registry
 """
-from pathlib import Path
-from os.path import join
-from os import makedirs
 import json
+from os import makedirs
+from os.path import join
+from pathlib import Path
 
 import requests
 

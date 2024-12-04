@@ -1,10 +1,10 @@
 """
 Fetch codeforIATI/iati-data-bugtracker github issues
 """
-from pathlib import Path
-from collections import defaultdict
-import os
 import json
+import os
+from collections import defaultdict
+from pathlib import Path
 
 import requests
 

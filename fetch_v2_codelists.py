@@ -1,10 +1,9 @@
-from os.path import join
-from os import makedirs
 import json
+from os import makedirs
+from os.path import join
 
 import requests
 from lxml import etree as ET
-
 
 output_path = join(
     'data', 'IATI-Codelists-2', 'out', 'clv2', 'json', 'en')
