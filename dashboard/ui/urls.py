@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic.base import RedirectView
@@ -178,4 +179,5 @@ urlpatterns = [
     ),
     re_path(r"element\/\S*.html", RedirectView.as_view(pattern_name="dash-exploringdata-elements", permanent=True)),
     re_path(r"org_type\/\S*.html", RedirectView.as_view(pattern_name="dash-exploringdata-orgids", permanent=True)),
-]
+] + static("generated", document_root="../out")
+# ^ Serve generated files when using runserver for development
