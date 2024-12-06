@@ -5,6 +5,7 @@ import comprehensiveness
 import forwardlooking
 import timeliness
 from data import get_publisher_stats, publishers_ordered_by_title, secondary_publishers
+from ui.jinja2 import round_nicely
 
 # Set column groupings, to be displayed in the user output
 columns = [
@@ -89,7 +90,7 @@ def table():
             timelag_score = 0
 
         # Compute the percentage
-        row["timeliness"] = (float(frequency_score + timelag_score) / 8) * 100
+        row["timeliness"] = round_nicely((float(frequency_score + timelag_score) / 8) * 100)
 
         # Compute forward-looking statistic
         # Get the forward-looking data for this publisher
@@ -99,8 +100,8 @@ def table():
         numbers = [int(x) for x in publisher_forwardlooking_data["year_columns"][2].values() if is_number(x)]
 
         # Compute and store the mean average for these fields
-        row["forwardlooking"] = sum(int(round(y)) for y in numbers) / len(
-            publisher_forwardlooking_data["year_columns"][2]
+        row["forwardlooking"] = round_nicely(
+            sum(int(round(y)) for y in numbers) / len(publisher_forwardlooking_data["year_columns"][2])
         )
 
         # Compute comprehensiveness statistic
@@ -111,7 +112,7 @@ def table():
         row["comprehensiveness"] = convert_to_float(publisher_comprehensiveness_data["summary_average_valid"])
 
         # Compute score
-        row["score"] = float(row["timeliness"] + row["forwardlooking"] + row["comprehensiveness"]) / 3
+        row["score"] = round_nicely(float(row["timeliness"] + row["forwardlooking"] + row["comprehensiveness"]) / 3)
 
         # Return a generator object
         yield row

@@ -3,6 +3,7 @@
 import datetime
 
 from data import get_publisher_stats, publisher_name, publishers_ordered_by_title
+from ui.jinja2 import round_nicely
 
 # Create a variable with the current year as an integer
 this_year = datetime.date.today().year
@@ -87,7 +88,7 @@ def generate_row(publisher):
             if not int(row["year_columns"][0][year]):
                 row["year_columns"][2][year] = "-"
             else:
-                row["year_columns"][2][year] = (
+                row["year_columns"][2][year] = round_nicely(
                     float(row["year_columns"][1][year]) / float(row["year_columns"][0][year]) * 100
                 )
         else:

@@ -1,6 +1,7 @@
 # This file converts raw comprehensiveness data to percentages, and calculates averages.
 
 from data import get_publisher_stats, publisher_name, publishers_ordered_by_title
+from ui.jinja2 import round_nicely
 
 columns = {
     "summary": [
@@ -173,19 +174,20 @@ def generate_row(publisher):
 
         if denominator(slug, publisher_base) != 0:
             # Populate the row with the %age
-            row[slug] = float(numerator_all) / denominator(slug, publisher_base) * 100
-            row[slug + "_valid"] = float(numerator_valid) / denominator(slug, publisher_base) * 100
+            row[slug] = round_nicely(float(numerator_all) / denominator(slug, publisher_base) * 100)
+            row[slug + "_valid"] = round_nicely(float(numerator_valid) / denominator(slug, publisher_base) * 100)
 
     # Loop for averages
     # Calculate the average for each grouping, and the overall 'summary' average
     for page in ["core", "financials", "valueadded", "summary"]:
         # Note that the summary must be last, so that it can use the average calculations from the other groupings
-        row[page + "_average"] = sum((row.get(x[0]) or 0) * x[2] for x in columns[page]) / float(
-            sum(x[2] for x in columns[page])
+        row[page + "_average"] = round_nicely(
+            sum((row.get(x[0]) or 0) * x[2] for x in columns[page]) / float(sum(x[2] for x in columns[page]))
         )
 
-        row[page + "_average_valid"] = sum((row.get(x[0] + "_valid") or 0) * x[2] for x in columns[page]) / float(
-            sum(x[2] for x in columns[page])
+        row[page + "_average_valid"] = round_nicely(
+            sum((row.get(x[0] + "_valid") or 0) * x[2] for x in columns[page])
+            / float(sum(x[2] for x in columns[page]))
         )
 
     return row
