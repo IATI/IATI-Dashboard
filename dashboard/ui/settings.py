@@ -12,18 +12,24 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+import environ
+from django.utils.crypto import get_random_string
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+chars = "abcdefghijklmnopqrstuvwxyz0123456789!@#%^&*(-_=+)"
+secret_key = get_random_string(50, chars)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+env = environ.Env(  # set default values and casting
+    DEBUG=(bool, False),
+    SECRET_KEY=(str, secret_key),
+)
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-4i8e#n)gr2@wol5i4y@od0za_&y+idpz*-t5v)#-6s(&rhl=k&"
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env("SECRET_KEY")
+
+DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
 

@@ -78,7 +78,7 @@ cp ../img/publishers static/
 From `./dashboard/`:
 
 ```
-python manage.py runserver
+DEBUG=True python manage.py runserver
 ```
 
 The Dashboard will now be accessible from `localhost:8000/`.
