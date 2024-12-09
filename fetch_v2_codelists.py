@@ -11,7 +11,10 @@ makedirs(output_path)
 resp = requests.get('https://codelists.codeforiati.org/api/')
 codelists = resp.json()['formats']['json']['languages']['en']
 for codelist_name, codelist_url in codelists.items():
-    codelist_json = requests.get(codelist_url).json()
+    r = requests.get("http://dev.iatistandard.org/reference_downloads/203/codelists/downloads/clv3/json/en/" + codelist_url.split("/")[-1])
+    if r.status_code == 404:
+        continue
+    codelist_json = r.json()
     with open(join(output_path, codelist_name + '.json'), 'w') as f:
         json.dump(codelist_json, f)
 
@@ -28,8 +31,9 @@ def mapping_to_json(mappings):
 
 
 mapping_urls = [
-    'https://raw.githubusercontent.com/codeforIATI/IATI-Codelists/version-2.03/mapping.xml',
-    'https://raw.githubusercontent.com/codeforIATI/Unofficial-Codelists/master/mapping.xml']
+    'https://raw.githubusercontent.com/IATI/IATI-Codelists/version-2.03/mapping.xml',
+    ]
+#    'https://raw.githubusercontent.com/codeforIATI/Unofficial-Codelists/master/mapping.xml']
 mappings = []
 for mapping_url in mapping_urls:
     resp = requests.get(mapping_url)

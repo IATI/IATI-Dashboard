@@ -50,7 +50,6 @@ STATS_COMMIT_HASH = (
     .stdout.decode()
     .strip()
 )
-STATS_GH_URL = "https://github.com/codeforIATI/IATI-Stats-public/tree/" + STATS_COMMIT_HASH
 
 # Load all the licenses and generate data for each licence and publisher.
 with open(filepaths.join_stats_path("licenses.json")) as handler:
@@ -171,8 +170,8 @@ def _make_context(page_name: str):
         slugs=slugs,
         datetime_data=dateutil.parser.parse(metadata["created_at"]).strftime("%-d %B %Y (at %H:%M %Z)"),
         current_year=datetime.datetime.now(datetime.UTC).year,
-        stats_url="https://stats.codeforiati.org",
-        stats_gh_url=STATS_GH_URL,
+        stats_url="/stats",
+        generated_url="/generated",
         commit_hash=COMMIT_HASH,
         stats_commit_hash=STATS_COMMIT_HASH,
         func={

@@ -20,9 +20,9 @@
             {% if description %}
               <p>{{ description|safe }}</p>
             {% endif %}
-            <img src="{{ static(image) }}" width="100%" />
+            <img src="{{ generated_url }}/{{ image }}" width="100%" />
             {% if legend %}
-            <img src="{{ static(legend) }}" width="100%" />
+              <img src="{{ generated_url }}/{{ legend }}" width="100%" />
             {% endif %}
           </div>
         </div>

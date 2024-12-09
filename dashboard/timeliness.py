@@ -228,8 +228,12 @@ def has_future_transactions(publisher):
 
     gitaggregate_publisher = JSONDir(filepaths.join_stats_path("gitaggregate-publisher-dated")).get(publisher, {})
     mindate = datetime.date(today.year - 1, today.month, 1)
-    for date, activity_blacklist in gitaggregate_publisher.get("activities_with_future_transactions", {}).items():
-        if parse_iso_date(date) >= mindate and activity_blacklist:
+    for date_string, latest_transaction_date_string in gitaggregate_publisher.get(
+        "latest_transaction_date", {}
+    ).items():
+        date = parse_iso_date(date_string)
+        latest_transaction_date = parse_iso_date(latest_transaction_date_string)
+        if date >= mindate and latest_transaction_date and latest_transaction_date > date:
             return 1
     return 0
 
