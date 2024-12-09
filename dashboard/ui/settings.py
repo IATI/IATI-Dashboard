@@ -31,7 +31,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
 
 
 # Application definition
@@ -153,3 +153,5 @@ DASHBOARD_STATS_DIRECTORY = "../stats-calculated"
 DASHBOARD_DATA_DIRECTORY = "../data"
 DASHBOARD_BASE_DIRECTORY = "../"
 DASHBOARD_OUT_DIRECTORY = "../out"
+
+DASHBOARD_CREATE_CACHE_FILES = False

@@ -6,6 +6,7 @@ from collections import Counter, defaultdict
 from dateutil.relativedelta import relativedelta
 
 import filepaths
+from cache import json_cache
 from data import JSONDir, get_publisher_stats, get_registry_id_matches, publisher_name
 
 
@@ -56,6 +57,7 @@ this_month_number = datetime.datetime.today().month
 this_year = datetime.datetime.today().year
 
 
+@json_cache("timeliness_frequency.json")
 def publisher_frequency():
     """Generate the publisher frequency data"""
 
@@ -185,11 +187,12 @@ def first_published_band_index(first_published_band):
     ].index(first_published_band)
 
 
+@json_cache("timeliness_timelag.json")
 def publisher_timelag():
     return [
         (
             publisher,
-            publisher_name.get(publisher),
+            publisher_name.get(publisher, ""),
             agg["transaction_months_with_year"],
             agg["timelag"],
             has_future_transactions(publisher),

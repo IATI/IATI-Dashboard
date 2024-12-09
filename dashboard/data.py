@@ -121,7 +121,7 @@ class JSONDir(MutableMapping):
         global PUBLISHER_LIST
 
         if PUBLISHER_LIST is None:
-            PUBLISHER_LIST = JSONDir(filepaths.join_stats_path('current/aggregated-publisher')).keys()
+            PUBLISHER_LIST = JSONDir(filepaths.join_stats_path("current/aggregated-publisher")).keys()
 
         # Get a list of the parts that are contained within this filepath
         path = os.path.normpath(self.folder)

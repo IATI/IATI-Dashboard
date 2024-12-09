@@ -1,6 +1,7 @@
 # This file builds a table to show humanitarian reporting for each publisher
 
 import common
+from cache import json_cache
 from data import get_publisher_stats, publishers_ordered_by_title
 
 # Set column groupings, to be displayed in the user output
@@ -16,6 +17,7 @@ columns = [
 ]
 
 
+@json_cache("humanitarian.json")
 def table():
     """Generate data for the humanitarian table"""
 

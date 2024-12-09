@@ -4,6 +4,7 @@ import common
 import comprehensiveness
 import forwardlooking
 import timeliness
+from cache import json_cache
 from data import get_publisher_stats, publishers_ordered_by_title, secondary_publishers
 from ui.jinja2 import round_nicely
 
@@ -35,6 +36,7 @@ def convert_to_float(x):
         return 0
 
 
+@json_cache("summary_stats.json")
 def table():
     """Generate data for the publisher forward-looking table"""
 
