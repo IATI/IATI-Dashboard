@@ -203,7 +203,6 @@ ckan = json.load(open(filepaths.join_stats_path("ckan.json")), object_pairs_hook
 dataset_to_publisher_dict = {
     dataset: publisher for publisher, publisher_dict in ckan.items() for dataset in publisher_dict.keys()
 }
-metadata = json.load(open(filepaths.join_stats_path("metadata.json")), object_pairs_hook=OrderedDict)
 with open(filepaths.join_data_path("downloads/errors")) as fp:
     for line in fp:
         if line != ".\n":
