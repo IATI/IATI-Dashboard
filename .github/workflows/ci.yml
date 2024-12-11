@@ -31,7 +31,7 @@ jobs:
     - name: Fetch stats
       run: |
         mkdir out
-        ./get_stats.sh
+        ./mock_stats_for_unit_tests.sh
     - name: Run tests
       run: pytest --cov .
     # - name: Coveralls
