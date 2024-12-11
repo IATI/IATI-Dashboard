@@ -17,8 +17,12 @@ python make_plots.py || exit 1
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
 python make_csv.py || exit 1
 
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers kit.py"
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers_kit.py"
 python speakers_kit.py || exit 1
+
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running create_caches.py"
+rm -r cache
+python create_caches.py || exit 1
 
 cd ..
 

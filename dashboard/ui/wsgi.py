@@ -11,6 +11,9 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
+# Import data here so it's in gunicorn's preload
+import data  # noqa F401
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ui.settings")
 
 application = get_wsgi_application()

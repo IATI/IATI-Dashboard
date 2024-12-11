@@ -49,8 +49,9 @@
             <tbody>
                 {% for package, activities in current_stats.inverted_file.activities.items() %}
                 <tr>
-                    <td class="break"><a href="{{ url("dash-headlines-publisher-detail", args=[func.dataset_to_publisher(package[:-4])]) }}">{{ publisher_name[func.dataset_to_publisher(package[:-4])] }}</a></td>
-                    <td class="break"><a href="http://iatiregistry.org/dataset/{{ package[:-4] }}">{{ package[:-4] }}</a></td>
+                    {% set publisher=func.dataset_to_publisher(package) %}
+                    <td class="break"><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_name[func.dataset_to_publisher(package)] }}</a></td>
+                    <td class="break"><a href="http://iatiregistry.org/dataset/{{ package }}">{{ package }}</a></td>
                     <td>{{ activities }}</td>
                     <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
                     <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>

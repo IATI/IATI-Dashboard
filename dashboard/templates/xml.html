@@ -28,8 +28,9 @@
             {% for dataset, invalid in current_stats.inverted_file.invalidxml.items() %}
             {% if invalid %}
             <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[func.dataset_to_publisher(dataset[:-4])]) }}">{{ func.dataset_to_publisher(dataset[:-4]) }}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
+                {% set publisher=func.dataset_to_publisher(package) %}
+                <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -55,8 +56,9 @@
             {% for dataset, nonstandard in current_stats.inverted_file.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[func.dataset_to_publisher(dataset[:-4])]) }}">{{ func.dataset_to_publisher(dataset[:-4]) }}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
+                {% set publisher=func.dataset_to_publisher(package) %}
+                <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}

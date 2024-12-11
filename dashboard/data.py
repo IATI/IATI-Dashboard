@@ -28,6 +28,9 @@ def memoize(f):
     return wrapper
 
 
+PUBLISHER_LIST = None
+
+
 class JSONDir(MutableMapping):
     """Produces an object, to be used to access JSON-formatted publisher data and return
     this as an ordered dictionary (with nested dictionaries, if appropriate).
@@ -115,13 +118,18 @@ class JSONDir(MutableMapping):
         Note, this is a super hacky way to do this, prize available if a better way is found to do this!
         """
 
+        global PUBLISHER_LIST
+
+        if PUBLISHER_LIST is None:
+            PUBLISHER_LIST = JSONDir(filepaths.join_stats_path("current/aggregated-publisher")).keys()
+
         # Get a list of the parts that are contained within this filepath
         path = os.path.normpath(self.folder)
         path_components = path.split(os.sep)
 
         # Loop over this list and return the publisher name if it is found within the historic list of publishers
         for x in path_components:
-            if x in JSONDir(filepaths.join_stats_path("current/aggregated-publisher")).keys():
+            if x in PUBLISHER_LIST:
                 return x
 
         # If got to the end of the loop and nothing found, this folder does not relate to a single publisher
