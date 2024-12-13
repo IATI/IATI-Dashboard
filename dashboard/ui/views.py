@@ -110,7 +110,7 @@ def nested_dictinvert(d):
     return inv
 
 
-def _make_context(page_name: str):
+def _make_context(page_name: str, include_large_dicts: bool = True):
     """Make a basic context dictionary for a given page"""
 
     with open(filepaths.join_stats_path("gitdate.json")) as fp:
@@ -159,14 +159,8 @@ def _make_context(page_name: str):
             "summary_stats": "dash-publishingstats-summarystats",
             "humanitarian": "dash-publishingstats-humanitarian",
         },
-        current_stats=current_stats,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
-        ckan_publishers=ckan_publishers,
-        ckan=ckan,
-        codelist_lookup=codelist_lookup,
-        codelist_mapping=codelist_mapping,
-        codelist_sets=codelist_sets,
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
@@ -188,6 +182,16 @@ def _make_context(page_name: str):
             "enumerate": enumerate,
         },
     )
+
+    if include_large_dicts:
+        # Have the option to exclude these dicts, as they slow the debug pages down consiberably
+        context["current_stats"] = current_stats
+        context["ckan_publishers"] = ckan_publishers
+        context["ckan"] = ckan
+        context["codelist_lookup"] = codelist_lookup
+        context["codelist_mapping"] = codelist_mapping
+        context["codelist_sets"] = codelist_sets
+
     context["navigation_reverse"].update({k: k for k in text.navigation})
 
     return context
