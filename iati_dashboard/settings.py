@@ -39,6 +39,7 @@ ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
 INSTALLED_APPS = [
     "iati_dashboard",
     "iati_dashboard.ui",
+    "cachalot",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -85,6 +86,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
             ],
             "environment": "iati_dashboard.ui.jinja2.environment",
+            "extensions": ["cachalot.jinja2ext.cachalot"],
         },
     },
 ]
@@ -142,6 +144,14 @@ STATIC_ROOT = "static"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Cache in local memory
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
 
 #
 # Relative (to dashboard/) paths to IATI data and output directories.

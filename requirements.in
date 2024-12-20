@@ -1,5 +1,6 @@
 django
 django-environ
+django-cachalot
 psycopg
 gunicorn
 flask

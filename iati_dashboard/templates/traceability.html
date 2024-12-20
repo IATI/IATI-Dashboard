@@ -17,6 +17,7 @@
               <th>Percentage Traceable Spend</th>
             </tr></thead>
             <tbody>
+              {% cache get_last_invalidation('ui.Publisher') %}
               {% for publisher in publishers %}
                   <tr>
                       <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher.slug]) }}{% endif %}">{{ publisher.title }}</a></td>
@@ -64,6 +65,7 @@
                       </td>
                   </tr>
               {% endfor %}
+              {% endcache %}
             </tbody>
           </table>
 

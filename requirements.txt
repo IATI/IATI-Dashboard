@@ -19,6 +19,10 @@ contourpy==1.3.0
 cycler==0.12.1
     # via matplotlib
 django==5.1.5
+    # via
+    #   -r requirements.in
+    #   django-cachalot
+django-cachalot==2.7.0
     # via -r requirements.in
 django-environ==0.11.2
     # via -r requirements.in
