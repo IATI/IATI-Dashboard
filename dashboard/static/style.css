@@ -78,7 +78,7 @@ html,body {
   height:100%;
 }
 
-.container .text-muted {
+.text-muted {
   margin: 20px 0;
 }
 
@@ -96,4 +96,12 @@ html,body {
 
 a.popover-html:focus {
   outline: none;
+}
+
+.dashboard-page-heading {
+  border-bottom: 1px solid var(--color-teal-80);
+}
+
+.dashboard-page-heading__lead {
+  font-size: 1.2rem;
 }
