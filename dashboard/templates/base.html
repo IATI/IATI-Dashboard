@@ -28,6 +28,48 @@
   {% block extrahead %}{% endblock %}
 </head>
 <body>
+  <div class="iati-mobile-nav js-iati-mobile-nav ">
+    <div class="iati-mobile-nav__overlay js-iati-mobile-overlay"></div>
+    <nav class="iati-mobile-nav__menu">
+      <div class="iati-mobile-nav__header">
+        <h2 class="iati-mobile-nav__label">Menu</h2>
+
+        <button class="iati-menu-toggle iati-menu-toggle--close js-iati-menu-toggle-close">
+          <span>Close</span>
+        </button>
+
+      </div>
+      <ul class="">
+        <li class="iati-mobile-nav__item"><a href="{{ url(page_view_names['index']) }}" class="iati-mobile-nav__link">{{
+            top_titles['index'] }}</a></li>
+        {% for item in top_navigation %}
+        <li class="iati-mobile-nav__item"><a href="{{ url(page_view_names[item]) }}" class="iati-mobile-nav__link">{{
+            top_titles[item] }}</a></li>
+        {% endfor %}
+      </ul>
+      <ul class="">
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/about/" class="iati-mobile-nav__link">About IATI</a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/using-data/" class="iati-mobile-nav__link">Use Data</a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/guidance/publishing-data/" class="iati-mobile-nav__link">
+            Publish Data
+          </a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/guidance/get-support/" class="iati-mobile-nav__link">
+            Contact
+          </a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="#" class="iati-mobile-nav__link">Help Docs</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
   <header class="iati-header">
     <div class="iati-header__section iati-header__section--first">
