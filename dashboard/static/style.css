@@ -82,18 +82,6 @@ html,body {
   margin: 20px 0;
 }
 
-.navbar-default {
-   margin-bottom: 0px;
-}
-
-.navbar-brand {
-  padding: 10px;
-}
-
-.navbar-brand img {
-  height: 30px;
-}
-
 a.popover-html:focus {
   outline: none;
 }
