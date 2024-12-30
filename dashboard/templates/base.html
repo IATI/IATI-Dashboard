@@ -150,7 +150,34 @@
   </header>
 
   <main class="iati-main">
-      {% block container %}
+
+    <nav class="iati-breadcrumb">
+      <ol class="iati-breadcrumb__list">
+        {% if page=='index' %}
+          <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
+            <a aria-current="page" class="iati-breadcrumb-link">{{ top_titles['index'] }}</a>
+          </li>
+        {% else %}
+          <li class="iati-breadcrumb-item">
+            <a href="{{ url(page_view_names['index']) }}" class="iati-breadcrumb-link">{{ top_titles['index'] }}</a>
+          </li>
+          {% if page in top_titles %}
+            <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
+              <a aria-current="page" class="iati-breadcrumb-link">{{ top_titles[page] }}</a>
+            </li>
+          {% else %}
+            <li class="iati-breadcrumb-item">
+              <a href="{{ url(page_view_names[navigation_reverse[page]]) }}" class="iati-breadcrumb-link">{{ top_titles[navigation_reverse[page]] }}</a>
+            </li>
+            <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
+              <a aria-current="page" class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
+            </li>
+            {% endif %}
+        {% endif %}
+      </ol>
+    </nav>
+
+    {% block container %}
 
       {% block page_header_div %}
         <div class="dashboard-page-heading">
