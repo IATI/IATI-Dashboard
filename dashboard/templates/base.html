@@ -28,7 +28,7 @@
   {% block extrahead %}{% endblock %}
 </head>
 <body>
-<div id="wrap">
+
   <div class="navbar navbar-default navbar-static-top" role="navigation">
     <div class="container">
       <div class="collapse navbar-collapse">
@@ -71,24 +71,107 @@
     {% endblock %}
   </div><!-- /.container -->
 
-</div>
 
-<div id="footer">
-    <div class="container">
-        <p class="text-muted">
-          <a href="https://github.com/IATI/IATI-Dashboard/">Source code</a>.
 
-          <a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a>.<br/>
-
-          Generated from data downloaded on <em>{{ datetime_data }}</em>.<br/>
-
-          (NB This is the time the download task started. Any changes made after this time may not be reflected).<br />
-
-          For details on how often these updates are applied, see the <a href="{{ url('dash-faq') }}">IATI Dashboard FAQ</a>.
-
-          <a href="https://iatistandard.org/en/privacy-policy/">Privacy Policy</a></p>
+  <footer class="iati-footer iati-brand-background">
+    <div class="iati-brand-background__content">
+      <div class="iati-footer__section iati-footer__section--first">
+        <div class="iati-footer__container">
+          <div class="iati-footer-block">
+            <h2 class="iati-footer-block__title">Useful links</h2>
+            <div class="iati-footer-block__content">
+              <ul>
+                <li><a href="https://github.com/IATI/IATI-Dashboard/">Dashboard source code</a></li>
+                <li><a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="iati-footer-block">
+            <h2 class="iati-footer-block__title iati-footer-block__title--centered">
+              Sign up to our newsletter
+            </h2>
+            <div class="iati-footer-block__content">
+  
+              <form class="iati-newsletter-form">
+                <div class="iati-newsletter-form__item">
+                  <label for="newsletter-email" class="iati-newsletter-form__label">Email</label>
+                  <input id="newsletter-email" type="text" class="iati-newsletter-form__input">
+                </div>
+                <div class="iati-newsletter-form__item">
+                  <label for="newsletter-firstname" class="iati-newsletter-form__label">First name</label>
+                  <input id="newsletter-firstname" type="text" class="iati-newsletter-form__input">
+                </div>
+                <div class="iati-newsletter-form__item">
+                  <label for="newsletter-surname" class="iati-newsletter-form__label">Surname</label>
+                  <input id="newsletter-surname" type="text" class="iati-newsletter-form__input">
+                </div>
+                <div class="iati-newsletter-form__item">
+                  <button class="iati-newsletter-form__submit iati-button iati-button--submit">
+                    Subscribe
+                  </button>
+                </div>
+              </form>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="iati-footer__section">
+        <div class="iati-footer__container">
+          <div class="iati-footer-block">
+            <h2 class="iati-footer-block__title">Additional information</h2>
+            <div class="iati-footer-block__content iati-footer-block__content--columns">
+              <p>
+                Part of the IATI Unified Platform Code licensed under the GNU AGPL.
+              </p>
+              <p>Documentation licensed under CC by 3.0</p>
+              <p>
+                Generated from data downloaded on <em>{{ datetime_data }}</em>.  Please note, this is the time
+                the download task started. Any changes made after this time may not be reflected.
+              </p>
+              <p>
+                For details on how often these updates are applied, see the <a href="{{ url('dash-faq') }}">IATI Dashboard FAQ</a>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="iati-footer__section iati-footer__section--last">
+        <div class="iati-footer__container">
+          <nav>
+            <ul class="iati-piped-list iati-footer__legal-nav">
+              <li><a href="https://iatistandard.org/en/privacy-policy/">Privacy</a></li>
+              <li><a href="https://iatistandard.org/en/data-removal/">Data removal</a></li>
+              <li><span>© Copyright IATI 2024. All rights reserved</span></li>
+            </ul>
+          </nav>
+  
+          <div class="iati-country-switcher">
+            <label for="iati-country-switcher" class="iati-country-switcher__label">Choose your language</label>
+            <select id="iati-country-switcher" class="iati-country-switcher__control">
+              <option>English</option>
+              <option>French</option>
+            </select>
+          </div>
+  
+          <div class="iati-footer__social">
+            <a href="https://www.linkedin.com/company/international-aid-transparency-initiative/" aria-label="LinkedIn">
+              <i class="iati-icon iati-icon--linkedin"></i>
+            </a>
+            <a href="https://x.com/IATI_aid" aria-label="X">
+              <i class="iati-icon iati-icon--x"></i>
+            </a>
+            <a href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ" aria-label="YouTube">
+              <i class="iati-icon iati-icon--youtube"></i>
+            </a>
+            <a href="https://www.facebook.com/IATIaid/" aria-label="Facebook">
+              <i class="iati-icon iati-icon--facebook"></i>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </footer>
 
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
