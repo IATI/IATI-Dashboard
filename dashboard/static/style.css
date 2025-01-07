@@ -78,34 +78,18 @@ html,body {
   height:100%;
 }
 
-#wrap {
-  min-height:100%;
-  height:auto;
-  margin:0 auto -60px;
-  padding:0 0 60px;
-}
-
-#footer {
-  background-color:#f5f5f5;
-  margin-top: 30px
-}
-
-.container .text-muted {
+.text-muted {
   margin: 20px 0;
-}
-
-.navbar-default {
-   margin-bottom: 0px;
-}
-
-.navbar-brand {
-  padding: 10px;
-}
-
-.navbar-brand img {
-  height: 30px;
 }
 
 a.popover-html:focus {
   outline: none;
+}
+
+.dashboard-page-heading {
+  border-bottom: 1px solid var(--color-teal-80);
+}
+
+.dashboard-page-heading__lead {
+  font-size: 1.2rem;
 }

@@ -8,8 +8,8 @@
     {% endblock %}
 
     <ul class="nav nav-tabs" role="tablist">
-      <li{% block frequency_li %}{% endblock %}><a href="{{ url('dash-publishingstats-timeliness') }}">Frequency</a></li>
-      <li{% block timelag_li %}{% endblock %}><a href="{{ url('dash-publishingstats-timeliness-timelag') }}">Time lag</a></li>
+      <li{% if tab=='frequency_li' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-timeliness') }}">Frequency</a></li>
+      <li{% if tab=='timelag_li' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-timeliness-timelag') }}">Time lag</a></li>
     </ul>
 
     <ul class="list-inline" style="padding: 1em">
