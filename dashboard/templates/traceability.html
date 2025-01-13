@@ -1,17 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="row">
-      <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-heading"><h3 class="panel-title">Traceability</h3></div>
-          <div class="panel-body">
             <p>This page calculates the percentage of publishers’ spending that is traceable.</p>
             <p>This has been assessed based on other publishers’ activities that reference the activity in <code>transaction/provider-org/@provider-activity-id</code>. If an activity is referenced, all of its spending is counted.</p>
             <p>Two calculations are made on this page: Counting the activities, and adding up all of the activities’ spend.</p>
             <p>Spend is the sum of commitments and disbursements.</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
-          </div>
           <table class="table table-striped">
             <thead><tr>
               <th>Publisher</th>
@@ -73,7 +67,5 @@
               {% endfor %}
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
+
 {% endblock %}
