@@ -8,12 +8,13 @@
 {% block lhs_column %}
 {{ super() }}
 
-<div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">
+<div class="dashboard-panel">
+      <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">
             Overview
-        </h3>
+        </h2>
       </div>
+      <div class="dashboard-panel-body">
     <table class="table table-striped">
         <tbody>
             <tr>
@@ -120,6 +121,7 @@
             </tr>
         </body>
     </table>
+    </div>
 </div>
 
 {% endblock %}

@@ -10,11 +10,12 @@
     <div class="row">
       {{ boxes.box('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'img/aggregate/file_size.png', 'file_size.json') }}
       <div class="col-md-6">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-            <a href="{{ stats_url }}/current/aggregated/file_size_bins.json" style="float:right">(J)</a>
-            <h3 class="panel-title">File Sizes</h3>
+        <div class="dashboard-panel">
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ stats_url }}/current/aggregated/file_size_bins.json" class="dashboard-panel-heading__title float-end">(J)</a>
+            <h2 class="dashboard-panel-heading__title float-start">File Sizes</h2>
         </div>
+        <div class="dashboard-panel-body">
         <table class="table table-striped">
             <tbody>
             {% for bin,freq in func.sorted(current_stats.aggregated.file_size_bins.items(), key=func.firstint) %}
@@ -26,16 +27,20 @@
             </tbody>
         </table>
         </div>
+        </div>
       </div>
     </div>
 
     <div class="row">
       <div class="col-xs-12">
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <p>Total file size by publisher</p>
-            {% include '_partials/tablesorter_instructions.html' %}
+        <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h2 class="dashboard-panel-heading__title">
+            Total file size by publisher
+          </h2>
         </div>
+        <div class="dashboard-panel-body">
+            {% include '_partials/tablesorter_instructions.html' %}
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -59,6 +64,8 @@
                 {% endfor %}
             </tbody>
         </table>
+                </div>
+
         </div>
       </div>
     </div>

@@ -8,27 +8,21 @@
         description='Count of publishers that have at least one invalid file, over time') }}
     </div>
 
-    <div class="row">
-    <div class="col-xs-12">
     <h2>Breakdown By Publisher</h2>
-    </div>
-    </div>
 
     <div class="row">
     <div class="col-md-6">
-
-        <h3>List of files that fail validation, grouped by publisher</h3>
-
+      <div class="dashboard-panel">
+      <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">List of files that fail validation, grouped by publisher</h3>
+      </div>
+      <div class="dashboard-panel-body">
+        <div class="iati-card-gallery">
     {% for publisher in current_stats.inverted_file_publisher %}
         {% with datasets = current_stats.inverted_file_publisher[publisher].validation.get('fail', {}) %}
         {% if datasets %}
-        <div class="panel panel-default">
-          <!-- Default panel contents -->
-          <div class="panel-heading"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</div>
-          <!--<div class="panel-body">
-            <p>...</p>
-          </div>-->
-
+        <div class="iati-card">
+          <h4><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</h4>
           <table>
             <thead>
               <tr>
@@ -57,17 +51,21 @@
             {% endfor %}
             </tbody>
           </table>
-        </div>
+        </div> <!-- end of card -->
         {% endif %}
         {% endwith %}
     {% endfor %}
-    </div>
+        </div> <!-- end of iati card gallery -->
+      </div> <!-- end of panel body -->
+    </div> <!-- end of panel -->
+    </div> <!-- end of column -->
 
     <div class="col-md-6">
-
-      <h3>Count of files that fail validation, per publisher.</h3>
-
-      <div class="panel panel-default">
+      <div class="dashboard-panel">
+      <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Count of files that fail validation, per publisher</h3>
+      </div>
+      <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead><tr>
             <th>Publisher <a href="{{ stats_url }}/current/inverted-publisher/validation.json">(J)</a></th>
@@ -84,7 +82,8 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
-    </div>
+      </div> <!-- end of panel body -->
+    </div> <!-- end of panel -->
+    </div> <!-- end of column -->
+  </div> <!-- end of row -->
 {% endblock %}

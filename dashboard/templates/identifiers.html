@@ -3,20 +3,19 @@
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
+        <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h2 class="dashboard-panel-heading__title">
             Count of duplicates, per publisher
-          </h3>
+          </h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
           <p>
             Duplicate identifiers: a count of the unique <code>iati-identifier</code> that are duplicated.
             Instances of duplicate identifiers: the total number of activities that contain a duplicate <code>iati-identifier</code>, within a publisher dataset.
             Example: two identifiers could be found as having duplicates.  Across the dataset, these duplicates could account for 200 activities.
           </p>
           {% include '_partials/tablesorter_instructions.html' %}
-        </div>
         <table class="table table-striped">
           <thead><tr>
             <th>Publisher</th>
@@ -36,6 +35,7 @@
             {% endfor %}
           </tbody>
         </table>
+        </div>
         </div>
       </div>
     </div>

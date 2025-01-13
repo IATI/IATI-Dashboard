@@ -13,13 +13,12 @@
     </div>
 
     {% if 'true' in current_stats.aggregated.version_mismatch %}
+    <h2>Inconsistent versions</h2>
+    <p>Files where the iati-activities/@version does not match iati-activity/@version</p>
     <div class="row">
     <div class="col-xs-12">
-    <h2>Inconsistent versions</h2>
-
-    <p>Files where the iati-activities/@version does not match iati-activity/@version</p>
-
-      <div class="panel panel-default">
+      <div class="dashboard-panel">
+      <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
@@ -42,29 +41,28 @@
       </div>
     </div>
     </div>
+    </div>
     {% endif %}
 
-    <div class="row">
-    <div class="col-xs-12">
     <h2>Publishers by version</h2>
-
     <p>(<a href="{{ stats_url }}/current/inverted-publisher/versions.json">In JSON format</a>)</p>
-    </div>
-    </div>
-
     <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Expected versions</h3>
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading">
+            <h3 class="dashboard-panel-heading__title">Expected versions</h3>
           </div>
-          <div class="panel-body">
+          <div class="dashboard-panel-body">
           <p>Listing of publishers per IATI version. Click on any publisher name for more information.</p>
-          <div class="row">
+          <div class="iati-card-gallery">
+
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version in expected_versions %}
-            <div class="col-md-4">
+            <div class="iati-card">
+              <h4>
               <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+              </h4>
+              <p class="iati-card-body">
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>
@@ -72,6 +70,7 @@
                 </tr>
                 {% endfor %}
               </table>
+              </p>
             </div>
             {% endif %}
             {% endfor %}
@@ -79,19 +78,24 @@
           </div>
         </div>
       </div>
+      </div>
+      </div>
 
+    <div class="row">
       <div class="col-md-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Other versions</h3>
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading">
+            <h3 class="dashboard-panel-heading__title">Other versions</h3>
           </div>
-          <div class="panel-body">
+          <div class="dashboard-panel-body">
           <p>Listing of publishers publishing a non-recognised version number.  Click on any publisher name for more information.</p>
-          <div class="row">
+          <div class="iati-card-gallery">
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version not in expected_versions %}
-            <div class="col-md-4">
+            <div class="iati-card">
+              <h4>
               <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+              </h4>
               <table class="table table-striped">
                 {% for publisher in publishers %}
                 <tr>

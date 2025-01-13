@@ -8,13 +8,14 @@
         {% include '_partials/tablesorter_instructions.html' %}
 
         {% for major_version in MAJOR_VERSIONS %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Codelists for version {{ major_version }}.xx</h3>
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Codelists for version {{ major_version }}.xx</h2>
           </div>
           {% if major_version not in current_stats.inverted_publisher.codelist_values_by_major_version %}
               There are no publishers using {{ major_version }}.xx codelists yet.
           {% else %}
+          <div class="dashboard-panel-body">
           <table class="table table-striped">
             <thead><tr>
               <th>Element/Attribute on codelist</th>
@@ -41,6 +42,7 @@
               {% endfor %}
             </tbody>
           </table>
+          </div>
           {% endif %}
         </div>
         {% endfor %}

@@ -4,15 +4,15 @@
 {% import '_partials/boxes.html' as boxes with context %}
 
 {% block content %}
-    <div class="panel panel-default" id="h_table">
+    <div class="dashboard-panel" id="h_table">
 
-        <div class="panel-heading">
-            <span class="pull-right"><a href="{{ generated_url }}/data/csv/timeliness_timelag.csv">(This table as CSV)</a></span>
-            <h3 class="panel-title">Table of Time lag assessments</h3>
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/timeliness_timelag.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <h2 class="float-start dashboard-panel-heading__title">Table of Time lag assessments</h2>
         </div>
 
 
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
 
             <p><strong>Key:</strong><br/>
@@ -20,8 +20,6 @@
             <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
-        </div>
-
 
         <table class="table table-striped" id="main_table">
             <thead>
@@ -53,15 +51,17 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 
 
 
 
-    <div class="panel panel-default" id="h_summary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Summary of Publisher Performance</h3>
+    <div class="dashboard-panel" id="h_summary">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Summary of Publisher Performance</h2>
         </div>
+        <div class="dashboard-panel-body">
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -84,16 +84,17 @@
                     <td>{{ summary.values()|sum }}</td>
                 </tr>
         </table>
+        </div>
     </div>
 
 
 
 
-    <div class="panel panel-default" id="h_narrative">
-        <div class="panel-heading">
-            <h3 class="panel-title">Narrative</h3>
+    <div class="dashboard-panel" id="h_narrative">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Narrative</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date.</p>
 
             <p>Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment.</p>
@@ -106,11 +107,11 @@
 
 
 
-    <div class="panel panel-default" id="h_assesment">
-    <div class="panel-heading">
-        <h3 class="panel-title">Assessment</h3>
+    <div class="dashboard-panel" id="h_assesment">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Assessment</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>These statistics are assessed as follows:</p>
         <table class="table table-striped">
         <thead>
@@ -148,11 +149,11 @@
 
 
 
-    <div class="panel panel-default" id="h_exceptions">
-    <div class="panel-heading">
-        <h3 class="panel-title">Exceptions</h3>
+    <div class="dashboard-panel" id="h_exceptions">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Exceptions</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
 
         <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
@@ -164,22 +165,22 @@
 
 
 
-    <div class="panel panel-default" id="h_comparison">
-    <div class="panel-heading">
-        <h3 class="panel-title">Comparison with orginal Global Partnership Indicator methodology</h3>
+    <div class="dashboard-panel" id="h_comparison">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Comparison with orginal Global Partnership Indicator methodology</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>No change.</p>
     </div>
     </div>
 
 
 
-    <div class="panel panel-default" id="h_pseudocode">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pseudocode</h3>
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>To get a count of transactions by calendar month (for a given publisher):</p>
 <pre>
 Using most recently captured data.

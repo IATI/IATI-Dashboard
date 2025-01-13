@@ -4,16 +4,14 @@
 {% import '_partials/boxes.html' as boxes with context %}
 
 {% block content %}
-    <div class="panel panel-default" id="h_table">
+    <div class="dashboard-panel" id="h_table">
 
-        <div class="panel-heading">
-            <span class="pull-right"><a href="{{ generated_url }}/data/csv/timeliness_frequency.csv">(This table as CSV)</a></span>
-            <h3 class="panel-title">Table of Frequency assessments</h3>
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/timeliness_frequency.csv" class="float-end dashboard-panel-heading__title">(This table as CSV)</a>
+            <h2 class="float-start dashboard-panel-heading__title">Table of Frequency assessments</h2>
         </div>
 
-
-
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>This table seeks to measure how often a publisher updates their data. As transactions are the most numerous element reported in IATI the adopted methodology assumes that a publisher has updated their data if a transaction with a more recent transaction date than previously published is detected across the publisher's entire portfolio. </p>
 
             <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
@@ -23,7 +21,6 @@
             <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
-        </div>
 
         <table class="table table-striped" id="main_table">
             <thead>
@@ -57,13 +54,15 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 
 
-    <div class="panel panel-default" id="h_summary">
-    <div class="panel-heading">
-        <h3 class="panel-title">Summary of Publisher Performance</h3>
+    <div class="dashboard-panel" id="h_summary">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Summary of Publisher Performance</h2>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -87,14 +86,15 @@
             </tr>
     </table>
     </div>
-
-
-
-    <div class="panel panel-default" id="h_narrative">
-    <div class="panel-heading">
-        <h3 class="panel-title">Narrative</h3>
     </div>
-    <div class="panel-body">
+
+
+
+    <div class="dashboard-panel" id="h_narrative">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Narrative</h2>
+    </div>
+    <div class="dashboard-panel-body">
         <p>The frequency statistics attempt to assess how often any part of a publisher's data is substantively updated.</p>
 
         <p>For the purposes of these statistics an update is assumed to have taken place on any given day when the most recently recorded transaction date across a publisher's entire portfolio is observed to have changed to a more recent date. This approach has been adopted as transactions are the most numerous and most frequently updated elements in the reporting of activities.</p>
@@ -105,15 +105,15 @@
 
 
 
-    <div class="panel panel-default" id="h_assesment">
-    <div class="panel-heading">
-        <h3 class="panel-title">Assessment</h3>
+    <div class="dashboard-panel" id="h_assesment">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Assessment</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>To assess these statistics one also has to take into account how long a publisher has been publishing to IATI. This is calculated based on when a publisher first appeared in the statistical snapshot.</p>
         <p>These statistics are then assessed as follows:</p>
 
-        <h4>For publishers of 1 year or more</h4>
+        <h3>For publishers of 1 year or more</h3>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -145,7 +145,7 @@
         </tbody>
         </table>
 
-        <h4>For publishers of six months or more</h4>
+        <h3>For publishers of six months or more</h3>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -169,7 +169,7 @@
         </tbody>
         </table>
 
-        <h4>For publishers of three months or more</h4>
+        <h3>For publishers of three months or more</h3>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -189,7 +189,7 @@
         </tbody>
         </table>
 
-        <h4>For publishers of less than 3 months</h4>
+        <h3>For publishers of less than 3 months</h3>
         <table class="table table-striped">
         <thead>
         <tr>
@@ -209,11 +209,11 @@
 
 
 
-    <div class="panel panel-default" id="h_exceptions">
-        <div class="panel-heading">
-            <h3 class="panel-title">Exceptions</h3>
+    <div class="dashboard-panel" id="h_exceptions">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Exceptions</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a frequency assessment of monthly, even though they did not refresh their data.</p>
 
             <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
@@ -224,11 +224,11 @@
 
 
 
-    <div class="panel panel-default" id="h_comparison">
-    <div class="panel-heading">
-        <h3 class="panel-title">Comparison with original Global Partnership Indicator methodology</h3>
+    <div class="dashboard-panel" id="h_comparison">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Comparison with original Global Partnership Indicator methodology</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>This methodology is substantially different.
 
         <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a publisher's file was inaccessible, its reappearance would count as an update.</p>
@@ -237,11 +237,11 @@
 
 
 
-    <div class="panel panel-default" id="h_pseudocode">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pseudocode</h3>
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>To get a count of updates by calendar month (for a given publisher):</p>
 <pre>
 For data captured each day over the past year

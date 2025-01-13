@@ -12,9 +12,9 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
 {% block content %}
     <div class="row">
     <div class="col-md-6">
-    <div class="panel panel-default">
-        <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Table of Contents</h3></div>
-        <div class="panel-body">
+    <div class="dashboard-panel">
+        <div class="dashboard-panel-heading"><h2 class="dashboard-panel-heading__title">Table of Contents</h2></div>
+        <div class="dashboard-panel-body">
             <ul>
                 <li><a href="#h_headlines">Headlines</a>
                 <li><a href="#h_dataquality">Data Quality</a>
@@ -49,7 +49,8 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
 
     <div class="row">
     <div class="col-md-6">
-    <div class="panel panel-default">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <tbody>
             <tr>
@@ -119,6 +120,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     </table>
     </div>
     </div>
+    </div>
     {{ boxes.box(
         'Activities', publisher_stats.activities, 'img/publishers/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }} 
     </div>
@@ -146,9 +148,9 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
         {% set data_quality_issue = true %}
         <div class="col-md-6">
-            <div class="panel panel-default" id="p_validation">
-              <!-- Default panel contents -->
-              <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Files Failing Validation</h3></div>
+            <div class="dashboard-panel" id="p_validation">
+              <div class="dashboard-panel-heading"><h3 class="dashboard-panel-heading__title" id="list_fail_validation">Files Failing Validation</h3></div>
+              <div class="dashboard-panel-body">
                 <table>
                     <thead>
                         <tr>
@@ -176,17 +178,19 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                     </tbody>
                 </table>
             </div>
+            </div>
         </div>
     {% endif %}
 
     {% if 1 in publisher_inverted.invalidxml.values() %}
     {% set data_quality_issue = true %}
     <div class="col-md-6">
-    <div class="panel panel-default" id="p_invalid">
-    <div class="panel-heading">
-        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/invalidxml.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Files where XML is not well-formed</h3>
+    <div class="dashboard-panel" id="p_invalid">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/invalidxml.json" class="dashboard-panel-heading__title float-end">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Files where XML is not well-formed</h3>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -205,17 +209,18 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     </table>
     </div>
     </div>
+    </div>
     {% endif %}
 
     {% if 1 in publisher_inverted.nonstandardroots.values() %}
     {% set data_quality_issue = true %}
     <div class="col-md-6">
-    <div class="panel panel-default" id="p_nonstandardroots">
-    <table class="table table-striped">
-    <div class="panel-heading">
-        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/nonstandardroots.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Files with non-standard roots</h3>
+    <div class="dashboard-panel" id="p_nonstandardroots">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/nonstandardroots.json" class="dashboard-panel-heading__title float-end">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Files with non-standard roots</h3>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -232,6 +237,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% endfor %}
         </tbody>
     </table>
+    </div>
     </div>
     </div>
     {% endif %}
@@ -254,13 +260,14 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     {% endif %}
     {% endmacro %}
 
-    <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Budgets</h3>
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Budgets</h3>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
-    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -288,14 +295,20 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         </tbody>
     </table>
     </div>
+    </div>
+    </div>
+    </div>
 
 
     <h2 id="h_exploringdata">Exploring Data</h2>
 
-    <div class="panel panel-default" id="p_files">
-    <div class="panel-heading">
-        <h3 class="panel-title">Files</h3>
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_files">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Files</h3>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped exploring-data">
         <thead>
             <tr>
@@ -319,15 +332,20 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         </tbody>
     </table>
     </div>
+    </div>
+    </div>
+    </div>
 
     {% for major_version in MAJOR_VERSIONS %}
     {% if major_version in publisher_stats.codelist_values_by_major_version %}
-    <div class="panel panel-default" id="p_codelists">
-    <table class="table table-striped">
-    <div class="panel-heading">
-        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/codelist_values.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Codelist Values (version {{ major_version }}.xx)</h3>
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_codelists">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/codelist_values.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Codelist Values (version {{ major_version }}.xx)</h3>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -368,15 +386,20 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         </tbody>
     </table>
     </div>
+    </div>
+    </div>
+    </div>
     {% endif %}
     {% endfor %}
 
-    <div class="panel panel-default" id="p_elements">
-    <table class="table table-striped">
-    <div class="panel-heading">
-        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/elements.json" style="float:right">(J)</a>
-        <h3 class="panel-title">Elements and Attributes Published</h3>
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_elements">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/elements.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <h3 class="float-start dashboard-panel-heading__title">Elements and Attributes Published</h3>
     </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -400,12 +423,17 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         </tbody>
     </table>
     </div>
-
-    <div class="panel panel-default" id="p_org_ids">
-    <table class="table table-striped">
-    <div class="panel-heading">
-        <h3 class="panel-title">Organisation Identifiers</h3>
     </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_org_ids">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Organisation Identifiers</h3>
+    </div>
+    <div class="dashboard-panel-body">
     <table class="table table-striped">
         <thead>
             <tr>
@@ -425,6 +453,10 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             {% endfor %}
         </tbody>
     </table>
+    </div>
+    </div>
+    </div>
+    </div>
     </div>
 
 {% endblock %}

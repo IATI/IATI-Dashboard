@@ -8,15 +8,15 @@
 
     <div class="row">
       <div class="col-xs-12">
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading clearfix">
+            <h2 class="dashboard-panel-heading__title float-start">List of files that fail to download</h2>
+            <a class="dashboard-panel-heading__title float-end" href="{{ url('dash-dataquality-download-json') }}">This table as JSON</a>
+          </div>
+          <div class="dashboard-panel-body">
         <p><a href="https://gist.github.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/revisions">History of Download Errors</a></p>
 
-        <p><a href="{{ url('dash-dataquality-download-json') }}">This table as JSON</a></p>
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-              <p>List of files that fail to download.</p>
               {% include '_partials/tablesorter_instructions.html' %}
-          </div>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -37,6 +37,7 @@
               {% endfor %}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>

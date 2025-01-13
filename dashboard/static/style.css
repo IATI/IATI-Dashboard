@@ -20,20 +20,8 @@ em {
   float: left;
 }
 
-.panel-heading {
-  clear: both;
-}
-
 .break {
   word-break:break-all;
-}
-
-.panel-body h4, .panel-body h5 {
-  margin-top: 24px;
-}
-
-.panel-body h4:first-of-type, .panel-body h5:first-of-type {
-  margin-top: 10px;
 }
 
 .table > tbody > tr > td,
@@ -86,10 +74,35 @@ a.popover-html:focus {
   outline: none;
 }
 
+/* Styles for the heading section of each page */
 .dashboard-page-heading {
   border-bottom: 1px solid var(--color-teal-80);
+  margin-bottom: 2rem;
 }
 
 .dashboard-page-heading__lead {
   font-size: 1.2rem;
+}
+
+/* Styles to implement panels to hold information */
+.dashboard-panel {
+  border: 1px solid var(--color-teal-20);
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-panel-heading {
+  background-color: var(--color-teal-90);
+  padding: 0.2rem 0.6rem;
+  justify-content: space-between;
+}
+
+.dashboard-panel-heading__title {
+  color: #fff;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.dashboard-panel-body {
+  margin: 1rem;
 }

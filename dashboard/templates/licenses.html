@@ -3,11 +3,12 @@
 {% block content %}
     <div class="row">
       <div class="col-xs-12">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <p>Count of publishers per licences in use on the IATI Registry.</p>
-            {% include '_partials/tablesorter_instructions.html' %}
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Count of publishers per licences in use on the IATI Registry</h2>
           </div>
+          <div class="dashboard-panel-body">
+            {% include '_partials/tablesorter_instructions.html' %}
           <table class="table table-sm table-striped">
             <thead>
                 <tr>
@@ -28,6 +29,7 @@
                 {% endfor %}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
     </div>
