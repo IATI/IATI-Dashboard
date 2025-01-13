@@ -31,8 +31,7 @@
 
           <!-- List group -->
           <ul class="list-group">
-            {% for dataset in datasets.keys() %}
-            {% with dataset_name=dataset[:-4] %}
+            {% for dataset_name in datasets.keys() %}
             <li class="list-group-item">
               <div class="row">
                 <div class="col-md-4 break">
@@ -50,7 +49,6 @@
                 </div>
               </div>
             </li>
-            {% endwith %}
             {% endfor %}
           </ul>
         </div>

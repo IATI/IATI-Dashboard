@@ -155,8 +155,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
 
               <!-- List group -->
               <ul class="list-group">
-                {% for dataset in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
-                {% with dataset_name = dataset[:-4] %}
+                {% for dataset_name in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
                 <li class="list-group-item">
                   <div class="row">
                     <div class="col-md-4 break">
@@ -174,7 +173,6 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                     </div>
                   </div>
                 </li>
-                {% endwith %}
                 {% endfor %}
               </ul>
             </div>
@@ -196,10 +194,10 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             </tr>
         </thead>
         <tbody>
-            {% for dataset, invalid in publisher_inverted.invalidxml.items() %}
+            {% for dataset_name, invalid in publisher_inverted.invalidxml.items() %}
             {% if invalid %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -225,10 +223,10 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             </tr>
         </thead>
         <tbody>
-            {% for dataset, nonstandard in publisher_inverted.nonstandardroots.items() %}
+            {% for dataset_name, nonstandard in publisher_inverted.nonstandardroots.items() %}
             {% if nonstandard %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a></td>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
@@ -311,7 +309,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <tbody>
             {% for package, activities in publisher_inverted.activities.items() %}
             <tr>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{ package[:-4] }}">{{ package[:-4] }}</a></td>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{ package }}">{{ package }}</a></td>
                 <td>{{ activities }}</td>
                 <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
                 <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
