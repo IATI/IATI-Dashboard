@@ -149,32 +149,32 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             <div class="panel panel-default" id="p_validation">
               <!-- Default panel contents -->
               <div class="panel-heading"><h3 class="panel-title" id="list_fail_validation">Files Failing Validation</h3></div>
-              <!--<div class="panel-body">
-                <p>...</p>
-              </div>-->
-
-              <!-- List group -->
-              <ul class="list-group">
-                {% for dataset_name in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
-                <li class="list-group-item">
-                  <div class="row">
-                    <div class="col-md-4 break">
-                      <a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a>
-                    </div>
-                    <div class="col-md-6 break">
-                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                      <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
-                      {% endif %}
-                    </div>
-                    <div class="col-md-2 break">
-                      {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                      <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
-                      {% endif %}
-                    </div>
-                  </div>
-                </li>
-                {% endfor %}
-              </ul>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Dataset name</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Validation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dataset_name in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
+                        <tr>
+                            <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+                            <td>
+                                {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                                    <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                                  <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     {% endif %}

@@ -29,28 +29,34 @@
             <p>...</p>
           </div>-->
 
-          <!-- List group -->
-          <ul class="list-group">
-            {% for dataset_name in datasets.keys() %}
-            <li class="list-group-item">
-              <div class="row">
-                <div class="col-md-4 break">
-                  <a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a>
-                </div>
-                <div class="col-md-6 break">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Dataset</th>
+                <th scope="col">URL</th>
+                <th scope="col">Validator report</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for dataset in datasets.keys() %}
+            {% with dataset_name=dataset %}
+              <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+                <td>
                   {% if publisher in ckan and dataset_name in ckan[publisher] %}
                   <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
                   {% endif %}
-                </div>
-                <div class="col-md-2 break">
+                </td>
+                <td>
                    {% if publisher in ckan and dataset_name in ckan[publisher] %}
                    <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
                    {% endif %}
-                </div>
-              </div>
-            </li>
+                </td>
+              </tr>
+            {% endwith %}
             {% endfor %}
-          </ul>
+            </tbody>
+          </table>
         </div>
         {% endif %}
         {% endwith %}
