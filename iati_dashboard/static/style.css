@@ -10,16 +10,6 @@ em {
   font-size: 100px;
 }
 
-.title-number {
-  font-weight: bold;
-  float: left;
-  width: 20%;
-}
-
-.title-text {
-  float: left;
-}
-
 .break {
   word-break:break-all;
 }
@@ -101,6 +91,10 @@ a.popover-html:focus {
   color: #fff;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.dashboard-panel-heading__titlenum {
+  margin-right: 1rem;
 }
 
 .dashboard-panel-body {
