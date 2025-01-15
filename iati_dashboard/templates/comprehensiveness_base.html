@@ -58,14 +58,17 @@
                     {% else %}-{% endif %}</td>
                 {% endfor %}
                 {% if tab == 'financials' %}
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray; {% if row['flag'] %};background-color: #fcf8aa{% endif %}"></td>
+                    {% if row['flag'] %}
+                        <td class="dashboard-yellow-flag">*</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
-
 
     {% block narrative %}
     <div class="dashboard-panel" id="h_narrative">
