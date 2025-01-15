@@ -33,7 +33,7 @@
             <p><strong>Key:</strong><br/>
                 Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
                 <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing forward looking budgets at more than one hierarchical level.<br/>
-                <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.<br/>
+                <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.<br/>
             </p>
             {% include '_partials/tablesorter_instructions.html' %}
 
@@ -111,7 +111,7 @@
     </div>
     <div class="dashboard-panel-body">
         <p>No separate assessment is provided as the percentage of current activities containing budgets for this and the next two years is the de facto assessment. No attempt is currently being made to turn these into a descriptive summary (as, for example, "Frequency = "Monthly"). The percentage for the middle year (i.e. 'next year') is of most relevance to developing countries.</p>
-        <p>Activities with any <code>budget</code> elements that are also found to contain the <code>budget-not-provided</code> attribute will not receive a forward looking score.</p>
+        <p>Activities with any <code class="iati-code">budget</code> elements that are also found to contain the <code class="iati-code">budget-not-provided</code> attribute will not receive a forward looking score.</p>
     </div>
     </div>
 
@@ -127,7 +127,7 @@
         <h3>Red Flags</h3>
         <p>Publishers currently publishing forward looking budgets at more than one hierarchical level.</p>
         <h3>Yellow Flags</h3>
-        <p>Publishers currently publishing the 'budget not provided' attribute for some or all activities.</p>
+        <p>Publishers currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.</p>
     </div>
     </div>
 
@@ -153,12 +153,11 @@
     </div>
     <div class="dashboard-panel-body">
 
-    <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
+    <p>For the purpose of this calculation, each <code class="iati-code">iati-activity</code> XML block is an activity.</p>
 
     <p>To test whether an activity is current in a given year:</p>
 
-<pre>
-end dates =
+<pre><code class="iati-code iati-code--block">end dates =
     For each activity-date that describes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
@@ -170,12 +169,11 @@ Else
         The activity is current
     Else
         The activity is not current
-</pre>
+</code></pre>
 
     <p>To find the year for a budget:</p>
 
-<pre>
-start =
+<pre><code class="iati-code iati-code--block">start =
     Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
     If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
@@ -194,19 +192,18 @@ If start and end are both not null
             budget year = end year - 1
     Else ignore the budget
 Else budget year is null
-</pre>
+</code></pre>
 
     <p>The relevant hierarchical level is:</p>
 
-<pre>
-If the @hierarchy attribute is missing the hierarchy value is 1
+<pre><code class="iati-code iati-code--block">If the @hierarchy attribute is missing the hierarchy value is 1
 Else the hierarchy value is the value of the @hierarchy attribute
 
 If all budgets for current activities in the given years have the same hierarchy value
     Only activities with that hierarchy value are at a relevant hierarchical level
 Else
     All activities are considered to be at a relevant hierarchical level
-</pre>
+</code></pre>
 
     <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>

@@ -180,8 +180,7 @@
     </div>
     <div class="dashboard-panel-body">
         <p>To get a count of transactions by calendar month (for a given publisher):</p>
-<pre>
-Using most recently captured data.
+<pre><code class="iati-code iati-code--block">Using most recently captured data.
 For each transaction (of any type) in the publisher's data:
     Get the transaction date as follows:
         If transaction-date exists
@@ -195,7 +194,7 @@ For each transaction (of any type) in the publisher's data:
     Parse the start of the transaction date as an iso date (yyyy-mm-dd...).
         If it does not match, the transaction is ignored.
     Record a count of the transaction date against the calendar year and month
-</pre>
+</code></pre>
     </div>
     </div>
 {% endblock %}

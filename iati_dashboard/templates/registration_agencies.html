@@ -50,7 +50,7 @@
 {% for orgid, publishers in nonmatching %}
 {% for publisher, count in publishers.items() %}
     <tr>
-        <td><code>{{ orgid|replace(' ', ' ') }}</code></td>
+        <td><code class="iati-code">{{ orgid|replace(' ', ' ') }}</code></td>
         <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
         <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
         <td>{{ count }}</td>

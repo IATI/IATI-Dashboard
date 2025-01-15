@@ -3,7 +3,7 @@
 {% block page_header %}
 <h1>{{ license_names[license] }}{% if license_urls[license]['url'] %} <a href="{{ license_urls[license]['url'] }}">(source)</a>{% endif %}</h1>
 <p class="dashboard-page-heading__lead">
-    License ID: <code>{{ license }}</code>
+    License ID: <code class="iati-code">{{ license }}</code>
 </p>
 {% endblock %}
 
