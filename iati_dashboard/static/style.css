@@ -56,8 +56,9 @@ html,body {
   height:100%;
 }
 
-.text-muted {
+.dashboard-text-muted {
   margin: 20px 0;
+  color: var(--color-grey-60);
 }
 
 a.popover-html:focus {

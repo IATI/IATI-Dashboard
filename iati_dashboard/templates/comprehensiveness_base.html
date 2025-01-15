@@ -53,7 +53,7 @@
                 <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in row %}
                     {{ row[column_slug+'_valid'] | round_nicely }}
                     {% if row[column_slug+'_valid'] != row[column_slug] %}
-                    <span class="text-muted">({{ row[column_slug] | round_nicely }})</span></td>
+                    <span class="dashboard-text-muted">({{ row[column_slug] | round_nicely }})</span></td>
                     {% endif %}
                     {% else %}-{% endif %}</td>
                 {% endfor %}
