@@ -12,21 +12,16 @@
       <li{% if tab=='timelag_li' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-timeliness-timelag') }}">Time lag</a></li>
     </ul>
 
-    <ul class="list-inline" style="padding: 1em">
-        <li><a href="#h_table">Table</a></li>
-        <li>|</li>
-        <li><a href="#h_summary">Summary of Publisher Performance</a></li>
-        <li>|</li>
-        <li><a href="#h_narrative">Narrative</a></li>
-        <li>|</li>
-        <li><a href="#h_assesment">Assessment</a></li>
-        <li>|</li>
-        <li><a href="#h_exceptions">Exceptions</a></li>
-        <li>|</li>
-        <li><a href="#h_comparison">Comparison with original Global Partnership Indicator methodology</a></li>
-        <li>|</li>
-        <li><a href="#h_pseudocode">Pseudocode</a></li>
-    </ul>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_summary" class="iati-piped-list__link">Summary of Publisher Performance</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+        <li><a href="#h_assesment" class="iati-piped-list__link">Assessment</a></li>
+        <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
+        <li><a href="#h_comparison" class="iati-piped-list__link">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
+    </ol>
+    <br/>
 
     {% block content %}
     {% endblock %}

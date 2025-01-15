@@ -2,11 +2,13 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
 
-    <ul class="list-inline" style="padding: 1em">
-        <li><a href="#h_table">Table</a></li>
-        <li>|</li>
-        <li><a href="#h_narrative">Narrative</a></li>
-    </ul>
+    <nav>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+    </ol>
+    </nav>
+    <br/>
 
     <div class="dashboard-panel" id="h_table">
         <div class="dashboard-panel-heading clearfix">
