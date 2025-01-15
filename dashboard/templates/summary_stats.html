@@ -10,20 +10,19 @@
         <li><a href="#h_exceptions">Exceptions</a></li>
     </ul>
 
-    <div class="panel panel-default" id="h_table">
-        <div class="panel-heading">
-            <span class="pull-right"><a href="{{ generated_url }}/data/csv/summary_stats.csv">(This table as CSV)</a></span>
-            <h3 class="panel-title">Summary Statistics</h3>
+    <div class="dashboard-panel" id="h_table">
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/summary_stats.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <h2 class="dashboard-panel-heading__title float-start">Summary Statistics</h2>
         </div>
 
 
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>This table assesses <span style="text-decoration: underline;">all</span> IATI publishers by scoring three dimensions – Timeliness, Forward-looking and Comprehensiveness. The methodology is explained below the table and in the related Publisher Statistics pages. In summary:</p>
 
             <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensiveness} ) / 3 &nbsp;</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
-        </div>
 
         <table class="table table-striped" id="main_table">
             <thead>
@@ -46,15 +45,16 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 
 
-    <div class="panel panel-default" id="h_narrative">
-        <div class="panel-heading">
-            <h3 class="panel-title">Narrative</h3>
+    <div class="dashboard-panel" id="h_narrative">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Narrative</h2>
         </div>
-        <div class="panel-body">
-            <h4>Timeliness</h5>
+        <div class="dashboard-panel-body">
+            <h3>Timeliness</h3>
             <p>This is calculated by scoring the assessments made on the <a href="{{ url('dash-publishingstats-timeliness') }}">
                frequency</a> and <a href="{{ url('dash-publishingstats-timeliness-timelag') }}">timelag</a> pages on a scale of
                0 to 4 (as below), dividing the sum of the two scores by 8, and expressing the result as
@@ -116,17 +116,17 @@
             </table>
 
 
-            <h4>Forward looking</h4>
+            <h3>Forward looking</h3>
             <p>The average percentage of current activities with budgets for each of the years {{ current_year }} - {{ current_year + 2 }}.
                The component values and a detailed methodology are displayed on the <a href="{{ url('dash-publishingstats-forwardlooking') }}">forward looking</a> page.
             </p>
 
 
-            <h4>Comprehensiveness</h4>
+            <h3>Comprehensiveness</h3>
             <p>The average of <a href="{{ url('dash-publishingstats-comprehensiveness') }}">comprehensiveness</a> averages for core, financials and value-added. The core average has a double-weighting.</p>
 
 
-            <h4>Score</h4>
+            <h3>Score</h3>
             <p>The mean average of the three values above.</p>
 
             <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensiveness} ) / 3</p>
@@ -135,12 +135,12 @@
     </div>
 
 
-    <div class="panel panel-default" id="h_exceptions">
-        <div class="panel-heading">
-            <h3 class="panel-title">Exceptions</h3>
+    <div class="dashboard-panel" id="h_exceptions">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Exceptions</h2>
         </div>
-        <div class="panel-body">
-            <h5>Secondary reporters</h5>
+        <div class="dashboard-panel-body">
+            <h3>Secondary reporters</h3>
             <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table.
             {% if summary_stats.secondary_publishers|length > 0 %}
             Therefore, a total of {{ summary_stats.secondary_publishers|length }} publishers have been excluded in this regard:

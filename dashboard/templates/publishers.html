@@ -11,12 +11,14 @@
 
     <div class="row">
     <div class="col-xs-12">
-    <div class="panel panel-default">
-    <div class="panel-body">
-        <p style="float:right"><a href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a></p>
-        <p>List of current active IATI publishers,  Click on the publisher name for more details.</p>
-        {% include '_partials/tablesorter_instructions.html' %}
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-heading clearfix">
+    <h2 class="dashboard-panel-heading__title float-start">List of current active IATI publishers</h2>
+    <a class="dashboard-panel-heading__title float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
     </div>
+    <div class="dashboard-panel-body">
+        <p>Click on the publisher name for more details.</p>
+        {% include '_partials/tablesorter_instructions.html' %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -46,8 +48,9 @@
             {% endfor %}
         </tbody>
     </table>
-    </div>
     <p id="files_note">* Files is the sum of Activity Files <a href="{{ stats_url }}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{ stats_url }}/current/inverted-publisher/organisation_files.json">(J)</a>.</p>
+        </div>
+    </div>
     </div>
     </div>
 {% endblock %}

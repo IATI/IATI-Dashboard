@@ -17,14 +17,14 @@
         <li><a href="#h_pseudocode">Pseudocode</a></li>
     </ul>
 
-    <div class="panel panel-default" id="h_table">
+    <div class="dashboard-panel" id="h_table">
 
-        <div class="panel-heading">
-            <span class="pull-right"><a href="{{ generated_url }}/data/csv/forwardlooking.csv">(This table as CSV)</a></span>
-            <h3 class="panel-title">Activities with Forward Looking Budget Allocations</h3>
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/forwardlooking.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <h2 class="dashboard-panel-heading__title float-start">Activities with Forward Looking Budget Allocations</h2>
         </div>
 
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             <p>
                 The number of activities with budgets reported for each year is compared against the total number of activities current at the start of each year.  The first block shows the number of activities that are, or will be, current in this and the next two years. The second block shows how many of these activities contain a budget for the corresponding year. The third block expresses this as a percentage.
             </p>
@@ -39,7 +39,6 @@
                 <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.<br/>
             </p>
             {% include '_partials/tablesorter_instructions.html' %}
-        </div>
 
         <table class="table table-striped" id="main_table">
             <thead>
@@ -85,15 +84,16 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
 
 
 
-    <div class="panel panel-default" id="h_narrative">
-    <div class="panel-heading">
-        <h3 class="panel-title">Narrative</h3>
+    <div class="dashboard-panel" id="h_narrative">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Narrative</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>Developing countries have, since 2008, been asking their development partners to provide forward-looking data which can be used for both planning and budget preparation. While aggregated country-level budgets have a certain political value it is activity-level data that is of greatest benefit, and which this dimension attempts to assess.</p>
         <p>The standard asks publishers to break down their total commitment to an activity into annual or quarterly budgets - i.e. the sum of the reported budgets matches the sum of commitments. It is stressed that these budget breakdowns are indicative and are in no way binding.</p>
         <p>This assessment counts the number of current activities for this and the next two years that contain budgets. It is based on a number of assumptions:</p>
@@ -108,11 +108,11 @@
     </div>
 
 
-    <div class="panel panel-default" id="h_assesment">
-    <div class="panel-heading">
-        <h3 class="panel-title">Assessment</h3>
+    <div class="dashboard-panel" id="h_assesment">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Assessment</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>No separate assessment is provided as the percentage of current activities containing budgets for this and the next two years is the de facto assessment. No attempt is currently being made to turn these into a descriptive summary (as, for example, "Frequency = "Monthly"). The percentage for the middle year (i.e. 'next year') is of most relevance to developing countries.</p>
         <p>Activities with any <code>budget</code> elements that are also found to contain the <code>budget-not-provided</code> attribute will not receive a forward looking score.</p>
     </div>
@@ -120,27 +120,27 @@
 
 
 
-    <div class="panel panel-default" id="h_exceptions">
-    <div class="panel-heading">
-        <h3 class="panel-title">Exceptions</h3>
+    <div class="dashboard-panel" id="h_exceptions">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Exceptions</h2>
     </div>
-    <div class="panel-body">
-        <h4>Dashes</h4>
+    <div class="dashboard-panel-body">
+        <h3>Dashes</h3>
         <p>Where a percentage can not be calculated, because the denominator is zero, a dash is used.</p>
-        <h4>Red Flags</h4>
+        <h3>Red Flags</h3>
         <p>Publishers currently publishing forward looking budgets at more than one hierarchical level.</p>
-        <h4>Yellow Flags</h4>
+        <h3>Yellow Flags</h3>
         <p>Publishers currently publishing the 'budget not provided' attribute for some or all activities.</p>
     </div>
     </div>
 
 
 
-    <div class="panel panel-default" id="h_comparison">
-    <div class="panel-heading">
-        <h3 class="panel-title">Comparison with original Global Partnership Indicator methodology</h3>
+    <div class="dashboard-panel" id="h_comparison">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Comparison with original Global Partnership Indicator methodology</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         <p>This methodology differs substantially from the original GP Indicator in two ways.</p>
         <ul>
         <li><strong><em>All</em> current</strong></em> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many IATI publishers, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
@@ -150,11 +150,11 @@
     </div>
 
 
-    <div class="panel panel-default" id="h_pseudocode">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pseudocode</h3>
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
 
     <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
 

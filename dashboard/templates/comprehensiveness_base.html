@@ -29,14 +29,14 @@
     </ul>
 
     {% block content %}
-    <div class="panel panel-default" id="h_table">
-    <div class="panel-heading">
-        <span class="pull-right"><a href="{{ generated_url }}/data/csv/comprehensiveness_{{ tab }}.csv">(This table as CSV)</a></span>
-        <h3 class="panel-title">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h3>
+    <div class="dashboard-panel" id="h_table">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ generated_url }}/data/csv/comprehensiveness_{{ tab }}.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+        <h2 class="dashboard-panel-heading__title float-start">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h2>
     </div>
 
     {% if self.heading_detail() %}
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
         {% block heading_detail %}{% endblock %}
         {% include '_partials/tablesorter_instructions.html' %}
     </div>
@@ -77,11 +77,11 @@
 
 
     {% block narrative %}
-    <div class="panel panel-default" id="h_narrative">
-        <div class="panel-heading">
-            <h3 class="panel-title">Narrative</h3>
+    <div class="dashboard-panel" id="h_narrative">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Narrative</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             {% block narrative_text %}{% endblock %}
         </div>
     </div>
@@ -89,11 +89,11 @@
 
 
     {% block assessment %}
-    <div class="panel panel-default" id="h_assessment">
-        <div class="panel-heading">
-            <h3 class="panel-title">Assessment</h3>
+    <div class="dashboard-panel" id="h_assessment">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Assessment</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             {% block assessment_text %}{% endblock %}
         </div>
     </div>
@@ -101,11 +101,11 @@
 
 
     {% block exceptions %}
-    <div class="panel panel-default" id="h_exceptions">
-        <div class="panel-heading">
-            <h3 class="panel-title">Exceptions</h3>
+    <div class="dashboard-panel" id="h_exceptions">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Exceptions</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             {% block exceptions_text %}{% endblock %}
         </div>
     </div>
@@ -113,11 +113,11 @@
 
 
     {% block comparison %}
-    <div class="panel panel-default" id="h_comparison">
-        <div class="panel-heading">
-            <h3 class="panel-title">Comparison with original Global Partnership Indicator methodology</h3>
+    <div class="dashboard-panel" id="h_comparison">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Comparison with original Global Partnership Indicator methodology</h2>
         </div>
-        <div class="panel-body">
+        <div class="dashboard-panel-body">
             {% block comparison_text %}
             <p>These tests are more targeted than the original methodology which merely checked for the existence of all fields irrespective of their importance.</p>
             {% endblock %}
@@ -126,11 +126,11 @@
     {% endblock %}
 
 
-    <div class="panel panel-default" id="h_pseudocode">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pseudocode</h3>
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
 
     <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
 

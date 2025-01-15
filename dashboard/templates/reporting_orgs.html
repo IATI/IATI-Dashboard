@@ -3,16 +3,15 @@
 {% block content %}
 <div class="row">
 <div class="col-xs-12">
-    <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-heading">
+      <h2 class="dashboard-panel-heading__title">
         Inconsistent Reporting Org references
-      </h3>
+      </h2>
     </div>
-    <div class="panel-body">
+    <div class="dashboard-panel-body">
       <p>List of Publishers where the reporting-org element does not match the reporting-org field in the IATI Registry.</p>
       {% include '_partials/tablesorter_instructions.html' %}
-    </div>
     <table class="table table-striped">
       <thead><tr>
         <th>Publisher</th>
@@ -35,6 +34,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
     </div>
 </div>
 </div>

@@ -9,12 +9,7 @@ Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-    <div class="col-xs-12">
-    <div class="panel panel-default">
-    <div class="panel-body">
         {% include '_partials/tablesorter_instructions.html' %}
-    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -35,7 +30,4 @@ Organisation Identifiers:  {{ slug.replace('_org', '') | capitalize }} Orgs
             {% endfor %}
         </tbody>
     </table>
-    </div>
-    </div>
-    </div>
 {% endblock %}

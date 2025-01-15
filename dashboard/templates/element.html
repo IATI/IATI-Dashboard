@@ -3,7 +3,7 @@
 
 {% block page_header %}
   <h1>Usage of <code>{{ element }}</code></h1>
-  <p class="lead">Who uses <code>{{ element }}</code>?</p>
+  <p class="dashboard-page-heading__lead">Who uses <code>{{ element }}</code>?</p>
   <p>Checking usage of <code><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
 
   {% if element_or_attribute == 'attribute' %}
@@ -12,20 +12,16 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-xs-12">
-      <h2>Publishers</h2>
-
-      <p>(<a href="{{ stats_url }}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
-    </div>
-  </div>
+  <h2>Publishers</h2>
+  <p>(<a href="{{ stats_url }}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
 
   <div class="row">
     <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Publishing this {{ element_or_attribute }}</h3>
+      <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h3 class="dashboard-panel-heading__title">Publishing this {{ element_or_attribute }}</h3>
         </div>
+        <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
@@ -52,14 +48,16 @@
             {% endfor %}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
 
     <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Not publishing this {{ element_or_attribute }}</h3>
+      <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h3 class="dashboard-panel-heading__title">Not publishing this {{ element_or_attribute }}</h3>
         </div>
+        <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
@@ -80,15 +78,13 @@
             {% endfor %}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </div>
 
 
-  <div class="row">
-    <div class="col-xs-12">
       <h2>Files</h2>
-      <div class="panel panel-default">
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
@@ -108,7 +104,4 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-    </div>
-  </div>
 {% endblock %}
