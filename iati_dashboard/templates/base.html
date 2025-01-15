@@ -176,16 +176,9 @@
             <li class="iati-breadcrumb-item">
               <a href="{{ url(page_view_names[navigation_reverse[page]]) }}" class="iati-breadcrumb-link">{{ top_titles[navigation_reverse[page]] }}</a>
             </li>
-            {% if tab and tab_page_name %}
-              <li class="iati-breadcrumb-item">
-                <a href="{{ url(page_view_names[page]) }}"  class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
-              </li>
-              <li class="iati-breadcrumb-item iati-breadcrumb-item--current"><a aria-current="page" class="iati-breadcrumb-link">{{ tab_page_name }}</a></li>
-            {% else %}
-              <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
-                <a aria-current="page" class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
-              </li>
-            {% endif %}
+            <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
+              <a aria-current="page" class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
+            </li>
           {% endif %}
         {% endif %}
       </ol>

@@ -145,9 +145,13 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
             "dates": "dash-exploringdata-dates",
             "traceability": "dash-exploringdata-traceability",
             "org_ids": "dash-exploringdata-orgids",
-            "timeliness": "dash-publishingstats-timeliness",
+            "timeliness_timelag": "dash-publishingstats-timeliness-timelag",
+            "timeliness_frequency": "dash-publishingstats-timeliness-frequency",
             "forwardlooking": "dash-publishingstats-forwardlooking",
-            "comprehensiveness": "dash-publishingstats-comprehensiveness",
+            "comprehensiveness_summary": "dash-publishingstats-comprehensiveness-summary",
+            "comprehensiveness_core": "dash-publishingstats-comprehensiveness-core",
+            "comprehensiveness_financials": "dash-publishingstats-comprehensiveness-financials",
+            "comprehensiveness_valueadded": "dash-publishingstats-comprehensiveness-valueadded",
             "coverage": "dash-publishingstats-coverage",
             "summary_stats": "dash-publishingstats-summarystats",
             "humanitarian": "dash-publishingstats-humanitarian",
@@ -492,44 +496,44 @@ def exploringdata_traceability(request):
 #
 # Publishing statistics pages.
 #
-def pubstats_comprehensiveness(request):
-    template = loader.get_template("comprehensiveness.html")
-    context = _make_context("comprehensiveness")
+def pubstats_comprehensiveness_summary(request):
+    template = loader.get_template("comprehensiveness_summary.html")
+    context = _make_context("comprehensiveness_summary")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_core(request):
     template = loader.get_template("comprehensiveness_core.html")
-    context = _make_context("comprehensiveness")
+    context = _make_context("comprehensiveness_core")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_financials(request):
     template = loader.get_template("comprehensiveness_financials.html")
-    context = _make_context("comprehensiveness")
+    context = _make_context("comprehensiveness_financials")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_valueadded(request):
     template = loader.get_template("comprehensiveness_valueadded.html")
-    context = _make_context("comprehensiveness")
+    context = _make_context("comprehensiveness_valueadded")
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
-def pubstats_timeliness(request):
-    template = loader.get_template("timeliness.html")
-    context = _make_context("timeliness")
+def pubstats_timeliness_frequency(request):
+    template = loader.get_template("timeliness_frequency.html")
+    context = _make_context("timeliness_frequency")
     context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_timeliness_timelag(request):
     template = loader.get_template("timeliness_timelag.html")
-    context = _make_context("timeliness")
+    context = _make_context("timeliness_timelag")
     context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
 

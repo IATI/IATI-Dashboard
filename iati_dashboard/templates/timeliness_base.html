@@ -7,11 +7,6 @@
         {{ super() }}
     {% endblock %}
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li{% if tab=='frequency_li' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-timeliness') }}">Frequency</a></li>
-      <li{% if tab=='timelag_li' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-timeliness-timelag') }}">Time lag</a></li>
-    </ul>
-
     <ol class="iati-piped-list">
         <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
         <li><a href="#h_summary" class="iati-piped-list__link">Summary of Publisher Performance</a></li>
