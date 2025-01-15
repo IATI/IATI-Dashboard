@@ -7,13 +7,6 @@
         {{ super() }}
     {% endblock %}
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li{% if tab=='summary' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness') }}">Summary</a></li>
-      <li{% if tab=='core' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-core') }}">Core</a></li>
-      <li{% if tab=='financials' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-financials') }}">Financials</a></li>
-      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-valueadded') }}">Value added</a></li>
-    </ul>
-
     <nav>
     <ol class="iati-piped-list">
         <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>

@@ -38,9 +38,13 @@ page_titles = {
     "traceability": "Traceability",
     "org_ids": "Organisation Identifiers",
     "publishing_stats": "Publishing Statistics",
-    "timeliness": "Timeliness",
+    "timeliness_timelag": "Timeliness Timelag",
+    "timeliness_frequency": "Timeliness Frequency",
     "forwardlooking": "Forward Looking",
-    "comprehensiveness": "Comprehensiveness",
+    "comprehensiveness_summary": "Comprehensiveness Summary",
+    "comprehensiveness_core": "Comprehensiveness Core",
+    "comprehensiveness_financials": "Comprehensiveness Financials",
+    "comprehensiveness_valueadded": "Comprehensiveness Value-Added",
     "summary_stats": "Summary Statistics",
     "humanitarian": "Humanitarian Reporting",
 }
@@ -114,7 +118,7 @@ navigation = {
         "reporting_orgs",
     ],
     "exploring_data": ["elements", "codelists", "booleans", "dates", "traceability", "org_ids"],
-    "publishing_stats": ["timeliness", "forwardlooking", "comprehensiveness", "summary_stats", "humanitarian"],
+    "publishing_stats": ["timeliness_timelag", "timeliness_frequency", "forwardlooking", "comprehensiveness_summary", "comprehensiveness_core", "comprehensiveness_financials", "comprehensiveness_valueadded", "summary_stats", "humanitarian"],
 }
 
 LICENSE_NAMES = {
