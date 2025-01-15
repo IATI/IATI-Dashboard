@@ -100,3 +100,17 @@ a.popover-html:focus {
 .dashboard-panel-body {
   margin: 1rem;
 }
+
+.iati-piped-list__link {
+  text-decoration: none;
+  line-height: 1.0;
+  font-weight: 600;
+
+  &:hover {
+    color: var(--color-teal-60);
+  }
+
+  &:visited {
+    color: var(--color-teal-60);
+  }
+}
