@@ -1,6 +1,6 @@
 FROM python:3.12-bookworm
 
-WORKDIR /work/IATI-Dashboard/dashboard
+WORKDIR /work/IATI-Dashboard
 
 COPY requirements.txt /work/IATI-Dashboard/requirements.txt
 
@@ -20,4 +20,4 @@ COPY . /work/IATI-Dashboard
 # As live is broken for now we need this emergency fix, but we should remove it in the future.
 RUN echo "check_certificate=off" > /root/.wgetrc
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--timeout", "120", "ui.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--timeout", "120", "iati_dashboard.ui.wsgi:application"]

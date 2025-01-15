@@ -60,22 +60,16 @@ Bash scripts are used to fetch the data that the Dashboard will present.  They w
 ./fetch_data.sh
 ```
 
-### 3. Build static data and graphs and copy to static
+### 3. Build static data and graphs
 
 ```
 mkdir out
-cd dashboard
-python make_plots.py
-python make_csv.py
-python speakers_kit.py
-cp ../out/data static/
-cp ../img/aggregate static/
-cp ../img/publishers static/
+python -m iati_dashboard.make_plots
+python -m iati_dashboard.make_csv
+python -m iati_dashboard.speakers_kit
 ```
 
 ### 4. Run the webserver.
-
-From `./dashboard/`:
 
 ```
 DEBUG=True python manage.py runserver

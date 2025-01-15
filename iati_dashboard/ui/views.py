@@ -9,16 +9,8 @@ import dateutil.parser
 from django.http import Http404, HttpResponse
 from django.template import loader
 
-import comprehensiveness
-import filepaths
-import forwardlooking
-import humanitarian
-import summary_stats
-import text
-import timeliness
-import ui.template_funcs
-import vars
-from data import (
+from .. import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, text, timeliness, vars
+from ..data import (
     MAJOR_VERSIONS,
     ckan,
     ckan_publishers,
@@ -34,6 +26,7 @@ from data import (
     publishers_ordered_by_title,
     slugs,
 )
+from . import template_funcs
 
 COMMIT_HASH = (
     subprocess.run("git show --format=%H --no-patch".split(), cwd=filepaths.join_base_path(""), capture_output=True)
@@ -110,7 +103,7 @@ def nested_dictinvert(d):
     return inv
 
 
-def _make_context(page_name: str):
+def _make_context(page_name: str, include_large_dicts: bool = True):
     """Make a basic context dictionary for a given page"""
 
     with open(filepaths.join_stats_path("gitdate.json")) as fp:
@@ -159,14 +152,8 @@ def _make_context(page_name: str):
             "summary_stats": "dash-publishingstats-summarystats",
             "humanitarian": "dash-publishingstats-humanitarian",
         },
-        current_stats=current_stats,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
-        ckan_publishers=ckan_publishers,
-        ckan=ckan,
-        codelist_lookup=codelist_lookup,
-        codelist_mapping=codelist_mapping,
-        codelist_sets=codelist_sets,
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
@@ -179,8 +166,8 @@ def _make_context(page_name: str):
         stats_commit_hash=STATS_COMMIT_HASH,
         func={
             "sorted": sorted,
-            "firstint": ui.template_funcs.firstint,
-            "get_codelist_values": ui.template_funcs.get_codelist_values,
+            "firstint": template_funcs.firstint,
+            "get_codelist_values": template_funcs.get_codelist_values,
             "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
             "get_publisher_stats": get_publisher_stats,
             "is_valid_element_or_attribute": is_valid_element_or_attribute,
@@ -188,6 +175,16 @@ def _make_context(page_name: str):
             "enumerate": enumerate,
         },
     )
+
+    if include_large_dicts:
+        # Have the option to exclude these dicts, as they slow the debug pages down consiberably
+        context["current_stats"] = current_stats
+        context["ckan_publishers"] = ckan_publishers
+        context["ckan"] = ckan
+        context["codelist_lookup"] = codelist_lookup
+        context["codelist_mapping"] = codelist_mapping
+        context["codelist_sets"] = codelist_sets
+
     context["navigation_reverse"].update({k: k for k in text.navigation})
 
     return context

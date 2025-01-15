@@ -9,13 +9,10 @@ import subprocess
 from collections import defaultdict
 from datetime import UTC, datetime
 
-import licenses
-from dateutil import parser
-from flask import Flask, Response, abort, render_template, send_from_directory
-
 import comprehensiveness
 import forwardlooking
 import humanitarian
+import licenses
 
 # import coverage
 import summary_stats
@@ -38,6 +35,8 @@ from data import (
     publishers_ordered_by_title,
     slugs,
 )
+from dateutil import parser
+from flask import Flask, Response, abort, render_template, send_from_directory
 from vars import expected_versions
 
 app = Flask(__name__, static_url_path="")

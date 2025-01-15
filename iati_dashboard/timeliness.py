@@ -4,10 +4,9 @@ import datetime
 from collections import Counter, defaultdict
 
 from dateutil.relativedelta import relativedelta
-
-import filepaths
-from cache import json_cache
-from data import JSONDir, get_publisher_stats, get_registry_id_matches, publisher_name
+from iati_dashboard import filepaths
+from iati_dashboard.cache import json_cache
+from iati_dashboard.data import JSONDir, get_publisher_stats, get_registry_id_matches, publisher_name
 
 
 def short_month(month_str):

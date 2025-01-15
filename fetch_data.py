@@ -7,6 +7,7 @@ information in one file per publisher.
 We're particulary looking for information such as
 name, organisation type, and the link back to the registry
 """
+
 import json
 from os import makedirs
 from os.path import join
@@ -15,16 +16,16 @@ from pathlib import Path
 import requests
 
 # Make a directory to save the data about each publisher
-output_path = Path('data/ckan_publishers')
+output_path = Path("data/ckan_publishers")
 makedirs(output_path, exist_ok=True)
 
-res = requests.get('https://registry.codeforiati.org/publisher_list.json')
+res = requests.get("https://registry.codeforiati.org/publisher_list.json")
 res.raise_for_status()
-publishers = res.json()['result']
+publishers = res.json()["result"]
 
 # Loop through the publisher list, saving a file of information about each publisher
 for publisher in publishers:
-    name = publisher.get('name')
-    output = {'result': publisher}
-    with open(join(output_path, name + '.json'), 'w') as fp:
+    name = publisher.get("name")
+    output = {"result": publisher}
+    with open(join(output_path, name + ".json"), "w") as fp:
         _ = json.dump(output, fp)

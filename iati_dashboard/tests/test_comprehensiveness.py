@@ -1,9 +1,4 @@
-import os
-from os import path
-
-os.chdir(path.normpath(path.join(path.abspath(__file__), "../..")))
-
-import comprehensiveness  # noqa: E402
+from iati_dashboard import comprehensiveness  # noqa: E402
 
 mock_stats = {
     "comprehensiveness": {

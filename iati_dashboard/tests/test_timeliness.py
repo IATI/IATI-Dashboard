@@ -1,12 +1,7 @@
 """Testing of functions in timeliness.py
 """
 
-import os
-from os import path
-
-os.chdir(path.normpath(path.join(path.abspath(__file__), "../..")))
-
-import timeliness  # noqa: E402
+from iati_dashboard import timeliness  # noqa: E402
 
 
 def test_short_month():

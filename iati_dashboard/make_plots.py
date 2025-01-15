@@ -13,10 +13,8 @@ import matplotlib as mpl
 import numpy as np  # noqa: F401
 from tqdm import tqdm
 
-import common
-import data
-import filepaths
-from vars import expected_versions  # noqa: F401
+from . import common, data, filepaths
+from .vars import expected_versions  # noqa: F401
 
 mpl.use("Agg")
 import matplotlib.dates as mdates  # noqa: E402

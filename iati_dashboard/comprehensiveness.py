@@ -1,8 +1,9 @@
 # This file converts raw comprehensiveness data to percentages, and calculates averages.
 
-from cache import json_cache
-from data import get_publisher_stats, publisher_name, publishers_ordered_by_title
-from ui.jinja2 import round_nicely
+from iati_dashboard.cache import json_cache
+from iati_dashboard.data import get_publisher_stats, publisher_name, publishers_ordered_by_title
+
+from .ui.jinja2 import round_nicely
 
 columns = {
     "summary": [

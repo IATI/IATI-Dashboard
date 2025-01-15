@@ -1,12 +1,9 @@
 # This file converts a range of transparency data to percentages
 
-import common
-import comprehensiveness
-import forwardlooking
-import timeliness
-from cache import json_cache
-from data import get_publisher_stats, publishers_ordered_by_title, secondary_publishers
-from ui.jinja2 import round_nicely
+from . import common, comprehensiveness, forwardlooking, timeliness
+from .cache import json_cache
+from .data import get_publisher_stats, publishers_ordered_by_title, secondary_publishers
+from .ui.jinja2 import round_nicely
 
 # Set column groupings, to be displayed in the user output
 columns = [

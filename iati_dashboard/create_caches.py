@@ -1,10 +1,9 @@
-from django.conf import settings
-
 import comprehensiveness
 import forwardlooking
 import humanitarian
 import summary_stats
 import timeliness
+from django.conf import settings
 
 settings.configure(DASHBOARD_CREATE_CACHE_FILES=True)
 

@@ -8,7 +8,7 @@ from decimal import Decimal
 
 import xmlschema
 
-import filepaths
+from . import filepaths
 
 
 # Modified from:
