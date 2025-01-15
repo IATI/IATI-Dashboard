@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
 # Application definition
 
 INSTALLED_APPS = [
+    "iati_dashboard.ui",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -55,7 +56,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "ui.urls"
+ROOT_URLCONF = "iati_dashboard.ui.urls"
 
 TEMPLATES = [
     {
@@ -73,7 +74,7 @@ TEMPLATES = [
     },
     {
         "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": ["templates/"],
+        "DIRS": [BASE_DIR / "iati_dashboard" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,12 +83,12 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-            "environment": "ui.jinja2.environment",
+            "environment": "iati_dashboard.ui.jinja2.environment",
         },
     },
 ]
 
-WSGI_APPLICATION = "ui.wsgi.application"
+WSGI_APPLICATION = "iati_dashboard.ui.wsgi.application"
 
 
 # Database
@@ -137,9 +138,9 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "iati_dashboard" / "static",
 ]
-STATIC_ROOT = "../static"
+STATIC_ROOT = "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -149,9 +150,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 #
 # Relative (to dashboard/) paths to IATI data and output directories.
 #
-DASHBOARD_STATS_DIRECTORY = "../stats-calculated"
-DASHBOARD_DATA_DIRECTORY = "../data"
-DASHBOARD_BASE_DIRECTORY = "../"
-DASHBOARD_OUT_DIRECTORY = "../out"
+DASHBOARD_STATS_DIRECTORY = "stats-calculated"
+DASHBOARD_DATA_DIRECTORY = "data"
+DASHBOARD_BASE_DIRECTORY = "."
+DASHBOARD_OUT_DIRECTORY = "out"
 
 DASHBOARD_CREATE_CACHE_FILES = False

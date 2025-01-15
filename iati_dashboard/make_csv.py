@@ -7,14 +7,8 @@ import logging
 import os
 import sys
 
-import comprehensiveness
-import data
-import filepaths
-import forwardlooking
-import humanitarian
-import summary_stats
-import timeliness
-from ui.jinja2 import round_nicely
+from . import comprehensiveness, data, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
+from .ui.jinja2 import round_nicely
 
 logger = logging.getLogger(__name__)
 

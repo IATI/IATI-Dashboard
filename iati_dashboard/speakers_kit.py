@@ -3,8 +3,7 @@ import json
 from collections import defaultdict
 from itertools import zip_longest
 
-import data
-import filepaths
+from . import data, filepaths
 
 
 def codelist_dict(codelist_path):

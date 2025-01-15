@@ -1,8 +1,8 @@
 # This file builds a table to show humanitarian reporting for each publisher
 
-import common
-from cache import json_cache
-from data import get_publisher_stats, publishers_ordered_by_title
+from .cache import json_cache
+from .common import get_publisher_type
+from .data import get_publisher_stats, publishers_ordered_by_title
 
 # Set column groupings, to be displayed in the user output
 columns = [
@@ -30,7 +30,7 @@ def table():
         row = {}
         row["publisher"] = publisher
         row["publisher_title"] = publisher_title
-        row["publisher_type"] = common.get_publisher_type(publisher)["name"]
+        row["publisher_type"] = get_publisher_type(publisher)["name"]
 
         # Get data from IATI-Stats output
         row["num_activities"] = publisher_stats.get("humanitarian", {}).get("is_humanitarian", "0")

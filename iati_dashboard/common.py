@@ -2,8 +2,7 @@
 
 import json
 
-import data
-import filepaths
+from . import data, filepaths
 
 #  Import organisation_type_codelist as a global, then delete when used to save memory
 with open(filepaths.join_data_path("IATI-Codelists-2/out/clv2/json/en/OrganisationType.json")) as fh:

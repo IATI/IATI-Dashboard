@@ -7,7 +7,7 @@ from django.templatetags.static import static
 from django.urls import reverse
 from jinja2 import Environment
 
-import timeliness
+from .. import timeliness
 
 
 def round_nicely(val, ndigits=0):

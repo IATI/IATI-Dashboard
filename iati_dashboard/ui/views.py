@@ -9,16 +9,8 @@ import dateutil.parser
 from django.http import Http404, HttpResponse
 from django.template import loader
 
-import comprehensiveness
-import filepaths
-import forwardlooking
-import humanitarian
-import summary_stats
-import text
-import timeliness
-import ui.template_funcs
-import vars
-from data import (
+from .. import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, text, timeliness, vars
+from ..data import (
     MAJOR_VERSIONS,
     ckan,
     ckan_publishers,
@@ -34,6 +26,7 @@ from data import (
     publishers_ordered_by_title,
     slugs,
 )
+from . import template_funcs
 
 COMMIT_HASH = (
     subprocess.run("git show --format=%H --no-patch".split(), cwd=filepaths.join_base_path(""), capture_output=True)
@@ -173,8 +166,8 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         stats_commit_hash=STATS_COMMIT_HASH,
         func={
             "sorted": sorted,
-            "firstint": ui.template_funcs.firstint,
-            "get_codelist_values": ui.template_funcs.get_codelist_values,
+            "firstint": template_funcs.firstint,
+            "get_codelist_values": template_funcs.get_codelist_values,
             "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
             "get_publisher_stats": get_publisher_stats,
             "is_valid_element_or_attribute": is_valid_element_or_attribute,
