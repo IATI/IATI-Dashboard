@@ -4,7 +4,7 @@
 
 
 {% block heading_detail %}
-	<p>Core elements are those that are mandatory in version 2.01 of the IATI Activity standard. The core elements are: Version, Reporting Organisation, IATI Identifier, Participating Organisation, Title, Description, Status, Activity Date, Sector, and Country or Region.</p>
+	<p>Core elements are those that are mandatory in the latest version of the IATI Activity standard. The core elements are: Version, Reporting Organisation, IATI Identifier, Participating Organisation, Title, Description, Status, Activity Date, Sector, and Country or Region.</p>
 
 	<p>This table shows the percentage of <strong><em>current</em></strong> activities where the core elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.) The scoring for the <a href="{{ url('dash-publishingstats-summarystats') }}">Summary Stats page</a> recognises the importance of the core by giving it double weighting in the overall comprehensiveness component.</p>
 
@@ -16,7 +16,6 @@
 
 {% block narrative_text %}
 	<h3>Overview</h3>
-	<p>Version 2.01 introduced a more stringent approach to the way in which data can be validated (through the requirement that elements are published in a specified order) and as a result ten elements are mandatory for all activities under all conditions. This tab measures how comprehensively publishers are meeting these requirements, irrespective of whether they are using V2.01 or not.</p>
 
 	<p>Only <strong><em>current</em></strong> activities are assessed. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date.</p>
 
@@ -25,10 +24,10 @@
 	<p>Percentage of all current activities which contain a valid version number in the <code>&lt;iati-activities&gt;</code> file header element.</p>
 
 	<h4>Reporting Organisation</h4>
-	<p>Percentage of all current activities which contain both a name and an identifier for the reporting organisation. (In future this will also check that the identifier contains a valid prefix identifying a registration agency.)</p>
+	<p>Percentage of all current activities which contain both a name and an identifier for the reporting organisation.</p>
 
 	<h4>IATI Identifier</h4>
-	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with either the identifier reported for the reporting organisation, or (if publishing at v2.xx) an identifier reported in the <code>&lt;other-identifier&gt;</code> element. (In future this will also check that each identifier is globally unique.)</p>
+	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with either the identifier reported for the reporting organisation, or (if publishing at v2.xx) an identifier reported in the <code>&lt;other-identifier&gt;</code> element.</p>
 
 	<h4>Participating Organisation</h4>
 	<p>Percentage of all current activities that contain a participating organisation of type <code>funding</code>.</p>
