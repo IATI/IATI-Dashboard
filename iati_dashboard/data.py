@@ -198,7 +198,6 @@ current_stats = {
     "download_errors": [],
 }
 ckan_publishers = JSONDir(filepaths.join_data_path("ckan_publishers"))
-github_issues = JSONDir(filepaths.join_data_path("github/publishers"))
 ckan = json.load(open(filepaths.join_stats_path("ckan.json")), object_pairs_hook=OrderedDict)
 dataset_to_publisher_dict = {
     dataset: publisher for publisher, publisher_dict in ckan.items() for dataset in publisher_dict.keys()
