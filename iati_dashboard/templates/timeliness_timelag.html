@@ -70,19 +70,19 @@
                 </tr>
             </thead>
             <tbody>
-            {% set summary = timeliness.publisher_timelag_summary() %}
-            {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.timelag_index) %}
+            {% for bin in publisher_timelag_summary %}
                 <tr>
-                    <td>{{ assessment }}</td>
-                    <td>{{ count }}</td>
+                    <td>{{ bin.timelag }}</td>
+                    <td>{{ bin.total }}</td>
                 </tr>
             {% endfor %}
             </tbody>
             <tfoot>
                 <tr>
                     <td>Total</td>
-                    <td>{{ summary.values()|sum }}</td>
+                    <td>{{ publisher_count }}</td>
                 </tr>
+            </tfoot>
         </table>
         </div>
     </div>
