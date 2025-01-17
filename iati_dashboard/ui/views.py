@@ -6,6 +6,7 @@ import json
 import subprocess
 
 import dateutil.parser
+from django.db.models import Count, F
 from django.http import Http404, HttpResponse
 from django.template import loader
 
@@ -575,6 +576,16 @@ def pubstats_timeliness_frequency(request):
     template = loader.get_template("timeliness_frequency.html")
     context = _make_context("timeliness_frequency", include_large_dicts=False)
     context["timeliness"] = timeliness
+    context["publisher_frequency_summary"] = sorted(
+        list(
+            models.Publisher.objects.annotate(frequency=F("timeliness_frequency__frequency"))
+            .values("frequency")
+            .annotate(total=Count("frequency"))
+        ),
+        key=lambda x: timeliness.frequency_index(x["frequency"]),
+    )
+    context["publisher_count"] = models.Publisher.objects.count()
+
     return HttpResponse(template.render(context, request))
 
 
@@ -582,6 +593,15 @@ def pubstats_timeliness_timelag(request):
     template = loader.get_template("timeliness_timelag.html")
     context = _make_context("timeliness_timelag", include_large_dicts=False)
     context["timeliness"] = timeliness
+    context["publisher_timelag_summary"] = sorted(
+        list(
+            models.Publisher.objects.annotate(timelag=F("stats_json__timelag"))
+            .values("timelag")
+            .annotate(total=Count("timelag"))
+        ),
+        key=lambda x: timeliness.timelag_index(x["timelag"]),
+    )
+    context["publisher_count"] = models.Publisher.objects.count()
     return HttpResponse(template.render(context, request))
 
 

@@ -193,7 +193,3 @@ def has_future_transactions(publisher):
         if date >= mindate and latest_transaction_date and latest_transaction_date > date:
             return 1
     return 0
-
-
-def sort_first(list_, key):
-    return sorted(list_, key=lambda x: key(x[0]))

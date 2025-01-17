@@ -22,5 +22,5 @@ class Command(BaseCommand):
                 comprehensiveness=comprehensiveness.generate_row(publisher_slug),
                 humanitarian=humanitarian.generate_row(publisher_slug),
             )
-            publisher.summary_stats = (summary_stats.generate_row(publisher),)
+            publisher.summary_stats = summary_stats.generate_row(publisher)
             publisher.save()
