@@ -11,18 +11,14 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Fetching data"
 
 cd dashboard
 
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running plots.py"
-python make_plots.py || exit 1
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_plots.py"
+python -m iati_dashboard.make_plots || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
-python make_csv.py || exit 1
+python -m iati_dashboard.make_csv || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers_kit.py"
-python speakers_kit.py || exit 1
-
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running create_caches.py"
-rm -r cache
-python create_caches.py || exit 1
+python -m iati_dashboard.speakers_kit || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import"
 python manage.py dashboard_import
