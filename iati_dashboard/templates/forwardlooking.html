@@ -55,11 +55,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in forwardlooking.table() %}
+                {% for publisher in publishers %}
                 <tr>
-                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[row.publisher]) }}">{{ row.publisher_title }}</a></td>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.slug]) }}">{{ publisher.title }}</a></td>
 
-                    {% for column in row.year_columns %}
+                    {% for column in publisher.forwardlooking.year_columns %}
                         {% for year in forwardlooking.years %}
                             <td {% if not column[year] or column[year]=='-' %}class="dashboard-text-muted"{% endif %}>
                                 {% if column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
@@ -67,11 +67,11 @@
                         {% endfor %}
                     {% endfor %}
 
-                    {%- if row['flag'] and row['budget_not_provided'] -%}
+                    {%- if publisher.forwardlooking['flag'] and publisher.forwardlooking['budget_not_provided'] -%}
                     <td class="dashboard-mixed-flag" data-severity="3"><a href="#h_exceptions">*</a></td>
-                    {%- elif row['budget_not_provided'] -%}
+                    {%- elif publisher.forwardlooking['budget_not_provided'] -%}
                     <td class="dashboard-red-flag" data-severity="1"><a href="#h_exceptions">*</a></td>
-                    {%- elif row['flag'] -%}
+                    {%- elif publisher.forwardlooking['flag'] -%}
                     <td class="dashboard-yellow-flag" data-severity="2"><a href="#h_exceptions">*</a></td>
                     {%- else -%}
                     <td data-severity="0"></td>

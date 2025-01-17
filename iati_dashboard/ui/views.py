@@ -9,7 +9,17 @@ import dateutil.parser
 from django.http import Http404, HttpResponse
 from django.template import loader
 
-from .. import comprehensiveness, filepaths, forwardlooking, humanitarian, models, summary_stats, text, timeliness, vars
+from .. import (
+    comprehensiveness,
+    filepaths,
+    forwardlooking,
+    humanitarian,
+    models,
+    summary_stats,
+    text,
+    timeliness,
+    vars,
+)
 from ..data import (
     MAJOR_VERSIONS,
     ckan,
@@ -535,63 +545,63 @@ def exploringdata_traceability(request):
 #
 def pubstats_comprehensiveness_summary(request):
     template = loader.get_template("comprehensiveness_summary.html")
-    context = _make_context("comprehensiveness_summary")
+    context = _make_context("comprehensiveness_summary", include_large_dicts=False)
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_core(request):
     template = loader.get_template("comprehensiveness_core.html")
-    context = _make_context("comprehensiveness_core")
+    context = _make_context("comprehensiveness_core", include_large_dicts=False)
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_financials(request):
     template = loader.get_template("comprehensiveness_financials.html")
-    context = _make_context("comprehensiveness_financials")
+    context = _make_context("comprehensiveness_financials", include_large_dicts=False)
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_comprehensiveness_valueadded(request):
     template = loader.get_template("comprehensiveness_valueadded.html")
-    context = _make_context("comprehensiveness_valueadded")
+    context = _make_context("comprehensiveness_valueadded", include_large_dicts=False)
     context["comprehensiveness"] = comprehensiveness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_timeliness_frequency(request):
     template = loader.get_template("timeliness_frequency.html")
-    context = _make_context("timeliness_frequency")
+    context = _make_context("timeliness_frequency", include_large_dicts=False)
     context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_timeliness_timelag(request):
     template = loader.get_template("timeliness_timelag.html")
-    context = _make_context("timeliness_timelag")
+    context = _make_context("timeliness_timelag", include_large_dicts=False)
     context["timeliness"] = timeliness
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_summarystats(request):
     template = loader.get_template("summary_stats.html")
-    context = _make_context("summary_stats")
+    context = _make_context("summary_stats", include_large_dicts=False)
     context["summary_stats"] = summary_stats
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_forwardlooking(request):
     template = loader.get_template("forwardlooking.html")
-    context = _make_context("forwardlooking")
+    context = _make_context("forwardlooking", include_large_dicts=False)
     context["forwardlooking"] = forwardlooking
     return HttpResponse(template.render(context, request))
 
 
 def pubstats_humanitarian(request):
     template = loader.get_template("humanitarian.html")
-    context = _make_context("humanitarian")
+    context = _make_context("humanitarian", include_large_dicts=False)
     context["humanitarian"] = humanitarian
     return HttpResponse(template.render(context, request))
 
