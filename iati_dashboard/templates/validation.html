@@ -2,9 +2,9 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Invalid files', current_stats.aggregated.validation.fail, 'img/aggregate/validation.png', 'validation.json',
+      {{ boxes.box_h2('Invalid files', current_stats.aggregated.validation.fail, 'img/aggregate/validation.png', 'validation.json',
         description='Count of files that do not validate against the relevant schema, over time.') }}
-      {{ boxes.box('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'img/aggregate/publishers_validation.png', 'publishers_validation.json',
+      {{ boxes.box_h2('Publishers with invalid files', current_stats.aggregated.publishers_validation.fail, 'img/aggregate/publishers_validation.png', 'publishers_validation.json',
         description='Count of publishers that have at least one invalid file, over time') }}
     </div>
 

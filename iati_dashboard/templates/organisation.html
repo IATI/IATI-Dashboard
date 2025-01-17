@@ -2,7 +2,7 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'img/aggregate/publisher_has_org_file.png', 'publisher_has_org_file.json',
+      {{ boxes.box_h2('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'img/aggregate/publisher_has_org_file.png', 'publisher_has_org_file.json',
         description='Count of publishers without an organisation file, over time.') }}
       <div class="col-md-6">
         <div class="dashboard-panel">

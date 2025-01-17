@@ -1,22 +1,55 @@
-{% macro box(title, number, image, json, legend, folderextra, description) %}
+{% macro box_h2(title, number, image, json, legend, folderextra, description) %}
       <div class="col-md-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              {% set title_id = title.replace(' ', '-').lower() %}
-              <span id="{{ title_id }}" class="title-number">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number }}{% endif %}</span>
-              <span class="title-text">{{ title }}</span>
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading clearfix">
+            <h2 class="dashboard-panel-heading__title float-start">
+              {% if number %}
+                {% set title_id = title.replace(' ', '-').lower() %}
+                <span id="{{ title_id }}" class="dashboard-panel-heading__titlenum" aria-hidden="true">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number }}{% endif %}</span>
+              {% endif %}
+              {{ title }}
+            </h2>
+            {% if json %}
+              {% if folderextra %}
+                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" class="float-end dashboard-panel-heading__title">(J)</a>
+              {% else %}
+                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" class="float-end dashboard-panel-heading__title">(J)</a>
+              {% endif %}
+            {% endif %}
+          </div>
+          <div class="dashboard-panel-body">
+            {% if description %}
+              <p>{{ description|safe }}</p>
+            {% endif %}
+            <img src="{{ generated_url }}/{{ image }}" width="100%" />
+            {% if legend %}
+              <img src="{{ generated_url }}/{{ legend }}" width="100%" />
+            {% endif %}
+          </div>
+        </div>
+      </div>
+{% endmacro %}
+
+{% macro box_h3(title, number, image, json, legend, folderextra, description) %}
+      <div class="col-md-6">
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading clearfix">
+            <h3 class="dashboard-panel-heading__title float-start">
+              {% if number %}
+                {% set title_id = title.replace(' ', '-').lower() %}
+                <span id="{{ title_id }}" class="dashboard-panel-heading__titlenum" aria-hidden="true">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number }}{% endif %}</span>
+              {% endif %}
+              {{ title }}
             </h3>
             {% if json %}
               {% if folderextra %}
-                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" style="float:right">(J)</a>
+                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" class="float-end dashboard-panel-heading__title">(J)</a>
               {% else %}
-                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" style="float:right">(J)</a>
+                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" class="float-end dashboard-panel-heading__title">(J)</a>
               {% endif %}
             {% endif %}
-            <div class="clearfix"></div>
           </div>
-          <div class="panel-body">
+          <div class="dashboard-panel-body">
             {% if description %}
               <p>{{ description|safe }}</p>
             {% endif %}

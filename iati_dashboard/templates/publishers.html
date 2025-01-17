@@ -2,9 +2,9 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Publishers', current_stats.aggregated.publishers, 'img/aggregate/publishers.png', 'publishers.json',
+      {{ boxes.box_h2('Publishers', current_stats.aggregated.publishers, 'img/aggregate/publishers.png', 'publishers.json',
         description='This graph shows the number of organisations publishing IATI data over time.') }}
-      {{ boxes.box('Publishers by type', '', 'img/aggregate/publisher_types.png', None, 'img/aggregate/publisher_types_legend.png',
+      {{ boxes.box_h2('Publishers by type', '', 'img/aggregate/publisher_types.png', None, 'img/aggregate/publisher_types_legend.png',
         description='This graph show the various types of organisations publishing IATI data.') }}
     </div>
 

@@ -2,7 +2,7 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Files that fail to download', current_stats.download_errors|length, 'img/aggregate/failed_downloads.png',
+      {{ boxes.box_h2('Files that fail to download', current_stats.download_errors|length, 'img/aggregate/failed_downloads.png',
         description='Count of files that fail to download, over time.') }}
     </div>
 
