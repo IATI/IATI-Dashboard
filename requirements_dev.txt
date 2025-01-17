@@ -41,7 +41,7 @@ cycler==0.12.1
     # via
     #   -r requirements.txt
     #   matplotlib
-django==5.1.4
+django==5.1.5
     # via -r requirements.txt
 django-environ==0.11.2
     # via -r requirements.txt
