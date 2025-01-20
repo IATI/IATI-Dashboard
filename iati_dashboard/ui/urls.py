@@ -83,9 +83,10 @@ urlpatterns = (
             name="dash-exploringdata-orgtypes-detail",
         ),
         # Publishing statistics pages.
-        path("publishing-statistics/timeliness-frequency",
-             views.pubstats_timeliness_frequency,
-             name="dash-publishingstats-timeliness-frequency"
+        path(
+            "publishing-statistics/timeliness-frequency",
+            views.pubstats_timeliness_frequency,
+            name="dash-publishingstats-timeliness-frequency",
         ),
         path(
             "publishing-statistics/timeliness-timelag",
@@ -142,7 +143,7 @@ urlpatterns = (
         path("publishing_stats.html", RedirectView.as_view(pattern_name="dash-publishingstats", permanent=True)),
         path(
             "timeliness.html",
-            RedirectView.as_view(pattern_name="dash-publishingstats-timeliness-frequency", permanent=True)
+            RedirectView.as_view(pattern_name="dash-publishingstats-timeliness-frequency", permanent=True),
         ),
         path(
             "timeliness_timelag.html",

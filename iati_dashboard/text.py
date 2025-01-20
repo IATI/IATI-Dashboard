@@ -118,7 +118,17 @@ navigation = {
         "reporting_orgs",
     ],
     "exploring_data": ["elements", "codelists", "booleans", "dates", "traceability", "org_ids"],
-    "publishing_stats": ["timeliness_timelag", "timeliness_frequency", "forwardlooking", "comprehensiveness_summary", "comprehensiveness_core", "comprehensiveness_financials", "comprehensiveness_valueadded", "summary_stats", "humanitarian"],
+    "publishing_stats": [
+        "timeliness_timelag",
+        "timeliness_frequency",
+        "forwardlooking",
+        "comprehensiveness_summary",
+        "comprehensiveness_core",
+        "comprehensiveness_financials",
+        "comprehensiveness_valueadded",
+        "summary_stats",
+        "humanitarian",
+    ],
 }
 
 LICENSE_NAMES = {
