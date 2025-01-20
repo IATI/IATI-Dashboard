@@ -27,7 +27,7 @@
             <thead>
               <tr>
                 <th scope="col">Dataset</th>
-                <th scope="col">URL</th>
+                <th style="max-width: 300px; overflow: clip;" scope="col">URL</th>
                 <th scope="col">Validator report</th>
               </tr>
             </thead>
@@ -36,7 +36,7 @@
             {% with dataset_name=dataset %}
               <tr>
                 <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
-                <td>
+                <td style="max-width: 300px; overflow: clip;">
                   {% if publisher in ckan and dataset_name in ckan[publisher] %}
                   <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
                   {% endif %}

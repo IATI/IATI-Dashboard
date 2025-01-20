@@ -22,7 +22,7 @@
               <tr>
                 <th>Publisher</th>
                 <th>Registry Dataset</th>
-                <th>URL</th>
+                <th style="max-width: 400px; overflow: clip;">URL</th>
                 <th><a href="https://everything.curl.dev/usingcurl/returns">Error Code</a></th>
               </tr>
             </thead>
@@ -31,7 +31,7 @@
               <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
                 <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
-                <td><a href="{{ err_url }}">{{ err_url|url_to_filename }}</a></td>
+                <td style="max-width: 400px; overflow: clip;"><a href="{{ err_url }}">{{ err_url|url_to_filename }}</a></td>
                 <td>{{ code }}</td>
               </tr>
               {% endfor %}
