@@ -103,6 +103,44 @@ def nested_dictinvert(d):
     return inv
 
 
+PAGE_VIEW_NAMES = {
+    "index": "dash-index",
+    "headlines": "dash-headlines",
+    "data_quality": "dash-dataquality",
+    "publishing_stats": "dash-publishingstats",
+    "exploring_data": "dash-exploringdata",
+    "faq": "dash-faq",
+    "publishers": "dash-headlines-publishers",
+    "files": "dash-headlines-files",
+    "activities": "dash-headlines-activities",
+    "publisher": "dash-headlines-publisher-detail",
+    "download": "dash-dataquality-download",
+    "xml": "dash-dataquality-xml",
+    "validation": "dash-dataquality-validation",
+    "versions": "dash-dataquality-versions",
+    "organisation": "dash-dataquality-organisation",
+    "licenses": "dash-dataquality-licenses",
+    "identifiers": "dash-dataquality-identifiers",
+    "reporting_orgs": "dash-dataquality-reportingorgs",
+    "elements": "dash-exploringdata-elements",
+    "codelists": "dash-exploringdata-codelists",
+    "booleans": "dash-exploringdata-booleans",
+    "dates": "dash-exploringdata-dates",
+    "traceability": "dash-exploringdata-traceability",
+    "org_ids": "dash-exploringdata-orgids",
+    "timeliness_timelag": "dash-publishingstats-timeliness-timelag",
+    "timeliness_frequency": "dash-publishingstats-timeliness-frequency",
+    "forwardlooking": "dash-publishingstats-forwardlooking",
+    "comprehensiveness_summary": "dash-publishingstats-comprehensiveness-summary",
+    "comprehensiveness_core": "dash-publishingstats-comprehensiveness-core",
+    "comprehensiveness_financials": "dash-publishingstats-comprehensiveness-financials",
+    "comprehensiveness_valueadded": "dash-publishingstats-comprehensiveness-valueadded",
+    "coverage": "dash-publishingstats-coverage",
+    "summary_stats": "dash-publishingstats-summarystats",
+    "humanitarian": "dash-publishingstats-humanitarian",
+}
+
+
 def _make_context(page_name: str, include_large_dicts: bool = True):
     """Make a basic context dictionary for a given page"""
 
@@ -120,42 +158,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         top_navigation=text.top_navigation,
         navigation=text.navigation,
         navigation_reverse={page: k for k, pages in text.navigation.items() for page in pages},
-        page_view_names={
-            "index": "dash-index",
-            "headlines": "dash-headlines",
-            "data_quality": "dash-dataquality",
-            "publishing_stats": "dash-publishingstats",
-            "exploring_data": "dash-exploringdata",
-            "faq": "dash-faq",
-            "publishers": "dash-headlines-publishers",
-            "files": "dash-headlines-files",
-            "activities": "dash-headlines-activities",
-            "publisher": "dash-headlines-publisher-detail",
-            "download": "dash-dataquality-download",
-            "xml": "dash-dataquality-xml",
-            "validation": "dash-dataquality-validation",
-            "versions": "dash-dataquality-versions",
-            "organisation": "dash-dataquality-organisation",
-            "licenses": "dash-dataquality-licenses",
-            "identifiers": "dash-dataquality-identifiers",
-            "reporting_orgs": "dash-dataquality-reportingorgs",
-            "elements": "dash-exploringdata-elements",
-            "codelists": "dash-exploringdata-codelists",
-            "booleans": "dash-exploringdata-booleans",
-            "dates": "dash-exploringdata-dates",
-            "traceability": "dash-exploringdata-traceability",
-            "org_ids": "dash-exploringdata-orgids",
-            "timeliness_timelag": "dash-publishingstats-timeliness-timelag",
-            "timeliness_frequency": "dash-publishingstats-timeliness-frequency",
-            "forwardlooking": "dash-publishingstats-forwardlooking",
-            "comprehensiveness_summary": "dash-publishingstats-comprehensiveness-summary",
-            "comprehensiveness_core": "dash-publishingstats-comprehensiveness-core",
-            "comprehensiveness_financials": "dash-publishingstats-comprehensiveness-financials",
-            "comprehensiveness_valueadded": "dash-publishingstats-comprehensiveness-valueadded",
-            "coverage": "dash-publishingstats-coverage",
-            "summary_stats": "dash-publishingstats-summarystats",
-            "humanitarian": "dash-publishingstats-humanitarian",
-        },
+        page_view_names=PAGE_VIEW_NAMES,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
         github_issues=github_issues,
@@ -178,7 +181,30 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
             "set": set,
             "enumerate": enumerate,
         },
+        breadcrumbs=[{"view": "dash-index", "title": "Home"}],
     )
+
+    context["navigation_reverse"].update({k: k for k in text.navigation})
+
+    # Build the list of breadcrumbs for page navigation rather than doing
+    # it programmatically in the template.
+    if page_name == "index":
+        pass
+    elif page_name == "registration_agencies":
+        context["breadcrumbs"].append({"view": "dash-registrationagencies", "title": "Registration Agencies"})
+    else:
+        if page_name in text.top_titles:
+            context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES[page_name], "title": text.top_titles[page_name]})
+        else:
+            context["breadcrumbs"].append(
+                {
+                    "view": PAGE_VIEW_NAMES[context["navigation_reverse"][page_name]],
+                    "title": text.top_titles[context["navigation_reverse"][page_name]],
+                }
+            )
+            context["breadcrumbs"].append(
+                {"view": PAGE_VIEW_NAMES[page_name], "title": text.short_page_titles[page_name]}
+            )
 
     if include_large_dicts:
         # Have the option to exclude these dicts, as they slow the debug pages down consiberably
@@ -188,8 +214,6 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         context["codelist_lookup"] = codelist_lookup
         context["codelist_mapping"] = codelist_mapping
         context["codelist_sets"] = codelist_sets
-
-    context["navigation_reverse"].update({k: k for k in text.navigation})
 
     return context
 
@@ -249,6 +273,7 @@ def headlines_publisher_detail(request, publisher=None):
     template = loader.get_template("publisher.html")
 
     context = _make_context("publishers")
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["publisher"], "title": publisher_name[publisher]})
     context["publisher"] = publisher
     context["publisher_inverted"] = get_publisher_stats(publisher, "inverted-file")
     context["publisher_licenses"] = _get_licenses_for_publisher(publisher)
@@ -386,6 +411,7 @@ def dataquality_licenses_detail(request, license_id=None):
         if package["license_id"] == license_id or (license_id == "notspecified" and package["license_id"] is None)
     ]
     context = _make_context("licenses")
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["licenses"], "title": text.LICENSE_NAMES[license_id]})
     context["license_urls"] = LICENSE_URLS
     context["license_names"] = text.LICENSE_NAMES
     context["licenses"] = True
@@ -431,6 +457,9 @@ def exploringdata_element_detail(request, element=None):
     context["element"] = list(current_stats["inverted_publisher"]["elements"])[i]
     context["publishers"] = list(current_stats["inverted_publisher"]["elements"].values())[i]
     context["element_or_attribute"] = "attribute" if "@" in context["element"] else "element"
+
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["elements"], "title": '"' + context["element"] + '"'})
+
     return HttpResponse(template.render(context, request))
 
 
@@ -446,6 +475,11 @@ def exploringdata_orgtypes_detail(request, org_type=None):
     template = loader.get_template("org_type.html")
     context = _make_context("org_ids")
     context["slug"] = org_type
+
+    context["breadcrumbs"].append(
+        {"view": PAGE_VIEW_NAMES["org_ids"], "title": org_type.replace("_org", "").title() + " Organisations"}
+    )
+
     return HttpResponse(template.render(context, request))
 
 
@@ -474,6 +508,8 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
         major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()
     }
     context["major_version"] = major_version
+
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["codelists"], "title": '"' + element + '"'})
 
     return HttpResponse(template.render(context, request))
 
