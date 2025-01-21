@@ -110,18 +110,8 @@
             <label for="iati-country-switcher" class="iati-country-switcher__label">Choose your language</label>
             <select id="iati-country-switcher" class="iati-country-switcher__control">
               <option>English</option>
-              <option>French</option>
             </select>
           </div>
-
-          <button class="iati-button iati-button--light hide--mobile-nav">
-            <span>Help Docs</span>
-            <i class="iati-icon iati-icon--info"></i>
-          </button>
-          <button class="iati-button iati-button--light">
-            <span>Search</span>
-            <i class="iati-icon iati-icon--search"></i>
-          </button>
 
           <button class="iati-menu-toggle iati-menu-toggle--open js-iati-menu-toggle-open">
             <span class="iati-menu-toggle__label">Menu</span>
@@ -130,7 +120,8 @@
         </div>
 
         <div class="iati-header-title">
-          <p class="iati-header-title__eyebrow">IATI Dashboard</p>
+          <p class="iati-header-title__eyebrow">IATI Tools</p>
+          <p class="iati-header-title__heading">IATI Dashboard</p>
         </div>
 
         <div class="iati-header__nav">
@@ -153,41 +144,17 @@
 
     <nav class="iati-breadcrumb">
       <ol class="iati-breadcrumb__list">
-        {% if page=='index' %}
-          <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
-            <a aria-current="page" class="iati-breadcrumb-link">{{ top_titles['index'] }}</a>
-          </li>
-        {% elif page=='registration_agencies' %}
-          <li class="iati-breadcrumb-item">
-            <a href="{{ url(page_view_names['index']) }}" class="iati-breadcrumb-link">{{ top_titles['index'] }}</a>
-          </li>
-          <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
-            <a aria-current="page" class="iati-breadcrumb-link">Registration Agencies</a>
-          </li>
-        {% else %}
-          <li class="iati-breadcrumb-item">
-            <a href="{{ url(page_view_names['index']) }}" class="iati-breadcrumb-link">{{ top_titles['index'] }}</a>
-          </li>
-          {% if page in top_titles %}
+        {% for crumb in breadcrumbs %}
+          {% if loop.last %}
             <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
-              <a aria-current="page" class="iati-breadcrumb-link">{{ top_titles[page] }}</a>
+              <a aria-current="page" class="iati-breadcrumb-link">{{ crumb.title }}</a>
             </li>
           {% else %}
             <li class="iati-breadcrumb-item">
-              <a href="{{ url(page_view_names[navigation_reverse[page]]) }}" class="iati-breadcrumb-link">{{ top_titles[navigation_reverse[page]] }}</a>
+              <a href="{{ url(crumb.view) }}" class="iati-breadcrumb-link">{{ crumb.title }}</a>
             </li>
-            {% if tab and tab_page_name %}
-              <li class="iati-breadcrumb-item">
-                <a href="{{ url(page_view_names[page]) }}"  class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
-              </li>
-              <li class="iati-breadcrumb-item iati-breadcrumb-item--current"><a aria-current="page" class="iati-breadcrumb-link">{{ tab_page_name }}</a></li>
-            {% else %}
-              <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
-                <a aria-current="page" class="iati-breadcrumb-link">{{ short_page_titles[page] }}</a>
-              </li>
-            {% endif %}
           {% endif %}
-        {% endif %}
+        {% endfor %}
       </ol>
     </nav>
 
@@ -257,17 +224,21 @@
           <div class="iati-footer-block">
             <h2 class="iati-footer-block__title">Additional information</h2>
             <div class="iati-footer-block__content iati-footer-block__content--columns">
-              <p>
-                Part of the IATI Unified Platform Code licensed under the GNU AGPL.
-              </p>
-              <p>Documentation licensed under CC by 3.0</p>
-              <p>
-                Generated from data downloaded on <em>{{ datetime_data }}</em>.  Please note, this is the time
-                the download task started. Any changes made after this time may not be reflected.
-              </p>
-              <p>
-                For details on how often these updates are applied, see the <a href="{{ url('dash-faq') }}">IATI Dashboard FAQ</a>.
-              </p>
+              <div>
+                <p>
+                  Part of the IATI Unified Platform Code licensed under the GNU AGPL.
+                </p>
+                <p>Documentation licensed under CC by 3.0</p>
+              </div>
+              <div>
+                <p>
+                  Generated from data downloaded on <em>{{ datetime_data }}</em>.  Please note, this is the time
+                  the download task started. Any changes made after this time may not be reflected.
+                </p>
+                <p>
+                  For details on how often these updates are applied, see the <a href="{{ url('dash-faq') }}">IATI Dashboard FAQ</a>.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -278,7 +249,7 @@
             <ul class="iati-piped-list iati-footer__legal-nav">
               <li><a href="https://iatistandard.org/en/privacy-policy/">Privacy</a></li>
               <li><a href="https://iatistandard.org/en/data-removal/">Data removal</a></li>
-              <li><span>© Copyright IATI 2024. All rights reserved</span></li>
+              <li><span>© Copyright IATI 2025. All rights reserved</span></li>
             </ul>
           </nav>
   
@@ -286,7 +257,6 @@
             <label for="iati-country-switcher" class="iati-country-switcher__label">Choose your language</label>
             <select id="iati-country-switcher" class="iati-country-switcher__control">
               <option>English</option>
-              <option>French</option>
             </select>
           </div>
   

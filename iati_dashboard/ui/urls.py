@@ -83,7 +83,11 @@ urlpatterns = (
             name="dash-exploringdata-orgtypes-detail",
         ),
         # Publishing statistics pages.
-        path("publishing-statistics/timeliness", views.pubstats_timeliness, name="dash-publishingstats-timeliness"),
+        path(
+            "publishing-statistics/timeliness-frequency",
+            views.pubstats_timeliness_frequency,
+            name="dash-publishingstats-timeliness-frequency",
+        ),
         path(
             "publishing-statistics/timeliness-timelag",
             views.pubstats_timeliness_timelag,
@@ -95,22 +99,22 @@ urlpatterns = (
             name="dash-publishingstats-forwardlooking",
         ),
         path(
-            "publishing-statistics/comprehensiveness",
-            views.pubstats_comprehensiveness,
-            name="dash-publishingstats-comprehensiveness",
+            "publishing-statistics/comprehensiveness-summary",
+            views.pubstats_comprehensiveness_summary,
+            name="dash-publishingstats-comprehensiveness-summary",
         ),
         path(
-            "publishing-statistics/comprehensiveness/core",
+            "publishing-statistics/comprehensiveness-core",
             views.pubstats_comprehensiveness_core,
             name="dash-publishingstats-comprehensiveness-core",
         ),
         path(
-            "publishing-statistics/comprehensiveness/financials",
+            "publishing-statistics/comprehensiveness-financials",
             views.pubstats_comprehensiveness_financials,
             name="dash-publishingstats-comprehensiveness-financials",
         ),
         path(
-            "publishing-statistics/comprehensiveness/value-added",
+            "publishing-statistics/comprehensiveness-value-added",
             views.pubstats_comprehensiveness_valueadded,
             name="dash-publishingstats-comprehensiveness-valueadded",
         ),
@@ -137,7 +141,10 @@ urlpatterns = (
         path("exploring_data.html", RedirectView.as_view(pattern_name="dash-exploringdata-elements", permanent=True)),
         path("publishers.html", RedirectView.as_view(pattern_name="dash-headlines-publishers", permanent=True)),
         path("publishing_stats.html", RedirectView.as_view(pattern_name="dash-publishingstats", permanent=True)),
-        path("timeliness.html", RedirectView.as_view(pattern_name="dash-publishingstats-timeliness", permanent=True)),
+        path(
+            "timeliness.html",
+            RedirectView.as_view(pattern_name="dash-publishingstats-timeliness-frequency", permanent=True),
+        ),
         path(
             "timeliness_timelag.html",
             RedirectView.as_view(pattern_name="dash-publishingstats-timeliness-timelag", permanent=True),
@@ -148,7 +155,7 @@ urlpatterns = (
         ),
         path(
             "comprehensiveness.html",
-            RedirectView.as_view(pattern_name="dash-publishingstats-comprehensiveness", permanent=True),
+            RedirectView.as_view(pattern_name="dash-publishingstats-comprehensiveness-summary", permanent=True),
         ),
         path(
             "comprehensiveness_core.html",

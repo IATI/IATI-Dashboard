@@ -2,13 +2,13 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box('Files per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
-      {{ boxes.box('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values are not valid IATI versions.') }}
+      {{ boxes.box_h2('Files per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
+      {{ boxes.box_h2('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values are not valid IATI versions.') }}
     </div>
     <div class="row">
-      {{ boxes.box('Publishers per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
+      {{ boxes.box_h2('Publishers per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
         description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.') }}
-      {{ boxes.box('Publishers per version (other)', '', 'img/aggregate/publishers_per_version_other.png', 'publishers_per_version.json', 'img/aggregate/versions_other_legend.png',
+      {{ boxes.box_h2('Publishers per version (other)', '', 'img/aggregate/publishers_per_version_other.png', 'publishers_per_version.json', 'img/aggregate/versions_other_legend.png',
         description='Count of publishers per other version, over time') }}
     </div>
 
@@ -60,7 +60,7 @@
             {% if version in expected_versions %}
             <div class="iati-card">
               <h4>
-              <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+              <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
               </h4>
               <p class="iati-card-body">
               <table class="table table-striped">
@@ -94,7 +94,7 @@
             {% if version not in expected_versions %}
             <div class="iati-card">
               <h4>
-              <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+              <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
               </h4>
               <table class="table table-striped">
                 {% for publisher in publishers %}

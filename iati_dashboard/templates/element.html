@@ -1,10 +1,10 @@
-{% extends 'base.html' %}
+as{% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes with context %}
 
 {% block page_header %}
-  <h1>Usage of <code>{{ element }}</code></h1>
-  <p class="dashboard-page-heading__lead">Who uses <code>{{ element }}</code>?</p>
-  <p>Showing usage of <code><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
+  <h1>Usage of <code class="iati-code">{{ element }}</code></h1>
+  <p class="dashboard-page-heading__lead">Who uses <code class="iati-code">{{ element }}</code>?</p>
+  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
 
   {% if element_or_attribute == 'attribute' %}
   <p>An empty value for the attribute is treated the same as if the attribute is not present.</p>

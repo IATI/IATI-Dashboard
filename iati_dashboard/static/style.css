@@ -10,16 +10,6 @@ em {
   font-size: 100px;
 }
 
-.title-number {
-  font-weight: bold;
-  float: left;
-  width: 20%;
-}
-
-.title-text {
-  float: left;
-}
-
 .break {
   word-break:break-all;
 }
@@ -66,8 +56,9 @@ html,body {
   height:100%;
 }
 
-.text-muted {
+.dashboard-text-muted {
   margin: 20px 0;
+  color: var(--color-grey-60);
 }
 
 a.popover-html:focus {
@@ -103,6 +94,80 @@ a.popover-html:focus {
   margin-bottom: 0;
 }
 
+.dashboard-panel-heading__titlenum {
+  margin-right: 1rem;
+}
+
 .dashboard-panel-body {
   margin: 1rem;
+}
+
+.iati-piped-list__link {
+  text-decoration: none;
+  line-height: 1.0;
+  font-weight: 600;
+}
+
+.iati-piped-list__link:hover {
+  color: var(--color-teal-60);
+}
+
+.iati-piped-list__link:visited {
+  color: var(--color-teal-60);
+}
+
+/* "red" and "yellow" flags for forward looking and timeliness tables - although
+we use the words "red" and "yellow", the actual colours are specified here as
+the design system doesn't have a yellow colour */
+:root {
+  --dashboard-red-flag-colour: var(--color-red-90);
+  --dashboard-yellow-flag-colour: var(--color-purple-70);
+  }
+  
+.dashboard-red-flag {
+  background-color: var(--dashboard-red-flag-colour);
+  color: #fff;
+
+  > a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+.dashboard-red-flag:hover {
+  opacity: 0.5;
+}
+
+.dashboard-yellow-flag {
+  background-color: var(--dashboard-yellow-flag-colour);
+  color: #fff;
+
+  > a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+.dashboard-yellow-flag:hover {
+  opacity: 0.5;
+}
+
+.dashboard-mixed-flag {
+  background: linear-gradient(-45deg,
+                              var(--dashboard-red-flag-colour),
+                              var(--dashboard-red-flag-colour) 50%,
+                              var(--dashboard-yellow-flag-colour) 50%);
+  color: #fff;
+
+  > a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+  }
+}
+
+.dashboard-mixed-flag:hover {
+  opacity: 0.5;
 }

@@ -60,7 +60,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             <tr>
                 <td>Reporting Org on Registry</td>
                 <td>{% if ckan_publishers and publisher in ckan_publishers %}
-                    <code>{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
+                    <code class="iati-code">{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
                     {% endif %}
                 </td>
             </tr>
@@ -68,7 +68,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Reporting Org(s) in Data</td>
                 <td>
                 {% for org in publisher_stats.reporting_orgs %}
-                <code>{{ org|replace(' ', ' ') }}</code>
+                <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -93,21 +93,21 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Versions</td>
                 <td>
                 {% for version in publisher_stats.versions.keys() %}
-                <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
                 <td>Hierarchies</td>
                 <td>
                 {% for hierarchy in publisher_stats.hierarchies %}
-                <code>{{ hierarchy }}</code>
+                <code class="iati-code">{{ hierarchy }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
+                <code class="iati-code"><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -121,23 +121,23 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     </div>
     </div>
     </div>
-    {{ boxes.box(
+    {{ boxes.box_h3(
         'Activities', publisher_stats.activities, 'img/publishers/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }} 
     </div>
 
     <div class="row">
-        {{ boxes.box('Activity Files', publisher_stats.activity_files, 'img/publishers/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
-        {{ boxes.box('Organisation Files', publisher_stats.organisation_files, 'img/publishers/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
+        {{ boxes.box_h3('Activity Files', publisher_stats.activity_files, 'img/publishers/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
+        {{ boxes.box_h3('Organisation Files', publisher_stats.organisation_files, 'img/publishers/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{ boxes.box('Files per version', '', 'img/publishers/'+publisher+'_versions.png', publisher+'/versions.json', 'img/publishers/'+publisher+'_versions_legend.png', '-publisher') }}
-        {{ boxes.box('Total File Size', publisher_stats.file_size|filesizeformat, 'img/publishers/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
+        {{ boxes.box_h3('Files per version', '', 'img/publishers/'+publisher+'_versions.png', publisher+'/versions.json', 'img/publishers/'+publisher+'_versions_legend.png', '-publisher') }}
+        {{ boxes.box_h3('Total File Size', publisher_stats.file_size|filesizeformat, 'img/publishers/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
     </div>
 
     <div class="row">
-        {{ boxes.box('Files failing validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
-        {{ boxes.box('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
+        {{ boxes.box_h3('Files failing validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
+        {{ boxes.box_h3('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
     </div>
 
     <h2 id="h_dataquality">Data Quality</h2>
@@ -267,7 +267,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <h3 class="dashboard-panel-heading__title">Budgets</h3>
     </div>
     <div class="dashboard-panel-body">
-        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
+        <p>The below figures are calculated based on the data contained within the <code class="iati-code">&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code class="iati-code"><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code class="iati-code">&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -326,7 +326,11 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>{{ activities }}</td>
                 <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
                 <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
-                <td>{{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}</td>
+                <td>
+                    {% if current_stats.aggregated_file[publisher][package]['versions'].keys()|count>0 %}
+                        {{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>
