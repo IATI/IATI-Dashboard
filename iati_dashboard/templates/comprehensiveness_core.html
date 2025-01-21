@@ -1,5 +1,4 @@
 {% set tab='core' %}
-{% set tab_page_name='Core' %}
 {% extends 'comprehensiveness_base.html' %}
 
 
@@ -16,22 +15,22 @@
 
 {% block narrative_text %}
 	<h3>Overview</h3>
-	<p>Version 2.01 introduced a more stringent approach to the way in which data can be validated (through the requirement that elements are published in a specified order) and as a result ten elements are mandatory for all activities under all conditions. This tab measures how comprehensively publishers are meeting these requirements, irrespective of whether they are using V2.01 or not.</p>
+	<p>Version 2.01 introduced a more stringent approach to the way in which data can be validated (through the requirement that elements are published in a specified order) and as a result ten elements are mandatory for all activities under all conditions. This page measures how comprehensively publishers are meeting these requirements, irrespective of whether they are using V2.01 or not.</p>
 
 	<p>Only <strong><em>current</em></strong> activities are assessed. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date.</p>
 
 	<h3>Details</h3>
 	<h4>Version</h4>
-	<p>Percentage of all current activities which contain a valid version number in the <code>&lt;iati-activities&gt;</code> file header element.</p>
+	<p>Percentage of all current activities which contain a valid version number in the <code class="iati-code">&lt;iati-activities&gt;</code> file header element.</p>
 
 	<h4>Reporting Organisation</h4>
 	<p>Percentage of all current activities which contain both a name and an identifier for the reporting organisation. (In future this will also check that the identifier contains a valid prefix identifying a registration agency.)</p>
 
 	<h4>IATI Identifier</h4>
-	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with either the identifier reported for the reporting organisation, or (if publishing at v2.xx) an identifier reported in the <code>&lt;other-identifier&gt;</code> element. (In future this will also check that each identifier is globally unique.)</p>
+	<p>Percentage of all current activities that contain a valid activity identifier. This MUST be prefixed with either the identifier reported for the reporting organisation, or (if publishing at v2.xx) an identifier reported in the <code class="iati-code">&lt;other-identifier&gt;</code> element. (In future this will also check that each identifier is globally unique.)</p>
 
 	<h4>Participating Organisation</h4>
-	<p>Percentage of all current activities that contain a participating organisation of type <code>funding</code>.</p>
+	<p>Percentage of all current activities that contain a participating organisation of type <code class="iati-code">funding</code>.</p>
 
 	<h4>Title</h4>
 	<p>Percentage of all current activities that contain a title.</p>
@@ -46,7 +45,7 @@
 	<p>Percentage of all current activities that contain a valid planned or actual start date.</p>
 
 	<h4>Sector</h4>
-	<p>Percentage of all current activities that EITHER contain at least one valid <code>activity-level</code> sector element OR all transactions contain a valid sector element. If multiple sectors are reported per vocabulary at activity level reported percentages must add up to 100% for the activity to be assessed as valid.</p>
+	<p>Percentage of all current activities that EITHER contain at least one valid <code class="iati-code">activity-level</code> sector element OR all transactions contain a valid sector element. If multiple sectors are reported per vocabulary at activity level reported percentages must add up to 100% for the activity to be assessed as valid.</p>
 
 	<h4>Country or Region</h4>
 	<p>Percentage of all current activities that EITHER contain at least one valid activity level recipient country or region OR all transactions containing only one valid country or region. If more than one country and/or region is reported at activity then they must all contain percentages adding up to 100%.</p>

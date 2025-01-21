@@ -60,7 +60,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
             <tr>
                 <td>Reporting Org on Registry</td>
                 <td>{% if ckan_publishers and publisher in ckan_publishers %}
-                    <code>{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
+                    <code class="iati-code">{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
                     {% endif %}
                 </td>
             </tr>
@@ -68,7 +68,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Reporting Org(s) in Data</td>
                 <td>
                 {% for org in publisher_stats.reporting_orgs %}
-                <code>{{ org|replace(' ', ' ') }}</code>
+                <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -93,21 +93,21 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Versions</td>
                 <td>
                 {% for version in publisher_stats.versions.keys() %}
-                <code>{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
                 <td>Hierarchies</td>
                 <td>
                 {% for hierarchy in publisher_stats.hierarchies %}
-                <code>{{ hierarchy }}</code>
+                <code class="iati-code">{{ hierarchy }}</code>
                 {% endfor %}
                 </td>
             </tr><tr>
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
+                <code class="iati-code"><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -267,7 +267,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <h3 class="dashboard-panel-heading__title">Budgets</h3>
     </div>
     <div class="dashboard-panel-body">
-        <p>The below figures are calculated based on the data contained within the <code>&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code>&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
+        <p>The below figures are calculated based on the data contained within the <code class="iati-code">&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code class="iati-code"><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code class="iati-code">&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -326,7 +326,11 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>{{ activities }}</td>
                 <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
                 <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
-                <td>{{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}</td>
+                <td>
+                    {% if current_stats.aggregated_file[publisher][package]['versions'].keys()|count>0 %}
+                        {{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </tbody>

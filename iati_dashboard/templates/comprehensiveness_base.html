@@ -7,26 +7,17 @@
         {{ super() }}
     {% endblock %}
 
-    <ul class="nav nav-tabs" role="tablist">
-      <li{% if tab=='summary' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness') }}">Summary</a></li>
-      <li{% if tab=='core' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-core') }}">Core</a></li>
-      <li{% if tab=='financials' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-financials') }}">Financials</a></li>
-      <li{% if tab=='valueadded' %} class="active"{% endif %}><a href="{{ url('dash-publishingstats-comprehensiveness-valueadded') }}">Value added</a></li>
-    </ul>
-
-    <ul class="list-inline" style="padding: 1em">
-        <li><a href="#h_table">Table</a></li>
-        <li>|</li>
-        <li><a href="#h_narrative">Narrative</a></li>
-        <li>|</li>
-        <li><a href="#h_assessment">Assessment</a></li>
-        <li>|</li>
-        <li><a href="#h_exceptions">Exceptions</a></li>
-        <li>|</li>
-        <li><a href="#h_comparison">Comparison with original Global Partnership Indicator methodology</a></li>
-        <li>|</li>
-        <li><a href="#h_pseudocode">Pseudocode</a></li>
-    </ul>
+    <nav>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+        <li><a href="#h_assessment" class="iati-piped-list__link">Assessment</a></li>
+        <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
+        <li><a href="#h_comparison" class="iati-piped-list__link">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
+    </ol>
+    </nav>
+    <br/>
 
     {% block content %}
     <div class="dashboard-panel" id="h_table">
@@ -62,19 +53,22 @@
                 <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in row %}
                     {{ row[column_slug+'_valid'] | round_nicely }}
                     {% if row[column_slug+'_valid'] != row[column_slug] %}
-                    <span class="text-muted">({{ row[column_slug] | round_nicely }})</td>
+                    <span class="dashboard-text-muted">({{ row[column_slug] | round_nicely }})</span></td>
                     {% endif %}
                     {% else %}-{% endif %}</td>
                 {% endfor %}
                 {% if tab == 'financials' %}
-                    <td style="border-right: 1px solid gray; border-left: 1px solid gray; {% if row['flag'] %};background-color: #fcf8aa{% endif %}"></td>
+                    {% if row['flag'] %}
+                        <td class="dashboard-yellow-flag">*</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
     </div>
-
 
     {% block narrative %}
     <div class="dashboard-panel" id="h_narrative">
@@ -132,18 +126,16 @@
     </div>
     <div class="dashboard-panel-body">
 
-    <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
+    <p>For the purpose of this calculation, each <code class="iati-code">iati-activity</code> XML block is an activity.</p>
 
     <p>To determine the lowest hierarchy:</p>
-<pre>
-Lowest hierarchy =
+<pre><code class="iati-code iati-code--block">Lowest hierarchy =
    Largest integer reported in the hierarchy attribute of any iati-activity element
-</pre>
+</code></pre>
 
     <p>To determine whether an activity is at the lowest hierarchical level:</p>
 
-<pre>
-If the @hierarchy attribute is missing
+<pre><code class="iati-code iati-code--block">If the @hierarchy attribute is missing
     If the lowest hierarchical level is 1
         Activity is at lowest hierarchical level
     Else
@@ -152,12 +144,11 @@ Else if the @hierarchy attribute == lowest hierarchy
     Activity is at lowest hierarchical level
 Else
     Activity is NOT at lowest hierarchical level
-</pre>
+</code></pre>
 
     <p>To test whether an activity is current:</p>
 
-<pre>
-end dates =
+<pre><code class="iati-code iati-code--block">end dates =
     For each activity-date of type end-planned or end-actual
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
@@ -176,13 +167,11 @@ Else
             The activity is current
         Else
             The activity is not current
-
-</pre>
+</code></pre>
 
     <p>To determine whether we use an activity is relevant for a given comprehensiveness test.</p>
 
-<pre>
-start date =
+<pre><code class="iati-code iati-code--block">start date =
     If activity-date[@type="start-actual"] exists
         Parse activity-date[@type="start-actual"]/@iso_date as an iso date ('yyyy-mm-dd...')
             If this works, we have the start date, else null
@@ -215,13 +204,13 @@ If the activity is current
         Use activity
 Else
     Ignore activity
-</pre>
+</code></pre>
 
     {% block table_test_methodology_full %}
     <table class="table">
       {% block table_test_methodology_header %}
       <tr>
-        <th>Tab</td>
+        <th>Page</td>
         <th>Comprehensiveness Test</td>
         <th>Basic Methodology</td>
         <th>Validation Methodology</td>
@@ -245,13 +234,13 @@ Else
         <td>Core</td>
         <td>IATI Identifier</td>
         <td>Activity must contain a nonempty iati-identifier</td>
-        <td>If publishing at v2.xx, the iati-identifier must start with either a) the value in <code>reporting-org/@ref</code> or b) a value in <code>other-identifier/@ref</code> where <code>@type="B1"</code> (i.e. 'Previous Reporting Organisation Identifier'). No validation check is applied for v1.xx data, as it only became possible to add <code>other-identifier/@type="B1"</code> from v2.01.</td>
+        <td>If publishing at v2.xx, the iati-identifier must start with either a) the value in <code class="iati-code">reporting-org/@ref</code> or b) a value in <code class="iati-code">other-identifier/@ref</code> where <code class="iati-code">@type="B1"</code> (i.e. 'Previous Reporting Organisation Identifier'). No validation check is applied for v1.xx data, as it only became possible to add <code class="iati-code">other-identifier/@type="B1"</code> from v2.01.</td>
       </tr>
       <tr>
         <td>Core</td>
         <td>Participating Organisation</td>
         <td>Activity must contain at least 1 participating-org</td>
-        <td>At least one participating-org must have @role <code>Funding</code> (1.xx) or <code>1</code> (2.xx)</td>
+        <td>At least one participating-org must have @role <code class="iati-code">Funding</code> (1.xx) or <code class="iati-code">1</code> (2.xx)</td>
       </tr>
       <tr>
         <td>Core</td>
@@ -275,7 +264,7 @@ Else
         <td>Core</td>
         <td>Activity Date</td>
         <td>Activity must contain at least 1 activity-date element</td>
-        <td>At least 1 activity-date element in the activity must have @type equal to <code>start-planned</code> or <code>start-actual</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx)</td>
+        <td>At least 1 activity-date element in the activity must have @type equal to <code class="iati-code">start-planned</code> or <code class="iati-code">start-actual</code> (1.xx) or <code class="iati-code">1</code> or <code class="iati-code">2</code> (2.xx)</td>
       </tr>
       <tr>
         <td>Core</td>
@@ -286,7 +275,7 @@ Else
       <tr>
         <td>Core</td>
         <td>Country or Region</td>
-        <td>(<code>recipient-country</code> OR <code>recipient-region</code>) at activity level OR (2.xx only) on all transactions</td>
+        <td>(<code class="iati-code">recipient-country</code> OR <code class="iati-code">recipient-region</code>) at activity level OR (2.xx only) on all transactions</td>
         <td>If activity level AND more than 1 THEN  percentages must add up</td>
       </tr>
       {% endblock %}
@@ -295,20 +284,20 @@ Else
       <tr>
         <td>Financials</td>
         <td>Transaction - Commitment</th>
-        <td>Activity must have at least 1 transaction with @type of 'Commitment' (i.e. <code>C</code> (1.xx) or <code>2</code> (2.xx)) or 'Incoming commitment' (i.e. <code>11</code>).</td>
-        <td>All transactions of this @type must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
+        <td>Activity must have at least 1 transaction with @type of 'Commitment' (i.e. <code class="iati-code">C</code> (1.xx) or <code class="iati-code">2</code> (2.xx)) or 'Incoming commitment' (i.e. <code class="iati-code">11</code>).</td>
+        <td>All transactions of this @type must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
         <td>Transaction - Disbursement or Expenditure</td>
-        <td>Activity must have at least 1 transaction with @type <code>D</code> or <code>E</code> (1.xx) or <code>3</code> or <code>4</code> (2.xx)</td>
-        <td>All transactions of these @type's must have a value that is a valid <code>xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code>xs:date</code></th>
+        <td>Activity must have at least 1 transaction with @type <code class="iati-code">D</code> or <code class="iati-code">E</code> (1.xx) or <code class="iati-code">3</code> or <code class="iati-code">4</code> (2.xx)</td>
+        <td>All transactions of these @type's must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></th>
       </tr>
       <tr>
         <td>Financials</td>
         <td>Transaction - Currency</td>
         <td>All transactions must have value/@currency OR the activity must have a @default-currency attribute. All transactions must have value/@value-date</td>
-        <td>All currency values must be on the <a href="http://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code>xs:date</code>.</td>
+        <td>All currency values must be on the <a href="http://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code class="iati-code">xs:date</code>.</td>
       </tr>
       <tr>
         <td>Financials</td>
@@ -320,7 +309,7 @@ Else
         <td>Financials</td>
         <td>Budget</td>
         <td>Activity must have at least 1 budget element OR the activity must have the budget-not-provided attribute AND no budget elements</td>
-        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code>xs:date</code>s AND a value element that is a valid <code>xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="http://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
+        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code class="iati-code">xs:date</code>s AND a value element that is a valid <code class="iati-code">xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="http://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
       </tr>
       {% endblock %}
 
@@ -341,12 +330,12 @@ Else
         <td>Value added</td>
         <td>Geographic Coordinates</td>
         <td>Activity must contain location/point/pos</td>
-        <td>location/point/pos must contain valid coordinates (two space separated decimals), and not be <code>0 0</code></td>
+        <td>location/point/pos must contain valid coordinates (two space separated decimals), and not be <code class="iati-code">0 0</code></td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>DAC Sectors</td>
-        <td>At least 1 sector where @vocabulary is <code>DAC</code> or <code>DAC-3</code> (1.xx) or <code>1</code> or <code>2</code> (2.xx), must be reported at activity level, unless there is no @vocabulary attribute, in which case DAC/1 is assumed. If there is no DAC sector element at activity level it must be reported within all transactions contained within that activity.</td>
+        <td>At least 1 sector where @vocabulary is <code class="iati-code">DAC</code> or <code class="iati-code">DAC-3</code> (1.xx) or <code class="iati-code">1</code> or <code class="iati-code">2</code> (2.xx), must be reported at activity level, unless there is no @vocabulary attribute, in which case DAC/1 is assumed. If there is no DAC sector element at activity level it must be reported within all transactions contained within that activity.</td>
         <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
       </tr>
       <tr>
@@ -359,18 +348,18 @@ Else
         <td>Value added</td>
         <td>Activity Documents</td>
         <td>Activity must contain at least 1 document-link</td>
-        <td>Each document-link must contain valid document category code and a url that is a valid <code>xs:anyURI</code> and contains the string <code>//</code>.</td>
+        <td>Each document-link must contain valid document category code and a url that is a valid <code class="iati-code">xs:anyURI</code> and contains the string <code class="iati-code">//</code>.</td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Aid Type</td>
-        <td>Activity must contain either i) a value in <code>default-aid-type/@code</code> or ii) each transaction must contain a value in <code>transaction/aid-type/@code</code>.</td>
+        <td>Activity must contain either i) a value in <code class="iati-code">default-aid-type/@code</code> or ii) each transaction must contain a value in <code class="iati-code">transaction/aid-type/@code</code>.</td>
         <td>Must be valid code on the <a href="http://iatistandard.org/codelists/AidType/">AidType codelist</a>.</td>
       </tr>
       <tr>
         <td>Value added</td>
         <td>Recipient Language</td>
-        <td>Only activities containing only one <code>recipient-country</code> are assessed. Activity must contain <code>title</code> and <code>description</code> elements containing at least <a href="https://github.com/codeforIATI/IATI-Stats/blob/main/helpers/transparency_indicator/country_lang_map.csv">one of the official languages spoken</a> for the defined <code>recipient-country/@code</code>.</td>
+        <td>Only activities containing only one <code class="iati-code">recipient-country</code> are assessed. Activity must contain <code class="iati-code">title</code> and <code class="iati-code">description</code> elements containing at least <a href="https://github.com/codeforIATI/IATI-Stats/blob/main/helpers/transparency_indicator/country_lang_map.csv">one of the official languages spoken</a> for the defined <code class="iati-code">recipient-country/@code</code>.</td>
         <td></td>
       </tr>
       <tr>

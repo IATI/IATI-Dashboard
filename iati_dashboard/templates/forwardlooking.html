@@ -1,21 +1,18 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
-    <ul class="list-inline" style="padding: 1em">
-        <li><a href="#h_table">Table</a></li>
-        <li>|</li>
-        <!--<li><a href="#h_summary">Summary</a></li>
-        <li>|</li>-->
-        <li><a href="#h_narrative">Narrative</a></li>
-        <li>|</li>
-        <li><a href="#h_assesment">Assessment</a></li>
-        <li>|</li>
-        <li><a href="#h_exceptions">Exceptions</a></li>
-        <li>|</li>
-        <li><a href="#h_comparison">Comparison with original Global Partnership Indicator methodology</a></li>
-        <li>|</li>
-        <li><a href="#h_pseudocode">Pseudocode</a></li>
-    </ul>
+
+    <nav>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+        <li><a href="#h_assesment" class="iati-piped-list__link">Assessment</a></li>
+        <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
+        <li><a href="#h_comparison" class="iati-piped-list__link">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
+    </ol>
+    </nav>
+    <br/>
 
     <div class="dashboard-panel" id="h_table">
 
@@ -35,24 +32,24 @@
 
             <p><strong>Key:</strong><br/>
                 Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
-                <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing forward looking budgets at more than one hierarchical level.<br/>
-                <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.<br/>
+                <span style="background-color: var(--dashboard-red-flag-colour); color: #fff">Red flag</span>: Publisher currently publishing forward looking budgets at more than one hierarchical level.<br/>
+                <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff">Purple flag</span>: Publisher currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.<br/>
             </p>
             {% include '_partials/tablesorter_instructions.html' %}
 
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th rowspan="2" style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
+                    <th rowspan="2">Publisher Name</th>
                     {% for column_header in forwardlooking.column_headers %}
-                    <th colspan="3" style="border: 1px solid #ddd;">{{ column_header }}</th>
+                    <th colspan="3">{{ column_header }}</th>
                     {% endfor %}
-                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;" rowspan="2"></td>
+                    <th rowspan="2"></td>
                 </tr>
                 <tr>
                     {% for i in range(0,3) %}
                     {% for year in forwardlooking.years %}
-                    <th style="{% if loop.first %} border-left: 1px solid #ddd;{% endif %}{% if loop.last %} border-right: 1px solid #ddd;{% endif %}">{{ year }}</th>
+                    <th>{{ year }}</th>
                     {% endfor %}
                     {% endfor %}
                 </tr>
@@ -60,26 +57,25 @@
             <tbody>
                 {% for row in forwardlooking.table() %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[row.publisher]) }}">{{ row.publisher_title }}</a></td>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[row.publisher]) }}">{{ row.publisher_title }}</a></td>
 
                     {% for column in row.year_columns %}
                         {% for year in forwardlooking.years %}
-                            <td {% if not column[year] or column[year]=='-' %}class="text-muted"{% endif %} style="{% if loop.first %}border-left: 1px solid #ddd;{% endif %}{% if loop.last %} border-right: 1px solid #ddd;{% endif %}">
+                            <td {% if not column[year] or column[year]=='-' %}class="dashboard-text-muted"{% endif %}>
                                 {% if column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
                             </td>
                         {% endfor %}
                     {% endfor %}
-                    <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;
+
                     {%- if row['flag'] and row['budget_not_provided'] -%}
-                    background: linear-gradient(90deg, #f2aaaa, #fcf8aa);" data-severity="3"><a href="#h_exceptions">*</a>
+                    <td class="dashboard-mixed-flag" data-severity="3"><a href="#h_exceptions">*</a></td>
                     {%- elif row['budget_not_provided'] -%}
-                    background-color: #fcf8aa" data-severity="1"><a href="#h_exceptions">*</a>
+                    <td class="dashboard-red-flag" data-severity="1"><a href="#h_exceptions">*</a></td>
                     {%- elif row['flag'] -%}
-                    background-color: #f2aaaa" data-severity="2"><a href="#h_exceptions">*</a>
+                    <td class="dashboard-yellow-flag" data-severity="2"><a href="#h_exceptions">*</a></td>
                     {%- else -%}
-                    " data-severity="0">
+                    <td data-severity="0"></td>
                     {%- endif -%}
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -114,7 +110,7 @@
     </div>
     <div class="dashboard-panel-body">
         <p>No separate assessment is provided as the percentage of current activities containing budgets for this and the next two years is the de facto assessment. No attempt is currently being made to turn these into a descriptive summary (as, for example, "Frequency = "Monthly"). The percentage for the middle year (i.e. 'next year') is of most relevance to developing countries.</p>
-        <p>Activities with any <code>budget</code> elements that are also found to contain the <code>budget-not-provided</code> attribute will not receive a forward looking score.</p>
+        <p>Activities with any <code class="iati-code">budget</code> elements that are also found to contain the <code class="iati-code">budget-not-provided</code> attribute will not receive a forward looking score.</p>
     </div>
     </div>
 
@@ -129,8 +125,8 @@
         <p>Where a percentage can not be calculated, because the denominator is zero, a dash is used.</p>
         <h3>Red Flags</h3>
         <p>Publishers currently publishing forward looking budgets at more than one hierarchical level.</p>
-        <h3>Yellow Flags</h3>
-        <p>Publishers currently publishing the 'budget not provided' attribute for some or all activities.</p>
+        <h3>Purple Flags</h3>
+        <p>Publishers currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.</p>
     </div>
     </div>
 
@@ -156,12 +152,11 @@
     </div>
     <div class="dashboard-panel-body">
 
-    <p>For the purpose of this calculation, each <code>iati-activity</code> XML block is an activity.</p>
+    <p>For the purpose of this calculation, each <code class="iati-code">iati-activity</code> XML block is an activity.</p>
 
     <p>To test whether an activity is current in a given year:</p>
 
-<pre>
-end dates =
+<pre><code class="iati-code iati-code--block">end dates =
     For each activity-date that describes an end date (type is end-planned or end-actual in 1.xx, 3 or 4 in 2.xx)
         Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
         If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
@@ -173,12 +168,11 @@ Else
         The activity is current
     Else
         The activity is not current
-</pre>
+</code></pre>
 
     <p>To find the year for a budget:</p>
 
-<pre>
-start =
+<pre><code class="iati-code iati-code--block">start =
     Parse period-start/@iso-date as an iso date ('yyyy-mm-dd...')
     If this does not work parse period-start/text() as an iso date ('yyyy-mm-dd...')
     Otherwise null
@@ -197,19 +191,18 @@ If start and end are both not null
             budget year = end year - 1
     Else ignore the budget
 Else budget year is null
-</pre>
+</code></pre>
 
     <p>The relevant hierarchical level is:</p>
 
-<pre>
-If the @hierarchy attribute is missing the hierarchy value is 1
+<pre><code class="iati-code iati-code--block">If the @hierarchy attribute is missing the hierarchy value is 1
 Else the hierarchy value is the value of the @hierarchy attribute
 
 If all budgets for current activities in the given years have the same hierarchy value
     Only activities with that hierarchy value are at a relevant hierarchical level
 Else
     All activities are considered to be at a relevant hierarchical level
-</pre>
+</code></pre>
 
     <p>To calculate the "Current activities" column, count the number of activities that are:</p>
         <ul>

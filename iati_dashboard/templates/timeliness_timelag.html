@@ -1,5 +1,3 @@
-{% set tab='timelag_li' %}
-{% set tab_page_name='Timelag' %}
 {% extends 'timeliness_base.html' %}
 {% import '_partials/boxes.html' as boxes with context %}
 
@@ -16,37 +14,37 @@
             <p>The time-lag statistics attempt to assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
 
             <p><strong>Key:</strong><br/>
-            <span style="background-color: #f2aaaa">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
-            <span style="background-color: #fcf8aa">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
+            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
+            <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">Purple flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
 
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Publisher Name</td>
-                    <th style="border: 1px solid #ddd;" colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</td>
-                    <th style="border: 1px solid #ddd;" colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</td>
-                    <th style="border-left: 1px solid #ddd;" rowspan="2"></td>
-                    <th style="border-right: 1px solid #ddd;" rowspan="2">Time lag</td>
+                    <th rowspan="2">Publisher Name</td>
+                    <th colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</td>
+                    <th colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</td>
+                    <th rowspan="2"></td>
+                    <th rowspan="2">Time lag</td>
                 </tr>
                 <tr>
                     {% for month in timeliness.previous_months_reversed %}
                     <th>{{ timeliness.short_month(month) }}</th>
                     {% endfor %}
-                    <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">{{ timeliness.short_month(timeliness.this_month) }}</th>
+                    <th>{{ timeliness.short_month(timeliness.this_month) }}</th>
                 </tr>
             </thead>
             <tbody>
                 {% for publisher, publisher_title, per_month, assessment, hft in timeliness.publisher_timelag_sorted() %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{% if publisher %}{{ url('dash-headlines-publisher-detail', args=[publisher]) }}{% endif %}">{{ publisher_title }}</a></td>
+                    <td><a href="{% if publisher %}{{ url('dash-headlines-publisher-detail', args=[publisher]) }}{% endif %}">{{ publisher_title }}</a></td>
                     {% for month in timeliness.previous_months_reversed %}
-                    <td {% if not per_month[month] %}class="text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
+                    <td {% if not per_month[month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
                     {% endfor %}
-                    <td style="border-left: 1px solid #ddd;" {% if not per_month[timeliness.this_month] %}class="text-muted"{% endif %}>{{ per_month[timeliness.this_month] or 0 }}</td>
-                    <td style="border-left: 1px solid #ddd;{% if hft %} background-color: {{ '#f2aaaa' if hft==2 else '#fcf8aa' }};{% endif %}" data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
-                    <td style="border-right: 1px solid #ddd" data-index="{{ timeliness.timelag_index(assessment) }}">{{ assessment }}</td>
+                    <td {% if not per_month[timeliness.this_month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[timeliness.this_month] or 0 }}</td>
+                    <td {% if hft %} class="{{ 'dashboard-red-flag' if hft==2 else 'dashboard-yellow-flag' }}"{% endif %} data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td data-index="{{ timeliness.timelag_index(assessment) }}">{{ assessment }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -156,7 +154,7 @@
     <div class="dashboard-panel-body">
         <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
 
-        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: #f2aaaa">red flag</span> next to their assessment. A <span style="background-color: #fcf8aa">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
+        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">red flag</span> next to their assessment. A <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">purple flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
 
         <p>We plan to exclude activities in which future transactions dates are reported from these assessments until such time that a publisher's entire portfolio no longer contains any future dates.</p>
     </div>
@@ -182,8 +180,7 @@
     </div>
     <div class="dashboard-panel-body">
         <p>To get a count of transactions by calendar month (for a given publisher):</p>
-<pre>
-Using most recently captured data.
+<pre><code class="iati-code iati-code--block">Using most recently captured data.
 For each transaction (of any type) in the publisher's data:
     Get the transaction date as follows:
         If transaction-date exists
@@ -197,7 +194,7 @@ For each transaction (of any type) in the publisher's data:
     Parse the start of the transaction date as an iso date (yyyy-mm-dd...).
         If it does not match, the transaction is ignored.
     Record a count of the transaction date against the calendar year and month
-</pre>
+</code></pre>
     </div>
     </div>
 {% endblock %}
