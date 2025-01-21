@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row">
       {{ boxes.box_h2('Files per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
-      {{ boxes.box_h2('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values do not actually exist as IATI versions.') }}
+      {{ boxes.box_h2('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values are not valid IATI versions.') }}
     </div>
     <div class="row">
       {{ boxes.box_h2('Publishers per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
