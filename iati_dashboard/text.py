@@ -80,15 +80,15 @@ page_sub_leads = {
     "download": "Files that failed to download, when accessed via the IATI Registry. Note: This may because no URL is listed on the registry, or when requesting the URL the publisher's server returns an error message (e.g. because there is no file at that location). Some files that failed to download when last checked may since have become available.",
     "xml": "This page shows files that are not well-formed XML, accessed via the IATI Registry.",
     "validation": 'IATI files are validated against the appropriate <a href="https://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
-    "versions": "Files are reported against a specific version of the IATI Standard, using the <span class='iati-code'>version</span> attribute in the <span class='iati-code'>iati-activities</span> element.",
+    "versions": "Files are reported against a specific version of the IATI Standard, using the <code class='iati-code'>version</code> attribute in the <code class='iati-code'>iati-activities</code> element.",
     "rulesets": "The IATI Ruleset describe constraints, conditions and logics that are additional to the IATI schema. Note: Currently, on the IATI Standard Ruleset is tested.",
     "licenses": "Licences are applied to files by publishers on the IATI Registry, and explain how data can be used.",
-    "organisation": "Checking the IATI Registry for files that have <span class='iati-code'>iati-organisations</span> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain.",
-    "identifiers": "Checking the <span class='iati-code'>iati-identifier</span> element for duplicate values per publisher. A duplicate appears if a publisher creates two activities with the same identifier.",
-    "reporting_orgs": "Checking the <span class='iati-code'>reporting-org</span> identifiers in IATI data.",
+    "organisation": "Checking the IATI Registry for files that have <code class='iati-code'>iati-organisations</code> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain.",
+    "identifiers": "Checking the <code class='iati-code'>iati-identifier</code> element for duplicate values per publisher. A duplicate appears if a publisher creates two activities with the same identifier.",
+    "reporting_orgs": "Checking the <code class='iati-code'>reporting-org</code> identifiers in IATI data.",
     "elements": "Checking usage of all elements/attributes within the IATI Standard.",
     "codelists": "Checking usage of codelists across IATI data files.",
-    "booleans": "Checking usage of booleans across IATI data files. Booleans are values that are either true or false. In XML <span class='iati-code'>true</span> or <span class='iati-code'>1</span> can be used for true and <span class='iati-code'>false</span> or <span class='iati-code'>0</span> can be used for false.",
+    "booleans": "Checking usage of booleans across IATI data files. Booleans are values that are either true or false. In XML <code class='iati-code'>true</code> or <code class='iati-code'>1</code> can be used for true and <code class='iati-code'>false</code> or <code class='iati-code'>0</code> can be used for false.",
 }
 
 short_page_titles = copy.copy(page_titles)
