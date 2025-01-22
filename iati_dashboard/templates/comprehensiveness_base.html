@@ -46,19 +46,19 @@
             </tr>
         </thead>
         <tbody>
-            {% for row in comprehensiveness.table() %}
+            {% for publisher in publishers %}
             <tr>
-                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[row.publisher]) }}">{{ row.publisher_title }}</a></td>
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                 {% for column_slug in comprehensiveness.column_slugs[tab] %}
-                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in row %}
-                    {{ row[column_slug+'_valid'] | round_nicely }}
-                    {% if row[column_slug+'_valid'] != row[column_slug] %}
-                    <span class="dashboard-text-muted">({{ row[column_slug] | round_nicely }})</span></td>
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in publisher.comprehensiveness %}
+                    {{ publisher.comprehensiveness[column_slug+'_valid'] | round_nicely }}
+                    {% if publisher.comprehensiveness[column_slug+'_valid'] != publisher.comprehensiveness[column_slug] %}
+                    <span class="dashboard-text-muted">({{ publisher.comprehensiveness[column_slug] | round_nicely }})</td>
                     {% endif %}
                     {% else %}-{% endif %}</td>
                 {% endfor %}
                 {% if tab == 'financials' %}
-                    {% if row['flag'] %}
+                    {% if publisher.comprehensiveness['flag'] %}
                         <td class="dashboard-yellow-flag">*</td>
                     {% else %}
                         <td></td>

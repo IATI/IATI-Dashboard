@@ -2,7 +2,6 @@
 
 import datetime
 
-from iati_dashboard.cache import json_cache
 from iati_dashboard.data import get_publisher_stats, publisher_name, publishers_ordered_by_title
 
 from .ui.jinja2 import round_nicely
@@ -103,7 +102,6 @@ def generate_row(publisher):
     return row
 
 
-@json_cache("forwardlooking.json")
 def table():
     """Generate forward-looking table data for every publisher and return as a generator object"""
 
