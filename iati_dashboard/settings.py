@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
 # Application definition
 
 INSTALLED_APPS = [
+    "iati_dashboard",
     "iati_dashboard.ui",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -62,7 +63,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
-        "APP_DIRS": True,
+        "APP_DIRS": False,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -94,12 +95,7 @@ WSGI_APPLICATION = "iati_dashboard.ui.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+DATABASES = {"default": env.db()}
 
 
 # Password validation

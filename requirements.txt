@@ -65,6 +65,8 @@ packaging==24.1
     #   matplotlib
 pillow==11.0.0
     # via matplotlib
+psycopg==3.2.3
+    # via -r requirements.in
 pyparsing==3.2.0
     # via matplotlib
 python-dateutil==2.9.0.post0
@@ -81,6 +83,8 @@ sqlparse==0.5.1
     # via django
 tqdm==4.67.0
     # via -r requirements.in
+typing-extensions==4.12.2
+    # via psycopg
 urllib3==2.2.3
     # via requests
 werkzeug==3.1.2

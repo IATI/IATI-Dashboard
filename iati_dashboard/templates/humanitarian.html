@@ -34,15 +34,15 @@
                 </tr>
             </thead>
             <tbody>
-                {% for row in humanitarian.table() %}
+                {% for publisher in publishers %}
                 <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[row.publisher]) }}">{{ row.publisher_title }}</a></td>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                     {% for column_slug, _ in humanitarian.columns %}
                       <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">
                         {%- if column_slug == 'publisher_type' -%}
-                          {{ row[column_slug] }}
+                          {{ publisher.humanitarian[column_slug] }}
                         {%- else -%}
-                          {{ row[column_slug]|round_nicely }}
+                          {{ publisher.humanitarian[column_slug]|round_nicely }}
                         {%- endif -%}
                       </td>
                     {% endfor %}

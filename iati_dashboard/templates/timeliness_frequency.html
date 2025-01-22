@@ -38,9 +38,13 @@
                 </tr>
             </thead>
             <tbody>
-                {% for publisher, publisher_title, per_month, assessment, hft, first_published_band in timeliness.publisher_frequency_sorted() %}
+                {% for publisher in publishers %}
                 <tr>
-                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_title }}</a></td>
+                    {% set per_month=publisher.timeliness_frequency["updates_per_month"] %}
+                    {% set first_published_band=publisher.timeliness_frequency.first_published_band %}
+                    {% set assessment=publisher.timeliness_frequency["frequency"] %}
+                    {% set hft=publisher.has_future_transactions %}
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                     <td data-index="{{ timeliness.first_published_band_index(first_published_band) }}">{{ first_published_band }}</td>
                     {% for month in timeliness.previous_months_reversed %}
                     <td {% if not per_month[month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
@@ -69,19 +73,19 @@
             </tr>
         </thead>
         <tbody>
-        {% set summary = timeliness.publisher_frequency_summary() %}
-        {% for assessment, count in timeliness.sort_first(summary.items(), timeliness.frequency_index) %}
+        {% for bin in publisher_frequency_summary %}
             <tr>
-                <td>{{ assessment }}</td>
-                <td>{{ count }}</td>
+                <td>{{ bin.frequency }}</td>
+                <td>{{ bin.total }}</td>
             </tr>
         {% endfor %}
         </tbody>
         <tfoot>
             <tr>
                 <td>Total</td>
-                <td>{{ summary.values()|sum }}</td>
+                <td>{{ publisher_count }}</td>
             </tr>
+        </tfoot>
     </table>
     </div>
     </div>

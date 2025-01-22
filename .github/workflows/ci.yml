@@ -3,6 +3,15 @@ on: [push, pull_request]
 jobs:
   ci:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python 3.12
@@ -33,6 +42,8 @@ jobs:
         mkdir out
         ./mock_stats_for_unit_tests.sh
     - name: Run tests
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
       run: pytest --cov .
     # - name: Coveralls
     #   run: coveralls --service=github-actions

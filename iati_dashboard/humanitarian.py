@@ -1,8 +1,7 @@
 # This file builds a table to show humanitarian reporting for each publisher
 
-from .cache import json_cache
 from .common import get_publisher_type
-from .data import get_publisher_stats, publishers_ordered_by_title
+from .data import get_publisher_stats
 
 # Set column groupings, to be displayed in the user output
 columns = [
@@ -17,53 +16,45 @@ columns = [
 ]
 
 
-@json_cache("humanitarian.json")
-def table():
+def generate_row(publisher):
     """Generate data for the humanitarian table"""
 
-    # Loop over each publisher
-    for publisher_title, publisher in publishers_ordered_by_title:
-        # Store the data for this publisher as a new variable
-        publisher_stats = get_publisher_stats(publisher)
+    publisher_stats = get_publisher_stats(publisher)
 
-        # Create a list for publisher data, and populate it with basic data
-        row = {}
-        row["publisher"] = publisher
-        row["publisher_title"] = publisher_title
-        row["publisher_type"] = get_publisher_type(publisher)["name"]
+    # Create a list for publisher data, and populate it with basic data
+    row = {}
+    row["publisher"] = publisher
+    row["publisher_type"] = get_publisher_type(publisher)["name"]
 
-        # Get data from IATI-Stats output
-        row["num_activities"] = publisher_stats.get("humanitarian", {}).get("is_humanitarian", "0")
-        row["publishing_humanitarian"] = 100 if int(row["num_activities"]) > 0 else 0
+    # Get data from IATI-Stats output
+    row["num_activities"] = publisher_stats.get("humanitarian", {}).get("is_humanitarian", "0")
+    row["publishing_humanitarian"] = 100 if int(row["num_activities"]) > 0 else 0
 
-        # Calculate percentage of all humanitarian activities that are defined using the @humanitarian attribute
-        row["humanitarian_attrib"] = (
-            publisher_stats.get("humanitarian", {}).get("is_humanitarian_by_attrib", "0")
-            / float(row["num_activities"])
-            if int(row["num_activities"]) > 0
-            else 0.0
-        ) * 100
+    # Calculate percentage of all humanitarian activities that are defined using the @humanitarian attribute
+    row["humanitarian_attrib"] = (
+        publisher_stats.get("humanitarian", {}).get("is_humanitarian_by_attrib", "0") / float(row["num_activities"])
+        if int(row["num_activities"]) > 0
+        else 0.0
+    ) * 100
 
-        # Calculate percentage of all humanitarian activities that use the <humanitarian-scope> element to define an appeal or emergency
-        row["appeal_emergency"] = (
-            publisher_stats.get("humanitarian", {}).get("contains_humanitarian_scope", "0")
-            / float(row["num_activities"])
-            if int(row["num_activities"]) > 0
-            else 0.0
-        ) * 100
+    # Calculate percentage of all humanitarian activities that use the <humanitarian-scope> element to define an appeal or emergency
+    row["appeal_emergency"] = (
+        publisher_stats.get("humanitarian", {}).get("contains_humanitarian_scope", "0") / float(row["num_activities"])
+        if int(row["num_activities"]) > 0
+        else 0.0
+    ) * 100
 
-        # Calculate percentage of all humanitarian activities that use clusters
-        row["clusters"] = (
-            publisher_stats.get("humanitarian", {}).get("uses_humanitarian_clusters_vocab", "0")
-            / float(row["num_activities"])
-            if int(row["num_activities"]) > 0
-            else 0.0
-        ) * 100
+    # Calculate percentage of all humanitarian activities that use clusters
+    row["clusters"] = (
+        publisher_stats.get("humanitarian", {}).get("uses_humanitarian_clusters_vocab", "0")
+        / float(row["num_activities"])
+        if int(row["num_activities"]) > 0
+        else 0.0
+    ) * 100
 
-        # Calculate the mean average
-        row["average"] = (
-            row["publishing_humanitarian"] + row["humanitarian_attrib"] + row["appeal_emergency"] + row["clusters"]
-        ) / float(4)
+    # Calculate the mean average
+    row["average"] = (
+        row["publishing_humanitarian"] + row["humanitarian_attrib"] + row["appeal_emergency"] + row["clusters"]
+    ) / float(4)
 
-        # Return a generator object
-        yield row
+    return row
