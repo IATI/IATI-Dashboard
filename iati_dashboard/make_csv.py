@@ -1,13 +1,12 @@
 """Generates CSV files from data in the 'stats-calculated' folder and using additional logic
 """
 
-import argparse
 import csv
 import logging
 import os
 import sys
 
-from . import comprehensiveness, data, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
+from . import comprehensiveness, data, filepaths, forwardlooking, models, summary_stats, timeliness
 from .ui.jinja2 import round_nicely
 
 logger = logging.getLogger(__name__)
@@ -38,14 +37,9 @@ def publisher_dicts():
         }
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--verbose", action="store_true", help="Output progress to stdout")
-    args = parser.parse_args()
-
-    if args.verbose:
-        logger.setLevel(logging.INFO)
-        logger.addHandler(logging.StreamHandler(sys.stdout))
+def make_csv(verbose=False):
+    logger.setLevel(logging.INFO)
+    logger.addHandler(logging.StreamHandler(sys.stdout))
 
     logger.info("Generating CSV files")
     os.makedirs(filepaths.join_out_path("data/csv"), exist_ok=True)
@@ -131,16 +125,13 @@ def main():
         writer.writerow(
             ["Publisher Name", "Publisher Registry Id"] + previous_months + ["Frequency", "First published"]
         )
-        for (
-            publisher,
-            publisher_title,
-            per_month,
-            assessment,
-            hft,
-            first_published_band,
-        ) in timeliness.publisher_frequency_sorted():
+        for publisher in models.Publisher.objects.all():
+            per_month = publisher.timeliness_frequency["updates_per_month"]
+            first_published_band = publisher.timeliness_frequency["first_published_band"]
+            assessment = publisher.timeliness_frequency["frequency"]
+            # hft=publisher.has_future_transactions
             writer.writerow(
-                [publisher_title, publisher]
+                [publisher.human_readable_name, publisher.short_name]
                 + [per_month.get(x) or 0 for x in previous_months]
                 + [assessment, first_published_band]
             )
@@ -149,9 +140,15 @@ def main():
     with open(filepaths.join_out_path("data/csv/timeliness_timelag.csv"), "w") as fp:
         writer = csv.writer(fp)
         writer.writerow(["Publisher Name", "Publisher Registry Id"] + previous_months + ["Time lag"])
-        for publisher, publisher_title, per_month, assessment, hft in timeliness.publisher_timelag_sorted():
+        for publisher in models.Publisher.objects.all():
+            per_month = publisher.stats_json["transaction_months_with_year"]
+            # hft=publisher.has_future_transactions
+            previous_months = timeliness.previous_months_reversed
+            assessment = publisher.stats_json["timelag"]
             writer.writerow(
-                [publisher_title, publisher] + [per_month.get(x) or 0 for x in previous_months] + [assessment]
+                [publisher.human_readable_name, publisher.short_name]
+                + [per_month.get(x) or 0 for x in previous_months]
+                + [assessment]
             )
 
     logger.info("Generating forwardlooking.csv")
@@ -225,15 +222,20 @@ def main():
         writer.writerow(
             ["Publisher Name", "Publisher Registry Id"] + [header for slug, header in summary_stats.columns]
         )
-        for row in summary_stats.table():
+        for publisher in models.Publisher.objects.all():
             # Write each row
-            writer.writerow(
-                [row["publisher_title"], row["publisher"]]
-                + [
-                    row[slug] if header == "Publisher Type" else round_nicely(row[slug])
-                    for slug, header in summary_stats.columns
-                ]
-            )
+            if publisher.summary_stats:
+                writer.writerow(
+                    [publisher.human_readable_name, publisher.short_name]
+                    + [
+                        (
+                            publisher.summary_stats[column_slug]
+                            if header == "Publisher Type"
+                            else round_nicely(publisher.summary_stats[column_slug])
+                        )
+                        for column_slug, header in summary_stats.columns
+                    ]
+                )
 
     logger.info("Generating humanitarian.csv")
     with open(filepaths.join_out_path("data/csv/humanitarian.csv"), "w") as fp:
@@ -252,21 +254,19 @@ def main():
                 "Humanitarian Score",
             ]
         )
-        for row in humanitarian.table():
-            writer.writerow(
-                [
-                    row["publisher_title"],
-                    row["publisher"],
-                    row["publisher_type"],
-                    row["num_activities"],
-                    round_nicely(row["publishing_humanitarian"]),
-                    round_nicely(row["humanitarian_attrib"]),
-                    round_nicely(row["appeal_emergency"]),
-                    round_nicely(row["clusters"]),
-                    round_nicely(row["average"]),
-                ]
-            )
-
-
-if __name__ == "__main__":
-    main()
+        for publisher in models.Publisher.objects.all():
+            row = publisher.humanitarian
+            if row:
+                writer.writerow(
+                    [
+                        publisher.human_readable_name,
+                        publisher.short_name,
+                        row["publisher_type"],
+                        row["num_activities"],
+                        round_nicely(row["publishing_humanitarian"]),
+                        round_nicely(row["humanitarian_attrib"]),
+                        round_nicely(row["appeal_emergency"]),
+                        round_nicely(row["clusters"]),
+                        round_nicely(row["average"]),
+                    ]
+                )

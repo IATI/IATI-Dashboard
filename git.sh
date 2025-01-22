@@ -13,7 +13,7 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_plots.py"
 python -m iati_dashboard.make_plots || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
-python -m iati_dashboard.make_csv || exit 1
+python manage.py make_csv || exit 1
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers_kit.py"
 python -m iati_dashboard.speakers_kit || exit 1
