@@ -124,6 +124,8 @@ platformdirs==4.3.6
     # via black
 pluggy==1.5.0
     # via pytest
+psycopg==3.2.3
+    # via -r requirements.txt
 pycodestyle==2.12.1
     # via flake8
 pyflakes==3.2.0
@@ -158,6 +160,10 @@ sqlparse==0.5.1
     #   django
 tqdm==4.67.0
     # via -r requirements.txt
+typing-extensions==4.12.2
+    # via
+    #   -r requirements.txt
+    #   psycopg
 urllib3==2.2.3
     # via
     #   -r requirements.txt

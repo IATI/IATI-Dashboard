@@ -24,6 +24,9 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running create_caches.py"
 rm -r cache
 python create_caches.py || exit 1
 
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import"
+python manage.py dashboard_import
+
 cd ..
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Make a backup of the old web directory and make new content live"

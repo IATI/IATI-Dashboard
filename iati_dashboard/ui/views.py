@@ -9,7 +9,7 @@ import dateutil.parser
 from django.http import Http404, HttpResponse
 from django.template import loader
 
-from .. import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, text, timeliness, vars
+from .. import comprehensiveness, filepaths, forwardlooking, humanitarian, models, summary_stats, text, timeliness, vars
 from ..data import (
     MAJOR_VERSIONS,
     ckan,
@@ -161,6 +161,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         page_view_names=PAGE_VIEW_NAMES,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
+        publishers=models.Publisher.objects.all().defer("stats_json"),
         github_issues=github_issues,
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
@@ -526,7 +527,7 @@ def exploringdata_dates(request):
 
 def exploringdata_traceability(request):
     template = loader.get_template("traceability.html")
-    return HttpResponse(template.render(_make_context("traceability"), request))
+    return HttpResponse(template.render(_make_context("traceability", include_large_dicts=False), request))
 
 
 #
