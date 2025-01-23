@@ -91,5 +91,7 @@ werkzeug==3.1.2
     # via
     #   -r requirements.in
     #   flask
+whitenoise==6.8.2
+    # via -r requirements.in
 xmlschema==3.4.3
     # via -r requirements.in
