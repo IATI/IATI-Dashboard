@@ -116,7 +116,7 @@ def nested_dictinvert(d):
 PAGE_VIEW_NAMES = {
     "index": "dash-index",
     "headlines": "dash-headlines",
-    "data_quality": "dash-dataquality",
+    "errors": "dash-errors",
     "publishing_stats": "dash-publishingstats",
     "exploring_data": "dash-exploringdata",
     "faq": "dash-faq",
@@ -124,14 +124,14 @@ PAGE_VIEW_NAMES = {
     "files": "dash-headlines-files",
     "activities": "dash-headlines-activities",
     "publisher": "dash-headlines-publisher-detail",
-    "download": "dash-dataquality-download",
-    "xml": "dash-dataquality-xml",
-    "validation": "dash-dataquality-validation",
-    "versions": "dash-dataquality-versions",
-    "organisation": "dash-dataquality-organisation",
-    "licenses": "dash-dataquality-licenses",
-    "identifiers": "dash-dataquality-identifiers",
-    "reporting_orgs": "dash-dataquality-reportingorgs",
+    "download": "dash-errors-download",
+    "xml": "dash-errors-xml",
+    "validation": "dash-errors-validation",
+    "versions": "dash-versions",
+    "organisation": "dash-organisation",
+    "licenses": "dash-licenses",
+    "identifiers": "dash-identifiers",
+    "reporting_orgs": "dash-errors-reportingorgs",
     "elements": "dash-exploringdata-elements",
     "codelists": "dash-exploringdata-codelists",
     "booleans": "dash-exploringdata-booleans",
@@ -241,9 +241,9 @@ def headlines(request):
     return HttpResponse(template.render(_make_context("headlines"), request))
 
 
-def data_quality(request):
-    template = loader.get_template("data_quality.html")
-    return HttpResponse(template.render(_make_context("data_quality"), request))
+def errors(request):
+    template = loader.get_template("errors.html")
+    return HttpResponse(template.render(_make_context("errors"), request))
 
 
 def publishing_stats(request):
@@ -369,35 +369,35 @@ def headlines_publisher_detail(request, publisher=None):
 #
 # Views to generate data quality pages.
 #
-def dataquality_download(request):
+def errors_download(request):
     template = loader.get_template("download.html")
     context = _make_context("download")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_download_errorsjson(request):
+def errors_download_errorsjson(request):
     return HttpResponse(json.dumps(current_stats["download_errors"], indent=2), content_type="application/json")
 
 
-def dataquality_xml(request):
+def errors_xml(request):
     template = loader.get_template("xml.html")
     context = _make_context("xml")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_validation(request):
+def errors_validation(request):
     template = loader.get_template("validation.html")
     context = _make_context("validation")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_versions(request):
+def versions(request):
     template = loader.get_template("versions.html")
     context = _make_context("versions")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_licenses(request):
+def licenses(request):
     template = loader.get_template("licenses.html")
     context = _make_context("licenses")
     context["license_urls"] = LICENSE_URLS
@@ -408,7 +408,7 @@ def dataquality_licenses(request):
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_licenses_detail(request, license_id=None):
+def licenses_detail(request, license_id=None):
     template = loader.get_template("license.html")
 
     if license_id not in LICENSE_URLS:
@@ -430,19 +430,19 @@ def dataquality_licenses_detail(request, license_id=None):
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_orgxml(request):
+def orgxml(request):
     template = loader.get_template("organisation.html")
     context = _make_context("organisation")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_identifiers(request):
+def errors_identifiers(request):
     template = loader.get_template("identifiers.html")
     context = _make_context("identifiers")
     return HttpResponse(template.render(context, request))
 
 
-def dataquality_reportingorgs(request):
+def errors_reportingorgs(request):
     template = loader.get_template("reporting_orgs.html")
     context = _make_context("reporting_orgs")
     return HttpResponse(template.render(context, request))

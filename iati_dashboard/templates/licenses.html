@@ -24,7 +24,7 @@
                     <td>{% if license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
                     <td>{{ license }}</td>
                     <td>{{ files }}</td>
-                    <td><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
+                    <td><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>

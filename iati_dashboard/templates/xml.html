@@ -4,7 +4,7 @@
 {% block content %}
     <div class="row">
       {{ boxes.box_h2('Files where XML is not well-formed', current_stats.aggregated.invalidxml, 'img/aggregate/invalidxml.png', 'invalidxml.json',
-        description='Count of files where the XML that is not well-formed, over time. Note: this is different from <a href="{}">validation against the schema</a>.'.format( url('dash-dataquality-validation'))) }}
+        description='Count of files where the XML that is not well-formed, over time. Note: this is different from <a href="{}">validation against the schema</a>.'.format( url('dash-errors-validation'))) }}
       {{ boxes.box_h2('Files with non-standard roots', current_stats.aggregated.nonstandardroots, 'img/aggregate/nonstandardroots.png', 'nonstandardroots.json',
         description='Count of files with non-standard root, over time. Note: Files with non-standard roots are those where the root XML element is not <code class="iati-code">iati-activities</code> or <code class="iati-code">iati-organisation</code> as we would expect.</p>') }}
     </div>

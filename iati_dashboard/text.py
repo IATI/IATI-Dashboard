@@ -5,8 +5,8 @@ import copy
 
 top_titles = {
     "index": "Home",
-    "headlines": "Headlines",
-    "data_quality": "Data Quality",
+    "publishers": "Publishers",
+    "errors": "Errors",
     "publishing_stats": "Publishing Statistics",
     "exploring_data": "Exploring Data",
     "faq": "FAQ",
@@ -15,7 +15,7 @@ top_titles = {
 page_titles = {
     "index": "Dashboard Home",
     "headlines": "Headlines",
-    "data_quality": "Data Quality",
+    "errors": "Errors",
     "exploring_data": "Exploring Data",
     "faq": "Frequently Asked Questions",
     "publishers": "IATI Publishers",
@@ -51,7 +51,7 @@ page_titles = {
 
 page_leads = {
     "index": "Statistics, charts and metrics on data accessed via the IATI Registry.",
-    "data_quality": "What needs fixing in IATI data?",
+    "Errors": "What needs fixing in IATI data?",
     "exploring_data": "Which parts of the IATI Standard are being used?",
     "headlines": "What is the size, scope and scale of published IATI data?",
     "publishers": "How many organisations are publishing IATI data?",
@@ -97,27 +97,36 @@ short_page_titles.update(
         "publishers": "Publishers",
         "files": "Files",
         "activities": "Activities",
-        "validation": "Validation",
+        "validation": "Schema Validation",
         "licenses": "Licenses",
         "organisation": "Organisation XML",
         "identifiers": "Duplicate Identifiers",
     }
 )
 
-top_navigation = ["headlines", "data_quality", "publishing_stats", "exploring_data", "faq"]
+top_navigation = ["publishers", "errors", "exploring_data", "publishing_stats", "faq"]
 navigation = {
-    "headlines": ["publishers", "files", "activities"],
-    "data_quality": [
+    "errors": [
         "download",
         "xml",
         "validation",
-        "versions",
-        "licenses",
-        "organisation",
         "identifiers",
         "reporting_orgs",
     ],
-    "exploring_data": ["elements", "codelists", "booleans", "dates", "traceability", "org_ids"],
+    "exploring_data": [
+        "publishers",
+        "files",
+        "activities",
+        "elements",
+        "codelists",
+        "booleans",
+        "dates",
+        "versions",
+        "licenses",
+        "organisation",
+        "traceability",
+        "org_ids",
+    ],
     "publishing_stats": [
         "timeliness_timelag",
         "timeliness_frequency",
