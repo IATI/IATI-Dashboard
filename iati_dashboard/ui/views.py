@@ -592,11 +592,7 @@ def pubstats_timeliness_timelag(request):
     context = _make_context("timeliness_timelag", include_large_dicts=False)
     context["timeliness"] = timeliness
     context["publisher_timelag_summary"] = sorted(
-        list(
-            models.Publisher.objects.annotate(timelag=F("stats_json__timelag"))
-            .values("timelag")
-            .annotate(total=Count("timelag"))
-        ),
+        list(models.Publisher.objects.values("timelag").annotate(total=Count("timelag"))),
         key=lambda x: timeliness.timelag_index(x["timelag"]),
     )
     context["publisher_count"] = models.Publisher.objects.count()

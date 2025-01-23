@@ -11,6 +11,7 @@ class Publisher(models.Model):
     comprehensiveness = models.JSONField(default=dict)
     humanitarian = models.JSONField(default=dict)
     summary_stats = models.JSONField(default=dict)
+    validation_datasets = models.JSONField(default=dict)
     # too long
     traceable_sum_commitments_and_disbursements_by_publisher_id_den = models.GeneratedField(
         expression=models.F("stats_json__traceable_sum_commitments_and_disbursements_by_publisher_id_denominator"),
@@ -25,9 +26,17 @@ class Publisher(models.Model):
 
 for key in [
     "activities",
+    "organisations",
+    "activity_files",
+    "organisation_files",
+    "file_size",
+    "hierarchies",
+    "reporting_orgs",
     "traceable_activities_by_publisher_id",
     "traceable_activities_by_publisher_id_denominator",
     "traceable_sum_commitments_and_disbursements_by_publisher_id",
+    "transaction_months_with_year",
+    "timelag",
 ]:
     Publisher.add_to_class(
         key,
