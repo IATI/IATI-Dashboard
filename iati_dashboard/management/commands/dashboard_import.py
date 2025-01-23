@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from ... import comprehensiveness, forwardlooking, humanitarian, summary_stats, timeliness
-from ...data import get_publisher_stats, publishers_ordered_by_title
+from ...data import current_stats, get_publisher_stats, publishers_ordered_by_title
 from ...models import Publisher
 
 
@@ -21,6 +21,9 @@ class Command(BaseCommand):
                 forwardlooking=forwardlooking.generate_row(publisher_slug),
                 comprehensiveness=comprehensiveness.generate_row(publisher_slug),
                 humanitarian=humanitarian.generate_row(publisher_slug),
+                validation_datasets=current_stats["inverted_file_publisher"][publisher_slug]["validation"].get(
+                    "fail", {}
+                ),
             )
             publisher.summary_stats = summary_stats.generate_row(publisher)
             publisher.save()

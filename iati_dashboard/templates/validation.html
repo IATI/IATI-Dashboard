@@ -18,11 +18,11 @@
       </div>
       <div class="dashboard-panel-body">
         <div class="iati-card-gallery">
-    {% for publisher in current_stats.inverted_file_publisher %}
-        {% with datasets = current_stats.inverted_file_publisher[publisher].validation.get('fail', {}) %}
+    {% for publisher in publishers %}
+        {% with datasets = publisher.validation_datasets %}
         {% if datasets %}
         <div class="iati-card">
-          <h4><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}" id="list_{{ publisher }}">{{ publisher_name[publisher ] }}</a> ({{ datasets|length }})</h4>
+          <h4><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}" id="list_{{ publisher.short_name }}">{{ publisher.human_readable_name }}</a> ({{ datasets|length }})</h4>
           <table>
             <thead>
               <tr>
@@ -37,12 +37,12 @@
               <tr>
                 <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
                 <td style="max-width: 300px; overflow: clip;">
-                  {% if publisher in ckan and dataset_name in ckan[publisher] %}
-                  <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
+                  {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
+                  <a href="{{ ckan[publisher.short_name][dataset_name].resource.url }}">{{ ckan[publisher.short_name][dataset_name].resource.url|url_to_filename }}</a>
                   {% endif %}
                 </td>
                 <td>
-                   {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                   {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
                    <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
                    {% endif %}
                 </td>
@@ -72,11 +72,11 @@
             <th>Failing files <a href="{{ stats_url }}/current/inverted-file/validation.json">(J)</a></th>
           </tr></thead>
           <tbody>
-            {% for publisher in current_stats.inverted_file_publisher %}
-              {% if 'fail' in current_stats.inverted_file_publisher[publisher].validation %}
+            {% for publisher in publishers %}
+              {% if publisher.validation_datasets %}
               <tr>
-                <td><a href="#list_{{ publisher }}">{{ publisher_name[publisher ] }}</a></td>
-                <td>{{ current_stats.inverted_file_publisher[publisher].validation.fail|length }}</td>
+                <td><a href="#list_{{ publishershort_name }}">{{ publisher.human_readable_name }}</a></td>
+                <td>{{ publisher.validation_datasets|length }}</td>
               </tr>
               {% endif %}
             {% endfor %}

@@ -17,7 +17,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <div class="dashboard-panel-body">
             <ul>
                 <li><a href="#h_headlines">Headlines</a>
-                <li><a href="#h_dataquality">Data Quality</a>
+                <li><a href="#h_errors">Data Quality</a>
                     <ul>
                         {% if failure_count > 0 %}
                         <li><a href="#p_validation">Files Failing Validation</a>
@@ -107,7 +107,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 <td>Licenses</td>
                 <td>
                 {% for license in publisher_licenses %}
-                <code class="iati-code"><a href="{{ url('dash-dataquality-licenses-detail', args=[license]) }}">{{ license }}</a></code>
+                <code class="iati-code"><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ license }}</a></code>
                 {% endfor %}
                 </td>
             </tr><tr>
@@ -140,7 +140,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         {{ boxes.box_h3('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
     </div>
 
-    <h2 id="h_dataquality">Data Quality</h2>
+    <h2 id="h_errors">Data Quality</h2>
 
     {% set data_quality_issue = false %}
 
