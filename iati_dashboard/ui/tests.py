@@ -14,55 +14,38 @@ class BasicPageTests(TestCase):
         """Test the index and top hierarchy pages return a 200 status code"""
 
         self.assertEqual(self.client.get(reverse("dash-index")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-headlines")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-publishingstats")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-exploringdata")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-faq")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-registrationagencies")).status_code, 200)
-
-    def test_headlines(self):
-        """Test the headlines pages"""
-
-        self.assertEqual(self.client.get(reverse("dash-headlines-files")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-headlines-activities")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-publishers")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-publisher-detail", args=("zsl",))).status_code, 200)
         self.assertEqual(
             self.client.get(reverse("dash-headlines-publisher-detail", args=("not-a-valid-publisher",))).status_code,
             404,
         )
+        self.assertEqual(self.client.get(reverse("dash-errors")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-publishingstats")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-exploringdata")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-faq")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-registrationagencies")).status_code, 200)
 
-    def test_dataquality(self):
+    def test_errors(self):
         """Test the data quality pages"""
 
-        self.assertEqual(self.client.get(reverse("dash-dataquality-download")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-download-json")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-xml")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-validation")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-versions")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-organisation")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-identifiers")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-reportingorgs")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-dataquality-licenses")).status_code, 200)
-        self.assertEqual(
-            self.client.get(reverse("dash-dataquality-licenses-detail", args=("cc-by",))).status_code, 200
-        )
-        self.assertEqual(
-            self.client.get(reverse("dash-dataquality-licenses-detail", args=("not-a-valid-license",))).status_code,
-            404,
-        )
+        self.assertEqual(self.client.get(reverse("dash-errors-download")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-errors-download-json")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-errors-xml")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-errors-validation")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-identifiers")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-errors-reportingorgs")).status_code, 200)
 
     def test_publishingstats_timeliness(self):
         """Test timeliness pages in the publishing statistics section"""
 
-        self.assertEqual(self.client.get(reverse("dash-publishingstats-timeliness")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-publishingstats-timeliness-frequency")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-publishingstats-timeliness-timelag")).status_code, 200)
 
     def test_publishingstats_comprehensiveness(self):
         """Test comprehensiveness pages in the publishing statistics section"""
 
-        self.assertEqual(self.client.get(reverse("dash-publishingstats-comprehensiveness")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-publishingstats-comprehensiveness-summary")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-publishingstats-comprehensiveness-core")).status_code, 200)
         self.assertEqual(
             self.client.get(reverse("dash-publishingstats-comprehensiveness-financials")).status_code, 200
@@ -88,6 +71,8 @@ class BasicPageTests(TestCase):
 
     def test_exploringdata(self):
         """Test the exploring data pages"""
+        self.assertEqual(self.client.get(reverse("dash-headlines-files")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-headlines-activities")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-booleans")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-codelists")).status_code, 200)
         self.assertEqual(
@@ -127,6 +112,14 @@ class BasicPageTests(TestCase):
             404,
         )
         self.assertEqual(self.client.get(reverse("dash-exploringdata-dates")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-versions")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-organisation")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-licenses")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-licenses-detail", args=("cc-by",))).status_code, 200)
+        self.assertEqual(
+            self.client.get(reverse("dash-licenses-detail", args=("not-a-valid-license",))).status_code,
+            404,
+        )
         self.assertEqual(self.client.get(reverse("dash-exploringdata-elements")).status_code, 200)
         self.assertEqual(
             self.client.get(
@@ -172,7 +165,7 @@ class OriginalDashboardRedirectTests(TestCase):
         self._url_and_view_helper(
             {
                 "index": "dash-index",
-                "headlines": "dash-headlines",
+                "headlines": "dash-index",
                 "files": "dash-headlines-files",
                 "activities": "dash-headlines-activities",
                 "publishers": "dash-headlines-publishers",
@@ -181,7 +174,7 @@ class OriginalDashboardRedirectTests(TestCase):
             }
         )
 
-    def test_dataquality(self):
+    def test_errors(self):
         """Test data quality pages redirect to their new locations"""
 
         # This is not particularly DRY as a similar dictionary is created in views.py
@@ -189,15 +182,15 @@ class OriginalDashboardRedirectTests(TestCase):
         # refactor of what goes into the context.
         self._url_and_view_helper(
             {
-                "data_quality": "dash-dataquality",
-                "download": "dash-dataquality-download",
-                "xml": "dash-dataquality-xml",
-                "validation": "dash-dataquality-validation",
-                "versions": "dash-dataquality-versions",
-                "organisation": "dash-dataquality-organisation",
-                "identifiers": "dash-dataquality-identifiers",
-                "reporting_orgs": "dash-dataquality-reportingorgs",
-                "licenses": "dash-dataquality-licenses",
+                "data_quality": "dash-errors",
+                "download": "dash-errors-download",
+                "xml": "dash-errors-xml",
+                "validation": "dash-errors-validation",
+                "versions": "dash-versions",
+                "organisation": "dash-organisation",
+                "identifiers": "dash-identifiers",
+                "reporting_orgs": "dash-errors-reportingorgs",
+                "licenses": "dash-licenses",
             }
         )
 
@@ -210,10 +203,10 @@ class OriginalDashboardRedirectTests(TestCase):
         self._url_and_view_helper(
             {
                 "publishing_stats": "dash-publishingstats",
-                "timeliness": "dash-publishingstats-timeliness",
+                "timeliness": "dash-publishingstats-timeliness-frequency",
                 "timeliness_timelag": "dash-publishingstats-timeliness-timelag",
                 "forwardlooking": "dash-publishingstats-forwardlooking",
-                "comprehensiveness": "dash-publishingstats-comprehensiveness",
+                "comprehensiveness": "dash-publishingstats-comprehensiveness-summary",
                 "comprehensiveness_core": "dash-publishingstats-comprehensiveness-core",
                 "comprehensiveness_financials": "dash-publishingstats-comprehensiveness-financials",
                 "comprehensiveness_valueadded": "dash-publishingstats-comprehensiveness-valueadded",
@@ -246,9 +239,7 @@ class OriginalDashboardRedirectTests(TestCase):
         self.assertRedirects(
             self.client.get(r"/publisher/zsl.html"), reverse("dash-headlines-publishers"), status_code=301
         )
-        self.assertRedirects(
-            self.client.get(r"/license/cc-by.html"), reverse("dash-dataquality-licenses"), status_code=301
-        )
+        self.assertRedirects(self.client.get(r"/license/cc-by.html"), reverse("dash-licenses"), status_code=301)
         self.assertRedirects(
             self.client.get(r"/codelist/2/budget_@type.html"), reverse("dash-exploringdata-codelists"), status_code=301
         )

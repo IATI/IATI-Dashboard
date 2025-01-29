@@ -130,7 +130,8 @@ urlpatterns = (
         ),
         # Redirects to support any users with bookmarks to pages on the old Dashboard.
         path("index.html", RedirectView.as_view(pattern_name="dash-index", permanent=True)),
-        path("headlines.html", RedirectView.as_view(pattern_name="dash-headlines", permanent=True)),
+        # We've remove the headlines page, so redirect to the index
+        path("headlines.html", RedirectView.as_view(pattern_name="dash-index", permanent=True)),
         path("data_quality.html", RedirectView.as_view(pattern_name="dash-errors", permanent=True)),
         path("exploring_data.html", RedirectView.as_view(pattern_name="dash-exploringdata-elements", permanent=True)),
         path("publishers.html", RedirectView.as_view(pattern_name="dash-headlines-publishers", permanent=True)),
