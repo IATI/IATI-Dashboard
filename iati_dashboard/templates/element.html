@@ -33,6 +33,7 @@ as{% extends 'base.html' %}
           </thead>
           <tbody>
             {% for publisher in func.sorted(publishers) %}
+            {% if publisher in current_stats.inverted_publisher.activities %}
             <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
                 {% with publisher_inverted=func.get_publisher_stats(publisher, 'inverted-file') %}
@@ -45,6 +46,7 @@ as{% extends 'base.html' %}
                 {% endwith %}
                 <td>{{ current_stats.inverted_publisher.activities[publisher] }}</td>
             </tr>
+            {% endif %}
             {% endfor %}
           </tbody>
         </table>

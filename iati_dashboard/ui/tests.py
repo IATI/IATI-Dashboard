@@ -130,7 +130,7 @@ class BasicPageTests(TestCase):
         self.assertEqual(self.client.get(reverse("dash-exploringdata-elements")).status_code, 200)
         self.assertEqual(
             self.client.get(
-                reverse("dash-exploringdata-elements-detail", args=("iati-activity_activity-date_narrative",))
+                reverse("dash-exploringdata-elements-detail", args=("iati-activity_activity-date_@iso-date",))
             ).status_code,
             200,
         )
@@ -253,7 +253,7 @@ class OriginalDashboardRedirectTests(TestCase):
             self.client.get(r"/codelist/2/budget_@type.html"), reverse("dash-exploringdata-codelists"), status_code=301
         )
         self.assertRedirects(
-            self.client.get(r"/element/iati-activity_activity-date_narrative.html"),
+            self.client.get(r"/element/iati-activity_activity-date_@iso-date.html"),
             reverse("dash-exploringdata-elements"),
             status_code=301,
         )
