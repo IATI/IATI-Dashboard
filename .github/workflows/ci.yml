@@ -8,6 +8,7 @@ jobs:
         image: postgres:latest
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_database_name
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -40,11 +41,22 @@ jobs:
     - name: Fetch stats
       run: |
         mkdir out
-        ./mock_stats_for_unit_tests.sh
-    - name: Run tests
+        ./partial_stats_for_unit_tests.sh
+    - name: Set up django
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+      run: |
+        python manage.py collectstatic
+        python manage.py migrate
+        python manage.py dashboard_import
+    - name: Run non-django tests
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
       run: pytest --cov .
+    - name: Run django tests
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+      run: python manage.py test
     # - name: Coveralls
     #   run: coveralls --service=github-actions
     #   env:

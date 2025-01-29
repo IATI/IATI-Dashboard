@@ -27,7 +27,7 @@ class BasicPageTests(TestCase):
         self.assertEqual(self.client.get(reverse("dash-headlines-files")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-activities")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-publishers")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-headlines-publisher-detail", args=("undp",))).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-headlines-publisher-detail", args=("zsl",))).status_code, 200)
         self.assertEqual(
             self.client.get(reverse("dash-headlines-publisher-detail", args=("not-a-valid-publisher",))).status_code,
             404,
@@ -244,7 +244,7 @@ class OriginalDashboardRedirectTests(TestCase):
         """Test pages with slugs redirect to the section page"""
 
         self.assertRedirects(
-            self.client.get(r"/publisher/undp.html"), reverse("dash-headlines-publishers"), status_code=301
+            self.client.get(r"/publisher/zsl.html"), reverse("dash-headlines-publishers"), status_code=301
         )
         self.assertRedirects(
             self.client.get(r"/license/cc-by.html"), reverse("dash-dataquality-licenses"), status_code=301
