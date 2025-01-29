@@ -69,10 +69,16 @@ python -m iati_dashboard.make_csv
 python -m iati_dashboard.speakers_kit
 ```
 
-### 4. Run the webserver.
+### 4. Start Postgres database and run migrations
+```
+docker run --name iati-dashboard-psql -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test_database_name -p 5432:5432 -d postgres:latest
+DEBUG=True DATABASE_URL="postgres://postgres:postgres@localhost:5432/test_database_name" python manage.py migrate
+```
+
+### 5. Run the webserver.
 
 ```
-DEBUG=True python manage.py runserver
+DEBUG=True DATABASE_URL="postgres://postgres:postgres@localhost:5432/test_database_name" python manage.py runserver
 ```
 
 The Dashboard will now be accessible from `localhost:8000/`.
