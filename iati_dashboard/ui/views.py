@@ -280,6 +280,9 @@ def headlines_files(request):
 
 
 def headlines_publisher_detail(request, publisher=None):
+    if publisher not in publisher_name:
+        raise Http404("Publisher does not exist")
+
     template = loader.get_template("publisher.html")
 
     context = _make_context("publishers")
