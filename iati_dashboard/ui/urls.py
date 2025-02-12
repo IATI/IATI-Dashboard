@@ -203,7 +203,7 @@ urlpatterns = (
         ),
         re_path(r"org_type\/\S*.html", RedirectView.as_view(pattern_name="dash-exploringdata-orgids", permanent=True)),
     ]
-    + static("generated", document_root="../out")
-    + static("stats", document_root="../stats-calculated")
+    + static("generated", document_root="out")
+    + static("stats", document_root="stats-calculated")
 )
 # ^ Serve generated files when using runserver for development

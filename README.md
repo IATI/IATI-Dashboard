@@ -19,7 +19,7 @@ Support | https://iatistandard.org/en/guidance/get-support/
 
 * Python 3.12
 * Unix-based setup (e.g., Linux, MacOS X) with `bash`, `wget` and `curl` installed.
-* Development files for libfreetype, libpng, libxml and libxslt e.g. ``libfreetype6-dev libpng-dev libxml2-dev libxslt-dev``.
+* Postgres database (see below for how to run this with docker)
 
 ## Running the app locally
 ### Overview
@@ -30,16 +30,14 @@ The IATI Dashboard is mostly written in Python but also has some helper Bash scr
 3. Build the static graphs and other data that will be served via the Dashboard.
 4. Run the web server.
 
-Paths to different directories are set in `./dashboard/config.py`.
-
 ### 1. Setup environment
 
 Assuming that this repository has been cloned and you are in the root directory of the repository.
 
 ```
-# Setup and activate a virtual environment (recommended) - here we use virtualenv
-virtualenv ve
-source ve/bin/activate
+# Setup and activate a virtual environment (recommended)
+python3.12 -m venv .ve
+source .ve/bin/activate
 ```
 
 Now install the dependencies.
@@ -50,38 +48,47 @@ pip install -r requirements.txt
 
 ### 2. Fetching the data
 
-Bash scripts are used to fetch the data that the Dashboard will present.  They will store data in `./data` and `./stats-calculated`.
+Bash scripts are used to fetch the data that the Dashboard will present.
 
 ```
 # Fetch the necessary calculated stats
+# This will store data in the ./stats-calculated directory
+# These are created by https://github.com/IATI/IATI-Stats (see below for more information)
+# This downloads ~1.5GB of data, which uncompresses to ~50GB
 ./get_stats.sh
 
 # Fetch some extra data from github and github gists and other sources on the internet
+# This will store data in the ./data directory
+# This downloads ~60MB of data
 ./fetch_data.sh
 ```
 
-### 3. Build static data and graphs
+### 3. Start Postgres database, run migrations, import data
 
 ```
-mkdir out
+docker run --name iati-dashboard-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=iati_dashboard -p 127.0.0.1:5432:5432 -d postgres:17
+# Run this every time you open a new shell
+export DATABASE_URL="postgres://postgres:postgres@localhost:5432/iati_dashboard"
+python manage.py migrate
+python manage.py dashboard_import
+```
+
+
+### 4. Build static data and graphs
+
+```
 python -m iati_dashboard.make_plots
-python -m iati_dashboard.make_csv
+python manage.py make_csv
 python -m iati_dashboard.speakers_kit
-```
-
-### 4. Start Postgres database and run migrations
-```
-docker run --name iati-dashboard-psql -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=test_database_name -p 5432:5432 -d postgres:latest
-DEBUG=True DATABASE_URL="postgres://postgres:postgres@localhost:5432/test_database_name" python manage.py migrate
 ```
 
 ### 5. Run the webserver.
 
 ```
-DEBUG=True DATABASE_URL="postgres://postgres:postgres@localhost:5432/test_database_name" python manage.py runserver
+DEBUG=True python manage.py runserver
 ```
 
-The Dashboard will now be accessible from `localhost:8000/`.
+The Dashboard will now be accessible from <http://localhost:8000/>.
 
 
 ## Development
@@ -112,13 +119,13 @@ Often you only want to regenerate the current stats, use `get_stats.sh` to downl
 If a change requires new dependencies then please add to `requirements.in` or `requirements_dev.in` as appropriate and recompile:
 
 ```
-pip-compile requirements_dev.in
 pip-compile requirements.in
+pip-compile requirements_dev.in
 ```
 
 ### Linting
 
-Code linting is carried out using [Flake8](https://flake8.pycqa.org/en/latest/) and `setup.cfg` has the configuration.
+Code linting is carried out using Black, isort and [Flake8](https://flake8.pycqa.org/en/latest/) and `pyproject.toml` has the configuration.
 
 ## License
     Copyright (C) 2013-2015 Ben Webb <bjwebb67@googlemail.com>
