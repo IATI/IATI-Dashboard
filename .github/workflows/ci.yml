@@ -49,14 +49,10 @@ jobs:
         python manage.py collectstatic
         python manage.py migrate
         python manage.py dashboard_import
-    - name: Run non-django tests
+    - name: Run tests
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
-      run: pytest --cov .
-    - name: Run django tests
-      env:
-        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
-      run: python manage.py test
+      run: pytest .
     # - name: Coveralls
     #   run: coveralls --service=github-actions
     #   env:

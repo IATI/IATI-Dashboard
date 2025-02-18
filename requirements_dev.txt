@@ -138,7 +138,10 @@ pytest==8.3.4
     # via
     #   -r requirements_dev.in
     #   pytest-cov
+    #   pytest-django
 pytest-cov==6.0.0
+    # via -r requirements_dev.in
+pytest-django==4.10.0
     # via -r requirements_dev.in
 python-dateutil==2.9.0.post0
     # via

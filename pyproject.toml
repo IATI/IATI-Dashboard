@@ -17,3 +17,9 @@ exclude = ["data", "gitout", "helpers/IATI-Rulesets", "helpers/schemas", "__pyca
 line-length = 119
 target-version = ["py312"]
 include = "^[^/]*\\.py|dashboard/.*\\.py$"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "iati_dashboard.settings"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+norecursedirs = ["*__pycache__*", "*.pytest_cache*"]
+console_output_style = "count"
