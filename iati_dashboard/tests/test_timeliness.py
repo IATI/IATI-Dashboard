@@ -1,5 +1,4 @@
-"""Testing of functions in timeliness.py
-"""
+"""Testing of functions in timeliness.py"""
 
 from iati_dashboard import timeliness  # noqa: E402
 

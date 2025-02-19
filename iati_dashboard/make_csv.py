@@ -1,5 +1,4 @@
-"""Generates CSV files from data in the 'stats-calculated' folder and using additional logic
-"""
+"""Generates CSV files from data in the 'stats-calculated' folder and using additional logic"""
 
 import csv
 import logging

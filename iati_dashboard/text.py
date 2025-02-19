@@ -1,5 +1,4 @@
-"""Text fragments for page titles, navigation and page leaders/sub-leaders
-"""
+"""Text fragments for page titles, navigation and page leaders/sub-leaders"""
 
 import copy
 
