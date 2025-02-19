@@ -1,5 +1,4 @@
-"""Jinja2 template configuration
-"""
+"""Jinja2 template configuration"""
 
 import re
 

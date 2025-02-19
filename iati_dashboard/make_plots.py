@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-""" Generates static images of stats graphs using matplotlib.
-"""
+"""Generates static images of stats graphs using matplotlib."""
 
 import argparse
 import csv

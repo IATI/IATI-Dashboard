@@ -119,8 +119,19 @@ Often you only want to regenerate the current stats, use `get_stats.sh` to downl
 If a change requires new dependencies then please add to `requirements.in` or `requirements_dev.in` as appropriate and recompile:
 
 ```
+# Install an older version of pip, see https://github.com/jazzband/pip-tools/issues/2131
+pip install 'pip<24.3'
 pip-compile requirements.in
 pip-compile requirements_dev.in
+```
+
+### Upgrading dependencies
+
+```
+# Install an older version of pip, see https://github.com/jazzband/pip-tools/issues/2131
+pip install 'pip<24.3'
+pip-compile --upgrade requirements.in
+pip-compile --upgrade requirements_dev.in
 ```
 
 ### Linting
