@@ -119,8 +119,10 @@ Often you only want to regenerate the current stats, use `get_stats.sh` to downl
 If a change requires new dependencies then please add to `requirements.in` or `requirements_dev.in` as appropriate and recompile:
 
 ```
+# Make sure you are in the virtualenv (see step 1 above)
+source .ve/bin/activate
 # Install an older version of pip, see https://github.com/jazzband/pip-tools/issues/2131
-pip install 'pip<24.3'
+pip install --upgrade pip-tools 'pip<24.3'
 pip-compile requirements.in
 pip-compile requirements_dev.in
 ```
@@ -128,8 +130,10 @@ pip-compile requirements_dev.in
 ### Upgrading dependencies
 
 ```
+# Make sure you are in the virtualenv (see step 1 above)
+source .ve/bin/activate
 # Install an older version of pip, see https://github.com/jazzband/pip-tools/issues/2131
-pip install 'pip<24.3'
+pip install --upgrade pip-tools 'pip<24.3'
 pip-compile --upgrade requirements.in
 pip-compile --upgrade requirements_dev.in
 ```
