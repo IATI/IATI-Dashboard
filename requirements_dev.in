@@ -1,6 +1,7 @@
 -r requirements.txt
 pytest
 pytest-cov
+pytest-django
 coveralls
 flake8
 flake8-pyproject
