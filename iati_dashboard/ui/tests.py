@@ -10,6 +10,8 @@ class BasicPageTests(TestCase):
     list the tests as they run.
     """
 
+    fixtures = ["publishers"]
+
     def test_top_pages(self):
         """Test the index and top hierarchy pages return a 200 status code"""
 
