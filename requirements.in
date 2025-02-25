@@ -16,3 +16,4 @@ markupsafe
 itsdangerous
 tqdm
 whitenoise
+sentry-sdk[django]
