@@ -24,6 +24,7 @@ secret_key = get_random_string(50, chars)
 env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
+    SENTRY_DSN=(str, None),
 )
 
 
@@ -31,8 +32,27 @@ SECRET_KEY = env("SECRET_KEY")
 
 DEBUG = env("DEBUG")
 
+SENTRY_DSN = env("SENTRY_DSN")
+
 ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
 
+
+if SENTRY_DSN:
+    import sentry_sdk
+
+    sentry_sdk.init(
+        dsn=SENTRY_DSN,
+        # Add data like request headers and IP for users,
+        # see https://docs.sentry.io/platforms/python/data-management/data-collected/ for more info
+        send_default_pii=True,
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for tracing.
+        traces_sample_rate=1.0,
+        # Set profiles_sample_rate to 1.0 to profile 100%
+        # of sampled transactions.
+        # We recommend adjusting this value in production.
+        profiles_sample_rate=1.0,
+    )
 
 # Application definition
 
