@@ -24,6 +24,7 @@ secret_key = get_random_string(50, chars)
 env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
+    SENTRY_DSN=(str, None),
 )
 
 
