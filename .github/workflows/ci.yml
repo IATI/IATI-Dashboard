@@ -49,10 +49,15 @@ jobs:
         python manage.py collectstatic
         python manage.py migrate
         python manage.py dashboard_import
+        mkdir iati_dashboard/fixtures/
+        python manage.py dumpdata iati_dashboard.Publisher > iati_dashboard/fixtures/publishers.json
     - name: Run tests
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
-      run: pytest .
+        DASHBOARD_ROOT_URL: "http://localhost:8000"
+      run: |
+        python manage.py runserver &
+        pytest .
     # - name: Coveralls
     #   run: coveralls --service=github-actions
     #   env:

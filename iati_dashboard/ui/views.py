@@ -461,14 +461,28 @@ def exploringdata_elements(request):
 
 def exploringdata_element_detail(request, element=None):
     template = loader.get_template("element.html")
-    context = _make_context("elements")
+    context = _make_context("elements", include_large_dicts=False)
 
-    if element not in slugs["element"]["by_slug"]:
+    context["element"] = element.replace("_", "/")
+
+    values = [
+        "id",
+        "short_name",
+        "activities",
+        "organisations",
+        "activity_files",
+        "organisation_files",
+        "elements",
+        "elements_total",
+    ]
+    context["publishers_with"] = models.Publisher.objects.filter(elements__has_key=context["element"]).values(*values)
+    context["publishers_without"] = models.Publisher.objects.exclude(elements__has_key=context["element"]).values(
+        *values
+    )
+
+    if context["publishers_with"].count() == 0:
         raise Http404("Unknown element or attribute")
 
-    i = slugs["element"]["by_slug"][element]
-    context["element"] = list(current_stats["inverted_publisher"]["elements"])[i]
-    context["publishers"] = list(current_stats["inverted_publisher"]["elements"].values())[i]
     context["element_or_attribute"] = "attribute" if "@" in context["element"] else "element"
 
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["elements"], "title": '"' + context["element"] + '"'})

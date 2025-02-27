@@ -85,8 +85,11 @@ EXAMPLE_PAGES = [
 
 
 @pytest.mark.parametrize("page", EXAMPLE_PAGES)
-def test_page_speed(page, live_server):
-    host = os.environ.get("DASHBOARD_ROOT_URL", live_server.url)
-    r = requests.get(f"{host}/{page}")
+def test_page_speed(page):
+    if "DASHBOARD_ROOT_URL" in os.environ:
+        dashboard_url = os.environ["DASHBOARD_ROOT_URL"]
+    else:
+        pytest.skip()
+    r = requests.get(f"{dashboard_url}/{page}")
     assert r.status_code == 200
     assert r.elapsed.total_seconds() < 2

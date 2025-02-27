@@ -37,6 +37,8 @@ for key in [
     "traceable_sum_commitments_and_disbursements_by_publisher_id",
     "transaction_months_with_year",
     "timelag",
+    "elements",
+    "elements_total",
 ]:
     Publisher.add_to_class(
         key,

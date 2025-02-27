@@ -99,13 +99,9 @@ There are some unit tests written using `pytest` and site testing using Django's
 Once the development dependencies have been installed the unit tests can be run with:
 
 ```
+mkdir iati_dashboard/fixtures/
+python manage.py dumpdata iati_dashboard.Publisher > iati_dashboard/fixtures/publishers.json
 pytest
-```
-
-The Django site tests can be run from the `dashboard/` directory with:
-
-```
-python manage.py test -v 2
 ```
 
 ### Calculating your own statistics
