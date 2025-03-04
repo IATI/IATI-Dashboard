@@ -463,7 +463,7 @@ def exploringdata_element_detail(request, element=None):
     template = loader.get_template("element.html")
     context = _make_context("elements", include_large_dicts=False)
 
-    context["element"] = element.replace("_", "/")
+    context["element"] = element.replace("_", "/").replace("xml:", "{http://www.w3.org/XML/1998/namespace}")
 
     values = [
         "id",
