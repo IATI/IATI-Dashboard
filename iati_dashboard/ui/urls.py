@@ -16,7 +16,6 @@ Including another URLconf
 """
 
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path, re_path
 from django.views.generic.base import RedirectView
 
@@ -24,7 +23,6 @@ from . import views
 
 urlpatterns = (
     [
-        path("admin/", admin.site.urls),
         # Top level dashboard pages.
         path("", views.index, name="dash-index"),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
