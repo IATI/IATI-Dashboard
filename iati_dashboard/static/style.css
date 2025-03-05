@@ -177,3 +177,10 @@ the design system doesn't have a yellow colour */
 .dashboard-mixed-flag:hover {
   opacity: 0.5;
 }
+
+.iati-card {
+  border-top-width: 2px;
+}
+.iati-card p {
+  margin-top: 0;
+}
