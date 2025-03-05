@@ -188,18 +188,23 @@ urlpatterns = (
         path("org_ids.html", RedirectView.as_view(pattern_name="dash-exploringdata-orgids", permanent=True)),
         path("faq.html", RedirectView.as_view(pattern_name="dash-faq", permanent=True)),
         path("licenses.html", RedirectView.as_view(pattern_name="dash-licenses", permanent=True)),
-        re_path(r"license\/\S*.html", RedirectView.as_view(pattern_name="dash-licenses", permanent=True)),
+        re_path(r"license\/(\S*).html", RedirectView.as_view(pattern_name="dash-licenses-detail", permanent=True)),
         re_path(
-            r"publisher\/\S*.html", RedirectView.as_view(pattern_name="dash-headlines-publishers", permanent=True)
+            r"publisher\/(\S*).html",
+            RedirectView.as_view(pattern_name="dash-headlines-publisher-detail", permanent=True),
         ),
         re_path(
-            r"codelist\/\d\/\S*.html",
-            RedirectView.as_view(pattern_name="dash-exploringdata-codelists", permanent=True),
+            r"codelist\/(\d)\/(\S*).html",
+            RedirectView.as_view(pattern_name="dash-exploringdata-codelists-detail", permanent=True),
         ),
         re_path(
-            r"element\/\S*.html", RedirectView.as_view(pattern_name="dash-exploringdata-elements", permanent=True)
+            r"element\/(\S*).html",
+            RedirectView.as_view(pattern_name="dash-exploringdata-elements-detail", permanent=True),
         ),
-        re_path(r"org_type\/\S*.html", RedirectView.as_view(pattern_name="dash-exploringdata-orgids", permanent=True)),
+        re_path(
+            r"org_type\/(\S*).html",
+            RedirectView.as_view(pattern_name="dash-exploringdata-orgtypes-detail", permanent=True),
+        ),
     ]
     + static("generated", document_root="out")
     + static("stats", document_root="stats-calculated")

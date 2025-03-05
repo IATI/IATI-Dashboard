@@ -152,6 +152,8 @@ class OriginalDashboardRedirectTests(TestCase):
     list the tests as they run.
     """
 
+    fixtures = ["publishers"]
+
     def _url_and_view_helper(self, urls_and_views_to_check):
         """Checks that a set of URLs redirect to matching view functions"""
 
@@ -236,20 +238,28 @@ class OriginalDashboardRedirectTests(TestCase):
         )
 
     def test_slug_page_redirects(self):
-        """Test pages with slugs redirect to the section page"""
+        """Test pages with slugs redirect to their new locations"""
 
         self.assertRedirects(
-            self.client.get(r"/publisher/zsl.html"), reverse("dash-headlines-publishers"), status_code=301
-        )
-        self.assertRedirects(self.client.get(r"/license/cc-by.html"), reverse("dash-licenses"), status_code=301)
-        self.assertRedirects(
-            self.client.get(r"/codelist/2/budget_@type.html"), reverse("dash-exploringdata-codelists"), status_code=301
-        )
-        self.assertRedirects(
-            self.client.get(r"/element/iati-activity_activity-date_@iso-date.html"),
-            reverse("dash-exploringdata-elements"),
+            self.client.get(r"/publisher/zsl.html"),
+            reverse("dash-headlines-publisher-detail", args=["zsl"]),
             status_code=301,
         )
         self.assertRedirects(
-            self.client.get(r"/org_type/funding_org.html"), reverse("dash-exploringdata-orgids"), status_code=301
+            self.client.get(r"/license/cc-by.html"), reverse("dash-licenses-detail", args=["cc-by"]), status_code=301
+        )
+        self.assertRedirects(
+            self.client.get(r"/codelist/2/budget_@type.html"),
+            reverse("dash-exploringdata-codelists-detail", args=["2", "budget_@type"]),
+            status_code=301,
+        )
+        self.assertRedirects(
+            self.client.get(r"/element/iati-activity_activity-date_@iso-date.html"),
+            reverse("dash-exploringdata-elements-detail", args=["iati-activity_activity-date_@iso-date"]),
+            status_code=301,
+        )
+        self.assertRedirects(
+            self.client.get(r"/org_type/funding_org.html"),
+            reverse("dash-exploringdata-orgtypes-detail", args=["funding_org"]),
+            status_code=301,
         )

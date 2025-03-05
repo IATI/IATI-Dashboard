@@ -79,7 +79,7 @@ EXAMPLE_PAGES = [
     "publisher/zsl.html",
     "codelist/2/document-link_@format.html",
     "element/iati-activity_activity-date_@iso-date.html",
-    "org_type/.html",
+    "org_type/accountable_org.html",
     "registration_agencies.html",
 ]
 
