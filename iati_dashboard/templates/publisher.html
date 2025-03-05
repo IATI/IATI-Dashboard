@@ -17,10 +17,10 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         <div class="dashboard-panel-body">
             <ul>
                 <li><a href="#h_headlines">Headlines</a>
-                <li><a href="#h_errors">Data Quality</a>
+                <li><a href="#h_errors">Errors</a>
                     <ul>
                         {% if failure_count > 0 %}
-                        <li><a href="#p_validation">Files Failing Validation</a>
+                        <li><a href="#p_validation">Files Failing Schema Validation</a>
                         {% endif %}
                         {% if 1 in publisher_inverted.invalidxml.values() %}
                         <li><a href="#p_invalid">Files where XML is not well-formed</a>
@@ -111,7 +111,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
                 {% endfor %}
                 </td>
             </tr><tr>
-                <td>Files failing validation</td>
+                <td>Files failing schema validation</td>
                 <td>
                 {{ failure_count }}
                 </td>
@@ -136,11 +136,11 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
     </div>
 
     <div class="row">
-        {{ boxes.box_h3('Files failing validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
+        {{ boxes.box_h3('Files failing schema validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
         {{ boxes.box_h3('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
     </div>
 
-    <h2 id="h_errors">Data Quality</h2>
+    <h2 id="h_errors">Errors</h2>
 
     {% set data_quality_issue = false %}
 
@@ -149,7 +149,7 @@ Publisher: {{ publisher_name[publisher] }} {{ super() }}
         {% set data_quality_issue = true %}
         <div class="col-md-6">
             <div class="dashboard-panel" id="p_validation">
-              <div class="dashboard-panel-heading"><h3 class="dashboard-panel-heading__title" id="list_fail_validation">Files Failing Validation</h3></div>
+              <div class="dashboard-panel-heading"><h3 class="dashboard-panel-heading__title" id="list_fail_validation">Files Failing Schema Validation</h3></div>
               <div class="dashboard-panel-body">
                 <table>
                     <thead>

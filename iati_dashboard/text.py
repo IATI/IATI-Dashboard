@@ -127,8 +127,8 @@ navigation = {
         "org_ids",
     ],
     "publishing_stats": [
-        "timeliness_timelag",
         "timeliness_frequency",
+        "timeliness_timelag",
         "forwardlooking",
         "comprehensiveness_summary",
         "comprehensiveness_core",

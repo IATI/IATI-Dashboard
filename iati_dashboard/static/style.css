@@ -86,12 +86,18 @@ a.popover-html:focus {
   background-color: var(--color-teal-90);
   padding: 0.2rem 0.6rem;
   justify-content: space-between;
+  > h2 {
+    font-size: 1.5rem;
+  }
 }
 
 .dashboard-panel-heading__title {
   color: #fff;
   margin-top: 0;
   margin-bottom: 0;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0.2rem;
 }
 
 .dashboard-panel-heading__titlenum {
@@ -170,4 +176,11 @@ the design system doesn't have a yellow colour */
 
 .dashboard-mixed-flag:hover {
   opacity: 0.5;
+}
+
+.iati-card {
+  border-top-width: 2px;
+}
+.iati-card p {
+  margin-top: 0;
 }
