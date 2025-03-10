@@ -205,6 +205,10 @@ urlpatterns = (
             r"org_type\/(\S*).html",
             RedirectView.as_view(pattern_name="dash-exploringdata-orgtypes-detail", permanent=True),
         ),
+        path(
+            "<slug:file_start>.csv",
+            RedirectView.as_view(url="/generated/data/csv/%(file_start)s.csv", permanent=False),
+        ),
     ]
     + static("generated", document_root="out")
     + static("stats", document_root="stats-calculated")
