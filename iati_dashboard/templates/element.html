@@ -25,8 +25,6 @@
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
-                <td>Files with {{ element_or_attribute }}</td>
-                <td>Total files</td>
                 <td>Activities/Orgs with {{ element_or_attribute }}</td>
                 <td>Total instances of {{ element_or_attribute }}</td>
                 <td>Total activities</td>
@@ -35,8 +33,6 @@
             {% for publisher in publishers_with %}
             <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
-                <td><a href="#files_{{ publisher.short_name }}">{{ publisher.elements[element] }}</a></td>
-                <td>{{ publisher.activity_files + publisher.organisation_files }}</td>
                 <td>{{ publisher.elements[element] }}</td>
                 <td>{{ publisher.elements_total[element] }}</td>
                 <td>{{ publisher.activities }}</td>
@@ -57,7 +53,6 @@
         <table class="table table-striped">
           <thead>
                 <td>Publisher</td>
-                <td>Total files</td>
                 <td>Total activities</td>
                 <td>Total organisations</td>
           </thead>
@@ -65,7 +60,6 @@
             {% for publisher in publishers_without %}
             <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
-                <td>{{ publisher.activity_files + publisher.organisation_files }}</td>
                 <td>{{ publisher.activities }}</td>
                 <td>{{ publisher.organisations }}</td>
             </tr>
