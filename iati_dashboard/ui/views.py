@@ -541,6 +541,32 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     return HttpResponse(template.render(context, request))
 
 
+def publishers_codelists_detail(request, major_version=None, attribute=None):
+    template = loader.get_template("codelist.html")
+
+    if major_version not in slugs["codelist"]:
+        raise Http404("Unknown major version of the IATI standard")
+    if attribute not in slugs["codelist"][major_version]["by_slug"]:
+        raise Http404("Unknown attribute")
+
+    context = _make_context("codelists")
+    i = slugs["codelist"][major_version]["by_slug"][attribute]
+    element = list(current_stats["inverted_publisher"]["codelist_values_by_major_version"][major_version])[i]
+    values = nested_dictinvert(
+        list(current_stats["inverted_publisher"]["codelist_values_by_major_version"][major_version].values())[i]
+    )
+    context["element"] = element
+    context["values"] = values
+    context["reverse_codelist_mapping"] = {
+        major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()
+    }
+    context["major_version"] = major_version
+
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["codelists"], "title": '"' + element + '"'})
+
+    return HttpResponse(template.render(context, request))
+
+
 def exploringdata_booleans(request):
     template = loader.get_template("booleans.html")
     return HttpResponse(template.render(_make_context("booleans"), request))
