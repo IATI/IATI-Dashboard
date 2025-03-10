@@ -117,6 +117,8 @@ def make_csv(verbose=False):
         for publisher_json in data.ckan_publishers.values():
             writer.writerow({x: publisher_json["result"].get(x) or 0 for x in keys})
 
+    publishers = models.Publisher.objects.all().order_by("human_readable_name")
+
     logger.info("Generating timeliness_frequency.csv")
     previous_months = timeliness.previous_months_reversed
     with open(filepaths.join_out_path("data/csv/timeliness_frequency.csv"), "w") as fp:
@@ -124,7 +126,7 @@ def make_csv(verbose=False):
         writer.writerow(
             ["Publisher Name", "Publisher Registry Id"] + previous_months + ["Frequency", "First published"]
         )
-        for publisher in models.Publisher.objects.all():
+        for publisher in publishers:
             per_month = publisher.timeliness_frequency["updates_per_month"]
             first_published_band = publisher.timeliness_frequency["first_published_band"]
             assessment = publisher.timeliness_frequency["frequency"]
@@ -139,7 +141,7 @@ def make_csv(verbose=False):
     with open(filepaths.join_out_path("data/csv/timeliness_timelag.csv"), "w") as fp:
         writer = csv.writer(fp)
         writer.writerow(["Publisher Name", "Publisher Registry Id"] + previous_months + ["Time lag"])
-        for publisher in models.Publisher.objects.all():
+        for publisher in publishers:
             per_month = publisher.stats_json["transaction_months_with_year"]
             # hft=publisher.has_future_transactions
             previous_months = timeliness.previous_months_reversed
@@ -221,7 +223,7 @@ def make_csv(verbose=False):
         writer.writerow(
             ["Publisher Name", "Publisher Registry Id"] + [header for slug, header in summary_stats.columns]
         )
-        for publisher in models.Publisher.objects.all():
+        for publisher in publishers:
             # Write each row
             if publisher.summary_stats:
                 writer.writerow(
@@ -253,7 +255,7 @@ def make_csv(verbose=False):
                 "Humanitarian Score",
             ]
         )
-        for publisher in models.Publisher.objects.all():
+        for publisher in publishers:
             row = publisher.humanitarian
             if row:
                 writer.writerow(
