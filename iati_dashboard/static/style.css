@@ -122,12 +122,9 @@ a.popover-html:focus {
   color: var(--color-teal-60);
 }
 
-/* "red" and "yellow" flags for forward looking and timeliness tables - although
-we use the words "red" and "yellow", the actual colours are specified here as
-the design system doesn't have a yellow colour */
 :root {
-  --dashboard-red-flag-colour: var(--color-red-90);
-  --dashboard-yellow-flag-colour: var(--color-purple-70);
+  --dashboard-red-flag-colour: var(--bs-red);
+  --dashboard-yellow-flag-colour: var(--bs-yellow);
   }
   
 .dashboard-red-flag {

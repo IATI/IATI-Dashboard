@@ -46,9 +46,7 @@ def generate_row(publisher):
 
     # Compute timeliness statistic
     # Assign frequency score
-    # Get initial frequency assessment, or use empty set in the case where the publisher is not found
-    frequency_assessment_data = publisher.timeliness_frequency
-    frequency_assessment = None if len(frequency_assessment_data) < 4 else frequency_assessment_data[3]
+    frequency_assessment = publisher.timeliness_frequency["frequency"]
     if frequency_assessment == "Monthly":
         frequency_score = 4
     elif frequency_assessment == "Quarterly":

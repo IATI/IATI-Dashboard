@@ -171,7 +171,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         page_view_names=PAGE_VIEW_NAMES,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
-        publishers=models.Publisher.objects.all().defer("stats_json"),
+        publishers=models.Publisher.objects.all().order_by("human_readable_name").defer("stats_json"),
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
         slugs=slugs,
@@ -463,7 +463,7 @@ def exploringdata_element_detail(request, element=None):
     template = loader.get_template("element.html")
     context = _make_context("elements", include_large_dicts=False)
 
-    context["element"] = element.replace("_", "/")
+    context["element"] = element.replace("_", "/").replace("xml:", "{http://www.w3.org/XML/1998/namespace}")
 
     values = [
         "id",
