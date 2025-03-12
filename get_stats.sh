@@ -1,24 +1,15 @@
-# This script is the same as https://github.com/IATI/IATI-Stats/blob/master/get_stats.sh
-# but with only the dated historical aggregates.
+set -eux
+# ^ https://explainshell.com/explain?cmd=set+-eux
+
 mkdir stats-calculated
-for f in ckan gitdate; do
-    curl --compressed "https://dashboard.iatistandard.org/stats/${f}.json" > stats-calculated/${f}.json
+for f in ckan gitdate licenses; do
+    curl --compressed "https://dev.merged.dashboard.iatistandard.org/stats/${f}.json" > stats-calculated/${f}.json
 done
 
-mkdir stats-blacklist
-cd stats-blacklist
-wget "http://dashboard.iatistandard.org/stats-blacklist/current.tar.gz" -O current.tar.gz
-wget "http://dashboard.iatistandard.org/stats-blacklist/gitaggregate-dated.tar.gz" -O gitaggregate-dated.tar.gz
-wget "http://dashboard.iatistandard.org/stats-blacklist/gitaggregate-publisher-dated.tar.gz" -O gitaggregate-publisher-dated.tar.gz
-tar -xf current.tar.gz
-tar -xf gitaggregate-dated.tar.gz
-tar -xf gitaggregate-publisher-dated.tar.gz
-cd ..
-
 cd stats-calculated
-wget "http://dashboard.iatistandard.org/stats/current.tar.gz" -O current.tar.gz
-wget "http://dashboard.iatistandard.org/stats/gitaggregate-dated.tar.gz" -O gitaggregate-dated.tar.gz
-wget "http://dashboard.iatistandard.org/stats/gitaggregate-publisher-dated.tar.gz" -O gitaggregate-publisher-dated.tar.gz
+wget "https://dev.merged.dashboard.iatistandard.org/stats/current.tar.gz" -O current.tar.gz
+wget "https://dev.merged.dashboard.iatistandard.org/stats/gitaggregate-dated.tar.gz" -O gitaggregate-dated.tar.gz
+wget "https://dev.merged.dashboard.iatistandard.org/stats/gitaggregate-publisher-dated.tar.gz" -O gitaggregate-publisher-dated.tar.gz
 tar -xf current.tar.gz
 tar -xf gitaggregate-dated.tar.gz
 tar -xf gitaggregate-publisher-dated.tar.gz

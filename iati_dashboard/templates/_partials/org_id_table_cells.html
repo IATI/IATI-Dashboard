@@ -1,0 +1,12 @@
+<td>{{ '{:,}'.format(transaction_stats.total_orgs or 0) }}</th>
+<td>{{ '{:,}'.format(transaction_stats.total_refs or 0) }}</th>
+<td>{{ '{:,}'.format(transaction_stats.total_full_refs or 0) }}</th>
+{% set self_refs = (transaction_stats.total_full_refs or 0) - (transaction_stats.total_notself_refs or 0) %}
+<td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;">{{ '{:,}'.format(self_refs) }}</th>
+{% set total_org_elements_excluding_self_refs = (transaction_stats.total_orgs or 0) - self_refs %}
+<td>{{ '{:,}'.format(total_org_elements_excluding_self_refs) }}</th>
+{% set total_refs_excluding_self_refs = (transaction_stats.total_refs or 0) - self_refs %}
+<td>{{ '{:,}'.format(total_refs_excluding_self_refs) }}</th>
+<td>{{ '{:,}'.format(transaction_stats.total_notself_refs or 0) }}</th>
+<td>{{ '{:,}'.format(transaction_stats.total_valid_refs or 0) }}</th>
+<td>{{ (((transaction_stats.total_valid_refs or 0) / total_org_elements_excluding_self_refs * 100) if total_org_elements_excluding_self_refs else 0) | round_nicely }}</th>

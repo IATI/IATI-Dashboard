@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+{% block content %}
+
+    <nav>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+    </ol>
+    </nav>
+    <br/>
+
+    <div class="dashboard-panel" id="h_table">
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/humanitarian.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <h2 class="dashboard-panel-heading__title float-start">Humanitarian</h2>
+        </div>
+
+
+        <div class="dashboard-panel-body">
+            <p>This table assesses the extent to which IATI publishers are reporting on humanitarian attributes.</p>
+
+            <p>The statistics on this page do not form part of the <a href="{{ url('dash-publishingstats-summarystats') }}">Summary Statistics</a>.</p>
+
+            {% include '_partials/tablesorter_instructions.html' %}
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
+                    {% for _, column_header in humanitarian.columns %}
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher in publishers %}
+                <tr>
+                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
+                    {% for column_slug, _ in humanitarian.columns %}
+                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">
+                        {%- if column_slug == 'publisher_type' -%}
+                          {{ publisher.humanitarian[column_slug] }}
+                        {%- else -%}
+                          {{ publisher.humanitarian[column_slug]|round_nicely }}
+                        {%- endif -%}
+                      </td>
+                    {% endfor %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+
+    <div class="dashboard-panel" id="h_narrative">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Narrative</h2>
+        </div>
+        <div class="dashboard-panel-body">
+          <h3>Publisher</h3>
+          <p>The name that this publisher self-defines as on the IATI Registry.</p>
+
+          <h3>Publisher Type</h3>
+          <p>The category that this publisher self-defines as on the IATI Registry.</p>
+
+          <h3>Number of Activities</h3>
+          <p>Total number of humanitarian activities.</p>
+          <p>For activities published at IATI version 2.02 or higher, this is determined by the presence of either the <code class="iati-code">iati-activity/@humanitarian</code> attribute (set to <code class="iati-code">1</code> / <code class="iati-code">true</code>), at least one <code class="iati-code">iati-activity/transaction/@humanitarian</code> attribute (set to <code class="iati-code">1</code> / <code class="iati-code">true</code>).  Alternatively - and for activities published at any IATI version - this is determined by the use of DAC 5-digit sector codes between <code class="iati-code">72010</code> to <code class="iati-code">74020</code> inclusive, or DAC 3-digit sector codes <code class="iati-code">720</code>, <code class="iati-code">730</code> or <code class="iati-code">740</code>).</p>
+
+          <h3>Publishing Humanitarian?</h3>
+          <p>If the number of activities is greater than 0, then this is set at 100. Otherwise, this is set at 0.</p>
+
+          <h3>Using Humanitarian Attribute?</h3>
+          <p>The proportion of humanitarian activities that include a <code class="iati-code">iati-activity/@humanitarian</code> attribute (set to <code class="iati-code">1</code> / <code class="iati-code">true</code>), or at least one <code class="iati-code">iati-activity/transaction/@humanitarian</code> attribute (set to <code class="iati-code">1</code> / <code class="iati-code">true</code>) - proportion of the number of activities. Note this applies to activities published at IATI version 2.02 or higher.</p>
+
+          <h3>Appeal or Emergency Details</h3>
+          <p>The proportion of humanitarian activities that include the <code class="iati-code">humanitarian-scope</code> element, The required attributes <code class="iati-code">humanitarian-scope/@type</code> and <code class="iati-code">humanitarian-scope/@code</code> must be present and contain non-empty data.</p>
+
+          <h3>Clusters</h3>
+          <p>The proportion of humanitarian activities that feature a sector code from the 'Humanitarian Global Clusters (Inter-Agency Standing Committee)' list — i.e. <code class="iati-code">iati-activity/sector/@vocabulary="10"</code>.</p>
+
+          <h3>Average</h3>
+          <p>The sum of the columns 'Publishing humanitarian?', 'Using humanitarian attribute?', 'Appeal or Emergency details' and 'Clusters', divided by 4.</p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders']
+}
+{% endblock %}

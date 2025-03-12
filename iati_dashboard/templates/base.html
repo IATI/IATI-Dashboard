@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/iati-design-system@3.5.0/dist/css/iati.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/iati-design-system@3.5.0/dist/js/iati.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-utilities.min.css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="{{ static('style.css') }}" />
+  <link rel="icon" href="{{ static('img/favicon-32x32.png') }}" sizes="32x32" type="image/png">
+  <title>IATI Dashboard – {% block title %}{{ page_titles[page] }}{% endblock %}</title>
+
+  <script defer data-domain="dashboard.iatistandard.org" src="https://plausible.io/js/script.file-downloads.outbound-links.js"></script>
+  <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+  <script>
+    var responseStart = window.performance.getEntriesByType('navigation')[0].responseStart;
+    plausible(
+      'TTFB', {
+        props: {
+            event_category: 'PageSpeed',
+            event_label: responseStart,
+        },
+    });
+  </script>
+
+  {% block extrahead %}{% endblock %}
+</head>
+<body>
+  <div class="iati-mobile-nav js-iati-mobile-nav ">
+    <div class="iati-mobile-nav__overlay js-iati-mobile-overlay"></div>
+    <nav class="iati-mobile-nav__menu">
+      <div class="iati-mobile-nav__header">
+        <h2 class="iati-mobile-nav__label">Menu</h2>
+
+        <button class="iati-menu-toggle iati-menu-toggle--close js-iati-menu-toggle-close">
+          <span>Close</span>
+        </button>
+
+      </div>
+      <ul class="">
+        <li class="iati-mobile-nav__item"><a href="{{ url(page_view_names['index']) }}" class="iati-mobile-nav__link">{{
+            top_titles['index'] }}</a></li>
+        {% for item in top_navigation %}
+        <li class="iati-mobile-nav__item"><a href="{{ url(page_view_names[item]) }}" class="iati-mobile-nav__link">{{
+            top_titles[item] }}</a></li>
+        {% endfor %}
+      </ul>
+      <ul class="">
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/about/" class="iati-mobile-nav__link">About IATI</a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/using-data/" class="iati-mobile-nav__link">Use Data</a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/en/guidance/publishing-data/" class="iati-mobile-nav__link">
+            Publish Data
+          </a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="https://iatistandard.org/guidance/get-support/" class="iati-mobile-nav__link">
+            Contact
+          </a>
+        </li>
+        <li class="iati-mobile-nav__item">
+          <a href="#" class="iati-mobile-nav__link">Help Docs</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <header class="iati-header">
+    <div class="iati-header__section iati-header__section--first">
+      <div class="iati-header__container">
+
+        <a href="https://iatistandard.org/" aria-label="Go to IATI homepage">
+          <img class="iati-header__logo" alt=""
+            src="https://iati.github.io/design-system/assets/logo-colour-Bag5CeA4.svg">
+        </a>
+
+        <nav class="iati-header__general-nav">
+          <ul class="iati-piped-list">
+            <li>
+              <a href="https://iatistandard.org/en/about/">About IATI</a>
+            </li>
+            <li>
+              <a href="https://iatistandard.org/en/using-data/">Use Data</a>
+            </li>
+            <li>
+              <a href="https://iatistandard.org/en/guidance/publishing-data/">
+                Publish Data
+              </a>
+            </li>
+            <li>
+              <a href="https://iatistandard.org/guidance/get-support/">
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="iati-header__section iati-header__section--last iati-brand-background">
+      <div class="iati-header__container iati-brand-background__content">
+        <div class="iati-header__actions">
+
+          <div class="iati-country-switcher">
+            <label for="iati-country-switcher" class="iati-country-switcher__label">Choose your language</label>
+            <select id="iati-country-switcher" class="iati-country-switcher__control">
+              <option>English</option>
+            </select>
+          </div>
+
+          <button class="iati-menu-toggle iati-menu-toggle--open js-iati-menu-toggle-open">
+            <span class="iati-menu-toggle__label">Menu</span>
+          </button>
+
+        </div>
+
+        <div class="iati-header-title">
+          <p class="iati-header-title__eyebrow">IATI Tools</p>
+          <p class="iati-header-title__heading">IATI Dashboard</p>
+        </div>
+
+        <div class="iati-header__nav">
+
+          <nav>
+            <ul class="iati-tool-nav">
+              <li><a href="{{ url(page_view_names['index']) }}" class="iati-tool-nav-link">{{ top_titles['index'] }}</a></li>
+              {% for item in top_navigation %}
+              <li><a href="{{ url(page_view_names[item]) }}" class="iati-tool-nav-link">{{ top_titles[item] }}</a></li>
+              {% endfor %}
+            </ul>
+          </nav>
+
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="iati-main">
+
+    <nav class="iati-breadcrumb">
+      <ol class="iati-breadcrumb__list">
+        {% for crumb in breadcrumbs %}
+          {% if loop.last %}
+            <li class="iati-breadcrumb-item iati-breadcrumb-item--current">
+              <a aria-current="page" class="iati-breadcrumb-link">{{ crumb.title }}</a>
+            </li>
+          {% else %}
+            <li class="iati-breadcrumb-item">
+              <a href="{{ url(crumb.view) }}" class="iati-breadcrumb-link">{{ crumb.title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ol>
+    </nav>
+
+    {% block container %}
+
+      {% block page_header_div %}
+        <div class="dashboard-page-heading">
+          {% block page_header %}
+          <h1>{{ page_titles[page] }}</h1>
+          {% if page in page_leads %}<p class="dashboard-page-heading__lead">{{ page_leads[page]|safe }}</p>{% endif %}
+          {% if page in page_sub_leads %}<p>{{ page_sub_leads[page]|safe }}</p>{% endif %}
+          {% endblock %}
+        </div>
+      {% endblock %}
+
+      {% block content %}
+      {% endblock %}
+
+    {% endblock %} <!-- /.container -->
+  </main>
+
+  <footer class="iati-footer iati-brand-background">
+    <div class="iati-brand-background__content">
+      <div class="iati-footer__section iati-footer__section--first">
+        <div class="iati-footer__container">
+          <div class="iati-footer-block">
+            <h2 class="iati-footer-block__title">Useful links</h2>
+            <div class="iati-footer-block__content">
+              <ul>
+                <li><a href="https://github.com/IATI/IATI-Dashboard/">Dashboard source code</a></li>
+                <li><a href="https://github.com/IATI/IATI-Dashboard/issues?state=open">Report bugs, and request features using Github issues</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="iati-footer__section">
+        <div class="iati-footer__container">
+          <div class="iati-footer-block">
+            <h2 class="iati-footer-block__title">Additional information</h2>
+            <div class="iati-footer-block__content iati-footer-block__content--columns">
+              <div>
+                <p>Part of the IATI Unified Platform.</p>
+                <p>
+                  Code licensed under
+                  <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</a>.
+                </p>
+              </div>
+              <div>
+                <p>
+                  Generated from data downloaded on <em>{{ datetime_data }}</em>.  Please note, this is the time
+                  the download task started. Any changes made after this time may not be reflected.
+                </p>
+                <p>
+                  For details on how often these updates are applied, see the <a href="{{ url('dash-faq') }}">IATI Dashboard FAQ</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="iati-footer__section iati-footer__section--last">
+        <div class="iati-footer__container">
+          <nav>
+            <ul class="iati-piped-list iati-footer__legal-nav">
+              <li><a href="https://iatistandard.org/en/privacy-policy/">Privacy</a></li>
+              <li><a href="https://iatistandard.org/en/data-removal/">Data removal</a></li>
+            </ul>
+          </nav>
+  
+          <div class="iati-country-switcher">
+            <label for="iati-country-switcher" class="iati-country-switcher__label">Choose your language</label>
+            <select id="iati-country-switcher" class="iati-country-switcher__control">
+              <option>English</option>
+            </select>
+          </div>
+  
+          <div class="iati-footer__social">
+            <a href="https://www.linkedin.com/company/international-aid-transparency-initiative/" aria-label="LinkedIn">
+              <i class="iati-icon iati-icon--linkedin"></i>
+            </a>
+            <a href="https://x.com/IATI_aid" aria-label="X">
+              <i class="iati-icon iati-icon--x"></i>
+            </a>
+            <a href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ" aria-label="YouTube">
+              <i class="iati-icon iati-icon--youtube"></i>
+            </a>
+            <a href="https://www.facebook.com/IATIaid/" aria-label="Facebook">
+              <i class="iati-icon iati-icon--facebook"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
+{% block tablesorterscript %}<script>$(function() { $("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{ widgets: ['stickyHeaders'] }{% endblock %}); });</script>{% endblock %}
+  {% block extrafooter %}{% endblock %}
+</body>
+</html>

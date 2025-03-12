@@ -1,0 +1,58 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_database_name
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt
+    - name: Lint - flake8
+      run: flake8
+    - name: Lint - black
+      run: black . --check
+    - name: Lint - isort
+      run: isort . --check-only
+    - name: Fetch data
+      run: ./fetch_data.sh
+    - name: Fetch stats
+      run: |
+        mkdir out
+        ./partial_stats_for_unit_tests.sh
+    - name: Set up django
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+      run: |
+        python manage.py collectstatic
+        python manage.py migrate
+        python manage.py dashboard_import
+        mkdir iati_dashboard/fixtures/
+        python manage.py dumpdata iati_dashboard.Publisher > iati_dashboard/fixtures/publishers.json
+    - name: Run tests
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+        DASHBOARD_ROOT_URL: "http://localhost:8000"
+      run: |
+        python manage.py runserver &
+        pytest .
+    # - name: Coveralls
+    #   run: coveralls --service=github-actions
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}

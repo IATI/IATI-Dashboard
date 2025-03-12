@@ -1,0 +1,473 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+{% block title %}
+Publisher: {{ publisher_name[publisher] }} {{ super() }}
+{% endblock %}
+{% block page_header %}
+<a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/" style="float:right">(Publisher Stats JSON)</a>
+<h1>Publisher: {{ publisher_name[publisher] }}</h1>
+<p class="lead"></p>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-md-6">
+    <div class="dashboard-panel">
+        <div class="dashboard-panel-heading"><h2 class="dashboard-panel-heading__title">Table of Contents</h2></div>
+        <div class="dashboard-panel-body">
+            <ul>
+                <li><a href="#h_headlines">Headlines</a>
+                <li><a href="#h_errors">Errors</a>
+                    <ul>
+                        {% if failure_count > 0 %}
+                        <li><a href="#p_validation">Files Failing Schema Validation</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.invalidxml.values() %}
+                        <li><a href="#p_invalid">Files where XML is not well-formed</a>
+                        {% endif %}
+                        {% if 1 in publisher_inverted.nonstandardroots.values() %}
+                        <li><a href="#p_nonstandardroots">Files with non-standard roots</a>
+                        {% endif %}
+                    </ul>
+                </li>
+                <li><a href="#h_financial">Financial</a></li>
+                <li><a href="#h_exploringdata">Exploring Data</a>
+                    <ul>
+                        <li><a href="#p_files">Files</a>
+                        <li><a href="#p_codelists">Codelist values</a>
+                        <li><a href="#p_elements">Elements and Attributes published</a>
+                        <li><a href="#p_org_ids">Organisation Identifiers</a>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <h2 id="h_headlines">Headlines</h2>
+
+    <div class="row">
+    <div class="col-md-6">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>On the Registry</td>
+                <td><a href="http://iatiregistry.org/publisher/{{ publisher }}">{{ publisher }}</a></td>
+            </tr>
+            <tr>
+                <td>Reporting Org on Registry</td>
+                <td>{% if ckan_publishers and publisher in ckan_publishers %}
+                    <code class="iati-code">{{ ckan_publishers[publisher].result.publisher_iati_id }}</code>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>Reporting Org(s) in Data</td>
+                <td>
+                {% for org in publisher_stats.reporting_orgs %}
+                <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
+                {% endfor %}
+                </td>
+            </tr><tr>
+                <td>Activity Files</td>
+                <td>{{ publisher_stats.activity_files }}</td>
+            </tr><tr>
+                <td>Organisation Files</td>
+                <td>{{ publisher_stats.organisation_files }}</td>
+            </tr><tr>
+                <td>Total File Size</td>
+                <td>{{ publisher_stats.file_size|filesizeformat }}</td>
+            </tr><tr>
+                <td>Activities</td>
+                <td>{{ publisher_stats.activities }}</td>
+            </tr><tr>
+                <td>Unique Activities</td>
+                <td>{{ publisher_stats.iati_identifiers|count }}</td>
+            </tr><tr>
+                <td>Organisations</td>
+                <td>{{ publisher_stats.organisations }}</td>
+            </tr><tr>
+                <td>Versions</td>
+                <td>
+                {% for version in publisher_stats.versions.keys() %}
+                <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                {% endfor %}
+                </td>
+            </tr><tr>
+                <td>Hierarchies</td>
+                <td>
+                {% for hierarchy in publisher_stats.hierarchies %}
+                <code class="iati-code">{{ hierarchy }}</code>
+                {% endfor %}
+                </td>
+            </tr><tr>
+                <td>Licenses</td>
+                <td>
+                {% for license in publisher_licenses %}
+                <code class="iati-code"><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ license }}</a></code>
+                {% endfor %}
+                </td>
+            </tr><tr>
+                <td>Files failing schema validation</td>
+                <td>
+                {{ failure_count }}
+                </td>
+            </tr>
+        </body>
+    </table>
+    </div>
+    </div>
+    </div>
+    {{ boxes.box_h3(
+        'Activities', publisher_stats.activities, 'img/publishers/'+publisher+'_activities.png', publisher+'/activities.json', '', '-publisher') }} 
+    </div>
+
+    <div class="row">
+        {{ boxes.box_h3('Activity Files', publisher_stats.activity_files, 'img/publishers/'+publisher+'_activity_files.png', publisher+'/activity_files.json', '', '-publisher') }}
+        {{ boxes.box_h3('Organisation Files', publisher_stats.organisation_files, 'img/publishers/'+publisher+'_organisation_files.png', publisher+'/organisation_files.json', '', '-publisher') }}
+    </div>
+
+    <div class="row">
+        {{ boxes.box_h3('Files per version', '', 'img/publishers/'+publisher+'_versions.png', publisher+'/versions.json', 'img/publishers/'+publisher+'_versions_legend.png', '-publisher') }}
+        {{ boxes.box_h3('Total File Size', publisher_stats.file_size|filesizeformat, 'img/publishers/'+publisher+'_file_size.png', publisher+'/file_size.json', '', '-publisher') }}
+    </div>
+
+    <div class="row">
+        {{ boxes.box_h3('Files failing schema validation', publisher_stats.validation.get('fail',0), 'img/publishers/'+publisher+'_validation.png', publisher+'/validation.json', '', '-publisher') }}
+        {{ boxes.box_h3('Files where XML is not well-formed', publisher_stats.invalidxml, 'img/publishers/'+publisher+'_invalidxml.png', publisher+'/invalidxml.json', '', '-publisher') }}
+    </div>
+
+    <h2 id="h_errors">Errors</h2>
+
+    {% set data_quality_issue = false %}
+
+    <div class="row">
+    {% if current_stats.inverted_file_publisher[publisher].validation.fail %}
+        {% set data_quality_issue = true %}
+        <div class="col-md-6">
+            <div class="dashboard-panel" id="p_validation">
+              <div class="dashboard-panel-heading"><h3 class="dashboard-panel-heading__title" id="list_fail_validation">Files Failing Schema Validation</h3></div>
+              <div class="dashboard-panel-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Dataset name</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Validation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dataset_name in current_stats.inverted_file_publisher[publisher].validation.fail.keys() %}
+                        <tr>
+                            <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+                            <td>
+                                {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                                    <a href="{{ ckan[publisher][dataset_name].resource.url }}">{{ ckan[publisher][dataset_name].resource.url|url_to_filename }}</a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if publisher in ckan and dataset_name in ckan[publisher] %}
+                                  <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if 1 in publisher_inverted.invalidxml.values() %}
+    {% set data_quality_issue = true %}
+    <div class="col-md-6">
+    <div class="dashboard-panel" id="p_invalid">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/invalidxml.json" class="dashboard-panel-heading__title float-end">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Files where XML is not well-formed</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset_name, invalid in publisher_inverted.invalidxml.items() %}
+            {% if invalid %}
+            <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+
+    {% if 1 in publisher_inverted.nonstandardroots.values() %}
+    {% set data_quality_issue = true %}
+    <div class="col-md-6">
+    <div class="dashboard-panel" id="p_nonstandardroots">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/nonstandardroots.json" class="dashboard-panel-heading__title float-end">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Files with non-standard roots</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dataset</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dataset_name, nonstandard in publisher_inverted.nonstandardroots.items() %}
+            {% if nonstandard %}
+            <tr>
+                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+
+    </div><!-- .row -->
+
+    {% if not data_quality_issue %}
+    <p>No issues were found.</p>
+    {% endif %}
+
+    <h2 id="h_financial">Financial</h2>
+
+    {% macro currency_value(d) %}
+    {% if d %}
+    {% for currency, value in d.items() %}
+    {% if value!=None %}
+    {{ value }} {{ currency }}</br>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% endmacro %}
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Budgets</h3>
+    </div>
+    <div class="dashboard-panel-body">
+        <p>The below figures are calculated based on the data contained within the <code class="iati-code">&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code class="iati-code"><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code class="iati-code">&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Year</th>
+                <th>Count (all)</th>
+                <th>Sum (all)</th>
+                <th>Count (Original)</th>
+                <th>Sum (Original)</th>
+                <th>Count (Revised)</th>
+                <th>Sum (Revised)</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for row in budget_table %}
+            <tr>
+                <td>{{ row.year }}</td>
+                <td>{% if row.count_total %}{{ row.count_total }}{% endif %}</td>
+                <td>{% if row.sum_total %}{{ currency_value(row.sum_total) }}{% endif %}</td>
+                <td>{% if row.count_original %}{{ row.count_original }}{% endif %}</td>
+                <td>{{ currency_value(row.sum_original) }}</td>
+                <td>{% if row.count_revised %}{{ row.count_revised }}{% endif %}</td>
+                <td>{{ currency_value(row.sum_revised) }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+    <h2 id="h_exploringdata">Exploring Data</h2>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_files">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Files</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped exploring-data">
+        <thead>
+            <tr>
+                <th>Package</th>
+                <th>Activities <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/activities.json">(J)</a></th>
+                <th>Organisations <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/organisations.json">(J)</a></th>
+                <th>File Size <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/file_size.json">(J)</a></th>
+                <th>Version <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher }}/versions.json">(J)</a></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for package, activities in publisher_inverted.activities.items() %}
+            <tr>
+                <td class="break"><a href="http://iatiregistry.org/dataset/{{ package }}">{{ package }}</a></td>
+                <td>{{ activities }}</td>
+                <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
+                <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
+                <td>
+                    {% if current_stats.aggregated_file[publisher][package]['versions'].keys()|count>0 %}
+                        {{ current_stats.aggregated_file[publisher][package]['versions'].keys()|first }}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    {% for major_version in MAJOR_VERSIONS %}
+    {% if major_version in publisher_stats.codelist_values_by_major_version %}
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_codelists">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/codelist_values.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <h3 class="dashboard-panel-heading__title float-start">Codelist Values (version {{ major_version }}.xx)</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Element/Attribute</th>
+                <th>Codelist</th>
+                <th>Values on Codelist</th>
+                <th>Values not on Codelist</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% with element_list=current_stats.inverted_publisher.codelist_values_by_major_version[major_version].keys()|list %}
+            {% for element, values in publisher_stats.codelist_values_by_major_version[major_version].items() %}
+            <tr>
+            {% with element_i=element_list.index(element) %}
+                <td><a href="{{ url('dash-exploringdata-codelists-detail', args=[major_version, slugs.codelist[major_version].by_i[element_i]]) }}">{{ element }}</a></td>
+                <td><a href="https://iatistandard.org/codelists/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
+                {% with codes=func.sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
+                <td>
+                    {{ codes|count }}
+                </td>
+                {% endwith %}
+                {% with codes=func.sorted(func.set(values.keys()).difference(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)))) %}
+                <td>
+                    {{ codes|count }}
+                </td>
+                {% endwith %}
+            {% endwith %}
+            </tr>
+            {% endfor %}
+            {% endwith %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_elements">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/elements.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <h3 class="float-start dashboard-panel-heading__title">Elements and Attributes Published</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Element/Attribute</th>
+                <th>Activities/Organisations</th>
+                <th>Files</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% with element_list=current_stats.inverted_publisher.elements.keys()|list %}
+            {% for element, count in publisher_stats['elements'].items() %}
+            <tr>
+            {% with element_i=element_list.index(element) %}
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}">{{ element }}</a></td>
+                <td>{{ count }}</td>
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}#files_{{ publisher }}">{{ publisher_inverted.elements[element]|count }}</a></td>
+            {% endwith %}
+            </tr>
+            {% endfor %}
+            {% endwith %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_org_ids">
+    <div class="dashboard-panel-heading">
+        <h3 class="dashboard-panel-heading__title">Organisation Identifiers</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
+                {% set extra_column = true %}
+                {% include '_partials/org_id_table_header.html' with context %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for slug in slugs.org_type.by_slug %}
+            {% set transaction_stats = publisher_stats[slug + '_transaction_stats'] %}
+            <tr>
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ url('dash-exploringdata-orgtypes-detail', args=[slug]) }}" >{{ slug.replace('_org', '') | capitalize }}</a></td>
+                {% include '_partials/org_id_table_cells.html'  with context %}
+                <td style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;"><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/{{ slug }}_transaction_stats.json">(J)</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block extrafooter %}
+    <script>
+$('.popover-html').popover({
+  html: true
+})
+    </script>
+{% endblock %}
+
+
+{% block tablesorterscript %}
+<script>$(function() { $("table.table:not(.exploring-data)").tablesorter(); });</script>
+<script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); } }}); });</script>
+{% endblock %}

@@ -4,8 +4,13 @@
 mkdir -p data/downloads/
 wget "https://gist.githubusercontent.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/raw/errors" -O data/downloads/errors
 
-# Get CKAN (IATI Registry) data
+# Get CKAN (IATI Registry)
+rm -rf data/ckan_publishers/
 python fetch_data.py
+
+# Get GitHub data
+rm -rf data/github/
+python fetch_github_issues.py
 
 # Generate a csv file with the number of download errors logged since 2013
 cd data/downloads
@@ -27,28 +32,29 @@ echo "cloned and checked out download errors"
 cd ../../../
 
 # Get codelists for versions v1.x and v2.x of the IATI Standard
-cd data
+rm -rf data/IATI-Codelists-1
 echo "cloning Codelists-1"
-if [ ! -d IATI-Codelists-1 ]; then
-    git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-1
-fi
-cd IATI-Codelists-1
-echo "checking out Codelists-1"
-git checkout version-1.05 > /dev/null
-git pull > /dev/null
+git clone --branch version-1.05 https://github.com/IATI/IATI-Codelists.git data/IATI-Codelists-1
+cd data/IATI-Codelists-1
 echo "running gen.sh for Codelist-1"
 ./gen.sh
+cd ../..
 
+echo "Fetching Codelists-2"
+rm -rf data/IATI-Codelists-2
+python fetch_v2_codelists.py
+
+echo "Fetching schemas"
+mkdir data/schemas
+cd data/schemas
+# for v in 1.01 1.02 1.03 1.04 1.05 2.01 2.02 2.03; do
+for v in 1.05 2.03; do
+    git clone https://github.com/IATI/IATI-Schemas.git $v
+    cd $v
+    git checkout version-$v
+    git pull
+    cd ..
+done
 cd ..
-echo "cloning Codelists-2"
-if [ ! -d IATI-Codelists-2 ]; then
-    git clone https://github.com/IATI/IATI-Codelists.git IATI-Codelists-2
-fi
-cd IATI-Codelists-2
-echo "checking out Codelists-1"
-git checkout version-2.03 > /dev/null
-git pull > /dev/null
-echo "running gen.sh for Codelist-2"
-./gen.sh
 
 echo "completed fetching data"

@@ -1,0 +1,56 @@
+{% set tab='financials' %}
+{% extends 'comprehensiveness_base.html' %}
+
+
+{% block table_title %}
+Table of Financial values
+{% endblock %}
+
+
+{% block heading_detail %}
+	<p>Four aspects of financial reporting are tracked: the reporting of commitments and spend, the ability to track funds across activities and organisations, and the existence of activity budgets (which are also given added weight in the forward-looking component). Only <strong><em>current</em></strong> activities are assessed.</p>
+
+	<p>This table shows the percentage of current activities where these financial elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.)</p>
+
+	<p>The statistics on this page are calculated based on either i) the data in each publishers' lowest hierarchy, or ii) data in the hierarchy which contains the greatest number of budgets for the given publisher - see the <a href="#h_narrative">narrative section</a> for full details.</p>
+
+	<p><strong>Key:</strong><br/>
+        Dashes: Where a publisher has published to IATI in the past but whose portfolio contains no current activities.<br/>
+        <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff">Purple flag</span>: Publisher currently publishing the 'budget not provided' attribute for some or all activities.
+    </p>
+{% endblock %}
+
+
+{% block narrative_text %}
+	<h3>Transaction - Commitment</h3>
+	<p>For the data in the chosen hierarchy, the percentage of all current activities that contain at least one transaction of type <code class="iati-code">Commitment</code> or <code class="iati-code">Incoming Commitment</code>.  The hierarchy chosen for this calculation is the highest hierarchy that contains an above-defined commitment tranaction. Only one hierarchy is selected due in line with <a href="http://support.iatistandard.org/entries/40759343-General-rules-for-multi-level-reporting">stated IATI rules on multi-level reporting</a>.
+
+	<h3>Transaction - Disbursement or Expenditure</h3>
+	<p>For the data at the publishers' lowest hierarchy, the percentage of current activities that contain at least one transaction of type <code class="iati-code">Disbursement</code> or <code class="iati-code">Expenditure</code>.</p>
+
+
+	<h3>Transaction - Traceability</h3>
+	<p>For the data at the publishers' lowest hierarchy, the percentage of current activities containing a transaction of type <code class="iati-code">Incoming Funds</code>, <code class="iati-code">Incoming Commitment</code> or <code class="iati-code">Incoming Pledge</code> that also contain the IATI identifier for the funding organisation's activity. This links the funds disbursed by one organisation and received by another. (NB activities that do not contain incoming funds transactions are excluded from the calculation.)</p>
+
+	<p>Donor publishers who list themselves within as a participating-org of either <code class="iati-code">1</code> (i.e. 'Funding') or <code class="iati-code">3</code> (i.e. 'Extending') AND who are not listed as type <code class="iati-code">4</code> (i.e. 'Implementing') will be given credit for traceability, as they are at the top of the funding chain.</p>
+
+	<h3>Budget</h3>
+	<p>For the hierarchy which contains the greatest number of budgets, the percentage of all current activities that contain at least one valid budget entry.  A valid budget entry must contain a valid <code class="iati-code">period-start</code> AND a valid <code class="iati-code">period-end</code> AND a valid <code class="iati-code">value</code> AND a valid <code class="iati-code">value-date</code> OR the activity has the <code class="iati-code">@budget-not-provided</code> attribute.</p>
+{% endblock %}
+
+
+{% block assessment_text %}
+	<p>Only elements containing valid data are counted. Where applicable a total including invalid data is provided in parentheses.</p>
+	<p>Activities with the <code class="iati-code">budget-not-provided</code> attribute will not be counted as valid if any <code class="iati-code">budget</code> elements are found.</p>
+{% endblock %}
+
+
+{% block exceptions_text %}
+	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date. For disbursements and expenditure activities less than one year old (based on activity start date) are also excluded.</p>
+{% endblock %}
+
+
+{% block table_test_methodology_core %}
+{% endblock %}
+{% block table_test_methodology_valueadded %}
+{% endblock %}

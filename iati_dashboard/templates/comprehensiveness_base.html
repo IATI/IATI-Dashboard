@@ -1,0 +1,436 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+
+{% block container %}
+
+    {% block page_header_div %}
+        {{ super() }}
+    {% endblock %}
+
+    <nav>
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_narrative" class="iati-piped-list__link">Narrative</a></li>
+        <li><a href="#h_assessment" class="iati-piped-list__link">Assessment</a></li>
+        <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
+        <li><a href="#h_comparison" class="iati-piped-list__link">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
+    </ol>
+    </nav>
+    <br/>
+
+    {% block content %}
+    <div class="dashboard-panel" id="h_table">
+    <div class="dashboard-panel-heading clearfix">
+        <a href="{{ generated_url }}/data/csv/comprehensiveness_{{ tab }}.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+        <h2 class="dashboard-panel-heading__title float-start">{% block table_title %}Table of Comprehensiveness values{% endblock %}</h2>
+    </div>
+
+    {% if self.heading_detail() %}
+    <div class="dashboard-panel-body">
+        {% block heading_detail %}{% endblock %}
+        {% include '_partials/tablesorter_instructions.html' %}
+    </div>
+    {% endif %}
+
+    <table class="table table-striped" id="main_table">
+        <thead>
+            <tr>
+                <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
+                {% for column_header in comprehensiveness.column_headers[tab] %}
+                <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
+                {% endfor %}
+                {% if tab == 'financials' %}
+                    <th style="vertical-align:middle; border: 1px solid gray;"></th> 
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for publisher in publishers %}
+            <tr>
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
+                {% for column_slug in comprehensiveness.column_slugs[tab] %}
+                <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in publisher.comprehensiveness %}
+                    {{ publisher.comprehensiveness[column_slug+'_valid'] | round_nicely }}
+                    {% if publisher.comprehensiveness[column_slug+'_valid'] != publisher.comprehensiveness[column_slug] %}
+                    <span class="dashboard-text-muted">({{ publisher.comprehensiveness[column_slug] | round_nicely }})</td>
+                    {% endif %}
+                    {% else %}-{% endif %}</td>
+                {% endfor %}
+                {% if tab == 'financials' %}
+                    {% if publisher.comprehensiveness['flag'] %}
+                        <td class="dashboard-yellow-flag">*</td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+    {% block narrative %}
+    <div class="dashboard-panel" id="h_narrative">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Narrative</h2>
+        </div>
+        <div class="dashboard-panel-body">
+            {% block narrative_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block assessment %}
+    <div class="dashboard-panel" id="h_assessment">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Assessment</h2>
+        </div>
+        <div class="dashboard-panel-body">
+            {% block assessment_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block exceptions %}
+    <div class="dashboard-panel" id="h_exceptions">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Exceptions</h2>
+        </div>
+        <div class="dashboard-panel-body">
+            {% block exceptions_text %}{% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    {% block comparison %}
+    <div class="dashboard-panel" id="h_comparison">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Comparison with original Global Partnership Indicator methodology</h2>
+        </div>
+        <div class="dashboard-panel-body">
+            {% block comparison_text %}
+            <p>These tests are more targeted than the original methodology which merely checked for the existence of all fields irrespective of their importance.</p>
+            {% endblock %}
+        </div>
+    </div>
+    {% endblock %}
+
+
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
+    </div>
+    <div class="dashboard-panel-body">
+
+    <p>For the purpose of this calculation, each <code class="iati-code">iati-activity</code> XML block is an activity.</p>
+
+    <p>To determine the lowest hierarchy:</p>
+<pre><code class="iati-code iati-code--block">Lowest hierarchy =
+   Largest integer reported in the hierarchy attribute of any iati-activity element
+</code></pre>
+
+    <p>To determine whether an activity is at the lowest hierarchical level:</p>
+
+<pre><code class="iati-code iati-code--block">If the @hierarchy attribute is missing
+    If the lowest hierarchical level is 1
+        Activity is at lowest hierarchical level
+    Else
+        Activity is NOT at lowest hierarchical level
+Else if the @hierarchy attribute == lowest hierarchy
+    Activity is at lowest hierarchical level
+Else
+    Activity is NOT at lowest hierarchical level
+</code></pre>
+
+    <p>To test whether an activity is current:</p>
+
+<pre><code class="iati-code iati-code--block">end dates =
+    For each activity-date of type end-planned or end-actual
+        Parse activity-date/@iso-date as an iso date ('yyyy-mm-dd...')
+        If this does not work parse activity-date/text() as an iso date ('yyyy-mm-dd...')
+        If neither work, ignore this activity-date
+
+If activity-status/@code exists
+    If activity-status/@code is 2 exists
+        The activity is current
+    Else
+        The activity is current
+Else
+    If end dates (see above) is empty
+        The activity is current
+    Else
+        If there is an end date where (date year >= current year)
+            The activity is current
+        Else
+            The activity is not current
+</code></pre>
+
+    <p>To determine whether we use an activity is relevant for a given comprehensiveness test.</p>
+
+<pre><code class="iati-code iati-code--block">start date =
+    If activity-date[@type="start-actual"] exists
+        Parse activity-date[@type="start-actual"]/@iso_date as an iso date ('yyyy-mm-dd...')
+            If this works, we have the start date, else null
+    Else If activity-date[@type="start-planned"] exists
+        Parse activity-date[@type="start-planned"]/@iso_date as an iso date ('yyyy-mm-dd...')
+            If this works, we have the start date, else null
+    Else
+        null
+
+If the activity is current
+    If we are on the financials tab
+        If hierarchy = lowest level
+            If the comprehensiveness test is 'Transaction - Disbursement or Expenditure'
+                If (start date isn't null
+                        and start date &lt; today
+                        and today - start date &lt; 365 days)
+                    Use activity
+                Else
+                    Ignore activity
+            Else If the comprehensiveness test is 'Transaction - Traceability'
+                If transaction/transaction-type[@code="IF"] exists (1.xx) or transaction/transaction-type[@code="1"] exists (2.xx) or transaction/transaction-type[@code="11"] exists or transaction/transaction-type[@code="13"] exists
+                    Use activity
+                Else
+                    Ignore activity
+            Else
+                Use activity
+        Else
+            Ignore activity
+    Else
+        Use activity
+Else
+    Ignore activity
+</code></pre>
+
+    {% block table_test_methodology_full %}
+    <table class="table">
+      {% block table_test_methodology_header %}
+      <tr>
+        <th>Page</td>
+        <th>Comprehensiveness Test</td>
+        <th>Basic Methodology</td>
+        <th>Validation Methodology</td>
+      </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_core %}
+      <tr>
+        <td>Core</td>
+        <td>Version</th>
+        <td>iati-activities/@version must exist for the file the activity is in</th>
+        <td>iati-activities/@version must be on the <a href="http://iatistandard.org/codelists/Version/">Version codelist</a></th>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Reporting Organisation</td>
+        <td>reporting-org/@ref and must exist and reporting-org must have textual content</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>IATI Identifier</td>
+        <td>Activity must contain a nonempty iati-identifier</td>
+        <td>If publishing at v2.xx, the iati-identifier must start with either a) the value in <code class="iati-code">reporting-org/@ref</code> or b) a value in <code class="iati-code">other-identifier/@ref</code> where <code class="iati-code">@type="B1"</code> (i.e. 'Previous Reporting Organisation Identifier'). No validation check is applied for v1.xx data, as it only became possible to add <code class="iati-code">other-identifier/@type="B1"</code> from v2.01.</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Participating Organisation</td>
+        <td>Activity must contain at least 1 participating-org</td>
+        <td>At least one participating-org must have @role <code class="iati-code">Funding</code> (1.xx) or <code class="iati-code">1</code> (2.xx)</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Title</td>
+        <td>Activity must contain a non-empty title element</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Description</td>
+        <td>Activity must contain a non-empty description element</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Status</td>
+        <td>Activity must contain an activity-status element</td>
+        <td>activity-status/@code must be on the <a href="http://iatistandard.org/codelists/ActivityStatus/">ActivityStats codelist</a></td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Activity Date</td>
+        <td>Activity must contain at least 1 activity-date element</td>
+        <td>At least 1 activity-date element in the activity must have @type equal to <code class="iati-code">start-planned</code> or <code class="iati-code">start-actual</code> (1.xx) or <code class="iati-code">1</code> or <code class="iati-code">2</code> (2.xx)</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Sector</td>
+        <td>At least one sector element present at activity level OR in all transactions</td>
+        <td>If activity level AND more than 1 per vocab, percentage must add up per vocab</td>
+      </tr>
+      <tr>
+        <td>Core</td>
+        <td>Country or Region</td>
+        <td>(<code class="iati-code">recipient-country</code> OR <code class="iati-code">recipient-region</code>) at activity level OR (2.xx only) on all transactions</td>
+        <td>If activity level AND more than 1 THEN  percentages must add up</td>
+      </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_financials %}
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Commitment</th>
+        <td>Activity must have at least 1 transaction with @type of 'Commitment' (i.e. <code class="iati-code">C</code> (1.xx) or <code class="iati-code">2</code> (2.xx)) or 'Incoming commitment' (i.e. <code class="iati-code">11</code>).</td>
+        <td>All transactions of this @type must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></th>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Disbursement or Expenditure</td>
+        <td>Activity must have at least 1 transaction with @type <code class="iati-code">D</code> or <code class="iati-code">E</code> (1.xx) or <code class="iati-code">3</code> or <code class="iati-code">4</code> (2.xx)</td>
+        <td>All transactions of these @type's must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></th>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Currency</td>
+        <td>All transactions must have value/@currency OR the activity must have a @default-currency attribute. All transactions must have value/@value-date</td>
+        <td>All currency values must be on the <a href="http://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code class="iati-code">xs:date</code>.</td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Transaction - Traceability</td>
+        <td>All transactions with @type of 'Incoming Funds' (i.e. `IF` (1.xx) or `1` (2.xx)) or 'Incoming Commitment' (i.e. `11`) or 'Incoming Pledge' (i.e. `13`) must contain provider-org/@provider-activity-id</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Financials</td>
+        <td>Budget</td>
+        <td>Activity must have at least 1 budget element OR the activity must have the budget-not-provided attribute AND no budget elements</td>
+        <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code class="iati-code">xs:date</code>s AND a value element that is a valid <code class="iati-code">xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="http://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
+      </tr>
+      {% endblock %}
+
+      {% block table_test_methodology_valueadded %}
+      <tr>
+        <td>Value added</td>
+        <td>Contacts</th>
+        <td>Activity must contain 1 contact-info/email element</th>
+        <td></th>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Location Details</td>
+        <td>Activity must contain location/name OR location/description OR location/location-administrative) OR location/point/pos</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Geographic Coordinates</td>
+        <td>Activity must contain location/point/pos</td>
+        <td>location/point/pos must contain valid coordinates (two space separated decimals), and not be <code class="iati-code">0 0</code></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>DAC Sectors</td>
+        <td>At least 1 sector where @vocabulary is <code class="iati-code">DAC</code> or <code class="iati-code">DAC-3</code> (1.xx) or <code class="iati-code">1</code> or <code class="iati-code">2</code> (2.xx), must be reported at activity level, unless there is no @vocabulary attribute, in which case DAC/1 is assumed. If there is no DAC sector element at activity level it must be reported within all transactions contained within that activity.</td>
+        <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Capital Spend</td>
+        <td>Activity must contain the capital-spend/@percentage attribute</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Activity Documents</td>
+        <td>Activity must contain at least 1 document-link</td>
+        <td>Each document-link must contain valid document category code and a url that is a valid <code class="iati-code">xs:anyURI</code> and contains the string <code class="iati-code">//</code>.</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Aid Type</td>
+        <td>Activity must contain either i) a value in <code class="iati-code">default-aid-type/@code</code> or ii) each transaction must contain a value in <code class="iati-code">transaction/aid-type/@code</code>.</td>
+        <td>Must be valid code on the <a href="http://iatistandard.org/codelists/AidType/">AidType codelist</a>.</td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Recipient Language</td>
+        <td>Only activities containing only one <code class="iati-code">recipient-country</code> are assessed. Activity must contain <code class="iati-code">title</code> and <code class="iati-code">description</code> elements containing at least <a href="https://github.com/codeforIATI/IATI-Stats/blob/main/helpers/transparency_indicator/country_lang_map.csv">one of the official languages spoken</a> for the defined <code class="iati-code">recipient-country/@code</code>.</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>Value added</td>
+        <td>Result/Indicator</td>
+        <td>Activity must contain the result/indicator element</td>
+        <td></td>
+      </tr>
+      {% endblock %}
+
+    </table>
+    {% endblock %}
+
+    <p>Where the Validation Methodology column is blank, no extra conditions are imposed over the basic methodology.</p>
+    <p>The main percentage is the percentage of relevant activities that satisfy the basic and validation methodology for the given Comprehensiveness Test and publisher.</p>
+    <p>The bracketed percentage is the percentage of relevant activities that satisfy the basic methodology for the given Comprehensiveness Test and publisher. This is only shown if it is different to the main percentage.</p>
+    </div>
+
+
+    </div>
+    {% endblock %}
+{% endblock %}
+
+{% block tablesorteroptions %}{
+    widgets: ['stickyHeaders'],
+    textExtraction:{
+        1: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        2: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        3: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        4: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        5: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        6: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        7: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        8: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        9: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        10: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        },
+        11: function(node,table,cellIndex) {
+            if ($(node).text().indexOf('-') >= 0) return '0';
+            else return $(node).text();
+        }
+    }
+}
+{% endblock %}
+{% block tablesortertarget %}table#main_table{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h2 class="dashboard-panel-heading__title">
+            Count of duplicates, per publisher
+          </h2>
+        </div>
+        <div class="dashboard-panel-body">
+          <p>
+            Duplicate identifiers: a count of the unique <code class="iati-code">iati-identifier</code> that are duplicated.
+            Instances of duplicate identifiers: the total number of activities that contain a duplicate <code class="iati-code">iati-identifier</code>, within a publisher dataset.
+            Example: two identifiers could be found as having duplicates.  Across the dataset, these duplicates could account for 200 activities.
+          </p>
+          {% include '_partials/tablesorter_instructions.html' %}
+        <table class="table table-striped">
+          <thead><tr>
+            <th>Publisher</th>
+            <th>Duplicate identifiers</th>
+            <th>Instances of duplicate identifiers</th>
+          </tr></thead>
+          <tbody>
+            {% for publisher_title,publisher in publishers_ordered_by_title %}
+            {% set publisher_stats = func.get_publisher_stats(publisher) %}
+            {% if publisher_stats.publisher_duplicate_identifiers|count != 0 %}
+            <tr>
+                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_title }}</a></td>
+                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers|length }}</td>
+                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers.values()|sum }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+

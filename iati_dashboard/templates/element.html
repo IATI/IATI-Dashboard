@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+
+{% block page_header %}
+  <h1>Usage of <code class="iati-code">{{ element }}</code></h1>
+  <p class="dashboard-page-heading__lead">Who uses <code class="iati-code">{{ element }}</code>?</p>
+  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
+
+  {% if element_or_attribute == 'attribute' %}
+  <p>An empty value for the attribute is treated the same as if the attribute is not present.</p>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h2>Publishers</h2>
+  <p>(<a href="{{ stats_url }}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h3 class="dashboard-panel-heading__title">Publishing this {{ element_or_attribute }}</h3>
+        </div>
+        <div class="dashboard-panel-body">
+        <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Activities/Orgs with {{ element_or_attribute }}</td>
+                <td>Total instances of {{ element_or_attribute }}</td>
+                <td>Total activities</td>
+          </thead>
+          <tbody>
+            {% for publisher in publishers_with %}
+            <tr>
+                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
+                <td>{{ publisher.elements[element] }}</td>
+                <td>{{ publisher.elements_total[element] }}</td>
+                <td>{{ publisher.activities }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="dashboard-panel">
+        <div class="dashboard-panel-heading">
+          <h3 class="dashboard-panel-heading__title">Not publishing this {{ element_or_attribute }}</h3>
+        </div>
+        <div class="dashboard-panel-body">
+        <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Total activities</td>
+                <td>Total organisations</td>
+          </thead>
+          <tbody>
+            {% for publisher in publishers_without %}
+            <tr>
+                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
+                <td>{{ publisher.activities }}</td>
+                <td>{{ publisher.organisations }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {#
+      <h2>Files</h2>
+        <table class="table table-striped">
+          <thead>
+                <td>Publisher</td>
+                <td>Files</td>
+          </thead>
+          <tbody>
+            {% for publisher in current_stats.inverted_file_publisher %}
+              {% with datasets = current_stats.inverted_file_publisher[publisher].elements.get(element) %}
+              {% if datasets %}
+                <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td><td>
+                {% for dataset in datasets.keys() %}
+                    <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
+                {% endfor %}
+                </td></tr>
+              {% endif %}
+              {% endwith %}
+            {% endfor %}
+          </tbody>
+        </table>
+  #}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading"><h2 class="dashboard-panel-heading__title">Activity Dates</h2></div>
+          <div class="dashboard-panel-body">
+            {% include '_partials/tablesorter_instructions.html' %}
+          <table class="table table-striped">
+            <thead><tr>
+              <th>Publisher</th>
+              <th>Earliest Date</th>
+              <th>Latest Date</th>
+              <th>Latest Actual Start</th>
+              <th>Latest Actual End</th>
+            </tr></thead>
+            <tbody>
+              {% for publisher_title,publisher in publishers_ordered_by_title %}
+              {% set publisher_stats = func.get_publisher_stats(publisher) %}
+                  <tr>
+                      <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_title }}</a></td>
+                      <td>{% if publisher_stats.date_extremes.min.overall %}{{ publisher_stats.date_extremes.min.overall }}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.overall %}{{ publisher_stats.date_extremes.max.overall }}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.by_type['start-actual'] %}{{ publisher_stats.date_extremes.max.by_type['start-actual'] }}{% endif %}</td>
+                      <td>{% if publisher_stats.date_extremes.max.by_type['end-actual'] %}{{ publisher_stats.date_extremes.max.by_type['end-actual'] }}{% endif %}</td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
