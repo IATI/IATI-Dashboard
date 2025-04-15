@@ -1,4 +1,5 @@
-django
+# At time of writing Django 5.2 is the most recent LTS
+django<5.3
 django-environ
 psycopg
 gunicorn
