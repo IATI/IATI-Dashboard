@@ -46,3 +46,10 @@ for key in [
             expression=models.F(f"stats_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
     )
+
+
+class Dataset(models.Model):
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    short_name = models.CharField()
+    source_url = models.CharField()
+    stats_json = models.JSONField(default=dict)
