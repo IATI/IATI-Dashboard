@@ -56,11 +56,7 @@ if SENTRY_DSN:
 
 # Application definition
 
-INSTALLED_APPS = [
-    "iati_dashboard",
-    "iati_dashboard.ui",
-    "django.contrib.staticfiles",
-]
+INSTALLED_APPS = ["iati_dashboard", "iati_dashboard.ui", "django.contrib.staticfiles", "django_extensions"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
