@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import connection, models
 
 
 class Publisher(models.Model):
@@ -22,6 +22,29 @@ class Publisher(models.Model):
     @property
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den
+
+    def filtered_datasets_by(self, stat_name):
+        return (
+            self.dataset_set.order_by("short_name")
+            .values("short_name", "source_url", f"stats_json__{stat_name}")
+            .filter(**{f"stats_json__{stat_name}__gt": 0})
+        )
+
+    def datasets_per(self, stat_name):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                select keys, COUNT(id)
+                from (
+                    select jsonb_object_keys(stats_json->%s) as keys, id
+                    from iati_dashboard_dataset
+                    where publisher_id=%s
+                )
+                group by keys;
+            """,
+                [stat_name, self.id],
+            )
+            return dict(cursor.fetchall())
 
 
 for key in [
