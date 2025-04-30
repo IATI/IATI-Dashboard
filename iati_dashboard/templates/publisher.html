@@ -357,11 +357,9 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
             </tr>
         </thead>
         <tbody>
-            {% with element_list=publisher.stats_json.codelist_values_by_major_version[major_version].keys()|list %}
-            {% for element, values in publisher.stats_json.codelist_values_by_major_version[major_version].items() %}
+            {% for element, values in publisher.stats_json.codelist_values_by_major_version[major_version].items()|sort %}
             <tr>
-            {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url('dash-exploringdata-codelists-detail', args=[major_version, slugs.codelist[major_version].by_i[element_i]]) }}">{{ element }}</a></td>
+                <td><a href="{{ url('dash-exploringdata-codelists-detail', args=[major_version, element_slug(element.removeprefix(".//"))]) }}">{{ element.removeprefix(".//") }}</a></td>
                 <td><a href="https://iatistandard.org/codelists/{{ codelist_mapping[major_version].get(element) }}">{{ codelist_mapping[major_version].get(element) }}</a></td>
                 {% with codes=func.sorted(codelist_sets[major_version].get(codelist_mapping[major_version].get(element)).intersection(values.keys())) %}
                 <td>
@@ -373,10 +371,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
                     {{ codes|count }}
                 </td>
                 {% endwith %}
-            {% endwith %}
             </tr>
             {% endfor %}
-            {% endwith %}
         </tbody>
     </table>
     </div>
@@ -407,12 +403,9 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
             {% with element_list=publisher.stats_json['elements'].keys()|list %}
             {% for element, count in publisher.stats_json['elements'].items()|sort %}
             <tr>
-            {# TODO fix this #}
-            {% with element_i=element_list.index(element) %}
-                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}">{{ element }}</a></td>
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[element_slug(element)]) }}">{{ element }}</a></td>
                 <td>{{ count }}</td>
-                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[element_i]]) }}#files_{{ publisher.short_name }}">{{ datasets_per_element[element] }}</a></td>
-            {% endwith %}
+                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[element_slug(element)]) }}#files_{{ publisher.short_name }}">{{ datasets_per_element[element] }}</a></td>
             </tr>
             {% endfor %}
             {% endwith %}
