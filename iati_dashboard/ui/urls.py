@@ -27,7 +27,7 @@ urlpatterns = (
         path("", views.index, name="dash-index"),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
         path(
-            "publishers/<slug:publisher>/",
+            "publishers/<slug:publisher_short_name>/",
             views.headlines_publisher_detail,
             name="dash-headlines-publisher-detail",
         ),
