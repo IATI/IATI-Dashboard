@@ -10,8 +10,119 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
 {% endblock %}
 
 {% block content %}
+    <main class="iati-main">
+      <div class="iati-main__before-content">
+        
+      <div class="iati-main__content">
+        <article class="iati-main__article">
+          
+    <div class="iati-section iati-section--fill">
+      <h2 class="iati-section__title" id="sectionA">
+        Section A
+      </h2>
+      <div class="iati-section__content">
+      <p>
+        Cras ultrices dui sed magna mollis molestie. Morbi a mauris feugiat
+        lorem aliquam viverra eget lobortis ipsum. Vestibulum lobortis nec urna
+        in sagittis. Etiam viverra nibh ut lobortis pretium. Sed varius sapien
+        non lorem lacinia venenatis. Ut porttitor justo eget posuere euismod.
+        Donec vel diam pretium, rhoncus mi id, euismod arcu. Sed ultrices, enim
+        non egestas varius, libero lorem ullamcorper libero, non rutrum leo
+        lacus a enim. Donec consequat ac odio tincidunt posuere. Maecenas
+        maximus tellus nisl, eget ornare ligula vehicula vel.
+      </p>
+      
+    <div class="iati-table">
+      <table class="iati-table__table">
+        <thead>
+          <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 3</th>
+            <th>Column 4</th>
+            <th>Column 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+          <tr>
+            <td>Cell 1</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Total</td>
+            <td>Cell 2</td>
+            <td>Cell 3</td>
+            <td>Cell 4</td>
+            <td>Cell 5</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  
+    </div>
+    </div>
+  
+          
+    <div class="iati-figures">
+    <ul class="iati-figures__items">
+         <li class="iati-figures__item">
+              <a href="#" class="iati-figures__content">
+                <span class="iati-figures__label"><span class="iati-figures__label-line">Total</span>
+      <span class="iati-figures__label-line">publishers</span></span>
+                <span class="iati-figures__number">1,719</span>
+              </a>
+            </li> <li class="iati-figures__item">
+              <a href="#" class="iati-figures__content">
+                <span class="iati-figures__label"><span class="iati-figures__label-line">Total</span>
+      <span class="iati-figures__label-line">organisation files</span></span>
+                <span class="iati-figures__number">1,186</span>
+              </a>
+            </li> <li class="iati-figures__item">
+              <a href="#" class="iati-figures__content">
+                <span class="iati-figures__label"><span class="iati-figures__label-line">Total</span>
+      <span class="iati-figures__label-line">activity files</span></span>
+                <span class="iati-figures__number">9,335</span>
+              </a>
+            </li> <li class="iati-figures__item">
+              <a href="#" class="iati-figures__content">
+                <span class="iati-figures__label"><span class="iati-figures__label-line">Total</span>
+      <span class="iati-figures__label-line">activities</span></span>
+                <span class="iati-figures__number">881,282</span>
+              </a>
+            </li>
+      </ul>
+    
+    </div>
+  
     <div class="row">
     <div class="col-md-6">
+
     <div class="dashboard-panel">
         <div class="dashboard-panel-heading"><h2 class="dashboard-panel-heading__title">Table of Contents</h2></div>
         <div class="dashboard-panel-body">
@@ -54,7 +165,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     <div class="col-md-6">
     <div class="dashboard-panel">
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="iati-table__table">
         <tbody>
             <tr>
                 <td>On the Registry</td>
@@ -124,6 +236,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+    </div>
     {{ boxes.box_h3(
         'Activities', publisher.stats_json.activities, 'img/publishers/'+publisher.short_name+'_activities.png', publisher.short_name+'/activities.json', '', '-publisher') }} 
     </div>
@@ -156,7 +269,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
             <div class="dashboard-panel" id="p_validation">
               <div class="dashboard-panel-heading"><h3 class="dashboard-panel-heading__title" id="list_fail_validation">Files Failing Schema Validation</h3></div>
               <div class="dashboard-panel-body">
-                <table>
+                <div class="iati-table">
+                <table class="table iati-table__table">
                     <thead>
                         <tr>
                             <th scope="col">Dataset name</th>
@@ -180,6 +294,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
                 </table>
             </div>
             </div>
+            </div>
         </div>
     {% endif %}
 
@@ -192,7 +307,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
         <h3 class="dashboard-panel-heading__title float-start">Files where XML is not well-formed</h3>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th>Dataset</th>
@@ -206,6 +322,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
             {% endfor %}
         </tbody>
     </table>
+    </div>
     </div>
     </div>
     </div>
@@ -266,7 +383,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     <div class="dashboard-panel-body">
         <p>The below figures are calculated based on the data contained within the <code class="iati-code">&lt;budget&gt;</code> element for each reported activity. Original and revised elements are based on the value declared in the <code class="iati-code"><a href="https://iatistandard.org/activity-standard/iati-activities/iati-activity/budget/">budget/@type</a></code> attribute. Where budgets fall across two calendar years, the month of the <code class="iati-code">&lt;period-end&gt;</code> date is used to determine annual groupings, with budgets for periods ending January-June added to the previous calendar year.</p>
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th>Year</th>
@@ -296,6 +414,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+    </div>
 
     <h2 id="h_exploringdata">Exploring Data</h2>
 
@@ -306,7 +425,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
         <h3 class="dashboard-panel-heading__title">Files</h3>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped exploring-data">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th>Package</th>
@@ -336,6 +456,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+    </div>
 
     {% for major_version in MAJOR_VERSIONS %}
     {% if major_version in publisher.stats_json.codelist_values_by_major_version %}
@@ -347,7 +468,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
         <h3 class="dashboard-panel-heading__title float-start">Codelist Values (version {{ major_version }}.xx)</h3>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th>Element/Attribute</th>
@@ -379,6 +501,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+    </div>
     {% endif %}
     {% endfor %}
 
@@ -390,7 +513,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
         <h3 class="float-start dashboard-panel-heading__title">Elements and Attributes Published</h3>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th>Element/Attribute</th>
@@ -415,6 +539,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+    </div>
 
     <div class="row">
     <div class="col-xs-12">
@@ -423,7 +548,8 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
         <h3 class="dashboard-panel-heading__title">Organisation Identifiers</h3>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
+    <div class="iati-table">
+    <table class="table iati-table__table">
         <thead>
             <tr>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
@@ -447,6 +573,115 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
 
+
+    </div>
+          
+    <div class="iati-section">
+      <h2 class="iati-section__title" id="sectionB">
+        Section B
+      </h2>
+      <div class="iati-section__content">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+        non augue diam. Morbi nibh arcu, pulvinar sit amet erat ut, gravida
+        imperdiet erat. Donec pretium, metus quis tempor iaculis, libero dolor
+        posuere risus, nec mollis arcu orci ac augue. Proin laoreet neque et
+        sagittis vestibulum. Integer commodo tellus arcu, eu placerat ligula
+        tempor sed. Sed mattis nibh in consequat mattis.
+      </p>
+      <p>
+        Vestibulum aliquet viverra sem quis tristique. Nunc a lacinia lacus.
+        Nullam at est ultricies nibh euismod dictum at sit amet libero. Etiam
+        vitae neque eget urna porttitor imperdiet. Mauris efficitur ipsum quis
+        ligula posuere, vel interdum augue elementum. Donec tempor eu turpis
+        eget faucibus. Suspendisse rhoncus pellentesque lacus, non rutrum elit
+        molestie non. Etiam ut magna feugiat ipsum lobortis viverra. Maecenas
+        quam odio, tristique ut condimentum ut, porttitor sed lacus. Phasellus
+        est nisi, molestie ut accumsan id, aliquet vitae lorem.
+      </p>
+    </div>
+    </div>
+  
+          
+    <div class="iati-section iati-section--fill">
+      <h2 class="iati-section__title" id="sectionC">
+        Section C
+      </h2>
+      <div class="iati-section__content">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+        non augue diam. Morbi nibh arcu, pulvinar sit amet erat ut, gravida
+        imperdiet erat. Donec pretium, metus quis tempor iaculis, libero dolor
+        posuere risus, nec mollis arcu orci ac augue. Proin laoreet neque et
+        sagittis vestibulum. Integer commodo tellus arcu, eu placerat ligula
+        tempor sed. Sed mattis nibh in consequat mattis.
+      </p>
+      <p>
+        Vestibulum aliquet viverra sem quis tristique. Nunc a lacinia lacus.
+        Nullam at est ultricies nibh euismod dictum at sit amet libero. Etiam
+        vitae neque eget urna porttitor imperdiet. Mauris efficitur ipsum quis
+        ligula posuere, vel interdum augue elementum. Donec tempor eu turpis
+        eget faucibus. Suspendisse rhoncus pellentesque lacus, non rutrum elit
+        molestie non. Etiam ut magna feugiat ipsum lobortis viverra. Maecenas
+        quam odio, tristique ut condimentum ut, porttitor sed lacus. Phasellus
+        est nisi, molestie ut accumsan id, aliquet vitae lorem.
+      </p>
+    </div>
+    </div>
+  
+          
+    <div class="iati-section">
+      <h2 class="iati-section__title" id="sectionD">
+        Section D
+      </h2>
+      <div class="iati-section__content">
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+        non augue diam. Morbi nibh arcu, pulvinar sit amet erat ut, gravida
+        imperdiet erat. Donec pretium, metus quis tempor iaculis, libero dolor
+        posuere risus, nec mollis arcu orci ac augue. Proin laoreet neque et
+        sagittis vestibulum. Integer commodo tellus arcu, eu placerat ligula
+        tempor sed. Sed mattis nibh in consequat mattis.
+      </p>
+      <p>
+        Vestibulum aliquet viverra sem quis tristique. Nunc a lacinia lacus.
+        Nullam at est ultricies nibh euismod dictum at sit amet libero. Etiam
+        vitae neque eget urna porttitor imperdiet. Mauris efficitur ipsum quis
+        ligula posuere, vel interdum augue elementum. Donec tempor eu turpis
+        eget faucibus. Suspendisse rhoncus pellentesque lacus, non rutrum elit
+        molestie non. Etiam ut magna feugiat ipsum lobortis viverra. Maecenas
+        quam odio, tristique ut condimentum ut, porttitor sed lacus. Phasellus
+        est nisi, molestie ut accumsan id, aliquet vitae lorem.
+      </p>
+    </div>
+    </div>
+  
+        </article>
+        <aside class="iati-main__side iati-main__side--sticky">
+          
+    <nav class="iati-jump-menu">
+      <div class="iati-jump-menu__header">
+        <h2 class="iati-jump-menu__title">Jump to section</h2>
+        <button class="iati-jump-menu__toggle js-jump-menu-toggle" aria-controls="iati-jump-menu-items" aria-expanded="true">
+          Open
+        </button>
+      </div>
+      <ul id="iati-jump-menu-items" class="iati-jump-menu__items js-jump-menu-items">
+        <li class="iati-jump-menu__item">
+              <a class="iati-jump-menu__link" href="#sectionA">Section A</a>
+            </li><li class="iati-jump-menu__item">
+              <a class="iati-jump-menu__link" href="#sectionB">Section B</a>
+            </li><li class="iati-jump-menu__item">
+              <a class="iati-jump-menu__link" href="#sectionC">Section C</a>
+            </li><li class="iati-jump-menu__item">
+              <a class="iati-jump-menu__link" href="#sectionD">Section D</a>
+            </li>
+      </ul>
+    </nav>
+  
+        </aside>
+      </div>
+    </main>
 {% endblock %}
 
 {% block extrafooter %}
