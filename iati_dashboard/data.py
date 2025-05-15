@@ -312,14 +312,18 @@ except IOError:
     dac2012 = {}
 
 
+def element_slug(element):
+    return re.sub(
+        r"[^a-zA-Z0-9:@\-_]",
+        "",
+        re.sub(r"{[^}]*}", "", element.replace("{http://www.w3.org/XML/1998/namespace}", "xml:").replace("/", "_")),
+    ).strip("_")
+
+
 def make_slugs(keys):
     out = {"by_slug": {}, "by_i": {}}
     for i, key in enumerate(keys):
-        slug = re.sub(
-            r"[^a-zA-Z0-9:@\-_]",
-            "",
-            re.sub(r"{[^}]*}", "", key.replace("{http://www.w3.org/XML/1998/namespace}", "xml:").replace("/", "_")),
-        ).strip("_")
+        slug = element_slug(key)
         while slug in out["by_slug"]:
             slug += "_"
         out["by_slug"][slug] = i

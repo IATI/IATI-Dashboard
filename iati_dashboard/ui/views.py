@@ -30,6 +30,7 @@ from ..data import (
     codelist_sets,
     current_stats,
     dataset_to_publisher_dict,
+    element_slug,
     get_publisher_stats,
     is_valid_element_or_attribute,
     publisher_name,
@@ -192,6 +193,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
             "enumerate": enumerate,
         },
         breadcrumbs=[{"view": "dash-index", "title": "Home"}],
+        element_slug=element_slug,
     )
 
     context["navigation_reverse"].update({k: k for k in text.navigation})
@@ -221,9 +223,9 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         context["current_stats"] = current_stats
         context["ckan_publishers"] = ckan_publishers
         context["ckan"] = ckan
-        context["codelist_lookup"] = codelist_lookup
-        context["codelist_mapping"] = codelist_mapping
-        context["codelist_sets"] = codelist_sets
+    context["codelist_lookup"] = codelist_lookup
+    context["codelist_mapping"] = codelist_mapping
+    context["codelist_sets"] = codelist_sets
 
     return context
 
@@ -279,48 +281,49 @@ def headlines_files(request):
     return HttpResponse(template.render(_make_context("files"), request))
 
 
-def headlines_publisher_detail(request, publisher=None):
-    if publisher not in publisher_name:
+def headlines_publisher_detail(request, publisher_short_name=None):
+    try:
+        publisher = models.Publisher.objects.get(short_name=publisher_short_name)
+    except models.Publisher.DoesNotExist:
         raise Http404("Publisher does not exist")
 
     template = loader.get_template("publisher.html")
 
     context = _make_context("publishers")
-    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["publisher"], "title": publisher_name[publisher]})
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["publisher"], "title": publisher.human_readable_name})
     context["publisher"] = publisher
-    context["publisher_inverted"] = get_publisher_stats(publisher, "inverted-file")
-    context["publisher_licenses"] = _get_licenses_for_publisher(publisher)
-    publisher_stats = get_publisher_stats(publisher)
-    context["publisher_stats"] = publisher_stats
+    context["publisher_licenses"] = _get_licenses_for_publisher(publisher_short_name)
 
     try:
         context["budget_table"] = [
             {
                 "year": "Total",
-                "count_total": sum(sum(x.values()) for x in publisher_stats["count_budgets_by_type_by_year"].values()),
+                "count_total": sum(
+                    sum(x.values()) for x in publisher.stats_json["count_budgets_by_type_by_year"].values()
+                ),
                 "sum_total": {
                     currency: sum(sums.values())
-                    for by_currency in publisher_stats["sum_budgets_by_type_by_year"].values()
+                    for by_currency in publisher.stats_json["sum_budgets_by_type_by_year"].values()
                     for currency, sums in by_currency.items()
                 },
                 "count_original": (
-                    sum(publisher_stats["count_budgets_by_type_by_year"]["1"].values())
-                    if "1" in publisher_stats["count_budgets_by_type_by_year"]
+                    sum(publisher.stats_json["count_budgets_by_type_by_year"]["1"].values())
+                    if "1" in publisher.stats_json["count_budgets_by_type_by_year"]
                     else None
                 ),
                 "sum_original": (
-                    {k: sum(v.values()) for k, v in publisher_stats["sum_budgets_by_type_by_year"]["1"].items()}
-                    if "1" in publisher_stats["sum_budgets_by_type_by_year"]
+                    {k: sum(v.values()) for k, v in publisher.stats_json["sum_budgets_by_type_by_year"]["1"].items()}
+                    if "1" in publisher.stats_json["sum_budgets_by_type_by_year"]
                     else None
                 ),
                 "count_revised": (
-                    sum(publisher_stats["count_budgets_by_type_by_year"]["2"].values())
-                    if "2" in publisher_stats["count_budgets_by_type_by_year"]
+                    sum(publisher.stats_json["count_budgets_by_type_by_year"]["2"].values())
+                    if "2" in publisher.stats_json["count_budgets_by_type_by_year"]
                     else None
                 ),
                 "sum_revised": (
-                    {k: sum(v.values()) for k, v in publisher_stats["sum_budgets_by_type_by_year"]["2"].items()}
-                    if "2" in publisher_stats["sum_budgets_by_type_by_year"]
+                    {k: sum(v.values()) for k, v in publisher.stats_json["sum_budgets_by_type_by_year"]["2"].items()}
+                    if "2" in publisher.stats_json["sum_budgets_by_type_by_year"]
                     else None
                 ),
             }
@@ -328,41 +331,38 @@ def headlines_publisher_detail(request, publisher=None):
             {
                 "year": year,
                 "count_total": sum(
-                    x[year] for x in publisher_stats["count_budgets_by_type_by_year"].values() if year in x
+                    x[year] for x in publisher.stats_json["count_budgets_by_type_by_year"].values() if year in x
                 ),
                 "sum_total": {
                     currency: sums.get(year)
-                    for by_currency in publisher_stats["sum_budgets_by_type_by_year"].values()
+                    for by_currency in publisher.stats_json["sum_budgets_by_type_by_year"].values()
                     for currency, sums in by_currency.items()
                 },
                 "count_original": (
-                    publisher_stats["count_budgets_by_type_by_year"]["1"].get(year)
-                    if "1" in publisher_stats["count_budgets_by_type_by_year"]
+                    publisher.stats_json["count_budgets_by_type_by_year"]["1"].get(year)
+                    if "1" in publisher.stats_json["count_budgets_by_type_by_year"]
                     else None
                 ),
                 "sum_original": (
-                    {k: v.get(year) for k, v in publisher_stats["sum_budgets_by_type_by_year"]["1"].items()}
-                    if "1" in publisher_stats["sum_budgets_by_type_by_year"]
+                    {k: v.get(year) for k, v in publisher.stats_json["sum_budgets_by_type_by_year"]["1"].items()}
+                    if "1" in publisher.stats_json["sum_budgets_by_type_by_year"]
                     else None
                 ),
                 "count_revised": (
-                    publisher_stats["count_budgets_by_type_by_year"]["2"].get(year)
-                    if "2" in publisher_stats["count_budgets_by_type_by_year"]
+                    publisher.stats_json["count_budgets_by_type_by_year"]["2"].get(year)
+                    if "2" in publisher.stats_json["count_budgets_by_type_by_year"]
                     else None
                 ),
                 "sum_revised": (
-                    {k: v.get(year) for k, v in publisher_stats["sum_budgets_by_type_by_year"]["2"].items()}
-                    if "2" in publisher_stats["sum_budgets_by_type_by_year"]
+                    {k: v.get(year) for k, v in publisher.stats_json["sum_budgets_by_type_by_year"]["2"].items()}
+                    if "2" in publisher.stats_json["sum_budgets_by_type_by_year"]
                     else None
                 ),
             }
             for year in sorted(
-                set(sum((list(x.keys()) for x in publisher_stats["count_budgets_by_type_by_year"].values()), []))
+                set(sum((list(x.keys()) for x in publisher.stats_json["count_budgets_by_type_by_year"].values()), []))
             )
         ]
-        context["failure_count"] = len(
-            current_stats["inverted_file_publisher"][publisher]["validation"].get("fail", {})
-        )
     except KeyError:
         raise Http404("Publisher does not exist")
 
