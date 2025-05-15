@@ -2,7 +2,7 @@ from django.db import connection, models
 
 
 class Publisher(models.Model):
-    short_name = models.CharField()
+    short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
     stats_json = models.JSONField(default=dict)
     has_future_transactions = models.IntegerField(default=0)
@@ -73,6 +73,6 @@ for key in [
 
 class Dataset(models.Model):
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    short_name = models.CharField()
+    short_name = models.CharField(unique=True)
     source_url = models.CharField()
     stats_json = models.JSONField(default=dict)
