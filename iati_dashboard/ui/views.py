@@ -30,6 +30,7 @@ from ..data import (
     codelist_sets,
     current_stats,
     dataset_to_publisher_dict,
+    element_slug,
     get_publisher_stats,
     is_valid_element_or_attribute,
     publisher_name,
@@ -192,6 +193,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
             "enumerate": enumerate,
         },
         breadcrumbs=[{"view": "dash-index", "title": "Home"}],
+        element_slug=element_slug,
     )
 
     context["navigation_reverse"].update({k: k for k in text.navigation})
