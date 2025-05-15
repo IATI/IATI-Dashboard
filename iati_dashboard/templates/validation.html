@@ -75,7 +75,7 @@
             {% for publisher in publishers %}
               {% if publisher.validation_datasets %}
               <tr>
-                <td><a href="#list_{{ publishershort_name }}">{{ publisher.human_readable_name }}</a></td>
+                <td><a href="#list_{{ publisher.short_name }}">{{ publisher.human_readable_name }}</a></td>
                 <td>{{ publisher.validation_datasets|length }}</td>
               </tr>
               {% endif %}

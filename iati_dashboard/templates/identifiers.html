@@ -28,8 +28,8 @@
             {% if publisher_stats.publisher_duplicate_identifiers|count != 0 %}
             <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_title }}</a></td>
-                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers|length }}</td>
-                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers.values()|sum }}</td>
+                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers|length }}</a></td>
+                <td><a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher }}/publisher_duplicate_identifiers.json">{{ publisher_stats.publisher_duplicate_identifiers.values()|sum }}</a></td>
             </tr>
             {% endif %}
             {% endfor %}
