@@ -31,7 +31,7 @@ django-extensions==4.1
     # via -r requirements.in
 elementpath==4.8.0
     # via xmlschema
-flask==3.1.0
+flask==3.1.1
     # via
     #   -r requirements.in
     #   frozen-flask
@@ -58,6 +58,7 @@ lxml==5.3.2
 markupsafe==3.0.2
     # via
     #   -r requirements.in
+    #   flask
     #   jinja2
     #   werkzeug
 matplotlib==3.10.1
