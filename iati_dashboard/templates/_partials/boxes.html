@@ -1,4 +1,5 @@
 {% macro box_h2(title, number, image, json, legend, folderextra, description) %}
+      {% set alt="Graph of "~title~" against time" %}
       <div class="col-md-6">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading clearfix">
@@ -21,9 +22,9 @@
             {% if description %}
               <p>{{ description|safe }}</p>
             {% endif %}
-            <img src="{{ generated_url }}/{{ image }}" width="100%" />
+            <img src="{{ generated_url }}/{{ image }}" style="width: 100%" alt="{{ alt }}">
             {% if legend %}
-              <img src="{{ generated_url }}/{{ legend }}" width="100%" />
+              <img src="{{ generated_url }}/{{ legend }}" style="width: 100%" alt="{{ alt }}">
             {% endif %}
           </div>
         </div>
@@ -31,6 +32,7 @@
 {% endmacro %}
 
 {% macro box_h3(title, number, image, json, legend, folderextra, description) %}
+      {% set alt="Graph of "~title~" against time" %}
       <div class="col-md-6">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading clearfix">
@@ -53,9 +55,9 @@
             {% if description %}
               <p>{{ description|safe }}</p>
             {% endif %}
-            <img src="{{ generated_url }}/{{ image }}" width="100%" />
+            <img src="{{ generated_url }}/{{ image }}" style="width: 100%" alt="{{ alt }}">
             {% if legend %}
-              <img src="{{ generated_url }}/{{ legend }}" width="100%" />
+              <img src="{{ generated_url }}/{{ legend }}" style="width: 100%" alt="{{ alt }}">
             {% endif %}
           </div>
         </div>

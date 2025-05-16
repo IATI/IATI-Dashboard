@@ -119,7 +119,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
                 {{ validation__fail_list | count }}
                 </td>
             </tr>
-        </body>
+        </tbody>
     </table>
     </div>
     </div>
@@ -252,7 +252,7 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
     {% if d %}
     {% for currency, value in d.items() %}
     {% if value!=None %}
-    {{ value }} {{ currency }}</br>
+    {{ value }} {{ currency }}<br>
     {% endif %}
     {% endfor %}
     {% endif %}
@@ -442,7 +442,6 @@ Publisher: {{ publisher.human_readable_name }} {{ super() }}
             {% endfor %}
         </tbody>
     </table>
-    </div>
     </div>
     </div>
     </div>
