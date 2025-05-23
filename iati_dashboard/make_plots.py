@@ -113,6 +113,16 @@ def make_plot(stat_path, git_stats, img_prefix=""):
     # y-axis only show positive integers.
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
+    # Scale bytes to GB if appropriate
+    def format_bytes_as_gb(x, pos):
+        return f"{x / (1024 ** 3):.1f} GB"  # Format as GB
+
+    # Apply custom formatter if values are large
+    if max_y > 1_000_000_000:  # Threshold to format as GB
+        ax.yaxis.set_major_formatter(ticker.FuncFormatter(format_bytes_as_gb))
+    else:
+        ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))  # Plain integers
+
     # ax.xaxis.set_major_locator(years)
     ax.xaxis.set_major_formatter(datefmt)
     # ax.xaxis.set_minor_locator(months)
@@ -131,8 +141,6 @@ def make_plot(stat_path, git_stats, img_prefix=""):
     # rotates and right aligns the x labels, and moves the bottom of the
     # axes up to make room for them
     fig.autofmt_xdate()
-
-    ax.ticklabel_format(axis="y", style="plain", useOffset=False)
 
     fig.savefig(
         filepaths.join_out_path(
