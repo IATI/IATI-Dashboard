@@ -172,7 +172,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
         page_view_names=PAGE_VIEW_NAMES,
         publisher_name=publisher_name,
         publishers_ordered_by_title=publishers_ordered_by_title,
-        publishers=models.Publisher.objects.all().order_by("human_readable_name").defer("stats_json"),
+        publishers=models.ReportingOrg.objects.all().order_by("human_readable_name").defer("stats_json"),
         MAJOR_VERSIONS=MAJOR_VERSIONS,
         expected_versions=vars.expected_versions,
         slugs=slugs,
@@ -283,8 +283,8 @@ def headlines_files(request):
 
 def headlines_publisher_detail(request, publisher_short_name=None):
     try:
-        publisher = models.Publisher.objects.get(short_name=publisher_short_name)
-    except models.Publisher.DoesNotExist:
+        publisher = models.ReportingOrg.objects.get(short_name=publisher_short_name)
+    except models.ReportingOrg.DoesNotExist:
         raise Http404("Publisher does not exist")
 
     template = loader.get_template("publisher.html")
@@ -475,8 +475,10 @@ def exploringdata_element_detail(request, element=None):
         "elements",
         "elements_total",
     ]
-    context["publishers_with"] = models.Publisher.objects.filter(elements__has_key=context["element"]).values(*values)
-    context["publishers_without"] = models.Publisher.objects.exclude(elements__has_key=context["element"]).values(
+    context["publishers_with"] = models.ReportingOrg.objects.filter(elements__has_key=context["element"]).values(
+        *values
+    )
+    context["publishers_without"] = models.ReportingOrg.objects.exclude(elements__has_key=context["element"]).values(
         *values
     )
 
@@ -593,13 +595,13 @@ def pubstats_timeliness_frequency(request):
     context["timeliness"] = timeliness
     context["publisher_frequency_summary"] = sorted(
         list(
-            models.Publisher.objects.annotate(frequency=F("timeliness_frequency__frequency"))
+            models.ReportingOrg.objects.annotate(frequency=F("timeliness_frequency__frequency"))
             .values("frequency")
             .annotate(total=Count("frequency"))
         ),
         key=lambda x: timeliness.frequency_index(x["frequency"]),
     )
-    context["publisher_count"] = models.Publisher.objects.count()
+    context["publisher_count"] = models.ReportingOrg.objects.count()
 
     return HttpResponse(template.render(context, request))
 
@@ -609,10 +611,10 @@ def pubstats_timeliness_timelag(request):
     context = _make_context("timeliness_timelag", include_large_dicts=False)
     context["timeliness"] = timeliness
     context["publisher_timelag_summary"] = sorted(
-        list(models.Publisher.objects.values("timelag").annotate(total=Count("timelag"))),
+        list(models.ReportingOrg.objects.values("timelag").annotate(total=Count("timelag"))),
         key=lambda x: timeliness.timelag_index(x["timelag"]),
     )
-    context["publisher_count"] = models.Publisher.objects.count()
+    context["publisher_count"] = models.ReportingOrg.objects.count()
     return HttpResponse(template.render(context, request))
 
 

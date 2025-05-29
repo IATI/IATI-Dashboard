@@ -1,7 +1,7 @@
 from django.db import connection, models
 
 
-class Publisher(models.Model):
+class ReportingOrg(models.Model):
     short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
     stats_json = models.JSONField(default=dict)
@@ -38,7 +38,7 @@ class Publisher(models.Model):
                 from (
                     select jsonb_object_keys(stats_json->%s) as keys, id
                     from iati_dashboard_dataset
-                    where publisher_id=%s
+                    where reporting_org_id=%s
                 )
                 group by keys;
             """,
@@ -63,7 +63,7 @@ for key in [
     "elements",
     "elements_total",
 ]:
-    Publisher.add_to_class(
+    ReportingOrg.add_to_class(
         key,
         models.GeneratedField(
             expression=models.F(f"stats_json__{key}"), output_field=models.JSONField(), db_persist=True
@@ -72,7 +72,7 @@ for key in [
 
 
 class Dataset(models.Model):
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
     short_name = models.CharField(unique=True)
     source_url = models.CharField()
     stats_json = models.JSONField(default=dict)

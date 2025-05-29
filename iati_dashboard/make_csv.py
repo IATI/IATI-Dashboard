@@ -117,7 +117,7 @@ def make_csv(verbose=False):
         for publisher_json in data.ckan_publishers.values():
             writer.writerow({x: publisher_json["result"].get(x) or 0 for x in keys})
 
-    publishers = models.Publisher.objects.all().order_by("human_readable_name")
+    publishers = models.ReportingOrg.objects.all().order_by("human_readable_name")
 
     logger.info("Generating timeliness_frequency.csv")
     previous_months = timeliness.previous_months_reversed

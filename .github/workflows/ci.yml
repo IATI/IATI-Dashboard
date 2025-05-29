@@ -43,7 +43,7 @@ jobs:
         python manage.py migrate
         python manage.py dashboard_import
         mkdir iati_dashboard/fixtures/
-        python manage.py dumpdata iati_dashboard.Publisher > iati_dashboard/fixtures/publishers.json
+        python manage.py dumpdata iati_dashboard.ReportingOrg > iati_dashboard/fixtures/reporting_orgs.json
     - name: Run tests
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
