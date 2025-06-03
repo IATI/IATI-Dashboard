@@ -63,10 +63,10 @@ class BytesLocator(ticker.MaxNLocator):
         super().__init__(**kwargs)
 
     def tick_values(self, vmin, vmax):
-        scaled_vmin = vmin / (1024 ** self.power)
-        scaled_vmax = vmax / (1024 ** self.power)
+        scaled_vmin = vmin / (1024**self.power)
+        scaled_vmax = vmax / (1024**self.power)
         scaled_ticks = super().tick_values(scaled_vmin, scaled_vmax)
-        return [tick * (1024 ** self.power) for tick in scaled_ticks]
+        return [tick * (1024**self.power) for tick in scaled_ticks]
 
 
 def make_plot(stat_path, git_stats, img_prefix=""):
