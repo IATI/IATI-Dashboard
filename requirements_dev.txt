@@ -44,7 +44,7 @@ cycler==0.12.1
     # via
     #   -r requirements.txt
     #   matplotlib
-django==5.2.1
+django==5.2.2
     # via
     #   -r requirements.txt
     #   django-extensions
