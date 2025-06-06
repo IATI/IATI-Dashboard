@@ -1,5 +1,6 @@
 /stats-calculated/
 /data/
+/static/
 out
 
 # Byte-compiled / optimized / DLL files
@@ -54,6 +55,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+/iati_dashboard/fixtures/
 
 # Translations
 *.mo

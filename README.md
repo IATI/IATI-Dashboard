@@ -100,7 +100,7 @@ Once the development dependencies have been installed the unit tests can be run 
 
 ```
 mkdir iati_dashboard/fixtures/
-python manage.py dumpdata iati_dashboard.Publisher > iati_dashboard/fixtures/publishers.json
+python manage.py dumpdata iati_dashboard.ReportingOrg > iati_dashboard/fixtures/reporting_orgs.json
 pytest iati_dashboard
 ```
 

@@ -34,7 +34,7 @@ DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
 
-ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
+ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
 
 
 if SENTRY_DSN:

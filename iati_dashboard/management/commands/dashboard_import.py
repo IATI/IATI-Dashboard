@@ -3,18 +3,18 @@ from django.db import transaction
 
 from ... import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
 from ...data import JSONDir, ckan, current_stats, get_publisher_stats, publishers_ordered_by_title
-from ...models import Dataset, Publisher
+from ...models import Dataset, ReportingOrg
 
 
 class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
-        Publisher.objects.all().delete()
+        ReportingOrg.objects.all().delete()
         Dataset.objects.all().delete()
 
         for publisher_title, publisher_slug in publishers_ordered_by_title:
             stats_json = dict(get_publisher_stats(publisher_slug))
-            publisher = Publisher(
+            publisher = ReportingOrg(
                 human_readable_name=publisher_title,
                 short_name=publisher_slug,
                 stats_json=stats_json,
@@ -42,11 +42,11 @@ class Command(BaseCommand):
                 )
                 try:
                     dataset = Dataset(
-                        publisher=Publisher.objects.get(short_name=publisher_short_name),
+                        reporting_org=ReportingOrg.objects.get(short_name=publisher_short_name),
                         short_name=dataset_short_name,
                         source_url=dataset_dict["resource"]["url"],
                         stats_json=stats_json,
                     )
                     dataset.save()
-                except Publisher.DoesNotExist:
+                except ReportingOrg.DoesNotExist:
                     print("Publisher", publisher_short_name, "not found")
