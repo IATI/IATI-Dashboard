@@ -23,6 +23,10 @@ class ReportingOrg(models.Model):
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den
 
+    @property
+    def dataset_count(self):
+        return self.activity_files + self.organisation_files
+
     def filtered_datasets_by(self, stat_name):
         return (
             self.dataset_set.order_by("short_name")

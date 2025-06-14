@@ -56,7 +56,16 @@ if SENTRY_DSN:
 
 # Application definition
 
-INSTALLED_APPS = ["iati_dashboard", "iati_dashboard.ui", "django.contrib.staticfiles", "django_extensions"]
+INSTALLED_APPS = [
+    "iati_dashboard",
+    "iati_dashboard.ui",
+    "iati_dashboard.api",
+    "django.contrib.staticfiles",
+    "django_extensions",
+    "rest_framework",
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -164,4 +173,12 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
 }

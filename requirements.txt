@@ -20,10 +20,13 @@ django==5.2.2
     # via
     #   -r requirements.in
     #   django-extensions
+    #   djangorestframework
     #   sentry-sdk
 django-environ==0.12.0
     # via -r requirements.in
 django-extensions==4.1
+    # via -r requirements.in
+djangorestframework==3.16.0
     # via -r requirements.in
 elementpath==5.0.1
     # via xmlschema

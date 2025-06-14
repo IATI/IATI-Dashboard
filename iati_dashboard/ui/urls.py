@@ -16,13 +16,14 @@ Including another URLconf
 """
 
 from django.conf.urls.static import static
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from django.views.generic.base import RedirectView
 
 from . import views
 
 urlpatterns = (
     [
+        path("api/", include("iati_dashboard.api.urls")),
         # Top level dashboard pages.
         path("", views.index, name="dash-index"),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
