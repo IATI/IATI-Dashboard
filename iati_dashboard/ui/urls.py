@@ -31,6 +31,11 @@ urlpatterns = (
             views.headlines_publisher_detail,
             name="dash-headlines-publisher-detail",
         ),
+        path(
+            "publishers/<slug:publisher_short_name>/codelists/<str:major_version>/<str:attribute>/",
+            views.exploringdata_publisher_codelist_detail,
+            name="dash-publisher-codelist-detail",
+        ),
         path("errors/", views.errors, name="dash-errors"),
         path("publishing-statistics/", views.publishing_stats, name="dash-publishingstats"),
         path("exploring-data/", views.exploring_data, name="dash-exploringdata"),
