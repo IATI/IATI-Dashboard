@@ -2,16 +2,25 @@ from django.db import connection, models
 
 
 class ReportingOrg(models.Model):
+    # These values originate from the registry
     short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
+
+    # This value is calculated by the code in
+    # https://github.com/IATI/IATI-Stats/blob/develop/stats/analytics.py
     stats_json = models.JSONField(default=dict)
+
+    # These are computed by code in this IATI-Dashboard repo
+    # (during dashboard_import)
     has_future_transactions = models.IntegerField(default=0)
     timeliness_frequency = models.JSONField(default=dict)
     forwardlooking = models.JSONField(default=dict)
     comprehensiveness = models.JSONField(default=dict)
     humanitarian = models.JSONField(default=dict)
     summary_stats = models.JSONField(default=dict)
+
     validation_datasets = models.JSONField(default=dict)
+
     # too long
     traceable_sum_commitments_and_disbursements_by_publisher_id_den = models.GeneratedField(
         expression=models.F("stats_json__traceable_sum_commitments_and_disbursements_by_publisher_id_denominator"),
