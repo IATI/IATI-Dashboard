@@ -9,14 +9,13 @@
 {% block lhs_column %}
 {{ super() }}
 
-<div class="dashboard-panel">
-      <div class="dashboard-panel-heading">
-        <h2 class="dashboard-panel-heading__title">
-            Overview
-        </h2>
+    <div class="iati-card">
+      <div class="iati-card__title">
+        Overview
       </div>
-      <div class="dashboard-panel-body">
-    <table class="table table-striped">
+      <div class="iati-table">
+      <p>
+      <table class="iati-table__table">
         <tbody>
             <tr>
                 <td id="activities-count">
@@ -121,8 +120,10 @@
                 <td>Publishers with no organisation file</td>
             </tr>
         </tbody>
-    </table>
+      </table>
+      </p>
+      </div>
     </div>
-</div>
+  
 
 {% endblock %}
