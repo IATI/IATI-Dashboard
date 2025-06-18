@@ -268,7 +268,20 @@ def faq(request):
 #
 def headlines_publishers(request):
     template = loader.get_template("publishers.html")
-    return HttpResponse(template.render(_make_context("publishers"), request))
+    context = _make_context("publishers", include_large_dicts=False)
+    if "recipient_country_code" in request.GET:
+        recipient_country_code = request.GET["recipient_country_code"]
+        filter = {"stats_json__codelist_values__.//recipient-country/@code__has_key": recipient_country_code}
+    else:
+        filter = {}
+    context["publishers_filtered"] = (
+        models.ReportingOrg.objects.filter(
+            **filter
+        )
+        .order_by("human_readable_name")
+        .defer("stats_json")
+    )
+    return HttpResponse(template.render(context, request))
 
 
 def headlines_activities(request):
