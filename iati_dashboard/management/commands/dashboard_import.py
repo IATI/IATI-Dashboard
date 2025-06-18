@@ -32,7 +32,6 @@ class Command(BaseCommand):
 
         for publisher_short_name, datasets_dict in ckan.items():
             for dataset_short_name, dataset_dict in datasets_dict.items():
-                print(dataset_short_name)
                 stats_json = dict(
                     JSONDir(
                         filepaths.join_stats_path(
