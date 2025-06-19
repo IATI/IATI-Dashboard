@@ -34,7 +34,7 @@ DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
 
-ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost"]
+ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
 
 
 if SENTRY_DSN:
@@ -56,11 +56,7 @@ if SENTRY_DSN:
 
 # Application definition
 
-INSTALLED_APPS = [
-    "iati_dashboard",
-    "iati_dashboard.ui",
-    "django.contrib.staticfiles",
-]
+INSTALLED_APPS = ["iati_dashboard", "iati_dashboard.ui", "django.contrib.staticfiles", "django_extensions"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

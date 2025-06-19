@@ -10,7 +10,7 @@ class BasicPageTests(TestCase):
     list the tests as they run.
     """
 
-    fixtures = ["publishers"]
+    fixtures = ["reporting_orgs"]
 
     def test_top_pages(self):
         """Test the index and top hierarchy pages return a 200 status code"""
@@ -152,7 +152,7 @@ class OriginalDashboardRedirectTests(TestCase):
     list the tests as they run.
     """
 
-    fixtures = ["publishers"]
+    fixtures = ["reporting_orgs"]
 
     def _url_and_view_helper(self, urls_and_views_to_check):
         """Checks that a set of URLs redirect to matching view functions"""

@@ -18,6 +18,7 @@ from .vars import expected_versions  # noqa: F401
 mpl.use("Agg")
 import matplotlib.dates as mdates  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
+import matplotlib.ticker as ticker  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
@@ -99,7 +100,19 @@ def make_plot(stat_path, git_stats, img_prefix=""):
         keys = None
         ax.plot(x_values, y_values)
 
-    # format the ticks
+    # Set upper y-axis limit + 1  if max < 10
+    if type(y_values[0]) is dict:
+        max_y = max([max(y.values()) if y else 0 for y in y_values])
+    else:
+        max_y = max(y_values)
+
+    ax.set_xlim(min(x_values), max(x_values))  # plot line starts at y-axis.
+    top_limit = max_y + 1 if max_y < 10 else max_y
+    ax.set_ylim(bottom=0, top=top_limit)  # y-axis start from 0.
+
+    # y-axis only show positive integers.
+    ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
+
     # ax.xaxis.set_major_locator(years)
     ax.xaxis.set_major_formatter(datefmt)
     # ax.xaxis.set_minor_locator(months)

@@ -1,8 +1,8 @@
-from django.db import models
+from django.db import connection, models
 
 
-class Publisher(models.Model):
-    short_name = models.CharField()
+class ReportingOrg(models.Model):
+    short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
     stats_json = models.JSONField(default=dict)
     has_future_transactions = models.IntegerField(default=0)
@@ -23,6 +23,29 @@ class Publisher(models.Model):
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den
 
+    def filtered_datasets_by(self, stat_name):
+        return (
+            self.dataset_set.order_by("short_name")
+            .values("short_name", "source_url", f"stats_json__{stat_name}")
+            .filter(**{f"stats_json__{stat_name}__gt": 0})
+        )
+
+    def datasets_per(self, stat_name):
+        with connection.cursor() as cursor:
+            cursor.execute(
+                """
+                select keys, COUNT(id)
+                from (
+                    select jsonb_object_keys(stats_json->%s) as keys, id
+                    from iati_dashboard_dataset
+                    where reporting_org_id=%s
+                )
+                group by keys;
+            """,
+                [stat_name, self.id],
+            )
+            return dict(cursor.fetchall())
+
 
 for key in [
     "activities",
@@ -40,7 +63,7 @@ for key in [
     "elements",
     "elements_total",
 ]:
-    Publisher.add_to_class(
+    ReportingOrg.add_to_class(
         key,
         models.GeneratedField(
             expression=models.F(f"stats_json__{key}"), output_field=models.JSONField(), db_persist=True
@@ -49,7 +72,7 @@ for key in [
 
 
 class Dataset(models.Model):
-    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
-    short_name = models.CharField()
+    reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
+    short_name = models.CharField(unique=True)
     source_url = models.CharField()
     stats_json = models.JSONField(default=dict)

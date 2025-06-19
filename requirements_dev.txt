@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements_dev.in
 #
+appdirs==1.4.4
+    # via ptpython
 asgiref==3.8.1
     # via
     #   -r requirements.txt
@@ -14,25 +16,25 @@ blinker==1.9.0
     # via
     #   -r requirements.txt
     #   flask
-certifi==2025.1.31
+certifi==2025.4.26
     # via
     #   -r requirements.txt
     #   requests
     #   sentry-sdk
-charset-normalizer==3.4.1
+charset-normalizer==3.4.2
     # via
     #   -r requirements.txt
     #   requests
-click==8.1.8
+click==8.2.1
     # via
     #   -r requirements.txt
     #   black
     #   flask
-contourpy==1.3.1
+contourpy==1.3.2
     # via
     #   -r requirements.txt
     #   matplotlib
-coverage[toml]==7.8.0
+coverage[toml]==7.8.2
     # via
     #   coveralls
     #   pytest-cov
@@ -42,15 +44,18 @@ cycler==0.12.1
     # via
     #   -r requirements.txt
     #   matplotlib
-django==5.2
+django==5.2.2
     # via
     #   -r requirements.txt
+    #   django-extensions
     #   sentry-sdk
 django-environ==0.12.0
     # via -r requirements.txt
+django-extensions==4.1
+    # via -r requirements.txt
 docopt==0.6.2
     # via coveralls
-elementpath==4.8.0
+elementpath==5.0.1
     # via
     #   -r requirements.txt
     #   xmlschema
@@ -60,11 +65,11 @@ flake8==7.2.0
     #   flake8-pyproject
 flake8-pyproject==1.2.3
     # via -r requirements_dev.in
-flask==3.1.0
+flask==3.1.1
     # via
     #   -r requirements.txt
     #   frozen-flask
-fonttools==4.57.0
+fonttools==4.58.1
     # via
     #   -r requirements.txt
     #   matplotlib
@@ -84,6 +89,8 @@ itsdangerous==2.2.0
     # via
     #   -r requirements.txt
     #   flask
+jedi==0.19.2
+    # via ptpython
 jinja2==3.1.6
     # via
     #   -r requirements.txt
@@ -92,52 +99,63 @@ kiwisolver==1.4.8
     # via
     #   -r requirements.txt
     #   matplotlib
-lxml==5.3.2
+lxml==5.4.0
     # via -r requirements.txt
 markupsafe==3.0.2
     # via
     #   -r requirements.txt
+    #   flask
     #   jinja2
     #   werkzeug
-matplotlib==3.10.1
+matplotlib==3.10.3
     # via -r requirements.txt
 mccabe==0.7.0
     # via flake8
-mypy-extensions==1.0.0
+mypy-extensions==1.1.0
     # via black
-numpy==2.2.4
+numpy==2.2.6
     # via
     #   -r requirements.txt
     #   contourpy
     #   matplotlib
-packaging==24.2
+packaging==25.0
     # via
     #   -r requirements.txt
     #   black
     #   gunicorn
     #   matplotlib
     #   pytest
+parso==0.8.4
+    # via jedi
 pathspec==0.12.1
     # via black
 pillow==11.2.1
     # via
     #   -r requirements.txt
     #   matplotlib
-platformdirs==4.3.7
+platformdirs==4.3.8
     # via black
-pluggy==1.5.0
+pluggy==1.6.0
     # via pytest
-psycopg==3.2.6
+prompt-toolkit==3.0.51
+    # via ptpython
+psycopg==3.2.9
     # via -r requirements.txt
+ptpython==3.0.30
+    # via -r requirements_dev.in
 pycodestyle==2.13.0
     # via flake8
 pyflakes==3.3.2
     # via flake8
+pygments==2.19.1
+    # via
+    #   ptpython
+    #   pytest
 pyparsing==3.2.3
     # via
     #   -r requirements.txt
     #   matplotlib
-pytest==8.3.5
+pytest==8.4.0
     # via
     #   -r requirements_dev.in
     #   pytest-cov
@@ -156,7 +174,7 @@ requests==2.32.3
     # via
     #   -r requirements.txt
     #   coveralls
-sentry-sdk[django]==2.26.0
+sentry-sdk[django]==2.29.1
     # via -r requirements.txt
 six==1.17.0
     # via
@@ -168,7 +186,7 @@ sqlparse==0.5.3
     #   django
 tqdm==4.67.1
     # via -r requirements.txt
-typing-extensions==4.13.2
+typing-extensions==4.14.0
     # via
     #   -r requirements.txt
     #   psycopg
@@ -177,11 +195,13 @@ urllib3==2.4.0
     #   -r requirements.txt
     #   requests
     #   sentry-sdk
+wcwidth==0.2.13
+    # via prompt-toolkit
 werkzeug==3.1.3
     # via
     #   -r requirements.txt
     #   flask
 whitenoise==6.9.0
     # via -r requirements.txt
-xmlschema==4.0.1
+xmlschema==4.1.0
     # via -r requirements.txt
