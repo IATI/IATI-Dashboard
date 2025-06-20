@@ -7,6 +7,7 @@ EXAMPLE_PAGES = [
     "",
     "publishers/",
     "publishers/zsl/",
+    "publishers/zsl/codelists/2/@xml:lang/",
     "errors/",
     "publishing-statistics/",
     "exploring-data/",
