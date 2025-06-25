@@ -168,6 +168,9 @@ def make_plot(stat_path, git_stats, img_prefix=""):
     # axes up to make room for them
     fig.autofmt_xdate()
 
+    # ensures left margin is wide enough for Y-axis labels
+    fig.subplots_adjust(left=0.15)
+
     fig.savefig(
         filepaths.join_out_path(
             "{0}{1}{2}.png".format(img_prefix, stat_name, stat_path[2] if type(stat_path) is tuple else "")
