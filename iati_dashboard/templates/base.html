@@ -151,7 +151,11 @@
             </li>
           {% else %}
             <li class="iati-breadcrumb-item">
-              <a href="{{ url(crumb.view) }}" class="iati-breadcrumb-link">{{ crumb.title }}</a>
+              {% if "view" in crumb %}
+                <a href="{% if "view_arg" in crumb %}{{ url(crumb.view, args=[crumb.view_arg]) }}{% else %}{{ url(crumb.view) }}{% endif %}" class="iati-breadcrumb-link">{{ crumb.title }}</a>
+              {% else %}
+                <a class="iati-breadcrumb-link">{{ crumb.title }}</a>
+              {% endif %}
             </li>
           {% endif %}
         {% endfor %}
