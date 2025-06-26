@@ -6,7 +6,7 @@ from .data import get_publisher_stats
 # Set column groupings, to be displayed in the user output
 columns = [
     # slug, header
-    ("publisher_type", "Publisher Type"),
+    ("publisher_type", "Reporting Org Type"),
     ("num_activities", "Number of Activities"),
     ("publishing_humanitarian", "Publishing Humanitarian?"),
     ("humanitarian_attrib", "Using Humanitarian Attribute?"),

@@ -19,7 +19,7 @@
 
 
         <div class="dashboard-panel-body">
-            <p>This table assesses IATI publishers by scoring three dimensions: Timeliness, Forward-looking and Comprehensiveness. The methodology is explained below the table and in the related Publisher Statistics pages. In summary:</p>
+            <p>This table assesses IATI reporting orgs by scoring three dimensions: Timeliness, Forward-looking and Comprehensiveness. The methodology is explained below the table and in the related Publishing Statistics pages. In summary:</p>
 
             <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensiveness} ) / 3 &nbsp;</p>
 
@@ -28,7 +28,7 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Reporting Org Name</th>
                     {% for column_slug, column_header in summary_stats.columns %}
                     <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                     {% endfor %}
@@ -144,9 +144,9 @@
         </div>
         <div class="dashboard-panel-body">
             <h3>Secondary reporters</h3>
-            <p>Publishers who publish all of their activities as a secondary reporter do not appear in this table.
+            <p>Reporting orgs who publish all of their activities as a secondary reporter do not appear in this table.
             {% if summary_stats.secondary_publishers|length > 0 %}
-            Therefore, a total of {{ summary_stats.secondary_publishers|length }} publishers have been excluded in this regard:
+            Therefore, a total of {{ summary_stats.secondary_publishers|length }} reporting orgs have been excluded in this regard:
             <ul>
             {% for publisher in summary_stats.secondary_publishers %}
                 <li>{{ publisher_name[publisher] }}</li>

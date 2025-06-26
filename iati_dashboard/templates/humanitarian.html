@@ -18,7 +18,7 @@
 
 
         <div class="dashboard-panel-body">
-            <p>This table assesses the extent to which IATI publishers are reporting on humanitarian attributes.</p>
+            <p>This table assesses the extent to which IATI reporting orgs are reporting on humanitarian attributes.</p>
 
             <p>The statistics on this page do not form part of the <a href="{{ url('dash-publishingstats-summarystats') }}">Summary Statistics</a>.</p>
 
@@ -27,7 +27,7 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Publisher Name</th>
+                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Reporting Org Name</th>
                     {% for _, column_header in humanitarian.columns %}
                     <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
                     {% endfor %}
@@ -60,11 +60,11 @@
             <h2 class="dashboard-panel-heading__title">Narrative</h2>
         </div>
         <div class="dashboard-panel-body">
-          <h3>Publisher</h3>
-          <p>The name that this publisher self-defines as on the IATI Registry.</p>
+          <h3>Reporting Org</h3>
+          <p>The name that this reporting org self-defines as on the IATI Registry.</p>
 
-          <h3>Publisher Type</h3>
-          <p>The category that this publisher self-defines as on the IATI Registry.</p>
+          <h3>Reporting Org Type</h3>
+          <p>The category that this reporting org self-defines as on the IATI Registry.</p>
 
           <h3>Number of Activities</h3>
           <p>Total number of humanitarian activities.</p>

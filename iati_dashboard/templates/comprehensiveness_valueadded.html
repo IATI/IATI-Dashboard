@@ -13,8 +13,8 @@ Table of Value-Added values
 	<p>This table shows the percentage of current activities where these value added elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.)</p>
 
 	<p><strong>Key:</strong><br/>
-        Dashes (all fields except recipient language): Where a publisher has published to IATI in the past but whose portfolio contains no current activities.<br/>
-        Dashes (recipient language field): Where a publisher has no current activities targetted at only one recipient country.
+        Dashes (all fields except recipient language): Where a reporting org has published to IATI in the past but whose portfolio contains no current activities.<br/>
+        Dashes (recipient language field): Where a reporting org has no current activities targetted at only one recipient country.
     </p>
 {% endblock %}
 
@@ -30,7 +30,7 @@ Table of Value-Added values
 	<p>The importance of geocoded data is the reason why coordinates are assessed in addition to basic location details. The percentage of all current activities that contain at least one set of geographic coordinates.</p>
 
 	<h3>DAC Sectors</h3>
-	<p>Sector is a mandatory element and is assessed in the Core component. While it is not mandatory for publishers to utilise OECD DAC Sector/Purpose codes it is highly recommended that they do so as these codes are in widespread use and allow for comparison across activities. The percentage of all current activities that contain at least 1 valid DAC-CRS purpose code.</p>
+	<p>Sector is a mandatory element and is assessed in the Core component. While it is not mandatory for reporting orgs to utilise OECD DAC Sector/Purpose codes it is highly recommended that they do so as these codes are in widespread use and allow for comparison across activities. The percentage of all current activities that contain at least 1 valid DAC-CRS purpose code.</p>
 
 	<h3>Capital Spend</h3>
 	<p>For sustainable planning it is useful for developing countries to know how project funding is split between capital and recurrent expenditure. The percentage of all current activities that contain a capital spend percentage. (N.B. that 0% is a valid entry.)</p>
@@ -55,7 +55,7 @@ Table of Value-Added values
 
 
 {% block exceptions_text %}
-	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date. Publisher rows containing dashes indicate that no current activities are published.</p>
+	<p>Only current activities are checked. A current activity is one with an activity status of implementing, a planned end date beyond today, or no end date. Reporting org rows containing dashes indicate that no current activities are published.</p>
 {% endblock %}
 
 

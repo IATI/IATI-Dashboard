@@ -11,18 +11,18 @@
 
 
         <div class="dashboard-panel-body">
-            <p>The time-lag statistics assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a publisher may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a publisher may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
+            <p>The time-lag statistics assess how up to date the data is <strong><em>at the point that it is refreshed</em></strong>. For instance a reporting org may refresh their data monthly, but the refreshed data is in fact three months old. Alternatively a reporting org may only refresh their data once a year, but when they do it contains current data that is less than one month out of date. Transactions are the most numerous and most regularly refreshed elements in reported IATI activities and they are therefore used to make this assessment. The table of statistics shows the number of transaction dates reported in each of the last twelve calendar months. The current month is shown for informational purposes, but excluded from the assessment.</p>
 
             <p><strong>Key:</strong><br/>
-            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Publisher currently publishing future transaction dates.<br/>
-            <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">Yellow flag</span>: Publisher not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
+            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Reporting org currently publishing future transaction dates.<br/>
+            <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">Yellow flag</span>: Reporting org not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
 
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th rowspan="2">Publisher Name</td>
+                    <th rowspan="2">Reporting Org Name</td>
                     <th colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</td>
                     <th colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</td>
                     <th rowspan="2"></td>
@@ -59,7 +59,7 @@
 
     <div class="dashboard-panel" id="h_summary">
         <div class="dashboard-panel-heading">
-            <h2 class="dashboard-panel-heading__title">Summary of Publisher Performance</h2>
+            <h2 class="dashboard-panel-heading__title">Summary of Reporting Org Performance</h2>
         </div>
         <div class="dashboard-panel-body">
         <table class="table table-striped">
@@ -134,11 +134,11 @@
         <h2 class="dashboard-panel-heading__title">Exceptions</h2>
     </div>
     <div class="dashboard-panel-body">
-        <p>Future transaction dates disrupt these statistics. For example a publisher might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the publisher a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
+        <p>Future transaction dates disrupt these statistics. For example a reporting org might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the reporting org a time-lag assessment of one month in arrears, even though they did not refresh their data.</p>
 
-        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Publishers who currently have future transaction dates have a <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">red flag</span> next to their assessment. A <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">yellow flag</span> indicates that although a publisher does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
+        <p><strong>Future transaction dates may affect the assessments on this page</strong>. Reporting orgs who currently have future transaction dates have a <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">red flag</span> next to their assessment. A <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">yellow flag</span> indicates that although a reporting org does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
 
-        <p>We plan to exclude activities in which future transactions dates are reported from these assessments until such time that a publisher's entire portfolio no longer contains any future dates.</p>
+        <p>We plan to exclude activities in which future transactions dates are reported from these assessments until such time that a reporting org's entire portfolio no longer contains any future dates.</p>
     </div>
     </div>
 
@@ -161,9 +161,9 @@
         <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
     </div>
     <div class="dashboard-panel-body">
-        <p>To get a count of transactions by calendar month (for a given publisher):</p>
+        <p>To get a count of transactions by calendar month (for a given reporting org):</p>
 <pre><code class="iati-code iati-code--block">Using most recently captured data.
-For each transaction (of any type) in the publisher's data:
+For each transaction (of any type) in the reporting org's data:
     Get the transaction date as follows:
         If transaction-date exists
             If transaction-date/@iso-date exists
