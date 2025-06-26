@@ -517,6 +517,13 @@ def exploringdata_codelists(request):
     return HttpResponse(template.render(_make_context("codelists"), request))
 
 
+def _codelist_detail_context(context, major_version, codelist_mapping):
+    context["reverse_codelist_mapping"] = {
+        major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()
+    }
+    context["major_version"] = major_version
+
+
 def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     template = loader.get_template("codelist.html")
 
@@ -533,13 +540,40 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     )
     context["element"] = element
     context["values"] = values
-    context["reverse_codelist_mapping"] = {
-        major_version: dictinvert(mapping) for major_version, mapping in codelist_mapping.items()
-    }
-    context["major_version"] = major_version
+    _codelist_detail_context(context, major_version, codelist_mapping)
 
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["codelists"], "title": '"' + element + '"'})
 
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_publisher_codelist_detail(request, publisher_short_name=None, major_version=None, attribute=None):
+    try:
+        publisher = models.ReportingOrg.objects.get(short_name=publisher_short_name)
+    except models.ReportingOrg.DoesNotExist:
+        raise Http404("Publisher does not exist")
+
+    attribute = ".//" + attribute.replace("_", "/")
+    if attribute.endswith("/text"):
+        attribute += "()"
+    values = publisher.stats_json.get("codelist_values_by_major_version", {}).get(major_version, {}).get(attribute)
+
+    context = _make_context("publishers", include_large_dicts=False)
+    context["publisher"] = publisher
+    context["element"] = attribute
+    context["values"] = values
+    _codelist_detail_context(context, major_version, codelist_mapping)
+    context["breadcrumbs"].append(
+        {
+            "view": PAGE_VIEW_NAMES["publisher"],
+            "view_arg": publisher.short_name,
+            "title": publisher.human_readable_name,
+        }
+    )
+    context["breadcrumbs"].append({"title": "Codelists"})
+    context["breadcrumbs"].append({"title": '"' + attribute + '"'})
+
+    template = loader.get_template("codelist_publisher.html")
     return HttpResponse(template.render(context, request))
 
 

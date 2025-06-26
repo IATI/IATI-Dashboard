@@ -56,6 +56,19 @@ class AugmentedJSONDir(data.JSONDir):
             return super(AugmentedJSONDir, self).__getitem__(key)
 
 
+# Custom tick locator for byte units
+class BytesLocator(ticker.MaxNLocator):
+    def __init__(self, power=0, **kwargs):
+        self.power = power  # power=0 -> bytes, 1 -> KB, 2 -> MB, 3 -> GB
+        super().__init__(**kwargs)
+
+    def tick_values(self, vmin, vmax):
+        scaled_vmin = vmin / (1024**self.power)
+        scaled_vmax = vmax / (1024**self.power)
+        scaled_ticks = super().tick_values(scaled_vmin, scaled_vmax)
+        return [tick * (1024**self.power) for tick in scaled_ticks]
+
+
 def make_plot(stat_path, git_stats, img_prefix=""):
     if type(stat_path) is tuple:
         stat_name = stat_path[0]
@@ -113,6 +126,29 @@ def make_plot(stat_path, git_stats, img_prefix=""):
     # y-axis only show positive integers.
     ax.yaxis.set_major_locator(ticker.MaxNLocator(integer=True))
 
+    # Apply scaling only for file_size stat
+    if stat_name == "file_size":
+        if max_y > 1_000_000_000:
+            unit_power = 3  # GB
+            ax.yaxis.set_major_locator(BytesLocator(power=unit_power))
+            ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f"{x / (1024 ** unit_power):.1f} GB"))
+            ax.set_ylabel("File Size (GB)")
+        elif max_y > 1_000_000:
+            unit_power = 2  # MB
+            ax.yaxis.set_major_locator(BytesLocator(power=unit_power))
+            ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f"{x / (1024 ** unit_power):.1f} MB"))
+            ax.set_ylabel("File Size (MB)")
+        elif max_y > 1_000:
+            unit_power = 1  # kB
+            ax.yaxis.set_major_locator(BytesLocator(power=unit_power))
+            ax.yaxis.set_major_formatter(ticker.FuncFormatter(lambda x, pos: f"{x / (1024 ** unit_power):.1f} kB"))
+            ax.set_ylabel("File Size (kB)")
+        else:
+            ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))
+            ax.set_ylabel("File Size (bytes)")
+    else:
+        ax.yaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.0f}"))  # Plain integers
+
     # ax.xaxis.set_major_locator(years)
     ax.xaxis.set_major_formatter(datefmt)
     # ax.xaxis.set_minor_locator(months)
@@ -132,7 +168,8 @@ def make_plot(stat_path, git_stats, img_prefix=""):
     # axes up to make room for them
     fig.autofmt_xdate()
 
-    ax.ticklabel_format(axis="y", style="plain", useOffset=False)
+    # ensures left margin is wide enough for Y-axis labels
+    fig.subplots_adjust(left=0.15)
 
     fig.savefig(
         filepaths.join_out_path(
