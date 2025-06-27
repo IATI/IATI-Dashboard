@@ -10,14 +10,14 @@
       </h2>
     </div>
     <div class="dashboard-panel-body">
-      <p>List of Publishers where the reporting-org element does not match the reporting-org field in the IATI Registry.</p>
+      <p>List of reporting orgs where the reporting-org element does not match the reporting-org field in the IATI Registry.</p>
       {% include '_partials/tablesorter_instructions.html' %}
     <table class="table table-striped">
       <thead><tr>
-        <th>Publisher</th>
-        <th>Reporting Org on Registry</th>
-        <th>Reporting Orgs in Data (count)</th>
-        <th>Reporting Orgs in Data</th>
+        <th>Reporting Org</th>
+        <th>Org Identifier on Registry</th>
+        <th>Org Identifiers in Data (count)</th>
+        <th>Org Identifiers in Data</th>
       </tr></thead>
       <tbody>
         {% for publisher_title,publisher in publishers_ordered_by_title %}

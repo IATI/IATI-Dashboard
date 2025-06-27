@@ -4,7 +4,7 @@
 {% block page_header %}
   <h1>Usage of <code class="iati-code">{{ element }}</code></h1>
   <p class="dashboard-page-heading__lead">Who uses <code class="iati-code">{{ element }}</code>?</p>
-  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across publishers, files and activities.</p>
+  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across reporting orgs, files and activities.</p>
 
   {% if element_or_attribute == 'attribute' %}
   <p>An empty value for the attribute is treated the same as if the attribute is not present.</p>
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block content %}
-  <h2>Publishers</h2>
+  <h2>Reporting Orgs</h2>
   <p>(<a href="{{ stats_url }}/current/inverted-publisher/elements.json">In JSON format</a>)</p>
 
   <div class="row">
@@ -24,7 +24,7 @@
         <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
-                <td>Publisher</td>
+                <td>Reporting Org</td>
                 <td>Activities/Orgs with {{ element_or_attribute }}</td>
                 <td>Total instances of {{ element_or_attribute }}</td>
                 <td>Total activities</td>
@@ -52,7 +52,7 @@
         <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
-                <td>Publisher</td>
+                <td>Reporting Org</td>
                 <td>Total activities</td>
                 <td>Total organisations</td>
           </thead>
@@ -76,7 +76,7 @@
       <h2>Files</h2>
         <table class="table table-striped">
           <thead>
-                <td>Publisher</td>
+                <td>Reporting Org</td>
                 <td>Files</td>
           </thead>
           <tbody>

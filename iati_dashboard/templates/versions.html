@@ -6,10 +6,10 @@
       {{ boxes.box_h2('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values are not valid IATI versions.') }}
     </div>
     <div class="row">
-      {{ boxes.box_h2('Publishers per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
-        description='Count of publishers per IATI version, over time. Note: If a publisher utilises two or more versions, they are counted for each.') }}
-      {{ boxes.box_h2('Publishers per version (other)', '', 'img/aggregate/publishers_per_version_other.png', 'publishers_per_version.json', 'img/aggregate/versions_other_legend.png',
-        description='Count of publishers per other version, over time') }}
+      {{ boxes.box_h2('Reporting orgs per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
+        description='Count of reporting orgs per IATI version, over time. Note: If a reporting org utilises two or more versions, they are counted for each.') }}
+      {{ boxes.box_h2('Reporting orgs per version (other)', '', 'img/aggregate/publishers_per_version_other.png', 'publishers_per_version.json', 'img/aggregate/versions_other_legend.png',
+        description='Count of reporting orgs per other version, over time') }}
   </div>
 
     {% if 'true' in current_stats.aggregated.version_mismatch %}
@@ -21,7 +21,7 @@
       <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
-                <td>Publisher</td>
+                <td>Reporting Org</td>
                 <td>Files</td>
           </thead>
           <tbody>
@@ -44,7 +44,7 @@
     </div>
     {% endif %}
 
-    <h2>Publishers by version</h2>
+    <h2>Reporting Orgs by version</h2>
     <p>(<a href="{{ stats_url }}/current/inverted-publisher/versions.json">In JSON format</a>)</p>
     <div class="row">
       <div class="col-md-12">
@@ -53,7 +53,7 @@
             <h3 class="dashboard-panel-heading__title">Expected versions</h3>
           </div>
           <div class="dashboard-panel-body">
-          <p>Listing of publishers per IATI version. Click on any publisher name for more information.</p>
+          <p>Listing of reporting orgs per IATI version. Click on any reporting org name for more information.</p>
           <div class="iati-card-gallery">
 
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
@@ -88,7 +88,7 @@
             <h3 class="dashboard-panel-heading__title">Other versions</h3>
           </div>
           <div class="dashboard-panel-body">
-          <p>Listing of publishers publishing a non-recognised version number.  Click on any publisher name for more information.</p>
+          <p>Listing of reporting orgs publishing a non-recognised version number.  Click on any reporting org name for more information.</p>
           <div class="iati-card-gallery">
             {% for version, publishers in current_stats.inverted_publisher.versions.items() %}
             {% if version not in expected_versions %}

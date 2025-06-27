@@ -2,18 +2,18 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Publishers without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'img/aggregate/publisher_has_org_file.png', 'publisher_has_org_file.json',
-        description='Count of publishers without an organisation file, over time.') }}
+      {{ boxes.box_h2('Reporting orgs without an Organisation File', current_stats.aggregated.publisher_has_org_file.no, 'img/aggregate/publisher_has_org_file.png', 'publisher_has_org_file.json',
+        description='Count of reporting orgs without an organisation file, over time.') }}
       <div class="col-md-6">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading clearfix">
             <h2 class="dashboard-panel-heading__title float-start">
-              List of publishers without an Organisation File
+              List of reporting orgs without an Organisation File
             </h2>
             <a href="{{ stats_url }}/current/inverted-publisher/publisher_has_org_file.json" class="dashboard-panel-heading__title float-end">(J)</a>
           </div>
           <div class="dashboard-panel-body">
-            <p>The following publishers do not have an organisation file listed on the IATI Registry.</p>
+            <p>The following reporting orgs do not have an organisation file listed on the IATI Registry.</p>
             <ul>
             {% for publisher in func.sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
               <li><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></li>

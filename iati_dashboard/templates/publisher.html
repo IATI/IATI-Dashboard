@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes with context %}
 {% block title %}
-Publisher: {{ publisher.human_readable_name }} {{ super() }}
+Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
 {% endblock %}
 {% block page_header %}
-<a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" style="float:right">(Publisher Stats JSON)</a>
-<h1>Publisher: {{ publisher.human_readable_name }}</h1>
+<a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" style="float:right">(Reporting Org Stats JSON)</a>
+<h1>Reporting Org: {{ publisher.human_readable_name }}</h1>
 <p class="lead"></p>
 {% endblock %}
 
