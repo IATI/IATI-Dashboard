@@ -44,6 +44,13 @@ jobs:
         python manage.py dashboard_import
         mkdir iati_dashboard/fixtures/
         python manage.py dumpdata iati_dashboard.ReportingOrg > iati_dashboard/fixtures/reporting_orgs.json
+    - name: Run scripts that generate images and csvs
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+      run: |
+        python -m iati_dashboard.make_plots
+        python manage.py make_csv
+        python -m iati_dashboard.speakers_kit
     - name: Set up W3C HTML validator
       run: |
         docker run -d -p 8888:8888 ghcr.io/validator/validator:latest
