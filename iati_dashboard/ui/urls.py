@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path, re_path
 from django.views.generic.base import RedirectView
@@ -23,7 +24,6 @@ from . import views
 
 urlpatterns = (
     [
-        path("api/", include("iati_dashboard.api.urls")),
         # Top level dashboard pages.
         path("", views.index, name="dash-index"),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
@@ -220,3 +220,6 @@ urlpatterns = (
     + static("stats", document_root="stats-calculated")
 )
 # ^ Serve generated files when using runserver for development
+
+if settings.ENABLE_API_ALPHA:
+    urlpatterns.append(path("api/", include("iati_dashboard.api.urls")))

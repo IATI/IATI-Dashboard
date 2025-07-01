@@ -25,6 +25,9 @@ env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
+    # Allow api features to only be enabled on a dev instance for now
+    # This means we can keep it off live until we assess the performance implications
+    ENABLE_API_ALPHA=(bool, False),
 )
 
 
@@ -33,6 +36,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
+
+ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
 
 ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
 
