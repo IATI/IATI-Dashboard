@@ -51,7 +51,7 @@ packaging==25.0
     # via
     #   gunicorn
     #   matplotlib
-pillow==11.2.1
+pillow==11.3.0
     # via matplotlib
 psycopg==3.2.9
     # via -r requirements.in
