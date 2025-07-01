@@ -14,8 +14,8 @@
 
             <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
 
-            <p><strong>Key:</strong><br/>
-            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Reporting org currently publishing future transaction dates.<br/>
+            <p><strong>Key:</strong><br>
+            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Reporting org currently publishing future transaction dates.<br>
             <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">Yellow flag</span>: Reporting org not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
 
             {% include '_partials/tablesorter_instructions.html' %}
@@ -23,12 +23,12 @@
         <table class="table table-striped" id="main_table">
             <thead>
                 <tr>
-                    <th rowspan="2">Reporting Org Name</td>
-                    <th rowspan="2">First published</td>
-                    <th colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</td>
-                    <th colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</td>
-                    <th rowspan="2"></td>
-                    <th rowspan="2">Frequency</td>
+                    <th rowspan="2">Reporting Org Name</th>
+                    <th rowspan="2">First published</th>
+                    <th colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</th>
+                    <th colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</th>
+                    <th rowspan="2"></th>
+                    <th rowspan="2">Frequency</th>
                 </tr>
                 <tr>
                     {% for month in timeliness.previous_months_reversed %}
@@ -50,7 +50,7 @@
                     <td {% if not per_month[month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
                     {% endfor %}
                     <td {% if not per_month[timeliness.this_month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[timeliness.this_month] or 0 }}</td>
-                    <td {% if hft %}class="{{ 'dashboard-red-flag' if hft==2 else 'dashboard-yellow-flag' }}{% endif %}" data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td {% if hft %}class="{{ 'dashboard-red-flag' if hft==2 else 'dashboard-yellow-flag' }}"{% endif %} data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
                     <td data-index="{{ timeliness.frequency_index(assessment) }}">{{ assessment }}</td>
                 </tr>
                 {% endfor %}
@@ -103,8 +103,8 @@
         <table class="table table-striped">
         <thead>
         <tr>
-        <th>Updates reported in ...</td>
-        <th>Assessment</td>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
         </tr>
         </thead>
         <tbody>
@@ -135,12 +135,12 @@
         <table class="table table-striped">
         <thead>
         <tr>
-        <th>Updates reported in ...</td>
-        <th>Assessment</td>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
         </tr>
-        <tr>
         </thead>
         <tbody>
+        <tr>
         <td>4 of the last 6 months</td>
         <td>Monthly</td>
         </tr>
@@ -159,8 +159,8 @@
         <table class="table table-striped">
         <thead>
         <tr>
-        <th>Updates reported in ...</td>
-        <th>Assessment</td>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
         </tr>
         </thead>
         <tbody>
@@ -179,8 +179,8 @@
         <table class="table table-striped">
         <thead>
         <tr>
-        <th>Updates reported in ...</td>
-        <th>Assessment</td>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
         </tr>
         </thead>
         <tbody>

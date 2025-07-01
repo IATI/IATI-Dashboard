@@ -24,10 +24,12 @@
         <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
-                <td>Reporting Org</td>
-                <td>Activities/Orgs with {{ element_or_attribute }}</td>
-                <td>Total instances of {{ element_or_attribute }}</td>
-                <td>Total activities</td>
+              <tr>
+                <th>Reporting Org</th>
+                <th>Activities/Orgs with {{ element_or_attribute }}</th>
+                <th>Total instances of {{ element_or_attribute }}</th>
+                <th>Total activities</th>
+              </tr>
           </thead>
           <tbody>
             {% for publisher in publishers_with %}
@@ -52,9 +54,11 @@
         <div class="dashboard-panel-body">
         <table class="table table-striped">
           <thead>
-                <td>Reporting Org</td>
-                <td>Total activities</td>
-                <td>Total organisations</td>
+              <tr>
+                <th>Reporting Org</th>
+                <th>Total activities</th>
+                <th>Total organisations</th>
+              </tr>
           </thead>
           <tbody>
             {% for publisher in publishers_without %}
