@@ -16,16 +16,15 @@ def test_validate_html(page):
     # Skip non html page
     if page.endswith(".json"):
         pytest.skip()
-    # Skip those pages we know don't validate
-    # The plan is to fix them and then remove these
-    # https://github.com/IATI/IATI-Dashboard/issues/735
-    if page.startswith("publishing-statistics/"):
-        pytest.skip()
-    if page.endswith(".html"):
-        pytest.skip()
+
     if page in [
+        # files is too big to validate with the w3c validator when run from docker
+        "files.html",
         "exploring-data/files/",
-        "exploring-data/elements/iati-activity_activity-date_@iso-date/",
+        # versions loads repoting org readable names from the ckan json file, and has
+        # full list even when rest of data is limited to zsl, but one reporting org
+        # name currently gives a warning, so that is excluded here
+        "versions.html",
         "exploring-data/versions/",
     ]:
         pytest.skip()

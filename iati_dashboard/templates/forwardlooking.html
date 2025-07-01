@@ -12,7 +12,7 @@
         <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
     </ol>
     </nav>
-    <br/>
+    <br>
 
     <div class="dashboard-panel" id="h_table">
 
@@ -30,10 +30,10 @@
                 Activities are excluded from forward looking calculations if they contain commitment transactions and 90% of the total commitment value has already been disbursed or expended in the corresponding year or previously.  Additionally, activities are excluded if they have less than six months left to run.
             </p>
 
-            <p><strong>Key:</strong><br/>
-                Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br/>
-                <span style="background-color: var(--dashboard-red-flag-colour); color: #fff">Red flag</span>: Reporting org currently publishing forward looking budgets at more than one hierarchical level.<br/>
-                <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff">Yellow flag</span>: Reporting org currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.<br/>
+            <p><strong>Key:</strong><br>
+                Dashes: Where a percentage cannot be calculated, because the denominator is zero.<br>
+                <span style="background-color: var(--dashboard-red-flag-colour); color: #fff">Red flag</span>: Reporting org currently publishing forward looking budgets at more than one hierarchical level.<br>
+                <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff">Yellow flag</span>: Reporting org currently publishing the <code class="iati-code">budget not provided</code> attribute for some or all activities.<br>
             </p>
             {% include '_partials/tablesorter_instructions.html' %}
 
@@ -44,7 +44,7 @@
                     {% for column_header in forwardlooking.column_headers %}
                     <th colspan="3">{{ column_header }}</th>
                     {% endfor %}
-                    <th rowspan="2"></td>
+                    <th rowspan="2"></th>
                 </tr>
                 <tr>
                     {% for i in range(0,3) %}
@@ -139,7 +139,7 @@
     <div class="dashboard-panel-body">
         <p>This methodology differs substantially from the original GP Indicator in two ways.</p>
         <ul>
-        <li><strong><em>All</em> current</strong></em> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many IATI reporting orgs, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
+        <li><strong><em>All</em> current</strong> activities are assessed, NOT only those containing Country Programmable Aid. CPA is calculated by the Forward Spending Survey by excluding activities based on a complex filtering of purpose codes, finance types and aid types. Firstly this is difficult to explain. Secondly the provision, or lack thereof, of forward looking data is not believed to be determined by CPA status. Thirdly, as a multi-stakeholder standard many IATI reporting orgs, in particular implementing agencies, do not necessarily report CRS-specific fields.</li>
         <li>As explained above the <em><strong>number of activities</strong></em> with budgets, NOT the value of budgets is counted.</li>
         </ul>
     </div>
@@ -164,7 +164,7 @@
 If no end dates were successfully parsed
     The activity is current
 Else
-    If there is an end date where (date year >= given year)
+    If there is an end date where (date year &gt;= given year)
         The activity is current
     Else
         The activity is not current
@@ -182,10 +182,10 @@ end =
     Otherwise null
 
 If start and end are both not null
-    If (end - start <= 370 days)
+    If (end - start &lt;= 370 days)
         If end year == start year
             budget year = end year
-        Elif end month >= 7
+        Elif end month &gt;= 7
             budget year = end year
         Else
             budget year = end year - 1
@@ -209,13 +209,12 @@ Else
         <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
         </ul>
-    <p>To calculate the "Current activities with budgets" column, count the number of activities that are:
+    <p>To calculate the "Current activities with budgets" column, count the number of activities that are:</p>
         <ul>
         <li>at a relevant hierarchical level (see above)</li>
         <li>AND current</li>
         <li>AND contain at least one budget budget with a budget year (as described above) that matches the year of the column OR contains the budget-not-provided attribute</li>
         </ul>
-    </p>
 
     </div>
     </div>

@@ -70,7 +70,6 @@
                 </tr>
                 {% endfor %}
               </table>
-              </p>
             </div>
             {% endif %}
             {% endfor %}
@@ -78,8 +77,8 @@
           </div>
         </div>
       </div>
-      </div>
-      </div>
+    </div>
+
 
     <div class="row">
       <div class="col-md-12">
@@ -94,7 +93,7 @@
             {% if version not in expected_versions %}
             <div class="iati-card">
               <h4>
-              <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
+              <code class="iati-code">{% if version %}{{ version|replace(' ', '&nbsp;')|safe }}{% else %}&nbsp;{% endif %}</code>
               </h4>
               <table class="table table-striped">
                 {% for publisher in publishers %}
