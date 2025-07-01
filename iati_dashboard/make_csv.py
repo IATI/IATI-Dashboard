@@ -231,7 +231,7 @@ def make_csv(verbose=False):
                     + [
                         (
                             publisher.summary_stats[column_slug]
-                            if header == "Publisher Type"
+                            if header == "Reporting Org Type"
                             else round_nicely(publisher.summary_stats[column_slug])
                         )
                         for column_slug, header in summary_stats.columns
