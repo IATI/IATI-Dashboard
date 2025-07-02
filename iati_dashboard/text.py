@@ -46,6 +46,8 @@ page_titles = {
     "comprehensiveness_valueadded": "Comprehensiveness Value-Added",
     "summary_stats": "Summary Statistics",
     "humanitarian": "Humanitarian Reporting",
+    "ati_publishers": "",
+    "ati_publisher_detail": "",
 }
 
 page_leads = {
