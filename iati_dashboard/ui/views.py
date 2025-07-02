@@ -13,6 +13,7 @@ from django.template import loader
 from .. import (
     comprehensiveness,
     filepaths,
+    filters,
     forwardlooking,
     humanitarian,
     models,
@@ -267,8 +268,10 @@ def faq(request):
 # Headline pages.
 #
 def headlines_publishers(request):
+    context = _make_context("publishers", include_large_dicts=False)
+    context["filter"] = filters.ReportingOrgFilter(request.GET, queryset=models.ReportingOrg.objects.all())
     template = loader.get_template("publishers.html")
-    return HttpResponse(template.render(_make_context("publishers"), request))
+    return HttpResponse(template.render(context, request))
 
 
 def headlines_activities(request):

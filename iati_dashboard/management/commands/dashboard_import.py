@@ -6,6 +6,17 @@ from ...data import JSONDir, ckan, current_stats, get_publisher_stats, publisher
 from ...models import Dataset, ReportingOrg
 
 
+def recipient_country_code(stats_json):
+    try:
+        activity_level = stats_json.get("codelist_values", {}).get(".//recipient-country/@code", {}).keys()
+        transaction_level = (
+            stats_json.get("codelist_values", {}).get(".//transaction/recipient-country/@code", {}).keys()
+        )
+        return sorted(list(activity_level | transaction_level))
+    except AttributeError:
+        return []
+
+
 class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
@@ -26,6 +37,7 @@ class Command(BaseCommand):
                 validation_datasets=current_stats["inverted_file_publisher"][publisher_slug]["validation"].get(
                     "fail", {}
                 ),
+                recipient_country_code=recipient_country_code(stats_json),
             )
             publisher.summary_stats = summary_stats.generate_row(publisher)
             publisher.save()

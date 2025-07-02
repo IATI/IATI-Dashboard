@@ -41,11 +41,14 @@ django==5.2.3
     # via
     #   -r requirements.txt
     #   django-extensions
+    #   django-filter
     #   djangorestframework
     #   sentry-sdk
 django-environ==0.12.0
     # via -r requirements.txt
 django-extensions==4.1
+    # via -r requirements.txt
+django-filter==25.1
     # via -r requirements.txt
 djangorestframework==3.16.0
     # via -r requirements.txt
