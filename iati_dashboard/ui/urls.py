@@ -128,6 +128,12 @@ urlpatterns = (
         ),
         # Registration agencies.
         path("registration-agencies/", views.registration_agencies, name="dash-registrationagencies"),
+        path("ati/publishers", views.ati_publishers, name="dash-ati-publishers"),
+        path(
+            "ati/publishers/<slug:publisher>",
+            views.ati_publisher_detail,
+            name="dash-ati-publisher-detail",
+        ),
         path(
             "registration_agencies.html",
             RedirectView.as_view(pattern_name="dash-registrationagencies", permanent=True),

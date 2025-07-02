@@ -695,3 +695,21 @@ def registration_agencies(request):
             context["nonmatching"].append((orgid, publishers))
 
     return HttpResponse(template.render(context, request))
+
+
+#
+# ATI pages
+#
+def ati_publishers(request):
+    template = loader.get_template("ati_publishers.html")
+    return HttpResponse(template.render(_make_context("ati_publishers", include_large_dicts=False), request))
+
+
+def ati_publisher_detail(request, publisher):
+    context = _make_context("ati_publisher_detail", include_large_dicts=False)
+    context["publisher"] = publisher
+    publisher_stats = get_publisher_stats(publisher)
+    context["publisher_stats"] = publisher_stats
+
+    template = loader.get_template("ati_publisher_detail.html")
+    return HttpResponse(template.render(context, request))
