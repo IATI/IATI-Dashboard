@@ -25,6 +25,9 @@ env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
+    # Allow api features to only be enabled on a dev instance for now
+    # This means we can keep it off live until we assess the performance implications
+    ENABLE_API_ALPHA=(bool, False),
 )
 
 
@@ -33,6 +36,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
+
+ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
 
 ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
 
@@ -56,7 +61,16 @@ if SENTRY_DSN:
 
 # Application definition
 
-INSTALLED_APPS = ["iati_dashboard", "iati_dashboard.ui", "django.contrib.staticfiles", "django_extensions"]
+INSTALLED_APPS = [
+    "iati_dashboard",
+    "iati_dashboard.ui",
+    "iati_dashboard.api",
+    "django.contrib.staticfiles",
+    "django_extensions",
+    "rest_framework",
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -164,4 +178,12 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+    ],
 }
