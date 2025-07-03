@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets
 from rest_framework.response import Response
 
+from ..filters import ReportingOrgFilter
 from ..models import Dataset, ReportingOrg
 from .serializers import DatasetSerializer, ReportingOrgSerializer
 
@@ -13,6 +15,8 @@ class ReportingOrgViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = ReportingOrg.objects.defer("stats_json").all().order_by("human_readable_name")
     serializer_class = ReportingOrgSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = ReportingOrgFilter
 
     def retrieve(self, request, pk: str):
         user = get_object_or_404(self.queryset, short_name=pk)

@@ -19,6 +19,8 @@ class ReportingOrg(models.Model):
         db_persist=True,
     )
 
+    recipient_country_code = models.JSONField(default=list)
+
     @property
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den

@@ -2,7 +2,7 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Reporting Orgs', current_stats.aggregated.publishers, 'img/aggregate/publishers.png', 'publishers.json',
+      {{ boxes.box_h2('Reporting Orgs', publishers.count(), 'img/aggregate/publishers.png', 'publishers.json',
         description='This graph shows the number of organisations publishing IATI data over time.') }}
       {{ boxes.box_h2('Reporting Orgs by type', '', 'img/aggregate/publisher_types.png', None, 'img/aggregate/publisher_types_legend.png',
         description='This graph show the various types of organisations publishing IATI data.') }}
@@ -17,6 +17,11 @@
     <a class="dashboard-panel-heading__title float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
     </div>
     <div class="dashboard-panel-body">
+        <form method="get">
+            {{ filter.form.as_p() }}
+            <button class="iati-button iati-button--submit">Submit</button>
+        </form>
+        <p>Reporting orgs in query: {{ filter.qs.count() }}</p>
         <p>Click on the reporting org name for more details.</p>
         {% include '_partials/tablesorter_instructions.html' %}
     <table class="table table-striped">
@@ -33,7 +38,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for publisher in publishers %}
+            {% for publisher in filter.qs.defer("stats_json").order_by("human_readable_name") %}
             <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
