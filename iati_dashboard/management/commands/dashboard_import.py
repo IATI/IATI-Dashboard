@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from ... import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
-from ...data import JSONDir, ckan, current_stats, get_publisher_stats, publishers_ordered_by_title
+from ...data import JSONDir, ckan, ckan_publishers, current_stats, get_publisher_stats, publishers_ordered_by_title
 from ...models import Dataset, ReportingOrg
 
 
@@ -24,8 +24,11 @@ class Command(BaseCommand):
         Dataset.objects.all().delete()
 
         for publisher_title, publisher_slug in publishers_ordered_by_title:
+            if ckan_publishers[publisher_slug]["result"]["id"] == "None":
+                continue
             stats_json = dict(get_publisher_stats(publisher_slug))
             publisher = ReportingOrg(
+                id=ckan_publishers[publisher_slug]["result"]["id"],
                 human_readable_name=publisher_title,
                 short_name=publisher_slug,
                 stats_json=stats_json,
@@ -53,6 +56,7 @@ class Command(BaseCommand):
                 )
                 try:
                     dataset = Dataset(
+                        id=dataset_dict["resource"]["id"],
                         reporting_org=ReportingOrg.objects.get(short_name=publisher_short_name),
                         short_name=dataset_short_name,
                         source_url=dataset_dict["resource"]["url"],
