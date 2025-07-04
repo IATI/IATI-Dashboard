@@ -19,35 +19,37 @@
 
 
         <div class="dashboard-panel-body">
-            <p>This table assesses IATI reporting orgs by scoring three dimensions: Timeliness, Forward-looking and Comprehensiveness. The methodology is explained below the table and in the related Publishing Statistics pages. In summary:</p>
+          <p>This table assesses IATI reporting orgs by scoring three dimensions: Timeliness, Forward-looking and Comprehensiveness. The methodology is explained below the table and in the related Publishing Statistics pages. In summary:</p>
 
-            <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensiveness} ) / 3 &nbsp;</p>
+          <p><strong>{Score}</strong> = ( {Timeliness} + {Forward looking} + {Comprehensiveness} ) / 3 &nbsp;</p>
 
-            {% include '_partials/tablesorter_instructions.html' %}
+          {% include '_partials/tablesorter_instructions.html' %}
 
-        <table class="table table-striped" id="main_table">
-            <thead>
-                <tr>
-                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Reporting Org Name</th>
-                    {% for column_slug, column_header in summary_stats.columns %}
-                    <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for publisher in publishers %}
-                {% if publisher.summary_stats %}
-                <tr>
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
-                    {% for column_slug, column_header in summary_stats.columns %}
-                    <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ publisher.summary_stats[column_slug] }}{% else %}{{ publisher.summary_stats[column_slug] | round_nicely }}{% endif %}</th>
-                    {% endfor %}
-                    </td>
-                </tr>
-                {% endif %}
-                {% endfor %}
-            </tbody>
-        </table>
+          <div class="iati-table">
+            <table class="table iati-table__table" id="main_table">
+              <thead>
+                  <tr>
+                      <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">Reporting Org Name</th>
+                      {% for column_slug, column_header in summary_stats.columns %}
+                      <th style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{{ column_header }}</th>
+                      {% endfor %}
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for publisher in publishers %}
+                  {% if publisher.summary_stats %}
+                  <tr>
+                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
+                      {% for column_slug, column_header in summary_stats.columns %}
+                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ publisher.summary_stats[column_slug] }}{% else %}{{ publisher.summary_stats[column_slug] | round_nicely }}{% endif %}</th>
+                      {% endfor %}
+                      </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
     </div>
 
@@ -64,7 +66,8 @@
                a percentage. The methodology used in making the assesments is detailed on the <a href="{{ url('dash-publishingstats-timeliness-frequency') }}">frequency</a> and <a href="{{ url('dash-publishingstats-timeliness-timelag') }}">timelag</a> pages.
             </p>
 
-            <table class="table table-striped">
+            <div class="iati-table">
+              <table class="table iati-table__table">
                 <thead>
                     <th>Frequency assessment</th>
                     <th>Score</th>
@@ -90,33 +93,36 @@
                     <td>0</td>
                 </tr>
             </table>
+          </div>
 
-            <table class="table table-striped">
-                <thead>
-                    <th>Time lag assessment</th>
-                    <th>Score</th>
-                </thead>
-                <tr>
-                    <td>One month</td>
-                    <td>4</td>
-                </tr>
-                <tr>
-                    <td>A quarter</td>
-                    <td>3</td>
-                </tr>
-                <tr>
-                    <td>Six months</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>One year</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <td>More than one year</td>
-                    <td>0</td>
-                </tr>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                <th>Time lag assessment</th>
+                <th>Score</th>
+              </thead>
+              <tr>
+                <td>One month</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>A quarter</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Six months</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>One year</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>More than one year</td>
+                <td>0</td>
+              </tr>
             </table>
+          </div>
 
 
             <h3>Forward looking</h3>

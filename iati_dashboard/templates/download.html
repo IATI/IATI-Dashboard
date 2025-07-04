@@ -17,26 +17,28 @@
         <p><a href="https://gist.github.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/revisions">History of Download Errors</a></p>
 
               {% include '_partials/tablesorter_instructions.html' %}
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Publisher</th>
-                <th>Registry Dataset</th>
-                <th style="max-width: 400px; overflow: clip;">URL</th>
-                <th><a href="https://everything.curl.dev/cmdline/exitcode.html">Error Code</a></th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for code, publisher, dataset, err_url in current_stats.download_errors %}
-              <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
-                <td style="max-width: 400px; overflow: clip;"><a href="{{ err_url }}">{{ err_url|url_to_filename }}</a></td>
-                <td>{{ code }}</td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <thead>
+                  <tr>
+                    <th>Publisher</th>
+                    <th>Registry Dataset</th>
+                    <th style="max-width: 400px; overflow: clip;">URL</th>
+                    <th><a href="https://everything.curl.dev/cmdline/exitcode.html">Error Code</a></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for code, publisher, dataset, err_url in current_stats.download_errors %}
+                  <tr>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
+                    <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
+                    <td style="max-width: 400px; overflow: clip;"><a href="{{ err_url }}">{{ err_url|url_to_filename }}</a></td>
+                    <td>{{ code }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

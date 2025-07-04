@@ -16,112 +16,114 @@
         </h2>
       </div>
       <div class="dashboard-panel-body">
-    <table class="table table-striped">
-        <tbody>
-            <tr>
-                <td id="activities-count">
-                    <a href="{{ url(page_view_names['activities']) }}">
-                    {{ current_stats.aggregated.activities }}
-                    </a>
-                </td>
-                <td>Activities</td>
-            </tr>
-            <tr>
-                <td id="unique-activities-count">
-                    <a href="{{ url(page_view_names['activities']) }}">
-                    {{ current_stats.aggregated.iati_identifiers|count }}
-                    </a>
-                </td>
-                <td>Unique Activities</td>
-            </tr>
-            <tr>
-                <td id="publishers-count">
-                    <a href="{{ url(page_view_names['publishers']) }}">
-                    {{ current_stats.aggregated.publishers }}
-                    </a>
-                </td>
-                <td>Reporting Orgs</td>
-            </tr>
-            <tr>
-                <td id="activity-files-count">
-                    <a href="{{ url(page_view_names['files']) }}">
-                    {{ current_stats.aggregated.activity_files }}
-                    </a>
-                </td>
-                <td>Activity Files</td>
-            </tr>
-            <tr>
-                <td id="organisation-files-count">
-                    <a href="{{ url(page_view_names['files']) }}">
-                    {{ current_stats.aggregated.organisation_files }}
-                    </a>
-                </td>
-                <td>Organisation Files</td>
-            </tr>
-            <tr>
-                <td id="total-file-size">
-                    <a href="{{ url(page_view_names['files']) }}">
-                    {{ current_stats.aggregated.file_size|filesizeformat }}
-                    </a>
-                </td>
-                <td>Total File Size</td>
-            </tr>
-            <tr>
-                <td id="failed-download-count">
-                    <a href="{{ url(page_view_names['download']) }}">
-                    {{ current_stats.download_errors|length }}
-                    </a>
-                </td>
-                <td>Files Fail to Download</td>
-            </tr>
-            <tr>
-                <td id="poorly-formed-xml-file-count">
-                    <a href="{{ url(page_view_names['xml']) }}">
-                    {{ current_stats.aggregated.invalidxml }}
-                    </a>
-                </td>
-                <td>Files where XML is not well-formed</td>
-            </tr>
-            <tr>
-                <td id="non-standard-roots-file-count">
-                    <a href="{{ url(page_view_names['xml']) }}">
-                    {{ current_stats.aggregated.nonstandardroots }}
-                    </a>
-                </td>
-                <td>Files with Nonstandard Roots</td>
-            </tr>
-            <tr>
-                <td id="too-large-files-count">
-                    {{ current_stats.aggregated.toolarge }}
-                </td>
-                <td>Files that are too large to be processed</td>
-            </tr>
-            <tr>
-                <td id="cannot-validate-file-count">
-                    <a href="{{ url(page_view_names['validation']) }}">
-                    {{ current_stats.aggregated.validation.fail }}
-                    </a>
-                </td>
-                <td>Files don't validate against the schema</td>
-            </tr>
-            <tr>
-                <td id="publishers-with-non-valid-files-count">
-                    <a href="{{ url(page_view_names['validation']) }}">
-                    {{ current_stats.aggregated.publishers_validation.fail }}
-                    </a>
-                </td>
-                <td>Reporting Orgs have non-validating files</td>
-            </tr>
-            <tr>
-                <td id="publishers-with-no-org-file-count">
-                    <a href="{{ url(page_view_names['organisation']) }}">
-                    {{ current_stats.aggregated.publisher_has_org_file.no }}
-                    </a>
-                </td>
-                <td>Reporting Orgs with no organisation file</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="iati-table">
+          <table class="table iati-table__table">
+            <tbody>
+                <tr>
+                    <td id="activities-count">
+                        <a href="{{ url(page_view_names['activities']) }}">
+                        {{ current_stats.aggregated.activities }}
+                        </a>
+                    </td>
+                    <td>Activities</td>
+                </tr>
+                <tr>
+                    <td id="unique-activities-count">
+                        <a href="{{ url(page_view_names['activities']) }}">
+                        {{ current_stats.aggregated.iati_identifiers|count }}
+                        </a>
+                    </td>
+                    <td>Unique Activities</td>
+                </tr>
+                <tr>
+                    <td id="publishers-count">
+                        <a href="{{ url(page_view_names['publishers']) }}">
+                        {{ current_stats.aggregated.publishers }}
+                        </a>
+                    </td>
+                    <td>Reporting Orgs</td>
+                </tr>
+                <tr>
+                    <td id="activity-files-count">
+                        <a href="{{ url(page_view_names['files']) }}">
+                        {{ current_stats.aggregated.activity_files }}
+                        </a>
+                    </td>
+                    <td>Activity Files</td>
+                </tr>
+                <tr>
+                    <td id="organisation-files-count">
+                        <a href="{{ url(page_view_names['files']) }}">
+                        {{ current_stats.aggregated.organisation_files }}
+                        </a>
+                    </td>
+                    <td>Organisation Files</td>
+                </tr>
+                <tr>
+                    <td id="total-file-size">
+                        <a href="{{ url(page_view_names['files']) }}">
+                        {{ current_stats.aggregated.file_size|filesizeformat }}
+                        </a>
+                    </td>
+                    <td>Total File Size</td>
+                </tr>
+                <tr>
+                    <td id="failed-download-count">
+                        <a href="{{ url(page_view_names['download']) }}">
+                        {{ current_stats.download_errors|length }}
+                        </a>
+                    </td>
+                    <td>Files Fail to Download</td>
+                </tr>
+                <tr>
+                    <td id="poorly-formed-xml-file-count">
+                        <a href="{{ url(page_view_names['xml']) }}">
+                        {{ current_stats.aggregated.invalidxml }}
+                        </a>
+                    </td>
+                    <td>Files where XML is not well-formed</td>
+                </tr>
+                <tr>
+                    <td id="non-standard-roots-file-count">
+                        <a href="{{ url(page_view_names['xml']) }}">
+                        {{ current_stats.aggregated.nonstandardroots }}
+                        </a>
+                    </td>
+                    <td>Files with Nonstandard Roots</td>
+                </tr>
+                <tr>
+                    <td id="too-large-files-count">
+                        {{ current_stats.aggregated.toolarge }}
+                    </td>
+                    <td>Files that are too large to be processed</td>
+                </tr>
+                <tr>
+                    <td id="cannot-validate-file-count">
+                        <a href="{{ url(page_view_names['validation']) }}">
+                        {{ current_stats.aggregated.validation.fail }}
+                        </a>
+                    </td>
+                    <td>Files don't validate against the schema</td>
+                </tr>
+                <tr>
+                    <td id="publishers-with-non-valid-files-count">
+                        <a href="{{ url(page_view_names['validation']) }}">
+                        {{ current_stats.aggregated.publishers_validation.fail }}
+                        </a>
+                    </td>
+                    <td>Reporting Orgs have non-validating files</td>
+                </tr>
+                <tr>
+                    <td id="publishers-with-no-org-file-count">
+                        <a href="{{ url(page_view_names['organisation']) }}">
+                        {{ current_stats.aggregated.publisher_has_org_file.no }}
+                        </a>
+                    </td>
+                    <td>Reporting Orgs with no organisation file</td>
+                </tr>
+            </tbody>
+        </table>
+      </div>
     </div>
 </div>
 

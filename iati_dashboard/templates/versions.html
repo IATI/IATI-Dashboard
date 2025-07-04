@@ -19,25 +19,27 @@
     <div class="col-xs-12">
       <div class="dashboard-panel">
       <div class="dashboard-panel-body">
-        <table class="table table-striped">
-          <thead>
-                <td>Reporting Org</td>
-                <td>Files</td>
-          </thead>
-          <tbody>
-            {% for publisher in current_stats.inverted_file_publisher %}
-              {% with datasets = current_stats.inverted_file_publisher[publisher].version_mismatch.get('true', {}) %}
-                {% if datasets %}
-                <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td><td>
-                {% for dataset in datasets.keys() %}
-                    <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
-                {% endfor %}
-                </td></tr>
-                {% endif %}
-              {% endwith %}
-            {% endfor %}
-          </tbody>
-        </table>
+        <div class="iati-table">
+          <table class="table iati-table__table">
+            <thead>
+                  <td>Reporting Org</td>
+                  <td>Files</td>
+            </thead>
+            <tbody>
+              {% for publisher in current_stats.inverted_file_publisher %}
+                {% with datasets = current_stats.inverted_file_publisher[publisher].version_mismatch.get('true', {}) %}
+                  {% if datasets %}
+                  <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td><td>
+                  {% for dataset in datasets.keys() %}
+                      <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
+                  {% endfor %}
+                  </td></tr>
+                  {% endif %}
+                {% endwith %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     </div>
@@ -63,13 +65,15 @@
               <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
               </h4>
               <p class="iati-card-body">
-              <table class="table table-striped">
-                {% for publisher in publishers %}
-                <tr>
-                  <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
-                </tr>
-                {% endfor %}
-              </table>
+                <div class="iati-table">
+                  <table class="table iati-table__table">
+                    {% for publisher in publishers %}
+                    <tr>
+                      <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
               </p>
             </div>
             {% endif %}
@@ -96,13 +100,15 @@
               <h4>
               <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
               </h4>
-              <table class="table table-striped">
-                {% for publisher in publishers %}
-                <tr>
-                  <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
-                </tr>
-                {% endfor %}
-              </table>
+              <div class="iati-table">
+                <table class="table iati-table__table">
+                  {% for publisher in publishers %}
+                  <tr>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td>
+                  </tr>
+                  {% endfor %}
+                </table>
+              </div>
             </div>
             {% endif %}
             {% endfor %}

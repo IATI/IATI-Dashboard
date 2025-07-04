@@ -22,24 +22,26 @@
           <h3 class="dashboard-panel-heading__title">Publishing this {{ element_or_attribute }}</h3>
         </div>
         <div class="dashboard-panel-body">
-        <table class="table table-striped">
-          <thead>
-                <td>Reporting Org</td>
-                <td>Activities/Orgs with {{ element_or_attribute }}</td>
-                <td>Total instances of {{ element_or_attribute }}</td>
-                <td>Total activities</td>
-          </thead>
-          <tbody>
-            {% for publisher in publishers_with %}
-            <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
-                <td>{{ publisher.elements[element] }}</td>
-                <td>{{ publisher.elements_total[element] }}</td>
-                <td>{{ publisher.activities }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                    <td>Reporting Org</td>
+                    <td>Activities/Orgs with {{ element_or_attribute }}</td>
+                    <td>Total instances of {{ element_or_attribute }}</td>
+                    <td>Total activities</td>
+              </thead>
+              <tbody>
+                {% for publisher in publishers_with %}
+                <tr>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
+                    <td>{{ publisher.elements[element] }}</td>
+                    <td>{{ publisher.elements_total[element] }}</td>
+                    <td>{{ publisher.activities }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -50,22 +52,24 @@
           <h3 class="dashboard-panel-heading__title">Not publishing this {{ element_or_attribute }}</h3>
         </div>
         <div class="dashboard-panel-body">
-        <table class="table table-striped">
-          <thead>
-                <td>Reporting Org</td>
-                <td>Total activities</td>
-                <td>Total organisations</td>
-          </thead>
-          <tbody>
-            {% for publisher in publishers_without %}
-            <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
-                <td>{{ publisher.activities }}</td>
-                <td>{{ publisher.organisations }}</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                    <td>Reporting Org</td>
+                    <td>Total activities</td>
+                    <td>Total organisations</td>
+              </thead>
+              <tbody>
+                {% for publisher in publishers_without %}
+                <tr>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
+                    <td>{{ publisher.activities }}</td>
+                    <td>{{ publisher.organisations }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -74,7 +78,8 @@
 
   {#
       <h2>Files</h2>
-        <table class="table table-striped">
+      <div class="iati-table">
+        <table class="table iati-table__table">
           <thead>
                 <td>Reporting Org</td>
                 <td>Files</td>
@@ -93,5 +98,6 @@
             {% endfor %}
           </tbody>
         </table>
+      </div>
   #}
 {% endblock %}
