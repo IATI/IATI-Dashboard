@@ -9,7 +9,7 @@
         <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
     </ol>
     </nav>
-    <br/>
+    <br>
 
     <div class="dashboard-panel" id="h_table">
         <div class="dashboard-panel-heading clearfix">
@@ -69,8 +69,10 @@
             <div class="iati-table">
               <table class="table iati-table__table">
                 <thead>
-                    <th>Frequency assessment</th>
-                    <th>Score</th>
+                    <tr>
+                        <th>Frequency assessment</th>
+                        <th>Score</th>
+                    </tr>
                 </thead>
                 <tr>
                     <td>Monthly</td>
@@ -152,14 +154,13 @@
             <h3>Secondary reporters</h3>
             <p>Reporting orgs who publish all of their activities as a secondary reporter do not appear in this table.
             {% if summary_stats.secondary_publishers|length > 0 %}
-            Therefore, a total of {{ summary_stats.secondary_publishers|length }} reporting orgs have been excluded in this regard:
+            Therefore, a total of {{ summary_stats.secondary_publishers|length }} reporting orgs have been excluded in this regard:</p>
             <ul>
             {% for publisher in summary_stats.secondary_publishers %}
                 <li>{{ publisher_name[publisher] }}</li>
             {% endfor %}
             </ul>
             {% endif %}
-            </p>
         </div>
     </div>
 

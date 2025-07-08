@@ -25,6 +25,9 @@ env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
+    # Allow api features to only be enabled on a dev instance for now
+    # This means we can keep it off live until we assess the performance implications
+    ENABLE_API_ALPHA=(bool, False),
 )
 
 
@@ -33,6 +36,8 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
+
+ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
 
 ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
 
@@ -47,16 +52,26 @@ if SENTRY_DSN:
         send_default_pii=True,
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for tracing.
-        traces_sample_rate=1.0,
+        traces_sample_rate=0,
         # Set profiles_sample_rate to 1.0 to profile 100%
         # of sampled transactions.
         # We recommend adjusting this value in production.
-        profiles_sample_rate=1.0,
+        profiles_sample_rate=0,
     )
 
 # Application definition
 
-INSTALLED_APPS = ["iati_dashboard", "iati_dashboard.ui", "django.contrib.staticfiles", "django_extensions"]
+INSTALLED_APPS = [
+    "iati_dashboard",
+    "iati_dashboard.ui",
+    "iati_dashboard.api",
+    "django.contrib.staticfiles",
+    "django_extensions",
+    "rest_framework",
+    "django_filters",
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
+]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -71,7 +86,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
-        "APP_DIRS": False,
+        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -81,7 +96,6 @@ TEMPLATES = [
     },
     {
         "BACKEND": "django.template.backends.jinja2.Jinja2",
-        "DIRS": [BASE_DIR / "iati_dashboard" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -164,4 +178,9 @@ STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
 }

@@ -2,6 +2,8 @@
 django<5.3
 django-environ
 django-extensions
+djangorestframework
+django-filter
 psycopg
 gunicorn
 jinja2
