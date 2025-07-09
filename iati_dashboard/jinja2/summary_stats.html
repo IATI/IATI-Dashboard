@@ -41,9 +41,8 @@
                   <tr>
                       <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                       {% for column_slug, column_header in summary_stats.columns %}
-                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ publisher.summary_stats[column_slug] }}{% else %}{{ publisher.summary_stats[column_slug] | round_nicely }}{% endif %}</th>
+                      <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug == "publisher_type" %}{{ publisher.summary_stats[column_slug] }}{% else %}{{ publisher.summary_stats[column_slug] | round_nicely }}{% endif %}</td>
                       {% endfor %}
-                      </td>
                   </tr>
                   {% endif %}
                   {% endfor %}
@@ -100,8 +99,10 @@
           <div class="iati-table">
             <table class="table iati-table__table">
               <thead>
-                <th>Time lag assessment</th>
-                <th>Score</th>
+                <tr>
+                  <th>Time lag assessment</th>
+                  <th>Score</th>
+                </tr>
               </thead>
               <tr>
                 <td>One month</td>

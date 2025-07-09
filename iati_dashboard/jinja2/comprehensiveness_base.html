@@ -54,7 +54,7 @@
                   <td style="border-right: 1px solid #ddd; border-left: 1px solid #ddd;">{% if column_slug in publisher.comprehensiveness %}
                       {{ publisher.comprehensiveness[column_slug+'_valid'] | round_nicely }}
                       {% if publisher.comprehensiveness[column_slug+'_valid'] != publisher.comprehensiveness[column_slug] %}
-                      <span class="dashboard-text-muted">({{ publisher.comprehensiveness[column_slug] | round_nicely }})</td>
+                      <span class="dashboard-text-muted">({{ publisher.comprehensiveness[column_slug] | round_nicely }})</span>
                       {% endif %}
                       {% else %}-{% endif %}</td>
                   {% endfor %}
@@ -213,19 +213,19 @@ Else
       <table class="table iati-table__table">
         {% block table_test_methodology_header %}
         <tr>
-          <th>Page</td>
-          <th>Comprehensiveness Test</td>
-          <th>Basic Methodology</td>
-          <th>Validation Methodology</td>
+          <th>Page</th>
+          <th>Comprehensiveness Test</th>
+          <th>Basic Methodology</th>
+          <th>Validation Methodology</th>
         </tr>
         {% endblock %}
 
         {% block table_test_methodology_core %}
         <tr>
           <td>Core</td>
-          <td>Version</th>
-          <td>iati-activities/@version must exist for the file the activity is in</th>
-          <td>iati-activities/@version must be on the <a href="http://iatistandard.org/codelists/Version/">Version codelist</a></th>
+          <td>Version</td>
+          <td>iati-activities/@version must exist for the file the activity is in</td>
+          <td>iati-activities/@version must be on the <a href="http://iatistandard.org/codelists/Version/">Version codelist</a></td>
         </tr>
         <tr>
           <td>Core</td>
@@ -286,9 +286,9 @@ Else
         {% block table_test_methodology_financials %}
         <tr>
           <td>Financials</td>
-          <td>Transaction - Commitment</th>
+          <td>Transaction - Commitment</td>
           <td>Activity must have at least 1 transaction with @type of 'Commitment' (i.e. <code class="iati-code">C</code> (1.xx) or <code class="iati-code">2</code> (2.xx)) or 'Incoming commitment' (i.e. <code class="iati-code">11</code>).</td>
-          <td>All transactions of this @type must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></th>
+          <td>All transactions of this @type must have a value that is a valid <code class="iati-code">xs:decimal</code> AND on of (transaction-date/@iso-date OR value/@value-date) that is a valid <code class="iati-code">xs:date</code></td>
         </tr>
         <tr>
           <td>Financials</td>
@@ -319,9 +319,9 @@ Else
         {% block table_test_methodology_valueadded %}
         <tr>
           <td>Value added</td>
-          <td>Contacts</th>
-          <td>Activity must contain 1 contact-info/email element</th>
-          <td></th>
+          <td>Contacts</td>
+          <td>Activity must contain 1 contact-info/email element</td>
+          <td></td>
         </tr>
         <tr>
           <td>Value added</td>

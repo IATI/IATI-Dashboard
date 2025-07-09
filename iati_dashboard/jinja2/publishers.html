@@ -34,7 +34,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for publisher in publishers %}
+            {% for publisher in filter.qs.defer("stats_json").order_by("human_readable_name") %}
             <tr>
               <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
               <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
