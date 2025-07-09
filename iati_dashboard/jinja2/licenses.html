@@ -9,26 +9,28 @@
           </div>
           <div class="dashboard-panel-body">
             {% include '_partials/tablesorter_instructions.html' %}
-          <table class="table table-sm table-striped">
-            <thead>
-                <tr>
-                    <th>License</th>
-                    <th>License ID</th>
-                    <th>Files</th>
-                    <th>Publishers</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for license, files in func.sorted(license_count.items()) %}
-                <tr>
-                    <td>{% if license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
-                    <td>{{ license }}</td>
-                    <td>{{ files }}</td>
-                    <td><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-          </table>
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <thead>
+                    <tr>
+                        <th>License</th>
+                        <th>License ID</th>
+                        <th>Files</th>
+                        <th>Publishers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for license, files in func.sorted(license_count.items()) %}
+                    <tr>
+                        <td>{% if license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
+                        <td>{{ license }}</td>
+                        <td>{{ files }}</td>
+                        <td><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

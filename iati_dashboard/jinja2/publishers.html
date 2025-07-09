@@ -13,8 +13,8 @@
     <div class="col-xs-12">
     <div class="dashboard-panel">
     <div class="dashboard-panel-heading clearfix">
-    <h2 class="dashboard-panel-heading__title float-start">List of current active IATI Reporting Orgs</h2>
-    <a class="dashboard-panel-heading__title float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
+      <h2 class="dashboard-panel-heading__title float-start">List of current active IATI Reporting Orgs</h2>
+      <a class="dashboard-panel-heading__title light float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
     </div>
     <div class="dashboard-panel-body">
       {% if show_filters %}
@@ -26,36 +26,38 @@
       {% endif %}
         <p>Click on the reporting org name for more details.</p>
         {% include '_partials/tablesorter_instructions.html' %}
-    <table class="table table-striped">
-        <thead>
+      <div class="iati-table">
+        <table class="table iati-table__table">
+          <thead>
             <tr>
-                <th>Reporting Org Name</th>
-                <th>Reporting Org Registry Id</th>
-                <th>Activities <a href="{{ stats_url }}/current/inverted-publisher/activities.json">(J)</a></th>
-                <th>Organisations <a href="{{ stats_url }}/current/inverted-publisher/organisations.json">(J)</a></th>
-                <th>Files <a href="#files_note">(*)</a></th>
-                <th>Total File Size <a href="{{ stats_url }}/current/inverted-publisher/file_size.json">(J)</a></th>
-                <th>Hierarchies <a href="{{ stats_url }}/current/inverted-publisher/hierarchies.json">(J)</a></th>
-                <th>Orgs Reported On <a href="{{ stats_url }}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
+              <th>Reporting Org Name</th>
+              <th>Reporting Org Registry Id</th>
+              <th>Activities <a href="{{ stats_url }}/current/inverted-publisher/activities.json">(J)</a></th>
+              <th>Organisations <a href="{{ stats_url }}/current/inverted-publisher/organisations.json">(J)</a></th>
+              <th>Files <a href="#files_note">(*)</a></th>
+              <th>Total File Size <a href="{{ stats_url }}/current/inverted-publisher/file_size.json">(J)</a></th>
+              <th>Hierarchies <a href="{{ stats_url }}/current/inverted-publisher/hierarchies.json">(J)</a></th>
+              <th>Orgs Reported On <a href="{{ stats_url }}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
             </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
             {% for publisher in filter.qs.defer("stats_json").order_by("human_readable_name") %}
             <tr>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
-                <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
-                <td>{{ publisher.activities }}</td>
-                <td>{{ publisher.organisations }}</td>
-                <td>{{ publisher.activity_files+publisher.organisation_files }}</td>
-                <td data-bytes="{{ publisher.file_size }}">{{ publisher.file_size|filesizeformat }}</td>
-                <td>{{ publisher.hierarchies|length }}</td>
-                <td>{{ publisher.reporting_orgs|length }}</td>
+              <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
+              <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.short_name }}</a></td>
+              <td>{{ publisher.activities }}</td>
+              <td>{{ publisher.organisations }}</td>
+              <td>{{ publisher.activity_files+publisher.organisation_files }}</td>
+              <td data-bytes="{{ publisher.file_size }}">{{ publisher.file_size|filesizeformat }}</td>
+              <td>{{ publisher.hierarchies|length }}</td>
+              <td>{{ publisher.reporting_orgs|length }}</td>
             </tr>
             {% endfor %}
-        </tbody>
-    </table>
-    <p id="files_note">* Files is the sum of Activity Files <a href="{{ stats_url }}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{ stats_url }}/current/inverted-publisher/organisation_files.json">(J)</a>.</p>
-        </div>
+          </tbody>
+        </table>
+      </div>
+      <p id="files_note">* Files is the sum of Activity Files <a href="{{ stats_url }}/current/inverted-publisher/activity_files.json">(J)</a> and Organisation Files <a href="{{ stats_url }}/current/inverted-publisher/organisation_files.json">(J)</a>.</p>
+    </div>
     </div>
     </div>
     </div>

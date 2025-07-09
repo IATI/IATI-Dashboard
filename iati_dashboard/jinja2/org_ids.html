@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
         {% include '_partials/tablesorter_instructions.html' %}
-    <table class="table table-striped">
+    <div class="iati-table">
+      <table class="table iati-table__table">
         <thead>
             <tr>
                 <th style="border-left: 1px solid #ddd; border-right: 1px solid #ddd;" rowspan="2">Org Type</th>
@@ -17,6 +18,7 @@
             </tr>
             {% endfor %}
         </tbody>
-    </table>
+      </table>
+    </div>
 
 {% endblock %}
