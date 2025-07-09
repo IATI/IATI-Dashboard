@@ -2,7 +2,7 @@
 py_version=312
 extend_skip = ["__pycache__", ".mypy_cache", ".ve", ".venv", ".vagrant-ve"]
 skip_gitignore = true
-src_paths = ["dashboard"]
+src_paths = ["dashboard", "end_to_end_tests"]
 line_length = 119
 profile = "black"
 
@@ -16,7 +16,7 @@ exclude = ["data", "gitout", "helpers/IATI-Rulesets", "helpers/schemas", "__pyca
 [tool.black]
 line-length = 119
 target-version = ["py312"]
-include = "^[^/]*\\.py|dashboard/.*\\.py$"
+include = "^[^/]*\\.py|dashboard/.*\\.py|end_to_end_tests/.*\\.py$"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "iati_dashboard.settings"
