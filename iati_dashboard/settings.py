@@ -25,6 +25,8 @@ env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
+    USE_X_FORWARDED_HOST=(bool, False),
+    ALLOWED_HOSTS=(list, [".dashboard.iatistandard.org", "localhost", "127.0.0.1"]),
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
     ENABLE_API_ALPHA=(bool, False),
@@ -37,9 +39,13 @@ DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
 
-ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
+USE_X_FORWARDED_HOST = env("USE_X_FORWARDED_HOST")
 
-ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
 
 
 if SENTRY_DSN:
