@@ -16,3 +16,4 @@ requests
 tqdm
 whitenoise
 sentry-sdk[django]
+azure-servicebus

@@ -6,6 +6,10 @@
 #
 asgiref==3.8.1
     # via django
+azure-core==1.35.0
+    # via azure-servicebus
+azure-servicebus==7.14.2
+    # via -r requirements.in
 certifi==2025.6.15
     # via
     #   requests
@@ -39,6 +43,8 @@ gunicorn==23.0.0
     # via -r requirements.in
 idna==3.10
     # via requests
+isodate==0.7.2
+    # via azure-servicebus
 jinja2==3.1.6
     # via -r requirements.in
 kiwisolver==1.4.8
@@ -70,17 +76,24 @@ python-dateutil==2.9.0.post0
 pytz==2025.2
     # via -r requirements.in
 requests==2.32.4
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   azure-core
 sentry-sdk[django]==2.32.0
     # via -r requirements.in
 six==1.17.0
-    # via python-dateutil
+    # via
+    #   azure-core
+    #   python-dateutil
 sqlparse==0.5.3
     # via django
 tqdm==4.67.1
     # via -r requirements.in
 typing-extensions==4.14.0
-    # via psycopg
+    # via
+    #   azure-core
+    #   azure-servicebus
+    #   psycopg
 urllib3==2.5.0
     # via
     #   requests

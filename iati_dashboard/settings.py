@@ -30,6 +30,9 @@ env = environ.Env(  # set default values and casting
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
     ENABLE_API_ALPHA=(bool, False),
+    AZ_SERVICE_BUS_CONNECTION_STRING=(str, None),
+    AZ_SERVICE_BUS_TOPIC_NAME=(str, None),
+    AZ_SERVICE_BUS_SUBSCRIPTION_NAME=(str, None),
 )
 
 
@@ -189,4 +192,11 @@ STORAGES = {
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
+}
+
+
+REGISTRY_UPDATE_PROCESSOR = {
+    "AZ_SERVICE_BUS_CONNECTION_STRING": env("AZ_SERVICE_BUS_CONNECTION_STRING"),
+    "AZ_SERVICE_BUS_TOPIC_NAME": env("AZ_SERVICE_BUS_TOPIC_NAME"),
+    "AZ_SERVICE_BUS_SUBSCRIPTION_NAME": env("AZ_SERVICE_BUS_SUBSCRIPTION_NAME"),
 }
