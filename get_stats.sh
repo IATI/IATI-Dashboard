@@ -1,3 +1,4 @@
+#!/bin/bash
 set -eux
 # ^ https://explainshell.com/explain?cmd=set+-eux
 
