@@ -23,34 +23,36 @@
         {% if datasets %}
         <div class="iati-card">
           <h4><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}" id="list_{{ publisher.short_name }}">{{ publisher.human_readable_name }}</a> ({{ datasets|length }})</h4>
-          <table>
-            <thead>
-              <tr>
-                <th scope="col">Dataset</th>
-                <th style="max-width: 300px; overflow: clip;" scope="col">URL</th>
-                <th scope="col">Validator report</th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for dataset in datasets.keys() %}
-            {% with dataset_name=dataset %}
-              <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
-                <td style="max-width: 300px; overflow: clip;">
-                  {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
-                  <a href="{{ ckan[publisher.short_name][dataset_name].resource.url }}">{{ ckan[publisher.short_name][dataset_name].resource.url|url_to_filename }}</a>
-                  {% endif %}
-                </td>
-                <td>
-                   {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
-                   <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
-                   {% endif %}
-                </td>
-              </tr>
-            {% endwith %}
-            {% endfor %}
-            </tbody>
-          </table>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                <tr>
+                  <th scope="col">Dataset</th>
+                  <th style="max-width: 300px; overflow: clip;" scope="col">URL</th>
+                  <th scope="col">Validator report</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for dataset in datasets.keys() %}
+              {% with dataset_name=dataset %}
+                <tr>
+                  <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+                  <td style="max-width: 300px; overflow: clip;">
+                    {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
+                    <a href="{{ ckan[publisher.short_name][dataset_name].resource.url }}">{{ ckan[publisher.short_name][dataset_name].resource.url|url_to_filename }}</a>
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
+                    <a href="https://validator.iatistandard.org/report/{{ dataset_name }}">validator</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endwith %}
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
         </div> <!-- end of card -->
         {% endif %}
         {% endwith %}
@@ -66,22 +68,24 @@
         <h3 class="dashboard-panel-heading__title">Count of files that fail validation, per reporting org</h3>
       </div>
       <div class="dashboard-panel-body">
-        <table class="table table-striped">
-          <thead><tr>
-            <th>Reporting Org <a href="{{ stats_url }}/current/inverted-publisher/validation.json">(J)</a></th>
-            <th>Failing files <a href="{{ stats_url }}/current/inverted-file/validation.json">(J)</a></th>
-          </tr></thead>
-          <tbody>
-            {% for publisher in publishers %}
-              {% if publisher.validation_datasets %}
-              <tr>
-                <td><a href="#list_{{ publisher.short_name }}">{{ publisher.human_readable_name }}</a></td>
-                <td>{{ publisher.validation_datasets|length }}</td>
-              </tr>
-              {% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
+        <div class="iati-table">
+          <table class="table iati-table__table">
+            <thead><tr>
+              <th>Reporting Org <a href="{{ stats_url }}/current/inverted-publisher/validation.json">(J)</a></th>
+              <th>Failing files <a href="{{ stats_url }}/current/inverted-file/validation.json">(J)</a></th>
+            </tr></thead>
+            <tbody>
+              {% for publisher in publishers %}
+                {% if publisher.validation_datasets %}
+                <tr>
+                  <td><a href="#list_{{ publisher.short_name }}">{{ publisher.human_readable_name }}</a></td>
+                  <td>{{ publisher.validation_datasets|length }}</td>
+                </tr>
+                {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div> <!-- end of panel body -->
     </div> <!-- end of panel -->
     </div> <!-- end of column -->
