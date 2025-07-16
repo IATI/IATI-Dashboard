@@ -536,8 +536,8 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
         raise Http404("Unknown attribute")
 
     context = _make_context("codelists")
-    i = slugs["codelist"][major_version]["by_slug"][attribute]
-    element = list(current_stats["inverted_publisher"]["codelist_values_by_major_version"][major_version])[i]
+    attribute = ".//" + attribute.replace("_", "/")
+    # TODO replace with db
     values = nested_dictinvert(
         list(current_stats["inverted_publisher"]["codelist_values_by_major_version"][major_version].values())[i]
     )
@@ -546,6 +546,16 @@ def exploringdata_codelists_detail(request, major_version=None, attribute=None):
     _codelist_detail_context(context, major_version, codelist_mapping)
 
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["codelists"], "title": '"' + element + '"'})
+
+    return HttpResponse(template.render(context, request))
+
+
+def exploringdata_codelists_code_detail(request, major_version=None, attribute=None, code=None):
+    template = loader.get_template("codelist_code.html")
+
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["codelists"], "title": '"' + element + '"'})
+    context["breadcrumbs"].append({"title": "Codelists"})
+    context["breadcrumbs"].append({"title": '"' + code + '"'})
 
     return HttpResponse(template.render(context, request))
 

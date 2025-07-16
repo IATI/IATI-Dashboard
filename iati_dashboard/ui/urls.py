@@ -67,6 +67,11 @@ urlpatterns = (
             views.exploringdata_codelists_detail,
             name="dash-exploringdata-codelists-detail",
         ),
+        path(
+            "exploring-data/codelists/<str:major_version>/<str:attribute>/code/<str:code>",
+            views.exploringdata_codelists_code_detail,
+            name="dash-exploringdata-codelists-code-detail",
+        ),
         path("exploring-data/booleans/", views.exploringdata_booleans, name="dash-exploringdata-booleans"),
         path("exploring-data/dates/", views.exploringdata_dates, name="dash-exploringdata-dates"),
         path("exploring-data/versions/", views.versions, name="dash-versions"),

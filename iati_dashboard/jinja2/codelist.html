@@ -45,7 +45,7 @@
                       <tr><td>{{ value }}</td>
                         <td>{{ codelist_lookup[major_version].get(codelist_mapping[major_version].get(element))[value]['name'] }}</td>
                         <td>
-                          <a href="javascript: return false;" class="popover-html" title="Reporting orgs using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in func.sorted(publishers.items()) %}<a href='{{ url('dash-headlines-publisher-detail', args=[publisher]) }}#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
+                          <a href="{{ url('dash-exploringdata-codelists-code-detail', major_version=major_version, attribute=attribute, code=value) }}">{{ publishers|length }}</a>
                       </td></tr>
                       {% endif %}
                   {% endfor %}
@@ -70,7 +70,7 @@
                   {% for value, publishers in values.items() %}
                       {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
                       <tr><td>{{ value }}</td><td>
-                          <a href="javascript: return false;" class="popover-html" title="Reporting orgs using <code>{{ value }}</code>" role="button" tabindex="0" data-trigger="focus" data-content="{% for publisher, count in func.sorted(publishers.items()) %}<a href='{{ url('dash-headlines-publisher-detail', args=[publisher]) }}#p_codelists'>{{ publisher }}</a>:&nbsp;{{ count }}<br/> {% endfor %}">{{ publishers|length }}</a>
+                        <a href="{% url %}">{{ publishers|length }}</a>
                       </td></tr>
                       {% endif %}
                   {% endfor %}
@@ -81,12 +81,4 @@
         </div>
       </div>
     </div>
-{% endblock %}
-
-{% block extrafooter %}
-    <script>
-$('.popover-html').popover({
-  html: true
-})
-    </script>
 {% endblock %}
