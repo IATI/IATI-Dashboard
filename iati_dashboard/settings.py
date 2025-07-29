@@ -30,6 +30,7 @@ env = environ.Env(  # set default values and casting
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
     ENABLE_API_ALPHA=(bool, False),
+    ENABLE_FILTERS_ALPHA=(bool, False),
     AZ_SERVICE_BUS_CONNECTION_STRING=(str, None),
     AZ_SERVICE_BUS_TOPIC_NAME=(str, None),
     AZ_SERVICE_BUS_SUBSCRIPTION_NAME=(str, None),
@@ -49,6 +50,7 @@ SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
 ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
+ENABLE_FILTERS_ALPHA = env("ENABLE_FILTERS_ALPHA")
 
 
 if SENTRY_DSN:
