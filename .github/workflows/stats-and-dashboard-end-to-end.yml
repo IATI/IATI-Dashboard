@@ -27,6 +27,7 @@ jobs:
     - name: Run test script
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+        ENABLE_FILTERS_ALPHA: "True"
       run: |
         # -f bypasses checks before removing directories / dbs
         ./end_to_end_tests/run.sh -f
