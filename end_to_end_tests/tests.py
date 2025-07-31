@@ -5,6 +5,7 @@ See end_to_end_tests/README.md for more information.
 """
 
 import pytest
+import requests
 
 
 @pytest.fixture
@@ -49,3 +50,8 @@ def test_home_page(selenium):
     assert "in_ao_1" in body_text
     # Test recipient-country under transaction
     assert "in_ao_2" in body_text
+
+    reporting_orgs = requests.get(f"{root_url}/api/reporting-orgs/?format=json&recipient_country_code=AO").json()[
+        "results"
+    ]
+    assert {ro["short_name"] for ro in reporting_orgs} == {"in_ao_1", "in_ao_2"}
