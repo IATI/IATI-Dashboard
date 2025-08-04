@@ -1,7 +1,10 @@
+import uuid
+
 from django.db import connection, models
 
 
 class ReportingOrg(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
     stats_json = models.JSONField(default=dict)
@@ -19,9 +22,15 @@ class ReportingOrg(models.Model):
         db_persist=True,
     )
 
+    recipient_country_code = models.JSONField(default=list)
+
     @property
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den
+
+    @property
+    def dataset_count(self):
+        return self.activity_files + self.organisation_files
 
     def filtered_datasets_by(self, stat_name):
         return (
@@ -72,6 +81,7 @@ for key in [
 
 
 class Dataset(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
     short_name = models.CharField(unique=True)
     source_url = models.CharField()

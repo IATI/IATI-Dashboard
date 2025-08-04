@@ -1,0 +1,47 @@
+{% set tab='summary' %}
+{% extends 'comprehensiveness_base.html' %}
+
+
+{% block table_title %}
+Summary Table of Comprehensiveness Values
+{% endblock %}
+
+
+{% block heading_detail %}
+	<p>This page summarises the average percentage of <strong><em>current</em></strong> activities where elements are populated with valid data. (Values in parentheses indicate percentage of activities where elements are populated with any data.) The columns show the average for each of the <a href="{{ url('dash-publishingstats-comprehensiveness-core') }}">core</a>, <a href="{{ url('dash-publishingstats-comprehensiveness-financials') }}">financial</a> and <a href="{{ url('dash-publishingstats-comprehensiveness-valueadded') }}">value-added</a> elements as defined in the related comprehensiveness pages. The Weighted Average column provides an indication of the overall comprehensiveness of the data. It gives a double weighting to the Core Average as these elements are essential for IATI data to be valid for use.</p>
+
+	<p><strong>{Weighted Average}</strong> = (({Core Average} * 2) + {Financials Average} + {Value Added Average}) / 4</p>
+{% endblock %}
+
+
+{% block narrative_text %}
+	<h3>Overview</h3>
+	<p>To assess comprehensiveness, publication of selected elements of the standard have been aggregated into three sections. "Core" are the mandatory fields specified by the Activity Standard. Financials cover publishing of both financial transactions and budgets. Value Added are optional elements of widespread benefit to users.</p>
+
+	<h3>Core Average</h3>
+	<p>An average of the percentages assigned to the ten mandatory activity elements as specified on the <a href="{{ url('dash-publishingstats-comprehensiveness-core') }}">Core</a> page.</p>
+	
+	<h3>Financials Average</h3>
+	<p>An average of the percentages assigned to four financial elements as specified on the <a href="{{ url('dash-publishingstats-comprehensiveness-financials') }}">Financials</a> page.</p>
+	
+	<h3>Value Added Average</h3>
+	<p>An average of the percentages assigned to the ten most useful recommended (non-mandatory) elements as specified on the <a href="{{ url('dash-publishingstats-comprehensiveness-valueadded') }}">Value Added</a> page.</p>
+
+	<h3>Weighted Average</h3>
+	<p>Twice the Core average plus the Financials average plus the Value-Added average, divided by 4.</p>
+{% endblock %}
+
+
+{% block assessment_text %}
+	<p>No assessments are currently employed.</p>
+{% endblock %}
+
+
+{% block exceptions_text %}
+	<p>See, where applicable, the exceptions for each individual element on the associated pages.</p>
+{% endblock %}
+
+
+{% block comparison_text %}
+	<p>The original methodology counted all IATI elements. This approach is more selective, is fairer to reporting orgs as it excludes fields not applicable to all types of organisation, and places more emphasis on mandatory fields.</p>
+{% endblock %}

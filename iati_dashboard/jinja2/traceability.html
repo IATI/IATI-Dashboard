@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+            <p>This page calculates the percentage of reporting orgs’ spending that is traceable.</p>
+            <p>This has been assessed based on other reporting orgs’ activities that reference the activity in <code class="iati-code">transaction/provider-org/@provider-activity-id</code>. If an activity is referenced, all of its spending is counted.</p>
+            <p>Two calculations are made on this page: Counting the activities, and adding up all of the activities’ spend.</p>
+            <p>Spend is the sum of commitments and disbursements.</p>
+
+            {% include '_partials/tablesorter_instructions.html' %}
+          <table class="table table-striped">
+            <thead><tr>
+              <th>Reporting Org</th>
+              <th>Traceable Activities</th>
+              <th>Total Activities</th>
+              <th>Percentage Traceable Activities</th>
+              <th>Traceable Spend</th>
+              <th>Total Spend</th>
+              <th>Percentage Traceable Spend</th>
+            </tr></thead>
+            <tbody>
+              {% for publisher in publishers %}
+                  <tr>
+                      <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher.short_name]) }}{% endif %}">{{ publisher.human_readable_name }}</a></td>
+                      <td>
+                        {%- if publisher.traceable_activities_by_publisher_id -%}
+                          {{ '{:,}'.format(publisher.traceable_activities_by_publisher_id) }}
+                        {%- else -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher.traceable_activities_by_publisher_id_denominator -%}
+                          {{ '{:,}'.format(publisher.traceable_activities_by_publisher_id_denominator) }}
+                        {%- else -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher.traceable_activities_by_publisher_id and publisher.traceable_activities_by_publisher_id_denominator -%}
+                          {{ (publisher.traceable_activities_by_publisher_id / publisher.traceable_activities_by_publisher_id_denominator * 100) | round_nicely }}
+                        {%- elif publisher.traceable_activities_by_publisher_id_denominator -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher.traceable_sum_commitments_and_disbursements_by_publisher_id -%}
+                          {{ '{:,.2f}'.format(publisher.traceable_sum_commitments_and_disbursements_by_publisher_id) }}
+                        {%- else -%}
+                          0.00
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          {{ '{:,.2f}'.format(publisher.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator) }}
+                        {%- else -%}
+                          0.00
+                        {%- endif -%}
+                      </td>
+                      <td>
+                        {%- if publisher.traceable_sum_commitments_and_disbursements_by_publisher_id and publisher.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          {{ (publisher.traceable_sum_commitments_and_disbursements_by_publisher_id / publisher.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator * 100) | round_nicely }}
+                        {%- elif publisher.traceable_sum_commitments_and_disbursements_by_publisher_id_denominator -%}
+                          0
+                        {%- endif -%}
+                      </td>
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+{% endblock %}

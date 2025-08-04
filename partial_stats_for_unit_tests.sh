@@ -1,4 +1,6 @@
+#!/bin/bash
 set -eux
+# ^ https://explainshell.com/explain?cmd=set+-eux
 
 publisher_short_name=zsl
 

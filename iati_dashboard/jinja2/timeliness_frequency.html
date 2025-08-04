@@ -1,0 +1,272 @@
+{% extends 'timeliness_base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+
+{% block content %}
+    <div class="dashboard-panel" id="h_table">
+
+        <div class="dashboard-panel-heading clearfix">
+            <a href="{{ generated_url }}/data/csv/timeliness_frequency.csv" class="float-end dashboard-panel-heading__title">(This table as CSV)</a>
+            <h2 class="float-start dashboard-panel-heading__title">Table of Frequency assessments</h2>
+        </div>
+
+        <div class="dashboard-panel-body">
+            <p>This table measures how often a reporting org updates their data. As transactions are the most numerous element reported in IATI the adopted methodology assumes that a reporting org has updated their data if a transaction with a more recent transaction date than previously published is detected across the reporting org's entire portfolio. </p>
+
+            <p>The table records the number of days in each of the last twelve months on which the most recently recorded transaction date was observed to have changed. (The current month is also displayed for informational purposes, but is not used in the assessment.) </p>
+
+            <p><strong>Key:</strong><br>
+            <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">Red flag</span>: Reporting org currently publishing future transaction dates.<br>
+            <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">Yellow flag</span>: Reporting org not currently publishing future transaction dates, but did report future transactions at some point in the last twelve calendar months (See exceptions).</p>
+
+            {% include '_partials/tablesorter_instructions.html' %}
+
+        <table class="table table-striped" id="main_table">
+            <thead>
+                <tr>
+                    <th rowspan="2">Reporting Org Name</th>
+                    <th rowspan="2">First published</th>
+                    <th colspan="{{ 13-timeliness.this_month_number }}">{{ timeliness.this_year-1 }}</th>
+                    <th colspan="{{ timeliness.this_month_number }}">{{ timeliness.this_year }}</th>
+                    <th rowspan="2"></th>
+                    <th rowspan="2">Frequency</th>
+                </tr>
+                <tr>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <th>{{ timeliness.short_month(month) }}</th>
+                    {% endfor %}
+                    <th>{{ timeliness.short_month(timeliness.this_month) }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher in publishers %}
+                <tr>
+                    {% set per_month=publisher.timeliness_frequency["updates_per_month"] %}
+                    {% set first_published_band=publisher.timeliness_frequency.first_published_band %}
+                    {% set assessment=publisher.timeliness_frequency["frequency"] %}
+                    {% set hft=publisher.has_future_transactions %}
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
+                    <td data-index="{{ timeliness.first_published_band_index(first_published_band) }}">{{ first_published_band }}</td>
+                    {% for month in timeliness.previous_months_reversed %}
+                    <td {% if not per_month[month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[month] or 0 }}</td>
+                    {% endfor %}
+                    <td {% if not per_month[timeliness.this_month] %}class="dashboard-text-muted"{% endif %}>{{ per_month[timeliness.this_month] or 0 }}</td>
+                    <td {% if hft %}class="{{ 'dashboard-red-flag' if hft==2 else 'dashboard-yellow-flag' }}"{% endif %} data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
+                    <td data-index="{{ timeliness.frequency_index(assessment) }}">{{ assessment }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+
+    <div class="dashboard-panel" id="h_summary">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Summary of Reporting Org Performance</h2>
+    </div>
+    <div class="dashboard-panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Frequency</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for bin in publisher_frequency_summary %}
+            <tr>
+                <td>{{ bin.frequency }}</td>
+                <td>{{ bin.total }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Total</td>
+                <td>{{ publisher_count }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    </div>
+    </div>
+
+
+    <div class="dashboard-panel" id="h_assesment">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Assessment</h2>
+    </div>
+    <div class="dashboard-panel-body">
+        <p>To assess these statistics one also has to take into account how long a reporting org has been publishing to IATI. This is calculated based on when a reporting org first appeared in the statistical snapshot.</p>
+        <p>These statistics are then assessed as follows:</p>
+
+        <h3>For reporting orgs of 1 year or more</h3>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>7 or more of the past 12 full months AND data updated at least once in last 2 full months</td>
+        <td>Monthly</td>
+        </tr>
+        <tr>
+        <td>3 or more of the past 12 full months AND data updated at least once in last 4 full months</td>
+        <td>Quarterly</td>
+        </tr>
+        <tr>
+        <td>2 of the last 6 month periods</td>
+        <td>Six-monthly</td>
+        </tr>
+        <tr>
+        <td>1 of the last 12 months</td>
+        <td>Annual</td>
+        </tr>
+        <tr>
+        <td>None of the last 12 months</td>
+        <td>Less than annual</td>
+        </tr>
+        </tbody>
+        </table>
+
+        <h3>For reporting orgs of six months or more</h3>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>4 of the last 6 months</td>
+        <td>Monthly</td>
+        </tr>
+        <tr>
+        <td>2 of the last 2 quarters</td>
+        <td>Quarterly</td>
+        </tr>
+        <tr>
+        <td>1 of the last 12 months</td>
+        <td>Annual</td>
+        </tr>
+        </tbody>
+        </table>
+
+        <h3>For reporting orgs of three months or more</h3>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>3 of the last 3 months</td>
+        <td>Monthly</td>
+        </tr>
+        <tr>
+        <td>1 of the last 6 months</td>
+        <td>Annual</td>
+        </tr>
+        </tbody>
+        </table>
+
+        <h3>For reporting orgs of less than 3 months</h3>
+        <table class="table table-striped">
+        <thead>
+        <tr>
+        <th>Updates reported in ...</th>
+        <th>Assessment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>1 of the last 3 months</td>
+        <td>Annual</td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+    </div>
+
+
+
+    <div class="dashboard-panel" id="h_exceptions">
+        <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Exceptions</h2>
+        </div>
+        <div class="dashboard-panel-body">
+            <p>Future transaction dates disrupt these statistics. For example a reporting org might today report a transaction date for each month for the next year and never refresh their data. Over the next year, as each of these future dates move into the past, the statistics would incorrectly give the reporting org a frequency assessment of monthly, even though they did not refresh their data.</p>
+
+            <p><strong>Future transaction dates may affect the assessments on this page</strong>. Reporting orgs who currently have future transaction dates have a <span style="background-color: var(--dashboard-red-flag-colour); color: #fff;">red flag</span> next to their assessment. A <span style="background-color: var(--dashboard-yellow-flag-colour); color: #fff;">yellow flag</span> indicates that although a reporting org does not currently have future transactions, they did report future transactions at some point over the last twelve calendar months.</p>
+        </div>
+    </div>
+
+
+
+    <div class="dashboard-panel" id="h_comparison">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Comparison with original Global Partnership Indicator methodology</h2>
+    </div>
+    <div class="dashboard-panel-body">
+        <p>This methodology is substantially different.
+
+        <p>In the original Indicator methodology the IATI Registry log dates were analysed to assess when updates had been made. This approach was flawed as the Registry logs record any change, no matter how trivial. A spelling correction, for example, would count as an update. Similarly if a reporting org's file was inaccessible, its reappearance would count as an update.</p>
+    </div>
+    </div>
+
+
+
+    <div class="dashboard-panel" id="h_pseudocode">
+    <div class="dashboard-panel-heading">
+        <h2 class="dashboard-panel-heading__title">Pseudocode</h2>
+    </div>
+    <div class="dashboard-panel-body">
+        <p>To get a count of updates by calendar month (for a given reporting org):</p>
+<pre><code class="iati-code iati-code--block">For data captured each day over the past year
+    For each transaction (of any type) in the reporting org's data
+        Get the transaction date as follows:
+            If transaction-date exists
+                If transaction-date/@iso-date exists
+                    Use transaction-date/@iso-date
+                Else
+                    Use transaction-date/text()
+            Else if value/@value-date exists
+                Use value/@value-date
+            Else the transaction is ignore
+        Parse the start of the transaction date as an iso date (yyyy-mm-dd...).
+            If it does not match, the transaction is ignored.
+        Store a record of this transaction date.
+    Of the recorded dates, find the latest date that is on or before the date the data was captured.
+    Record this date against the date of data capture
+previous transaction date = 0001-01-01
+Loop over the list of dates
+    If transaction date > previous transaction date
+        previous transaction date = transaction date
+        Record an update as having happened on this day
+Count the updates by calendar month
+</code></pre>
+    </div>
+    </div>
+{% endblock %}
+
+{% block tablesorteroptions %}
+{
+    widgets: ['stickyHeaders'],
+    textExtraction: {
+        1: function(node, table, cellIndex) {
+            return $(node).attr('data-index');
+        },
+        15: function(node, table, cellIndex) {
+            return $(node).attr('data-severity');
+        },
+        16: function(node, table, cellIndex) {
+            return $(node).attr('data-index');
+        }
+    }
+}
+{% endblock %}

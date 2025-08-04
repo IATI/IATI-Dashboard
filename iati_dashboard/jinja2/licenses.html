@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="dashboard-panel">
+          <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">Count of reporting orgs per licences in use on the IATI Registry</h2>
+          </div>
+          <div class="dashboard-panel-body">
+            {% include '_partials/tablesorter_instructions.html' %}
+          <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th>License</th>
+                    <th>License ID</th>
+                    <th>Files</th>
+                    <th>Publishers</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for license, files in func.sorted(license_count.items()) %}
+                <tr>
+                    <td>{% if license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names[license] }}</a>{% else %}{{ license_names[license] }}{% endif %}</td>
+                    <td>{{ license }}</td>
+                    <td>{{ files }}</td>
+                    <td><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -7,7 +7,7 @@ from .ui.jinja2 import round_nicely
 # Set column groupings, to be displayed in the user output
 columns = [
     # slug, header
-    ("publisher_type", "Publisher Type"),
+    ("publisher_type", "Reporting Org Type"),
     ("timeliness", "Timeliness"),
     ("forwardlooking", "Forward looking"),
     ("comprehensiveness", "Comprehensiveness"),

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %} 
+{% block content %}
+    <div class="row">
+      {{ boxes.box_h2('Total activities', current_stats.aggregated.activities, 'img/aggregate/activities.png', 'activities.json',
+        description='Total count of activities across all reporting orgs, over time.
+        Note: this includes activities with duplicate <code class="iati-code">iati-identifier</code>') }}
+      {{ boxes.box_h2('Unique Activities', current_stats.aggregated.unique_identifiers, 'img/aggregate/unique_identifiers.png', 'unique_identifiers.json',
+        description='Total count of unique activities across all reporting orgs, over time
+        Note: this excludes counts of duplicate <code class="iati-code">iati-identifier</code>') }}
+      {{ boxes.box_h2('Activities by publisher type', '', 'img/aggregate/activities_per_publisher_type.png', None, 'img/aggregate/activities_per_publisher_type_legend.png',
+        description='Count of all activities, aggregated by reporting org type, over time.') }}
+    </div>
+{% endblock %}

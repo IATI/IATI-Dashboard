@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+
+{% block container %}
+
+    {% block page_header_div %}
+        {{ super() }}
+    {% endblock %}
+
+    <ol class="iati-piped-list">
+        <li><a href="#h_table" class="iati-piped-list__link">Table</a></li>
+        <li><a href="#h_summary" class="iati-piped-list__link">Summary of Reporting Org Performance</a></li>
+        <li><a href="#h_assesment" class="iati-piped-list__link">Assessment</a></li>
+        <li><a href="#h_exceptions" class="iati-piped-list__link">Exceptions</a></li>
+        <li><a href="#h_comparison" class="iati-piped-list__link">Comparison with original Global Partnership Indicator methodology</a></li>
+        <li><a href="#h_pseudocode" class="iati-piped-list__link">Pseudocode</a></li>
+    </ol>
+    <br>
+
+    {% block content %}
+    {% endblock %}
+{% endblock %}
+
+{% block tablesortertarget %}table#main_table{% endblock %}
