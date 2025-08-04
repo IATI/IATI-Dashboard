@@ -1,5 +1,6 @@
 import uuid
 
+import django.utils.timezone
 from django.db import connection, models
 
 
@@ -7,7 +8,15 @@ class ReportingOrg(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
+
     stats_json = models.JSONField(default=dict)
+    stats_json_updated = models.DateTimeField(default=django.utils.timezone.now)
+    registry_metadata_realtime = models.JSONField(default=dict)
+    registry_metadata_realtime_updated = models.DateTimeField(default=django.utils.timezone.now)
+    registry_metadata_stats = models.JSONField(default=dict)
+    registry_metadata_stats_updated = models.DateTimeField(default=django.utils.timezone.now)
+
+    # These are populated during dashboard_import
     has_future_transactions = models.IntegerField(default=0)
     timeliness_frequency = models.JSONField(default=dict)
     forwardlooking = models.JSONField(default=dict)
@@ -85,4 +94,10 @@ class Dataset(models.Model):
     reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
     short_name = models.CharField(unique=True)
     source_url = models.CharField()
+
     stats_json = models.JSONField(default=dict)
+    stats_json_updated = models.DateTimeField(default=django.utils.timezone.now)
+    registry_metadata_realtime = models.JSONField(default=dict)
+    registry_metadata_realtime_updated = models.DateTimeField(default=django.utils.timezone.now)
+    registry_metadata_stats = models.JSONField(default=dict)
+    registry_metadata_stats_updated = models.DateTimeField(default=django.utils.timezone.now)

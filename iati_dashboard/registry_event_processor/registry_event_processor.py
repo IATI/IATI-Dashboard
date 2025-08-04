@@ -84,6 +84,7 @@ class RegistryEventProcessor:
                 source_url=message_payload["dataset"]["url"],
                 stats_json={},
                 reporting_org=ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"]),
+                registry_metadata_realtime=message_payload["dataset"],
             )
             dataset.save()
             self.print_success("created", "dataset", message_payload["dataset"])
@@ -104,6 +105,7 @@ class RegistryEventProcessor:
                 short_name=message_payload["reporting_org"]["short_name"],
                 human_readable_name=message_payload["reporting_org"]["human_readable_name"],
                 stats_json={"activity_files": 0, "organisation_files": 0},
+                registry_metadata_realtime=message_payload["reporting_org"],
             )
             reporting_org.save()
             self.print_success("created", "reporting_org", message_payload["reporting_org"])
@@ -118,6 +120,7 @@ class RegistryEventProcessor:
             dataset.short_name = message_payload["dataset"]["short_name"]
             dataset.source_url = message_payload["dataset"]["url"]
             dataset.reporting_org = ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"])
+            dataset.registry_metadata_realtime = message_payload["dataset"]
             dataset.save()
             self.print_success("updated", "dataset", message_payload["dataset"])
         except ReportingOrg.DoesNotExist:
@@ -141,6 +144,7 @@ class RegistryEventProcessor:
             reporting_org = ReportingOrg.objects.get(id=message_payload["reporting_org"]["id"])
             reporting_org.short_name = message_payload["reporting_org"]["short_name"]
             reporting_org.human_readable_name = message_payload["reporting_org"]["human_readable_name"]
+            reporting_org.registry_metadata_realtime = message_payload["reporting_org"]
             reporting_org.save()
             self.print_success("updated", "reporting_org", message_payload["reporting_org"])
         except ReportingOrg.DoesNotExist:
