@@ -1,0 +1,34 @@
+# See end_to_end_tests/README.md for more information.
+name: IATI-Stats and IATI-Dashboard end to end tests
+on: [push, pull_request]
+jobs:
+  end_to_end:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test_database_name
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Fetch codelists, schemas etc.
+      run: |
+        pip install -r requirements.txt
+        ./fetch_data.sh no-download-errors-history
+    - name: Run test script
+      env:
+        DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
+        ENABLE_FILTERS_ALPHA: "True"
+        ENABLE_API_ALPHA: "True"
+      run: |
+        # -f bypasses checks before removing directories / dbs
+        ./end_to_end_tests/run.sh -f

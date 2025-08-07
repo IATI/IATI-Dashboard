@@ -17,7 +17,14 @@
       <a class="dashboard-panel-heading__title light float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
     </div>
     <div class="dashboard-panel-body">
-      <p>Click on the reporting org name for more details.</p>
+      {% if show_filters %}
+        <form method="get">
+            {{ filter.form.as_p() }}
+            <button class="iati-button iati-button--submit">Submit</button>
+        </form>
+        <p>Reporting orgs in query: {{ filter.qs.count() }}</p>
+      {% endif %}
+        <p>Click on the reporting org name for more details.</p>
         {% include '_partials/tablesorter_instructions.html' %}
       <div class="iati-table">
         <table class="table iati-table__table">

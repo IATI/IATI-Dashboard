@@ -2,6 +2,7 @@
 pytest
 pytest-cov
 pytest-django
+pytest-selenium
 coveralls
 flake8
 flake8-pyproject

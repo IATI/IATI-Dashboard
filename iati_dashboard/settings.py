@@ -25,9 +25,15 @@ env = environ.Env(  # set default values and casting
     DEBUG=(bool, False),
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
+    USE_X_FORWARDED_HOST=(bool, False),
+    ALLOWED_HOSTS=(list, [".dashboard.iatistandard.org", "localhost", "127.0.0.1"]),
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
     ENABLE_API_ALPHA=(bool, False),
+    ENABLE_FILTERS_ALPHA=(bool, False),
+    AZ_SERVICE_BUS_CONNECTION_STRING=(str, None),
+    AZ_SERVICE_BUS_TOPIC_NAME=(str, None),
+    AZ_SERVICE_BUS_SUBSCRIPTION_NAME=(str, None),
 )
 
 
@@ -37,9 +43,14 @@ DEBUG = env("DEBUG")
 
 SENTRY_DSN = env("SENTRY_DSN")
 
-ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
+USE_X_FORWARDED_HOST = env("USE_X_FORWARDED_HOST")
 
-ALLOWED_HOSTS = [".dashboard.iatistandard.org", "testserver", "localhost", "127.0.0.1"]
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+ALLOWED_HOSTS = env("ALLOWED_HOSTS")
+
+ENABLE_API_ALPHA = env("ENABLE_API_ALPHA")
+ENABLE_FILTERS_ALPHA = env("ENABLE_FILTERS_ALPHA")
 
 
 if SENTRY_DSN:
@@ -183,4 +194,11 @@ STORAGES = {
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
+}
+
+
+REGISTRY_UPDATE_PROCESSOR = {
+    "AZ_SERVICE_BUS_CONNECTION_STRING": env("AZ_SERVICE_BUS_CONNECTION_STRING"),
+    "AZ_SERVICE_BUS_TOPIC_NAME": env("AZ_SERVICE_BUS_TOPIC_NAME"),
+    "AZ_SERVICE_BUS_SUBSCRIPTION_NAME": env("AZ_SERVICE_BUS_SUBSCRIPTION_NAME"),
 }

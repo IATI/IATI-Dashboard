@@ -6,6 +6,7 @@ import json
 import subprocess
 
 import dateutil.parser
+from django.conf import settings
 from django.db.models import Count, F
 from django.http import Http404, HttpResponse
 from django.template import loader
@@ -270,6 +271,7 @@ def faq(request):
 def headlines_publishers(request):
     context = _make_context("publishers", include_large_dicts=False)
     context["filter"] = filters.ReportingOrgFilter(request.GET, queryset=models.ReportingOrg.objects.all())
+    context["show_filters"] = settings.ENABLE_FILTERS_ALPHA
     template = loader.get_template("publishers.html")
     return HttpResponse(template.render(context, request))
 
@@ -560,6 +562,8 @@ def exploringdata_publisher_codelist_detail(request, publisher_short_name=None, 
     if attribute.endswith("/text"):
         attribute += "()"
     values = publisher.stats_json.get("codelist_values_by_major_version", {}).get(major_version, {}).get(attribute)
+    if not values:
+        raise Http404("No data for that codelist")
 
     context = _make_context("publishers", include_large_dicts=False)
     context["publisher"] = publisher
