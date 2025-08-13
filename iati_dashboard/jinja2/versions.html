@@ -64,7 +64,6 @@
               <h4>
               <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
               </h4>
-              <p class="iati-card-body">
                 <div class="iati-table">
                   <table class="table iati-table__table">
                     {% for publisher in publishers %}
@@ -74,7 +73,6 @@
                     {% endfor %}
                   </table>
                 </div>
-              </p>
             </div>
             {% endif %}
             {% endfor %}
