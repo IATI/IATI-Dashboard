@@ -4,6 +4,7 @@ import re
 
 from django.templatetags.static import static
 from django.urls import reverse
+
 from jinja2 import Environment
 
 from .. import timeliness
