@@ -11,22 +11,24 @@
       {{ boxes.box_h2('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'img/aggregate/file_size.png', 'file_size.json') }}
       <div class="col-md-6">
         <div class="dashboard-panel">
-        <div class="dashboard-panel-heading clearfix">
-            <a href="{{ stats_url }}/current/aggregated/file_size_bins.json" class="dashboard-panel-heading__title float-end">(J)</a>
+          <div class="dashboard-panel-heading clearfix">
+            <a href="{{ stats_url }}/current/aggregated/file_size_bins.json" class="dashboard-panel-heading__title light float-end">(J)</a>
             <h2 class="dashboard-panel-heading__title float-start">File Sizes</h2>
-        </div>
-        <div class="dashboard-panel-body">
-        <table class="table table-striped">
-            <tbody>
-            {% for bin,freq in func.sorted(current_stats.aggregated.file_size_bins.items(), key=func.firstint) %}
-                <tr>
+          </div>
+          <div class="dashboard-panel-body">
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <tbody>
+                {% for bin,freq in func.sorted(current_stats.aggregated.file_size_bins.items(), key=func.firstint) %}
+                  <tr>
                     <td>{{ bin }}</td>
                     <td>{{ freq }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-        </div>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -34,38 +36,39 @@
     <div class="row">
       <div class="col-xs-12">
         <div class="dashboard-panel">
-        <div class="dashboard-panel-heading">
-          <h2 class="dashboard-panel-heading__title">
-            Total file size by publisher
-          </h2>
-        </div>
-        <div class="dashboard-panel-body">
-            {% include '_partials/tablesorter_instructions.html' %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Publisher</th>
-                    <th>Package</th>
-                    <th>Activities <a href="{{ stats_url }}/current/inverted-file/activities.json">(J)</a></th>
-                    <th>Organisations <a href="{{ stats_url }}/current/inverted-file/organisations.json">(J)</a></th>
-                    <th>File Size <a href="{{ stats_url }}/current/inverted-file/file_size.json">(J)</a></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for package, activities in current_stats.inverted_file.activities.items() %}
-                <tr>
-                    {% set publisher=func.dataset_to_publisher(package) %}
-                    <td class="break"><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_name[func.dataset_to_publisher(package)] }}</a></td>
-                    <td class="break"><a href="http://iatiregistry.org/dataset/{{ package }}">{{ package }}</a></td>
-                    <td>{{ activities }}</td>
-                    <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
-                    <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-                </div>
-
+          <div class="dashboard-panel-heading">
+            <h2 class="dashboard-panel-heading__title">
+              Total file size by publisher
+            </h2>
+          </div>
+          <div class="dashboard-panel-body">
+              {% include '_partials/tablesorter_instructions.html' %}
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <thead>
+                    <tr>
+                        <th>Publisher</th>
+                        <th>Package</th>
+                        <th>Activities <a href="{{ stats_url }}/current/inverted-file/activities.json">(J)</a></th>
+                        <th>Organisations <a href="{{ stats_url }}/current/inverted-file/organisations.json">(J)</a></th>
+                        <th>File Size <a href="{{ stats_url }}/current/inverted-file/file_size.json">(J)</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for package, activities in current_stats.inverted_file.activities.items() %}
+                    <tr>
+                        {% set publisher=func.dataset_to_publisher(package) %}
+                        <td class="break"><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_name[func.dataset_to_publisher(package)] }}</a></td>
+                        <td class="break"><a href="http://iatiregistry.org/dataset/{{ package }}">{{ package }}</a></td>
+                        <td>{{ activities }}</td>
+                        <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
+                        <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>

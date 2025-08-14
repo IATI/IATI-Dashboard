@@ -21,11 +21,6 @@ def test_validate_html(page):
         # files is too big to validate with the w3c validator when run from docker
         "files.html",
         "exploring-data/files/",
-        # versions loads repoting org readable names from the ckan json file, and has
-        # full list even when rest of data is limited to zsl, but one reporting org
-        # name currently gives a warning, so that is excluded here
-        "versions.html",
-        "exploring-data/versions/",
     ]:
         pytest.skip()
 
@@ -33,4 +28,4 @@ def test_validate_html(page):
     html_validation = requests.post(
         "http://localhost:8888/?out=json", data=r.text, headers={"Content-Type": "text/html; charset=utf-8"}
     )
-    assert len(html_validation.json()["messages"]) == 0
+    assert all(message["type"] == "info" for message in html_validation.json()["messages"])

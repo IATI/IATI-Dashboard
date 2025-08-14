@@ -52,8 +52,9 @@ em {
   background-color:white;
 }
 
-html,body {
-  height:100%;
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
 .dashboard-text-muted {
@@ -180,4 +181,18 @@ a.popover-html:focus {
 }
 .iati-card p {
   margin-top: 0;
+}
+
+/* DESIGN SYSTEM OVERRIDES */
+
+.iati-design-system--enabled .iati-main,
+.iati-design-system--enabled .iati-header__container,
+.iati-design-system--enabled .iati-footer__container {
+  max-width: 1280px;
+}
+
+.iati-design-system--enabled .iati-table td,
+.iati-design-system--enabled .iati-table th {
+  min-width: unset;
+  padding: 0.5rem;
 }
