@@ -1,8 +1,8 @@
 [tool.isort]
 py_version=312
-extend_skip = ["__pycache__", ".mypy_cache", ".ve", ".venv", ".vagrant-ve"]
+extend_skip = ["__pycache__", ".mypy_cache", ".ve", ".venv", ".vagrant-ve", "stats-calculated"]
 skip_gitignore = true
-src_paths = ["dashboard", "end_to_end_tests"]
+src_paths = ["iati_dashboard", "end_to_end_tests"]
 line_length = 119
 profile = "black"
 
