@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from ...registry_event_processor.registry_event_processor import MessageProcessor
+from ...realtime_message_processor.message_processor import MessageProcessor
 
 
 class Command(BaseCommand):
