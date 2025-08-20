@@ -129,7 +129,7 @@ a.popover-html:focus {
   }
   
 .dashboard-red-flag {
-  background-color: var(--dashboard-red-flag-colour);
+  background-color: var(--dashboard-red-flag-colour) !important;
   color: #fff;
 
   > a {
@@ -144,7 +144,7 @@ a.popover-html:focus {
 }
 
 .dashboard-yellow-flag {
-  background-color: var(--dashboard-yellow-flag-colour);
+  background-color: var(--dashboard-yellow-flag-colour) !important;
   color: #fff;
 
   > a {
