@@ -1,4 +1,5 @@
 import uuid
+from enum import Enum
 
 from django.db import connection, models
 
@@ -85,4 +86,65 @@ class Dataset(models.Model):
     reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
     short_name = models.CharField(unique=True)
     source_url = models.CharField()
+    most_recent_dataset_check_result = models.JSONField(default=dict)
     stats_json = models.JSONField(default=dict)
+
+
+class ReportingOrgEventTypes(Enum):
+    REGISTRY_REPORTING_ORG_RECORD_CREATED = (
+        "REGISTRY_REPORTING_ORG_RECORD_CREATED",
+        "Reporting Org record created on the IATI Registry",
+    )
+    REGISTRY_REPORTING_ORG_RECORD_UPDATED = (
+        "REGISTRY_REPORTING_ORG_RECORD_UPDATED",
+        "Reporting Org record updated on the IATI Registry",
+    )
+    REGISTRY_REPORTING_ORG_RECORD_DELETED = (
+        "REGISTRY_REPORTING_ORG_RECORD_DELETED",
+        "Reporting Org record deleted on the IATI Registry",
+    )
+
+
+class ReportingOrgEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    timestamp = models.DateTimeField(db_index=True)
+    reporting_org_id = models.UUIDField(db_index=True)
+    initiating_user_id = models.UUIDField(null=True)
+    initiating_user_name = models.CharField(null=True)
+    initiating_application_id = models.UUIDField(null=True)
+    initiating_application_name = models.CharField(null=True)
+    initiating_organisation_id = models.UUIDField(null=True)
+    initiating_organisation_name = models.UUIDField(null=True)
+    event_type = models.CharField(
+        max_length=50, choices=[(option.value[0], option.value[1]) for option in ReportingOrgEventTypes]
+    )
+    message_payload = models.CharField()
+    data_fields_current = models.JSONField()
+    data_fields_previous = models.JSONField(null=True)
+
+
+class DatasetEventTypes(Enum):
+    REGISTRY_RECORD_CREATED = "REGISTRY_DATASET_RECORD_CREATED", "Dataset record created on the IATI Registry"
+    REGISTRY_RECORD_UPDATED = "REGISTRY_DATASET_RECORD_UPDATED", "Dataset record updated on the IATI Registry"
+    REGISTRY_RECORD_DELETED = "REGISTRY_DATASET_RECORD_DELETED", "Dataset record deleted on the IATI Registry"
+    DATASET_DOWNLOAD_STATUS_CHANGED = "DOWNLOAD_STATUS_CHANGED", "Dataset download status changed"
+    DATASET_CONTENT_CHANGED = "DATASET_CONTENT_CHANGED", "Dataset content changed"
+
+
+class DatasetEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    timestamp = models.DateTimeField(db_index=True)
+    dataset_id = models.UUIDField(db_index=True)
+    reporting_org_id = models.UUIDField(db_index=True)
+    initiating_user_id = models.UUIDField(null=True)
+    initiating_user_name = models.CharField(null=True)
+    initiating_application_id = models.UUIDField(null=True)
+    initiating_application_name = models.CharField(null=True)
+    initiating_organisation_id = models.UUIDField(null=True)
+    initiating_organisation_name = models.UUIDField(null=True)
+    event_type = models.CharField(
+        max_length=50, choices=[(option.value[0], option.value[1]) for option in DatasetEventTypes]
+    )
+    message_payload = models.CharField()
+    data_fields_current = models.JSONField()
+    data_fields_previous = models.JSONField(null=True)
