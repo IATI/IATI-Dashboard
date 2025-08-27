@@ -56,7 +56,7 @@ class Command(BaseCommand):
                 )
                 try:
                     dataset = Dataset(
-                        id=dataset_dict["resource"]["id"],
+                        id=dataset_dict["resource"]["package_id"],
                         reporting_org=ReportingOrg.objects.get(short_name=publisher_short_name),
                         short_name=dataset_short_name,
                         source_url=dataset_dict["resource"]["url"],

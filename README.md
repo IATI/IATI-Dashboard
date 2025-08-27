@@ -96,11 +96,23 @@ The Dashboard will now be accessible from <http://localhost:8000/>.
 python manage.py run_realtime_update_processor
 ```
 
-This requires setting three environment variables:
-`AZ_SERVICE_BUS_CONNECTION_STRING`, `AZ_SERVICE_BUS_TOPIC_NAME`, and
-`AZ_SERVICE_BUS_SUBSCRIPTION_NAME`. Get the value for the first from the Azure
-portal; the values for the other two are in the AsyncAPI specification stored
-here: https://github.com/IATI/iati-message-queue-service.
+This can be configured using the following environment variables:
+
+```
+REALTIME_UPDATE_SERVICE_LOOP_SLEEP=3  # optional, defaults to 3
+REALTIME_UPDATE_SERVICE_LOOP_SLEEP_AFTER_ERROR=15   # optional, defaults to 15
+AZ_SERVICE_BUS_CONNECTION_STRING=
+AZ_SERVICE_BUS_REGISTRY_CHANGES_TOPIC_NAME=
+AZ_SERVICE_BUS_REGISTRY_CHANGES_SUBSCRIPTION_NAME=
+AZ_SERVICE_BUS_DATASET_CHECK_RESULTS_TOPIC_NAME=
+AZ_SERVICE_BUS_DATASET_CHECK_RESULTS_SUBSCRIPTION_NAME=
+```
+
+The value of `AZ_SERVICE_BUS_CONNECTION_STRING` should be retreived from the
+Azure portal.
+
+The value of the other four variables should be drawn from the AsyncAPI
+specification stored here: https://github.com/IATI/iati-message-queue-service.
 
 ## Development
 
