@@ -84,39 +84,6 @@ def make_csv(verbose=False):
             publisher_dict["Element"] = element
             writer.writerow(publisher_dict)
 
-    logger.info("Generating registry.csv")
-    with open(filepaths.join_out_path("data/csv/registry.csv"), "w") as fp:
-        keys = [
-            "name",
-            "title",
-            "publisher_frequency",
-            "publisher_frequency_select",
-            "publisher_implementation_schedule",
-            "publisher_ui",
-            "publisher_field_exclusions",
-            "publisher_contact",
-            "image_url",
-            "display_name",
-            "publisher_iati_id",
-            "publisher_units",
-            "publisher_record_exclusions",
-            "publisher_data_quality",
-            "publisher_country",
-            "publisher_description",
-            "publisher_refs",
-            "publisher_thresholds" "publisher_agencies",
-            "publisher_constraints",
-            "publisher_organization_type",
-            "publisher_segmentation",
-            "license_id",
-            "state",
-            "publisher_timeliness",
-        ]
-        writer = csv.DictWriter(fp, keys)
-        writer.writeheader()
-        for publisher_json in data.ckan_publishers.values():
-            writer.writerow({x: publisher_json["result"].get(x) or 0 for x in keys})
-
     publishers = models.ReportingOrg.objects.all().order_by("human_readable_name")
 
     logger.info("Generating timeliness_frequency.csv")

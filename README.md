@@ -79,7 +79,6 @@ python manage.py dashboard_import
 ```
 python -m iati_dashboard.make_plots
 python manage.py make_csv
-python -m iati_dashboard.speakers_kit
 ```
 
 ### 5. Run the webserver.
