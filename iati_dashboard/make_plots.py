@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 """Generates static images of stats graphs using matplotlib."""
 
-import argparse
 import csv
 import datetime
 import logging
@@ -195,11 +194,7 @@ def make_plot(stat_path, git_stats, img_prefix=""):
         del writer
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--verbose", action="store_true", help="Generate images verbosely to stdout")
-    args = parser.parse_args()
-
+def make_plots(verbose=False):
     # Load data required for loading stats.
     failed_downloads = csv.reader(open(filepaths.join_data_path("downloads/history.csv")))
     gitaggregate_publisher = data.JSONDir(filepaths.join_stats_path("gitaggregate-publisher-dated"))
@@ -233,10 +228,10 @@ def main():
         ("activities_per_publisher_type", lambda x: True, ""),
     ]
     with tqdm(total=len(_paths)) as pbar:
-        if args.verbose:
+        if verbose:
             pbar.set_description("Generate aggregate plots")
         for stat_path in _paths:
-            if args.verbose:
+            if verbose:
                 pbar.update()
             make_plot(stat_path, git_stats, img_prefix="img/aggregate/")
 
@@ -251,10 +246,10 @@ def main():
     os.makedirs(filepaths.join_out_path("img/publishers"), exist_ok=True)
 
     with tqdm(total=len(git_stats_publishers)) as pbar:
-        if args.verbose:
+        if verbose:
             pbar.set_description("Generate plots for all publishers")
         for publisher, git_stats_publisher in git_stats_publishers.items():
-            if args.verbose:
+            if verbose:
                 pbar.update()
             for stat_path in [
                 "activities",
@@ -268,7 +263,3 @@ def main():
                 ("versions", lambda x: True, ""),
             ]:
                 make_plot(stat_path, git_stats_publisher, img_prefix="img/publishers/{0}_".format(publisher))
-
-
-if __name__ == "__main__":
-    main()

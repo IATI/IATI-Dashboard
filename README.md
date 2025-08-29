@@ -77,7 +77,7 @@ python manage.py dashboard_import
 ### 4. Build static data and graphs
 
 ```
-python -m iati_dashboard.make_plots
+python manage.py make_plots
 python manage.py make_csv
 ```
 
