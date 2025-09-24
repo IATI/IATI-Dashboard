@@ -12,23 +12,20 @@ logger = logging.getLogger(__name__)
 
 
 def publisher_dicts():
-    publisher_name = {
-        publisher: publisher_json["result"]["title"] for publisher, publisher_json in data.ckan_publishers.items()
-    }
-    for publisher, activities in data.current_stats["inverted_publisher"]["activities"].items():
-        if publisher not in data.ckan_publishers:
+    for reporting_org in data.metadata_reporting_orgs["reporting_orgs"]:
+        publisher_stats = data.get_publisher_stats(reporting_org["short_name"])
+        if not publisher_stats:
             continue
-        publisher_stats = data.get_publisher_stats(publisher)
         yield {
-            "Publisher Name": publisher_name[publisher],
-            "Publisher Registry Id": publisher,
-            "Activities": activities,
+            "Publisher Name": reporting_org["human_readable_name"],
+            "Publisher Registry Id": reporting_org["short_name"],
+            "Activities": publisher_stats["activities"],
             "Organisations": publisher_stats["organisations"],
             "Files": publisher_stats["activity_files"] + publisher_stats["organisation_files"],
             "Activity Files": publisher_stats["activity_files"],
             "Organisation Files": publisher_stats["organisation_files"],
             "Total File Size": publisher_stats["file_size"],
-            "Reporting Org on Registry": data.ckan_publishers[publisher]["result"]["publisher_iati_id"],
+            "Reporting Org on Registry": reporting_org["organisation_identifier"],
             "Reporting Orgs in Data (count)": len(publisher_stats["reporting_orgs"]),
             "Reporting Orgs in Data": ";".join(publisher_stats["reporting_orgs"]),
             "Hierarchies (count)": len(publisher_stats["hierarchies"]),
@@ -94,6 +91,8 @@ def make_csv(verbose=False):
             ["Publisher Name", "Publisher Registry Id"] + previous_months + ["Frequency", "First published"]
         )
         for publisher in publishers:
+            if not publisher.timeliness_frequency:
+                continue
             per_month = publisher.timeliness_frequency["updates_per_month"]
             first_published_band = publisher.timeliness_frequency["first_published_band"]
             assessment = publisher.timeliness_frequency["frequency"]
@@ -109,10 +108,12 @@ def make_csv(verbose=False):
         writer = csv.writer(fp)
         writer.writerow(["Publisher Name", "Publisher Registry Id"] + previous_months + ["Time lag"])
         for publisher in publishers:
-            per_month = publisher.stats_json["transaction_months_with_year"]
+            per_month = publisher.stats_json.get("transaction_months_with_year", {})
             # hft=publisher.has_future_transactions
             previous_months = timeliness.previous_months_reversed
-            assessment = publisher.stats_json["timelag"]
+            assessment = publisher.stats_json.get("timelag")
+            if assessment is None:
+                continue
             writer.writerow(
                 [publisher.human_readable_name, publisher.short_name]
                 + [per_month.get(x) or 0 for x in previous_months]

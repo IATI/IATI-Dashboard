@@ -4,15 +4,14 @@
 import csv
 import datetime
 import logging
-import os  # noqa: F401
+import os
 from collections import defaultdict
 
 import matplotlib as mpl
-import numpy as np  # noqa: F401
 from tqdm import tqdm
 
-from . import common, data, filepaths
-from .vars import expected_versions  # noqa: F401
+from . import data, filepaths, models
+from .vars import expected_versions
 
 mpl.use("Agg")
 import matplotlib.dates as mdates  # noqa: E402
@@ -20,6 +19,14 @@ import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as ticker  # noqa: E402
 
 logger = logging.getLogger(__name__)
+
+
+def get_organization_type(publisher):
+    reporting_org = models.ReportingOrg.objects.get(short_name=publisher)
+    if reporting_org:
+        return reporting_org.organisation_type_name
+    else:
+        return None
 
 
 class AugmentedJSONDir(data.JSONDir):
@@ -34,8 +41,8 @@ class AugmentedJSONDir(data.JSONDir):
         elif key == "publisher_types":
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in self.gitaggregate_publisher.items():
-                if publisher in data.ckan_publishers:
-                    organization_type = common.get_publisher_type(publisher)["name"]
+                if publisher in data.publisher_name:
+                    organization_type = get_organization_type(publisher)
                     for datestring, count in publisher_data["activities"].items():
                         out[datestring][organization_type] += 1
                 else:
@@ -44,8 +51,8 @@ class AugmentedJSONDir(data.JSONDir):
         elif key == "activities_per_publisher_type":
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in self.gitaggregate_publisher.items():
-                if publisher in data.ckan_publishers:
-                    organization_type = common.get_publisher_type(publisher)["name"]
+                if publisher in data.publisher_name:
+                    organization_type = get_organization_type(publisher)
                     for datestring, count in publisher_data["activities"].items():
                         out[datestring][organization_type] += count
                 else:

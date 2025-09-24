@@ -69,7 +69,7 @@ def denominator(key, stats):
     Returns either the specifc demominator calculated, or a default denominator value.
     """
 
-    # If stats not pased to this function, return zero
+    # If stats not passed to this function, return zero
     if not stats:
         return 0
 
@@ -145,11 +145,13 @@ def generate_row(publisher):
             publisher_base = publisher_stats.get("bottom_hierarchy", {})
 
         elif column_base_lookup[slug] == "hierarchy_with_most_budgets":
-            publisher_base = publisher_stats["by_hierarchy"].get(get_hierarchy_with_most_budgets(publisher_stats), {})
+            publisher_base = publisher_stats.get("by_hierarchy", {}).get(
+                get_hierarchy_with_most_budgets(publisher_stats), {}
+            )
 
         elif column_base_lookup[slug] == "first_hierarchy_with_commitments":
             if get_first_hierarchy_with_commitments(publisher_stats):
-                publisher_base = publisher_stats["by_hierarchy"].get(
+                publisher_base = publisher_stats.get("by_hierarchy", {}).get(
                     get_first_hierarchy_with_commitments(publisher_stats), {}
                 )
             else:

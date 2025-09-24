@@ -1,6 +1,5 @@
 # This file converts a range of transparency data to percentages
 
-from . import common
 from .data import secondary_publishers
 from .ui.jinja2 import round_nicely
 
@@ -42,7 +41,10 @@ def generate_row(publisher):
     # Create a list for publisher data, and populate it with basic data
     row = {}
     row["publisher"] = publisher.short_name
-    row["publisher_type"] = common.get_publisher_type(publisher.short_name)["name"]
+    row["publisher_type"] = publisher.organisation_type_name
+
+    if not publisher.timeliness_frequency:
+        return {}
 
     # Compute timeliness statistic
     # Assign frequency score
@@ -60,7 +62,7 @@ def generate_row(publisher):
 
     # Assign timelag score
     # Get initial timelag assessment, or use empty set in the case where the publisher is not found
-    timelag_assessment = publisher.stats_json["timelag"]
+    timelag_assessment = publisher.stats_json.get("timelag", "More than one year")
     if timelag_assessment == "One month":
         timelag_score = 4
     elif timelag_assessment == "A quarter":

@@ -6,10 +6,6 @@ set -eux
 mkdir -p data/downloads/
 wget "https://gist.githubusercontent.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/raw/errors" -O data/downloads/errors
 
-# Get CKAN (IATI Registry)
-rm -rf data/ckan_publishers/
-python fetch_data.py
-
 # Have an option to skip this step (e.g. for CI), because it is slow
 if [[ "$@" != "no-download-errors-history" ]]; then
     # Generate a csv file with the number of download errors logged since 2013

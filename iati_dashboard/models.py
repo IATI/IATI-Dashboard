@@ -1,14 +1,41 @@
+import json
 import uuid
 from enum import Enum
 
 from django.db import connection, models
+
+from . import filepaths
+
+#  Import organisation_type_codelist as a global, then delete when used to save memory
+with open(filepaths.join_data_path("IATI-Codelists-2/out/clv2/json/en/OrganisationType.json")) as fh:
+    organisation_type_codelist = json.load(fh)
+organisation_type_dict = {c["code"]: c["name"] for c in organisation_type_codelist["data"]}
+del organisation_type_codelist
+
+
+DEFAULT_STATS_JSON = {
+    "activities": 0,
+    "organisations": 0,
+    "activity_files": 0,
+    "organisation_files": 0,
+    "file_size": 0,
+    "hierarchies": {},
+    "reporting_orgs": {},
+}
+
+
+def get_default_stats_json():
+    return DEFAULT_STATS_JSON
 
 
 class ReportingOrg(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     short_name = models.CharField(unique=True)
     human_readable_name = models.CharField()
-    stats_json = models.JSONField(default=dict)
+
+    metadata_json = models.JSONField(default=dict)
+    stats_json = models.JSONField(default=get_default_stats_json)
+
     has_future_transactions = models.IntegerField(default=0)
     timeliness_frequency = models.JSONField(default=dict)
     forwardlooking = models.JSONField(default=dict)
@@ -16,6 +43,7 @@ class ReportingOrg(models.Model):
     humanitarian = models.JSONField(default=dict)
     summary_stats = models.JSONField(default=dict)
     validation_datasets = models.JSONField(default=dict)
+
     # too long
     traceable_sum_commitments_and_disbursements_by_publisher_id_den = models.GeneratedField(
         expression=models.F("stats_json__traceable_sum_commitments_and_disbursements_by_publisher_id_denominator"),
@@ -32,6 +60,10 @@ class ReportingOrg(models.Model):
     @property
     def dataset_count(self):
         return self.activity_files + self.organisation_files
+
+    @property
+    def organisation_type_name(self):
+        return organisation_type_dict.get(self.organisation_type)
 
     def filtered_datasets_by(self, stat_name):
         return (
@@ -81,13 +113,26 @@ for key in [
     )
 
 
+for key in [
+    "organisation_type",
+]:
+    ReportingOrg.add_to_class(
+        key,
+        models.GeneratedField(
+            expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
+        ),
+    )
+
+
 class Dataset(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     reporting_org = models.ForeignKey(ReportingOrg, on_delete=models.CASCADE)
     short_name = models.CharField(unique=True)
     source_url = models.CharField()
     most_recent_dataset_check_result = models.JSONField(default=dict)
-    stats_json = models.JSONField(default=dict)
+
+    metadata_json = models.JSONField(default=dict)
+    stats_json = models.JSONField(default=get_default_stats_json)
 
 
 class ReportingOrgEventTypes(Enum):
