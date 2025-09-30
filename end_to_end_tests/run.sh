@@ -43,12 +43,14 @@ pip install -r requirements.txt
 cd ..
 
 # Run dashboard
-rm -r stats-calculated/ || true
+rm -r stats-calculated || true
 ln -s IATI-Stats/gitout stats-calculated
 pip install -r requirements_dev.txt
 python manage.py collectstatic --noinput
 python manage.py migrate
 python manage.py dashboard_import
 
+# Kill all background processes when we exit, even when exiting with an error
+trap 'kill $(jobs -p)' EXIT
 python manage.py runserver &
 pytest --driver Firefox end_to_end_tests/

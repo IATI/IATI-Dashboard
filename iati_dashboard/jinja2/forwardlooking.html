@@ -17,7 +17,7 @@
     <div class="dashboard-panel" id="h_table">
 
         <div class="dashboard-panel-heading clearfix">
-            <a href="{{ generated_url }}/data/csv/forwardlooking.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <a href="{{ generated_url }}/data/csv/forwardlooking.csv" class="dashboard-panel-heading__title light float-end">(This table as CSV)</a>
             <h2 class="dashboard-panel-heading__title float-start">Activities with Forward Looking Budget Allocations</h2>
         </div>
 
@@ -37,49 +37,51 @@
             </p>
             {% include '_partials/tablesorter_instructions.html' %}
 
-        <table class="table table-striped" id="main_table">
-            <thead>
-                <tr>
-                    <th rowspan="2">Reporting Org Name</th>
-                    {% for column_header in forwardlooking.column_headers %}
-                    <th colspan="3">{{ column_header }}</th>
-                    {% endfor %}
-                    <th rowspan="2"></th>
-                </tr>
-                <tr>
-                    {% for i in range(0,3) %}
-                    {% for year in forwardlooking.years %}
-                    <th>{{ year }}</th>
-                    {% endfor %}
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for publisher in publishers %}
-                <tr>
-                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
-
-                    {% for column in publisher.forwardlooking.year_columns %}
-                        {% for year in forwardlooking.years %}
-                            <td {% if not column[year] or column[year]=='-' %}class="dashboard-text-muted"{% endif %}>
-                                {% if column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
-                            </td>
+            <div class="iati-table">
+              <table class="table iati-table__table" id="main_table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Reporting Org Name</th>
+                        {% for column_header in forwardlooking.column_headers %}
+                        <th colspan="3">{{ column_header }}</th>
                         {% endfor %}
-                    {% endfor %}
+                        <th rowspan="2"></th>
+                    </tr>
+                    <tr>
+                        {% for i in range(0,3) %}
+                        {% for year in forwardlooking.years %}
+                        <th>{{ year }}</th>
+                        {% endfor %}
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for publisher in publishers %}
+                    <tr>
+                        <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
 
-                    {%- if publisher.forwardlooking['flag'] and publisher.forwardlooking['budget_not_provided'] -%}
-                    <td class="dashboard-mixed-flag" data-severity="3"><a href="#h_exceptions">*</a></td>
-                    {%- elif publisher.forwardlooking['budget_not_provided'] -%}
-                    <td class="dashboard-red-flag" data-severity="1"><a href="#h_exceptions">*</a></td>
-                    {%- elif publisher.forwardlooking['flag'] -%}
-                    <td class="dashboard-yellow-flag" data-severity="2"><a href="#h_exceptions">*</a></td>
-                    {%- else -%}
-                    <td data-severity="0"></td>
-                    {%- endif -%}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                        {% for column in publisher.forwardlooking.year_columns %}
+                            {% for year in forwardlooking.years %}
+                                <td {% if not column[year] or column[year]=='-' %}class="dashboard-text-muted"{% endif %}>
+                                    {% if column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
+                                </td>
+                            {% endfor %}
+                        {% endfor %}
+
+                        {%- if publisher.forwardlooking['flag'] and publisher.forwardlooking['budget_not_provided'] -%}
+                        <td class="dashboard-mixed-flag" data-severity="3"><a href="#h_exceptions">*</a></td>
+                        {%- elif publisher.forwardlooking['budget_not_provided'] -%}
+                        <td class="dashboard-red-flag" data-severity="1"><a href="#h_exceptions">*</a></td>
+                        {%- elif publisher.forwardlooking['flag'] -%}
+                        <td class="dashboard-yellow-flag" data-severity="2"><a href="#h_exceptions">*</a></td>
+                        {%- else -%}
+                        <td data-severity="0"></td>
+                        {%- endif -%}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
         </div>
     </div>
 

@@ -1,0 +1,20 @@
+<iati-activities version="2.03">
+  <iati-activity>
+    <!-- Required elements to ensure this passes schema validation -->
+    <iati-identifier>AA-AAA-123456789-ABC123</iati-identifier>
+    <reporting-org ref="AA-AAA-123456789" type="40">
+      <narrative>Organisation name</narrative>
+    </reporting-org>
+    <title>
+      <narrative>Activity title</narrative>
+    </title>
+    <description>
+      <narrative>General activity description.</narrative>
+    </description>
+    <participating-org ref="BB-BBB-123456789" role="1"/>
+    <activity-status code="2"/>
+    <activity-date iso-date="2012-04-15" type="1"/>
+    <!-- Elements we're doing tests based on -->
+    <recipient-country code="AO" />
+  </iati-activity>
+</iati-activities>

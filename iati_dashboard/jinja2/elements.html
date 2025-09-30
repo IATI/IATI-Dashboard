@@ -14,25 +14,27 @@
             </ul>
             <p>Empty values for attributes are treated the same as if the attribute is not present.</p>
             {% include '_partials/tablesorter_instructions.html' %}
-          <table class="table table-striped">
-            <thead><tr>
-              <th>Element/Attribute</th>
-              <th>Reporting Orgs <a href="{{ stats_url }}/current/inverted-publisher/elements.json">(J)</a></th>
-              <th>Activities/Orgs with element <a href="{{ stats_url }}/current/aggregated/elements.json">(J)</a></th>
-              <th>Total Instances of Element <a href="{{ stats_url }}/current/aggregated/elements_total.json">(J)</a></th>
-            </tr></thead>
-            <tbody>
-              {% for i, (element,publishers) in func.enumerate(current_stats.inverted_publisher.elements.items()) %}
-              {% if func.is_valid_element_or_attribute(element) %}
-              <tr>
-                <td class="break"><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[i]]) }}">{{ element }}</a></td>
-                <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[i]]) }}">{{ publishers|length }}</a></td>
-                <td>{{ current_stats.aggregated.elements[element] }}</td>
-                <td>{{ current_stats.aggregated.elements_total[element] }}</td>
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead><tr>
+                <th>Element/Attribute</th>
+                <th>Reporting Orgs <a href="{{ stats_url }}/current/inverted-publisher/elements.json">(J)</a></th>
+                <th>Activities/Orgs with element <a href="{{ stats_url }}/current/aggregated/elements.json">(J)</a></th>
+                <th>Total Instances of Element <a href="{{ stats_url }}/current/aggregated/elements_total.json">(J)</a></th>
+              </tr></thead>
+              <tbody>
+                {% for i, (element,publishers) in func.enumerate(current_stats.inverted_publisher.elements.items()) %}
+                {% if func.is_valid_element_or_attribute(element) %}
+                <tr>
+                  <td class="break"><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[i]]) }}">{{ element }}</a></td>
+                  <td><a href="{{ url('dash-exploringdata-elements-detail', args=[slugs.element.by_i[i]]) }}">{{ publishers|length }}</a></td>
+                  <td>{{ current_stats.aggregated.elements[element] }}</td>
+                  <td>{{ current_stats.aggregated.elements_total[element] }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
 
 {% endblock %}

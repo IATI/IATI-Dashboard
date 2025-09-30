@@ -5,7 +5,7 @@
     <div class="dashboard-panel" id="h_table">
 
         <div class="dashboard-panel-heading clearfix">
-            <a href="{{ generated_url }}/data/csv/timeliness_timelag.csv" class="dashboard-panel-heading__title float-end">(This table as CSV)</a>
+            <a href="{{ generated_url }}/data/csv/timeliness_timelag.csv" class="dashboard-panel-heading__title light float-end">(This table as CSV)</a>
             <h2 class="float-start dashboard-panel-heading__title">Table of Time lag assessments</h2>
         </div>
 
@@ -19,7 +19,8 @@
 
             {% include '_partials/tablesorter_instructions.html' %}
 
-        <table class="table table-striped" id="main_table">
+        <div class="iati-table">
+          <table class="table iati-table__table" id="main_table">
             <thead>
                 <tr>
                     <th rowspan="2">Reporting Org Name</th>
@@ -50,8 +51,9 @@
                 </tr>
                 {% endfor %}
             </tbody>
-        </table>
+          </table>
         </div>
+      </div>
     </div>
 
 
@@ -62,28 +64,30 @@
             <h2 class="dashboard-panel-heading__title">Summary of Reporting Org Performance</h2>
         </div>
         <div class="dashboard-panel-body">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Frequency</th>
-                    <th>Count</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for bin in publisher_timelag_summary %}
-                <tr>
-                    <td>{{ bin.timelag }}</td>
-                    <td>{{ bin.total }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>Total</td>
-                    <td>{{ publisher_count }}</td>
-                </tr>
-            </tfoot>
-        </table>
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                  <tr>
+                      <th>Frequency</th>
+                      <th>Count</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for bin in publisher_timelag_summary %}
+                  <tr>
+                      <td>{{ bin.timelag }}</td>
+                      <td>{{ bin.total }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <td>Total</td>
+                      <td>{{ publisher_count }}</td>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
     </div>
 
@@ -92,37 +96,39 @@
         <h2 class="dashboard-panel-heading__title">Assessment</h2>
     </div>
     <div class="dashboard-panel-body">
-        <p>These statistics are assessed as follows:</p>
-        <table class="table table-striped">
-        <thead>
-        <tr>
-        <th>Transactions reported for ...</th>
-        <th>Assessment</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-        <td>2 of the last 3 months</td>
-        <td>One month in arrears</td>
-        </tr>
-        <tr>
-        <td>1 of the last 3 months</td>
-        <td>A quarter in arrears</td>
-        </tr>
-        <tr>
-        <td>Any of the last 6 months</td>
-        <td>Six months in arrears</td>
-        </tr>
-        <tr>
-        <td>1 of the last 12 months</td>
-        <td>One year in arrears</td>
-        </tr>
-        <tr>
-        <td>None of the last 12 months</td>
-        <td>More than one year in arrears</td>
-        </tr>
-        </tbody>
+      <p>These statistics are assessed as follows:</p>
+      <div class="iati-table">
+        <table class="table iati-table__table">
+          <thead>
+          <tr>
+          <th>Transactions reported for ...</th>
+          <th>Assessment</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+          <td>2 of the last 3 months</td>
+          <td>One month in arrears</td>
+          </tr>
+          <tr>
+          <td>1 of the last 3 months</td>
+          <td>A quarter in arrears</td>
+          </tr>
+          <tr>
+          <td>Any of the last 6 months</td>
+          <td>Six months in arrears</td>
+          </tr>
+          <tr>
+          <td>1 of the last 12 months</td>
+          <td>One year in arrears</td>
+          </tr>
+          <tr>
+          <td>None of the last 12 months</td>
+          <td>More than one year in arrears</td>
+          </tr>
+          </tbody>
         </table>
+      </div>
     </div>
     </div>
 

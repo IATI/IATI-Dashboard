@@ -14,29 +14,31 @@
     <div class="col-md-6">
     <div class="dashboard-panel">
     <div class="dashboard-panel-heading clearfix">
-        <a href="{{ stats_url }}/current/inverted-file/invalidxml.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <a href="{{ stats_url }}/current/inverted-file/invalidxml.json" class="dashboard-panel-heading__title light float-end">(J)</a>
         <h2 class="float-start dashboard-panel-heading__title">Files where XML is not well-formed</h2>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Publisher</th>
-                <th>Dataset</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dataset, invalid in current_stats.inverted_file.invalidxml.items() %}
-            {% if invalid %}
-            <tr>
-                {% set publisher=func.dataset_to_publisher(dataset) %}
-                <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+      <div class="iati-table">
+        <table class="table iati-table__table">
+          <thead>
+              <tr>
+                  <th>Publisher</th>
+                  <th>Dataset</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for dataset, invalid in current_stats.inverted_file.invalidxml.items() %}
+              {% if invalid %}
+              <tr>
+                  {% set publisher=func.dataset_to_publisher(dataset) %}
+                  <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
+                  <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
     </div>
     </div>
@@ -44,29 +46,31 @@
     <div class="col-md-6">
     <div class="dashboard-panel">
     <div class="dashboard-panel-heading clearfix">
-        <a href="{{ stats_url }}/current/inverted-file/nonstandardroots.json" class="float-end dashboard-panel-heading__title">(J)</a>
+        <a href="{{ stats_url }}/current/inverted-file/nonstandardroots.json" class="dashboard-panel-heading__title light float-end">(J)</a>
         <h2 class="float-start dashboard-panel-heading__title">Files with non-standard roots</h2>
     </div>
     <div class="dashboard-panel-body">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Publisher</th>
-                <th>Dataset</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dataset, nonstandard in current_stats.inverted_file.nonstandardroots.items() %}
-            {% if nonstandard %}
-            <tr>
-                {% set publisher=func.dataset_to_publisher(dataset) %}
-                <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </tbody>
-    </table>
+      <div class="iati-table">
+        <table class="table iati-table__table">
+          <thead>
+              <tr>
+                  <th>Publisher</th>
+                  <th>Dataset</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for dataset, nonstandard in current_stats.inverted_file.nonstandardroots.items() %}
+              {% if nonstandard %}
+              <tr>
+                  {% set publisher=func.dataset_to_publisher(dataset) %}
+                  <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
+                  <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
     </div>
     </div>

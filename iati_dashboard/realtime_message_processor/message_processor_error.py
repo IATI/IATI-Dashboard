@@ -1,0 +1,2 @@
+class MessageProcessorRuntimeError(RuntimeError):
+    pass

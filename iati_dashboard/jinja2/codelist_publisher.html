@@ -36,20 +36,22 @@
           </div>
           <div class="dashboard-panel-body">
             <p>Codes that are on the <code class="iati-code">{{ codelist_mapping[major_version].get(element) }}</code> codelist.</p>
-          <table class="table table-striped">
-            <thead><tr><th>Value</th><th>Name</th><th>Occurences</th></tr></thead>
-            <tbody>
-              {% for value, occurences in values.items() %}
-                  {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
-                  <tr>
-                    <td>{{ value }}</td>
-                    <td>{{ codelist_lookup[major_version].get(codelist_mapping[major_version].get(element))[value]['name'] }}</td>
-                    <td>{{ occurences }}</td>
-                  </tr>
-                  {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <thead><tr><th>Value</th><th>Name</th><th>Occurences</th></tr></thead>
+                <tbody>
+                  {% for value, occurences in values.items() %}
+                      {% if value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
+                      <tr>
+                        <td>{{ value }}</td>
+                        <td>{{ codelist_lookup[major_version].get(codelist_mapping[major_version].get(element))[value]['name'] }}</td>
+                        <td>{{ occurences }}</td>
+                      </tr>
+                      {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -57,23 +59,25 @@
       <div class="col-md-6">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading">
-              <h2 class="dashboard-panel-heading__title">Not On Codelist</h2>
+            <h2 class="dashboard-panel-heading__title">Not On Codelist</h2>
           </div>
           <div class="dashboard-panel-body">
-              <p>Codes that are not on the <code class="iati-code">{{ codelist_mapping[major_version].get(element) }}</code> codelist.</p>
-          <table class="table table-striped">
-            <thead><tr><th>Value</th><th>Occurences</th></tr></thead>
-            <tbody>
-              {% for value, occurences in values.items() %}
-                  {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
-                  <tr>
-                    <td>{{ value }}</td>
-                    <td>{{ occurences }}</td>
-                  </tr>
-                  {% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
+            <p>Codes that are not on the <code class="iati-code">{{ codelist_mapping[major_version].get(element) }}</code> codelist.</p>
+            <div class="iati-table">
+              <table class="table iati-table__table">
+                <thead><tr><th>Value</th><th>Occurences</th></tr></thead>
+                <tbody>
+                  {% for value, occurences in values.items() %}
+                      {% if not value in codelist_sets[major_version].get(codelist_mapping[major_version].get(element)) %}
+                      <tr>
+                        <td>{{ value }}</td>
+                        <td>{{ occurences }}</td>
+                      </tr>
+                      {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

@@ -5,7 +5,8 @@
         <p>(<a href="{{ stats_url }}/current/inverted-publisher/boolean_values.json">This table as JSON</a>)</p>
         <p>List of values used by reporting orgs for attributes that should be valid XML booleans (ie. <code class="iati-code">true</code>, <code class="iati-code">false</code>, <code class="iati-code">0</code> or <code class="iati-code">1</code>).</p>
         {% include '_partials/tablesorter_instructions.html' %}
-          <table class="table table-striped">
+        <div class="iati-table">
+          <table class="table iati-table__table">
             <thead><tr><th>Element</th><th>Values</th><th>Publishers</th></tr></thead>
             <tbody>
               {% for boolean, values in current_stats.inverted_publisher.boolean_values.items() %}
@@ -19,6 +20,7 @@
               {% endfor %}
             </tbody>
           </table>
+        </div>
 {% endblock %}
 
 {% block tablesorteroptions %}{
