@@ -2,8 +2,14 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 from ... import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
-from ...data import JSONDir, ckan, ckan_publishers, current_stats, get_publisher_stats, publishers_ordered_by_title
-from ...models import Dataset, ReportingOrg
+from ...data import (
+    JSONDir,
+    current_stats,
+    get_publisher_stats,
+    metadata_datasets,
+    metadata_reporting_orgs,
+)
+from ...models import DEFAULT_STATS_JSON, Dataset, ReportingOrg
 
 
 def recipient_country_code(stats_json):
@@ -23,45 +29,48 @@ class Command(BaseCommand):
         ReportingOrg.objects.all().delete()
         Dataset.objects.all().delete()
 
-        for publisher_title, publisher_slug in publishers_ordered_by_title:
-            if ckan_publishers[publisher_slug]["result"]["id"] == "None":
-                continue
-            stats_json = dict(get_publisher_stats(publisher_slug))
-            publisher = ReportingOrg(
-                id=ckan_publishers[publisher_slug]["result"]["id"],
-                human_readable_name=publisher_title,
-                short_name=publisher_slug,
+        for reporting_org_dict in metadata_reporting_orgs["reporting_orgs"]:
+            stats_json = dict(get_publisher_stats(reporting_org_dict["short_name"]))
+            if not stats_json:
+                stats_json = DEFAULT_STATS_JSON
+            reporting_org = ReportingOrg(
+                id=reporting_org_dict["id"],
+                human_readable_name=reporting_org_dict["human_readable_name"],
+                short_name=reporting_org_dict["short_name"],
+                metadata_json=reporting_org_dict,
                 stats_json=stats_json,
-                has_future_transactions=timeliness.has_future_transactions(publisher_slug),
-                timeliness_frequency=timeliness.publisher_frequency_generate_row(publisher_slug),
-                forwardlooking=forwardlooking.generate_row(publisher_slug),
-                comprehensiveness=comprehensiveness.generate_row(publisher_slug),
-                humanitarian=humanitarian.generate_row(publisher_slug),
-                validation_datasets=current_stats["inverted_file_publisher"][publisher_slug]["validation"].get(
-                    "fail", {}
-                ),
+                has_future_transactions=timeliness.has_future_transactions(reporting_org_dict["short_name"]),
+                timeliness_frequency=timeliness.publisher_frequency_generate_row(reporting_org_dict["short_name"]),
+                forwardlooking=forwardlooking.generate_row(reporting_org_dict["short_name"]),
+                comprehensiveness=comprehensiveness.generate_row(reporting_org_dict["short_name"]),
+                validation_datasets=current_stats["inverted_file_publisher"]
+                .get(reporting_org_dict["short_name"], {})
+                .get("validation", {})
+                .get("fail", {}),
                 recipient_country_code=recipient_country_code(stats_json),
             )
-            publisher.summary_stats = summary_stats.generate_row(publisher)
-            publisher.save()
+            reporting_org.save()
+            reporting_org.humanitarian = humanitarian.generate_row(reporting_org)
+            reporting_org.summary_stats = summary_stats.generate_row(reporting_org)
+            reporting_org.save()
 
-        for publisher_short_name, datasets_dict in ckan.items():
-            for dataset_short_name, dataset_dict in datasets_dict.items():
-                stats_json = dict(
-                    JSONDir(
-                        filepaths.join_stats_path(
-                            f"current/aggregated-file/{publisher_short_name}/{dataset_short_name}"
-                        )
+        for dataset_dict in metadata_datasets["datasets"]:
+            stats_json = dict(
+                JSONDir(
+                    filepaths.join_stats_path(
+                        f"current/aggregated-file/{dataset_dict["reporting_org_short_name"]}/{dataset_dict["short_name"]}"
                     )
                 )
-                try:
-                    dataset = Dataset(
-                        id=dataset_dict["resource"]["package_id"],
-                        reporting_org=ReportingOrg.objects.get(short_name=publisher_short_name),
-                        short_name=dataset_short_name,
-                        source_url=dataset_dict["resource"]["url"],
-                        stats_json=stats_json,
-                    )
-                    dataset.save()
-                except ReportingOrg.DoesNotExist:
-                    print("Publisher", publisher_short_name, "not found")
+            )
+            try:
+                dataset = Dataset(
+                    id=dataset_dict["id"],
+                    reporting_org=ReportingOrg.objects.get(short_name=dataset_dict["reporting_org_short_name"]),
+                    short_name=dataset_dict["short_name"],
+                    source_url=dataset_dict["source_url"],
+                    stats_json=stats_json,
+                    metadata_json=dataset_dict,
+                )
+                dataset.save()
+            except ReportingOrg.DoesNotExist:
+                print("Publisher", dataset_dict["reporting_org_short_name"], "not found")

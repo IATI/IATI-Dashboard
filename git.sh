@@ -15,13 +15,10 @@ echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import"
 python manage.py dashboard_import
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_plots.py"
-python -m iati_dashboard.make_plots
+python manage.py make_plots
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_csv.py"
 python manage.py make_csv
-
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running speakers_kit.py"
-python -m iati_dashboard.speakers_kit
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Make a backup of the old web directory and make new content live"
 rm -rf web.1 || true # web.1 may not exist

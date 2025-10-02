@@ -62,6 +62,9 @@ gitaggregate_publisher = JSONDir(filepaths.join_stats_path("gitaggregate-publish
 def publisher_frequency_generate_row(publisher):
     """Generate the publisher frequency data"""
 
+    if publisher not in gitaggregate_publisher:
+        return {}
+
     agg = gitaggregate_publisher[publisher]
 
     # Skip to the next publisher if there is no data for 'most_recent_transaction_date' for this publisher
@@ -150,14 +153,20 @@ def publisher_frequency_generate_row(publisher):
 
 
 def frequency_index(frequency):
+    if frequency is None:
+        frequency = "Less than Annual"
     return ["Monthly", "Quarterly", "Six-Monthly", "Annual", "Less than Annual"].index(frequency)
 
 
 def timelag_index(timelag):
+    if timelag is None:
+        timelag = "More than one year"
     return ["One month", "A quarter", "Six months", "One year", "More than one year"].index(timelag)
 
 
 def first_published_band_index(first_published_band):
+    if type(first_published_band) is not str:
+        return 0
     return [
         "More than 5 years ago",
         "3-5 years ago",

@@ -33,7 +33,7 @@ def generate_row(publisher):
     row["year_columns"] = [{}, {}, {}]
     row["budget_not_provided"] = False
     # Work with hierarchies
-    by_hierarchy = publisher_stats["by_hierarchy"]
+    by_hierarchy = publisher_stats.get("by_hierarchy", {})
     hierarchies_with_nonzero_budgets = [
         h
         for h, stats in by_hierarchy.items()
@@ -54,9 +54,9 @@ def generate_row(publisher):
         if len(hierarchies_with_budget_not_provided) > 0:
             row["budget_not_provided"] = True
         # If 'forwardlooking_activities_current' and 'forwardlooking_activities_with_budgets' or 'forwardlooking_activities_with_budget_not_provided' are in the bottom hierarchy
-        if "forwardlooking_activities_current" in publisher_stats["bottom_hierarchy"] and (
-            "forwardlooking_activities_with_budgets" in publisher_stats["bottom_hierarchy"]
-            or "forwardlooking_activities_with_budget_not_provided" in publisher_stats["bottom_hierarchy"]
+        if "forwardlooking_activities_current" in publisher_stats.get("bottom_hierarchy", {}) and (
+            "forwardlooking_activities_with_budgets" in publisher_stats.get("bottom_hierarchy", {})
+            or "forwardlooking_activities_with_budget_not_provided" in publisher_stats("bottom_hierarchy", {})
         ):
             if len(hierarchies_with_nonzero_budgets) != 1:
                 # If budgets are at more than one hierarchy (or no hierarchies), just use activities at all hierarchies

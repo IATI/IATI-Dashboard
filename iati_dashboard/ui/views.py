@@ -25,16 +25,14 @@ from .. import (
 )
 from ..data import (
     MAJOR_VERSIONS,
-    ckan,
-    ckan_publishers,
     codelist_lookup,
     codelist_mapping,
     codelist_sets,
     current_stats,
-    dataset_to_publisher_dict,
     element_slug,
     get_publisher_stats,
     is_valid_element_or_attribute,
+    metadata_datasets,
     publisher_name,
     publishers_ordered_by_title,
     slugs,
@@ -61,18 +59,19 @@ with open(filepaths.join_stats_path("licenses.json")) as handler:
     LICENSE_URLS = json.load(handler)
 
 LICENSES = [
-    package["license_id"] if package["license_id"] is not None else "notspecified"
-    for _, publisher in ckan.items()
-    for _, package in publisher.items()
+    dataset["licence_id"] if dataset["licence_id"] is not None else "notspecified"
+    for dataset in metadata_datasets["datasets"]
 ]
 
 LICENCE_COUNT = dict((x, LICENSES.count(x)) for x in set(LICENSES))
 
 LICENSES_AND_PUBLISHER = set(
     [
-        (package["license_id"] if package["license_id"] is not None else "notspecified", publisher_name)
-        for publisher_name, publisher in ckan.items()
-        for package_name, package in publisher.items()
+        (
+            dataset["licence_id"] if dataset["licence_id"] is not None else "notspecified",
+            dataset["reporting_org_short_name"],
+        )
+        for dataset in metadata_datasets["datasets"]
     ]
 )
 
@@ -80,17 +79,19 @@ LICENSES_PER_PUBLISHER = [license for license, publisher in LICENSES_AND_PUBLISH
 PUBLISHER_LICENSE_COUNT = dict((x, LICENSES_PER_PUBLISHER.count(x)) for x in set(LICENSES_PER_PUBLISHER))
 
 
-def _get_licenses_for_publisher(publisher_name):
+def _get_licenses_for_publisher(short_name):
     # Check publisher is in the compiled list of CKAN data
     # Arises from https://github.com/IATI/IATI-Dashboard/issues/408
-    if publisher_name not in ckan.keys():
-        return set()
 
     # Return unique licenses used
     return set(
         [
-            package["license_id"] if package["license_id"] is not None else "notspecified"
-            for package in ckan[publisher_name].values()
+            (
+                dataset.metadata_json["licence_id"]
+                if dataset.metadata_json.get("licence_id") is not None
+                else "notspecified"
+            )
+            for dataset in models.ReportingOrg.objects.get(short_name=short_name).dataset_set.all()
         ]
     )
 
@@ -154,6 +155,13 @@ PAGE_VIEW_NAMES = {
 }
 
 
+metadata_datasets_dict = {d["short_name"]: d for d in metadata_datasets["datasets"]}
+
+
+def dataset_to_publisher(dataset_short_name):
+    return metadata_datasets_dict.get(dataset_short_name, {}).get("reporting_org_short_name")
+
+
 def _make_context(page_name: str, include_large_dicts: bool = True):
     """Make a basic context dictionary for a given page"""
 
@@ -188,7 +196,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
             "sorted": sorted,
             "firstint": template_funcs.firstint,
             "get_codelist_values": template_funcs.get_codelist_values,
-            "dataset_to_publisher": lambda x: dataset_to_publisher_dict.get(x, ""),
+            "dataset_to_publisher": dataset_to_publisher,
             "get_publisher_stats": get_publisher_stats,
             "is_valid_element_or_attribute": is_valid_element_or_attribute,
             "set": set,
@@ -223,8 +231,6 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
     if include_large_dicts:
         # Have the option to exclude these dicts, as they slow the debug pages down consiberably
         context["current_stats"] = current_stats
-        context["ckan_publishers"] = ckan_publishers
-        context["ckan"] = ckan
     context["codelist_lookup"] = codelist_lookup
     context["codelist_mapping"] = codelist_mapping
     context["codelist_sets"] = codelist_sets
@@ -422,19 +428,18 @@ def licenses_detail(request, license_id=None):
     if license_id not in LICENSE_URLS:
         raise Http404("Unknown license")
 
-    publishers = [
-        publisher_name
-        for publisher_name, publisher in ckan.items()
-        for _, package in publisher.items()
-        if package["license_id"] == license_id or (license_id == "notspecified" and package["license_id"] is None)
-    ]
+    reporting_orgs = models.ReportingOrg.objects.filter(dataset__metadata_json__licence_id=license_id).annotate(
+        Count("dataset")
+    )
     context = _make_context("licenses")
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["licenses"], "title": text.LICENSE_NAMES[license_id]})
     context["license_urls"] = LICENSE_URLS
     context["license_names"] = text.LICENSE_NAMES
     context["licenses"] = True
     context["license"] = license_id
-    context["publisher_counts"] = [(publisher, publishers.count(publisher)) for publisher in set(publishers)]
+    context["publisher_counts"] = [
+        (reporting_org.short_name, reporting_org.dataset_count) for reporting_org in reporting_orgs
+    ]
     return HttpResponse(template.render(context, request))
 
 

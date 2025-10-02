@@ -1,0 +1,34 @@
+{
+  "reporting_orgs": [
+    {
+        "id": "084ec95e4f1e4430ae77eb6ea375f160",
+        "short_name": "in_ao_1",
+        "human_readable_name": "Reporting Org that is in AO #1",
+        "organisation_type": "40"
+    },
+    {
+        "id": "00a23082a4be48c193fff032e4eaf0e5",
+        "short_name": "in_ao_2",
+        "human_readable_name": "Reporting Org that is in AO #2",
+        "organisation_type": "40"
+    },
+    {
+        "id": "9b3e925a5748401b8a045086d9a7ba6b",
+        "short_name": "publisher_in_ao_1",
+        "human_readable_name": "Publisher in AO #1",
+        "organisation_type": 40
+    },
+    {
+        "id": "3b189cec13324f7fa21dfaa457952bb3",
+        "short_name": "publisher_in_ao_2",
+        "human_readable_name": "Publisher in AO #2",
+        "organisation_type": 40
+    },
+    {
+      "id": "297649cc-0933-4c74-8df7-9ac27e6f4680",
+      "short_name": "test_ro_1",
+      "human_readable_name": "Test RO 1",
+      "organisation_type": "40"
+    }
+  ]
+}
