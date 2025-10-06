@@ -23,6 +23,17 @@ def recipient_country_code(stats_json):
         return []
 
 
+def file_types(stats_json):
+    types = []
+    if stats_json.get("activity_files"):
+        types.append("iati-activities")
+    if stats_json.get("organisation_files"):
+        types.append("iati-organisations")
+    if stats_json.get("activity_files") and stats_json.get("organisation_files"):
+        types.append("both")
+    return types
+
+
 class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
@@ -48,6 +59,7 @@ class Command(BaseCommand):
                 .get("validation", {})
                 .get("fail", {}),
                 recipient_country_code=recipient_country_code(stats_json),
+                file_types=file_types(stats_json),
             )
             reporting_org.save()
             reporting_org.humanitarian = humanitarian.generate_row(reporting_org)

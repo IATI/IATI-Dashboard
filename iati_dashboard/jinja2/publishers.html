@@ -18,6 +18,7 @@
     </div>
     <div class="dashboard-panel-body">
       {% if show_filters %}
+        <p>NOTE: This is a development server, and not all of these filters will work correctly.</p>
         <form method="get">
             {{ filter.form.as_p() }}
             <button class="iati-button iati-button--submit">Submit</button>
