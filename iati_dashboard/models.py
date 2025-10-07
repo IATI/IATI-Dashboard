@@ -52,6 +52,7 @@ class ReportingOrg(models.Model):
     )
 
     recipient_country_code = models.JSONField(default=list)
+    file_types = models.JSONField(default=list)
 
     @property
     def traceable_sum_commitments_and_disbursements_by_publisher_id_denominator(self):
@@ -114,6 +115,7 @@ for key in [
 
 
 for key in [
+    "hq_country",
     "organisation_type",
 ]:
     ReportingOrg.add_to_class(

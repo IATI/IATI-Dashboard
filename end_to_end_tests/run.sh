@@ -9,7 +9,7 @@ set -eux
 # Temporarily turn off -x to make messages clearer
 set +x
 if [[ "$@" != "-f" ]]; then
-    echo "This script will replace the IATI-Stats, stats-calculated, data/ckan_publishers directories with test data."
+    echo "This script will replace the IATI-Stats and stats-calculated directories with test data."
     echo "This script will also replace the database at \"$DATABASE_URL\" with test data."
     read -p "Do you wish to continue? (y/n): "
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then

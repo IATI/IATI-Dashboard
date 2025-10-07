@@ -6,10 +6,23 @@ from .models import ReportingOrg
 
 COUNTRY_CODELIST_CHOICES = [(code, code_dict["name"]) for code, code_dict in codelist_lookup["2"]["Country"].items()]
 
+FILE_TYPE_CHOICES = [("iati-activities", "Activities"), ("iati-organisations", "Organisations"), ("both", "Both")]
+
 
 class ReportingOrgFilter(django_filters.FilterSet):
-    recipient_country_code = django_filters.ChoiceFilter(choices=COUNTRY_CODELIST_CHOICES, lookup_expr="contains")
-    search = django_filters.CharFilter(method="search_fulltext", label="Search names")
+    search = django_filters.CharFilter(
+        method="search_fulltext", label="Search reporting organisation name / registry ID"
+    )
+    hq_country = django_filters.ChoiceFilter(
+        choices=COUNTRY_CODELIST_CHOICES, label="Reporting organisation HQ country"
+    )
+
+    recipient_country_code = django_filters.ChoiceFilter(
+        choices=COUNTRY_CODELIST_CHOICES, lookup_expr="contains", label="Publishes files containing data about country"
+    )
+    file_types = django_filters.ChoiceFilter(
+        choices=FILE_TYPE_CHOICES, lookup_expr="contains", label="Publishes files containing"
+    )
 
     def search_fulltext(self, queryset, field_name, value):
         if not value:
@@ -20,4 +33,4 @@ class ReportingOrgFilter(django_filters.FilterSet):
 
     class Meta:
         model = ReportingOrg
-        fields = ["search", "recipient_country_code"]
+        fields = ["search", "hq_country", "recipient_country_code", "file_types"]
