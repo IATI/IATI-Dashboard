@@ -6,11 +6,11 @@
 #
 appdirs==1.4.4
     # via ptpython
-asgiref==3.9.2
+asgiref==3.10.0
     # via
     #   -r requirements.txt
     #   django
-attrs==25.3.0
+attrs==25.4.0
     # via
     #   -r requirements.txt
     #   jsonschema
@@ -25,7 +25,7 @@ azure-servicebus==7.14.2
     # via -r requirements.txt
 black==25.9.0
     # via -r requirements_dev.in
-certifi==2025.8.3
+certifi==2025.10.5
     # via
     #   -r requirements.txt
     #   requests
@@ -63,7 +63,7 @@ django-environ==0.12.0
     # via -r requirements.txt
 django-extensions==4.1
     # via -r requirements.txt
-django-filter==25.1
+django-filter==25.2
     # via -r requirements.txt
 djangorestframework==3.16.1
     # via
@@ -83,7 +83,7 @@ flake8==7.3.0
     #   flake8-pyproject
 flake8-pyproject==1.2.3
     # via -r requirements_dev.in
-fonttools==4.60.0
+fonttools==4.60.1
     # via
     #   -r requirements.txt
     #   matplotlib
@@ -106,7 +106,7 @@ isodate==0.7.2
     # via
     #   -r requirements.txt
     #   azure-servicebus
-isort==6.0.1
+isort==6.1.0
     # via -r requirements_dev.in
 jedi==0.19.2
     # via ptpython
@@ -128,7 +128,7 @@ kiwisolver==1.4.9
     #   matplotlib
 lxml==6.0.2
     # via -r requirements.txt
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   -r requirements.txt
     #   jinja2
@@ -241,9 +241,9 @@ rpds-py==0.27.1
     #   -r requirements.txt
     #   jsonschema
     #   referencing
-selenium==4.32.0
+selenium==4.36.0
     # via pytest-selenium
-sentry-sdk[django]==2.38.0
+sentry-sdk[django]==2.40.0
     # via -r requirements.txt
 six==1.17.0
     # via
