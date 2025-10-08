@@ -5,7 +5,7 @@ from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
-from ..filters import ReportingOrgFilter
+from ..filters import DatasetFilter, ReportingOrgFilter
 from ..models import Dataset, ReportingOrg
 from .serializers import DatasetSerializer, ReportingOrgSerializer
 
@@ -22,7 +22,7 @@ class ReportingOrgViewSet(viewsets.ReadOnlyModelViewSet):
     Metadata about reporting organisations.
     """
 
-    queryset = ReportingOrg.objects.defer("stats_json").all().order_by("human_readable_name")
+    queryset = ReportingOrg.objects.defer("stats_json", "metadata_json").all().order_by("human_readable_name")
     serializer_class = ReportingOrgSerializer
     pagination_class = LargeMaxPageNumberPagination
     filter_backends = (DjangoFilterBackend,)
@@ -43,11 +43,13 @@ class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (
         Dataset.objects.all()
         .select_related("reporting_org")
-        .only("short_name", "source_url", "registry_metadata_realtime", "reporting_org__short_name")
+        .only("short_name", "source_url", "metadata_json", "reporting_org__short_name")
         .order_by("short_name")
     )
     serializer_class = DatasetSerializer
     pagination_class = LargeMaxPageNumberPagination
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = DatasetFilter
 
     def retrieve(self, request, pk: str):
         user = get_object_or_404(self.queryset, short_name=pk)

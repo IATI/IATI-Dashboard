@@ -22,6 +22,15 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: reporting_org__id
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: reporting_org__short_name
+        schema:
+          type: string
       tags:
       - datasets
       security:
@@ -1171,8 +1180,11 @@ components:
         reporting_org_short_name:
           type: string
           readOnly: true
+        licence_id:
+          readOnly: true
       required:
       - id
+      - licence_id
       - reporting_org_id
       - reporting_org_short_name
       - short_name
@@ -1235,13 +1247,49 @@ components:
         human_readable_name:
           type: string
         dataset_count:
-          type: string
+          type: integer
+          readOnly: true
+        created_date:
+          readOnly: true
+        data_portal_url:
+          readOnly: true
+        default_licence_id:
+          readOnly: true
+        description:
+          readOnly: true
+        exclusions_policy_url:
+          readOnly: true
+        first_publication_date:
+          readOnly: true
+        hq_country:
+          readOnly: true
+        organisation_identifier:
+          readOnly: true
+        organisation_type:
+          readOnly: true
+        region:
+          readOnly: true
+        reporting_source_type:
+          readOnly: true
+        website:
           readOnly: true
       required:
+      - created_date
+      - data_portal_url
       - dataset_count
+      - default_licence_id
+      - description
+      - exclusions_policy_url
+      - first_publication_date
+      - hq_country
       - human_readable_name
       - id
+      - organisation_identifier
+      - organisation_type
+      - region
+      - reporting_source_type
       - short_name
+      - website
   securitySchemes:
     basicAuth:
       type: http

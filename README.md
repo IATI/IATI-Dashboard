@@ -67,7 +67,7 @@ Bash scripts are used to fetch the data that the Dashboard will present.
 
 ```
 docker run --name iati-dashboard-postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=iati_dashboard -p 127.0.0.1:5432:5432 -d postgres:17
-# Run this every time you open a new shell
+# Run this export command every time you open a new shell
 export DATABASE_URL="postgres://postgres:postgres@localhost:5432/iati_dashboard"
 python manage.py migrate
 python manage.py dashboard_import
