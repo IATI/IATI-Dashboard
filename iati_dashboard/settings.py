@@ -86,7 +86,19 @@ INSTALLED_APPS = [
     "django_filters",
     "django.contrib.contenttypes",
     "django.contrib.auth",
+    "drf_spectacular",
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Dashboard API",
+    "DESCRIPTION": "The new api for the dashboard website, designed as the main point of access to metadata.",
+    "VERSION": "0.9.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
