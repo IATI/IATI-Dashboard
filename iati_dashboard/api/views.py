@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -15,9 +16,10 @@ class LargeMaxPageNumberPagination(PageNumberPagination):
     max_page_size = 1_000_000
 
 
+@extend_schema_view(retrieve=extend_schema(description="Metadata for a single reporting organisation."))
 class ReportingOrgViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows reporting orgs to be viewed.
+    Metadata about reporting organisations.
     """
 
     queryset = ReportingOrg.objects.defer("stats_json").all().order_by("human_readable_name")
@@ -32,9 +34,10 @@ class ReportingOrgViewSet(viewsets.ReadOnlyModelViewSet):
         return Response(serializer.data)
 
 
+@extend_schema_view(retrieve=extend_schema(description="Metadata for a single dataset."))
 class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
     """
-    API endpoint that allows reporting orgs to be viewed.
+    Metadata about datasets.
     """
 
     queryset = (
