@@ -24,14 +24,13 @@
             </thead>
             <tbody>
               {% for publisher in publishers %}
-              {% set publisher_stats = publisher.stats_json %}
-              {% set reporting_orgs_key = publisher_stats.reporting_orgs.keys()|first %}
-              {% if publisher_stats.reporting_orgs|count != 1 or reporting_orgs_key != publisher.metadata_json["organisation_identifier"] %}
+              {% set reporting_orgs_key = publisher.reporting_orgs.keys()|first %}
+              {% if publisher.reporting_orgs|count != 1 or reporting_orgs_key != publisher.metadata_json["organisation_identifier"] %}
               <tr>
                 <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}">{{ publisher.human_readable_name }}</a></td>
                 <td><code class="iati-code">{{ publisher.metadata_json["organisation_identifier"] }}</code></td>
-                <td>{{ publisher_stats.reporting_orgs|length }}</td>
-                <td>{% for ro in publisher_stats.reporting_orgs %}<code class="iati-code">{{ ro }}</code> {% endfor %}</td>
+                <td>{{ publisher.reporting_orgs|length }}</td>
+                <td>{% for ro in publisher.reporting_orgs %}<code class="iati-code">{{ ro }}</code> {% endfor %}</td>
               </tr>
               {% endif %}
               {% endfor %}
