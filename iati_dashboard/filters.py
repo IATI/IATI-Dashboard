@@ -2,7 +2,7 @@ import django_filters
 from django.contrib.postgres.search import SearchQuery, SearchVector
 
 from .data import codelist_lookup
-from .models import ReportingOrg
+from .models import Dataset, ReportingOrg
 
 COUNTRY_CODELIST_CHOICES = [(code, code_dict["name"]) for code, code_dict in codelist_lookup["2"]["Country"].items()]
 
@@ -34,3 +34,9 @@ class ReportingOrgFilter(django_filters.FilterSet):
     class Meta:
         model = ReportingOrg
         fields = ["search", "hq_country", "recipient_country_code", "file_types"]
+
+
+class DatasetFilter(django_filters.FilterSet):
+    class Meta:
+        model = Dataset
+        fields = ["reporting_org__id", "reporting_org__short_name"]

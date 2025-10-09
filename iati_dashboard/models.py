@@ -59,7 +59,7 @@ class ReportingOrg(models.Model):
         return self.traceable_sum_commitments_and_disbursements_by_publisher_id_den
 
     @property
-    def dataset_count(self):
+    def dataset_count(self) -> int:
         return self.activity_files + self.organisation_files
 
     @property
@@ -114,12 +114,34 @@ for key in [
     )
 
 
-for key in [
+REPORTING_ORG_METADATA_FIELDS = [
+    "created_date",
+    "data_portal_url",
+    "default_licence_id",
+    "description",
+    "exclusions_policy_url",
+    "first_publication_date",
     "hq_country",
+    "organisation_identifier",
     "organisation_type",
-]:
+    "region",
+    "reporting_source_type",
+    "website",
+]
+
+
+for key in REPORTING_ORG_METADATA_FIELDS:
     ReportingOrg.add_to_class(
         key,
+        models.GeneratedField(
+            expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
+        ),
+    )
+
+
+for key in ["id", "short_name"]:
+    ReportingOrg.add_to_class(
+        f"reporting_org_{key}",
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
@@ -135,6 +157,20 @@ class Dataset(models.Model):
 
     metadata_json = models.JSONField(default=dict)
     stats_json = models.JSONField(default=get_default_stats_json)
+
+
+DATASET_METADATA_FIELDS = [
+    "licence_id",
+]
+
+
+for key in DATASET_METADATA_FIELDS:
+    Dataset.add_to_class(
+        key,
+        models.GeneratedField(
+            expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
+        ),
+    )
 
 
 class ReportingOrgEventTypes(Enum):
