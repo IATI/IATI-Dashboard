@@ -59,6 +59,9 @@ ENABLE_FILTERS_ALPHA = env("ENABLE_FILTERS_ALPHA")
 
 if SENTRY_DSN:
     import sentry_sdk
+    from sentry_sdk.integrations.logging import ignore_logger
+
+    ignore_logger("django.security.DisallowedHost")
 
     sentry_sdk.init(
         dsn=SENTRY_DSN,
