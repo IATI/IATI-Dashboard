@@ -38,6 +38,8 @@ django-extensions==4.1
     # via -r requirements.in
 django-filter==25.2
     # via -r requirements.in
+django-hosts==7.0.0
+    # via -r requirements.in
 djangorestframework==3.16.1
     # via
     #   -r requirements.in
