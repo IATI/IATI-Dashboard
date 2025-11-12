@@ -69,6 +69,288 @@ paths:
               schema:
                 $ref: '#/components/schemas/Dataset'
           description: ''
+  /api/limited-ckan-compatible/group_list:
+    get:
+      operationId: limited_ckan_compatible_group_list_list
+      parameters:
+      - in: query
+        name: all_fields
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_group_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/group_show:
+    get:
+      operationId: limited_ckan_compatible_group_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_group_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+  /api/limited-ckan-compatible/organization_list:
+    get:
+      operationId: limited_ckan_compatible_organization_list_list
+      parameters:
+      - in: query
+        name: all_fields
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_organization_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/organization_show:
+    get:
+      operationId: limited_ckan_compatible_organization_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_organization_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+  /api/limited-ckan-compatible/package_list:
+    get:
+      operationId: limited_ckan_compatible_package_list_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_package_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/package_search:
+    get:
+      operationId: limited_ckan_compatible_package_search_list
+      description: |-
+        Only a minimal part of this endpoint has been implemented.
+        We support pagination, and a limited set of queries to the q and fq arguments.
+        Only these field names are supported: organization, owner_org, publisher_iati_id, extras_filetype
+        And, they can be combined with " AND "
+      parameters:
+      - in: query
+        name: fq
+        schema:
+          type: string
+      - name: rows
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: start
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCBCDatasetList'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_package_search_create
+      description: |-
+        Only a minimal part of this endpoint has been implemented.
+        We support pagination, and a limited set of queries to the q and fq arguments.
+        Only these field names are supported: organization, owner_org, publisher_iati_id, extras_filetype
+        And, they can be combined with " AND "
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCDataset'
+          description: ''
+  /api/limited-ckan-compatible/package_show:
+    get:
+      operationId: limited_ckan_compatible_package_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedDataset'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_package_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedDataset'
+          description: ''
   /api/reporting-orgs/:
     get:
       operationId: reporting_orgs_list
@@ -1162,6 +1444,275 @@ paths:
           description: ''
 components:
   schemas:
+    CBCDataset:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        license_id:
+          type: string
+          readOnly: true
+        license_title:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        num_resources:
+          type: integer
+          readOnly: true
+        organization:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        owner_org:
+          type: string
+          readOnly: true
+        private:
+          type: boolean
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        extras:
+          type: array
+          items: {}
+          readOnly: true
+        resources:
+          type: array
+          items: {}
+          readOnly: true
+        publisher_source_type:
+          type: string
+          readOnly: true
+        publisher_organization_type:
+          type: string
+          readOnly: true
+        publisher_iati_id:
+          type: string
+          readOnly: true
+        publisher_country:
+          type: string
+          readOnly: true
+        author:
+          type: string
+          readOnly: true
+        author_email:
+          type: string
+          readOnly: true
+        creator_user_id:
+          type: string
+          readOnly: true
+        maintainer:
+          type: string
+          readOnly: true
+        maintainer_email:
+          type: string
+          readOnly: true
+      required:
+      - author
+      - author_email
+      - creator_user_id
+      - extras
+      - id
+      - license_id
+      - license_title
+      - maintainer
+      - maintainer_email
+      - name
+      - num_resources
+      - organization
+      - owner_org
+      - private
+      - publisher_country
+      - publisher_iati_id
+      - publisher_organization_type
+      - publisher_source_type
+      - resources
+      - state
+      - title
+      - type
+    CBCReportingOrg:
+      type: object
+      properties:
+        description:
+          type: string
+          readOnly: true
+        id:
+          type: string
+          readOnly: true
+        is_organization:
+          type: boolean
+          readOnly: true
+        license_id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        package_count:
+          type: integer
+          readOnly: true
+        publisher_country:
+          type: string
+          readOnly: true
+        publisher_description:
+          type: string
+          readOnly: true
+        publisher_first_publish_date:
+          type: string
+          readOnly: true
+        publisher_iati_id:
+          type: string
+          readOnly: true
+        publisher_organization_type:
+          type: string
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        image_display_url:
+          type: string
+          readOnly: true
+        image_url:
+          type: string
+          readOnly: true
+        publisher_agencies:
+          type: string
+          readOnly: true
+        publisher_constraints:
+          type: string
+          readOnly: true
+        publisher_contact:
+          type: string
+          readOnly: true
+        publisher_contact_email:
+          type: string
+          readOnly: true
+        publisher_data_quality:
+          type: string
+          readOnly: true
+        publisher_field_exclusions:
+          type: string
+          readOnly: true
+        publisher_frequency:
+          type: string
+          readOnly: true
+        publisher_frequency_select:
+          type: string
+          readOnly: true
+        publisher_implementation_schedule:
+          type: string
+          readOnly: true
+        publisher_record_exclusions:
+          type: string
+          readOnly: true
+        publisher_refs:
+          type: string
+          readOnly: true
+        publisher_segmentation:
+          type: string
+          readOnly: true
+        publisher_source_type:
+          type: string
+          readOnly: true
+        publisher_thresholds:
+          type: string
+          readOnly: true
+        publisher_timeliness:
+          type: string
+          readOnly: true
+        publisher_ui:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items: {}
+          readOnly: true
+        groups:
+          type: array
+          items: {}
+          readOnly: true
+        users:
+          type: array
+          items: {}
+          readOnly: true
+        historical_publisher_names:
+          type: array
+          items: {}
+          readOnly: true
+      required:
+      - description
+      - groups
+      - historical_publisher_names
+      - id
+      - image_display_url
+      - image_url
+      - is_organization
+      - license_id
+      - name
+      - package_count
+      - publisher_agencies
+      - publisher_constraints
+      - publisher_contact
+      - publisher_contact_email
+      - publisher_country
+      - publisher_data_quality
+      - publisher_description
+      - publisher_field_exclusions
+      - publisher_first_publish_date
+      - publisher_frequency
+      - publisher_frequency_select
+      - publisher_iati_id
+      - publisher_implementation_schedule
+      - publisher_organization_type
+      - publisher_record_exclusions
+      - publisher_refs
+      - publisher_segmentation
+      - publisher_source_type
+      - publisher_thresholds
+      - publisher_timeliness
+      - publisher_ui
+      - state
+      - tags
+      - title
+      - type
+      - users
+    CBCWrappedDataset:
+      type: object
+      properties:
+        success:
+          type: boolean
+          readOnly: true
+        result:
+          $ref: '#/components/schemas/CBCDataset'
+      required:
+      - result
+      - success
+    CBCWrappedReportingOrg:
+      type: object
+      properties:
+        success:
+          type: boolean
+          readOnly: true
+        result:
+          $ref: '#/components/schemas/CBCReportingOrg'
+      required:
+      - result
+      - success
     Dataset:
       type: object
       properties:
@@ -1189,6 +1740,29 @@ components:
       - reporting_org_short_name
       - short_name
       - source_url
+    PaginatedCBCDatasetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?start=400&rows=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?start=200&rows=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CBCDataset'
     PaginatedDatasetList:
       type: object
       required:
