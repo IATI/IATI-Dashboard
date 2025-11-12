@@ -5,6 +5,7 @@ django-extensions
 djangorestframework
 drf-spectacular
 django-filter
+django-hosts
 psycopg
 gunicorn
 jinja2
