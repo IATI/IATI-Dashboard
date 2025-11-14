@@ -270,6 +270,10 @@ paths:
         name: fq
         schema:
           type: string
+      - in: query
+        name: q
+        schema:
+          type: string
       - name: rows
         required: false
         in: query

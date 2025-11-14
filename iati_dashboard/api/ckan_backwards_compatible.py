@@ -335,7 +335,7 @@ class PackageListView(generics.ListAPIView, AllowPost):
     serializer_class = CBCDatasetShortNameOnlySerializer
 
 
-@extend_schema_view(get=(extend_schema(parameters=[OpenApiParameter("fq")])))
+@extend_schema_view(get=(extend_schema(parameters=[OpenApiParameter("q"), OpenApiParameter("fq")])))
 class PackageSearchView(generics.ListAPIView, AllowPost):
     """
     Only a minimal part of this endpoint has been implemented.
