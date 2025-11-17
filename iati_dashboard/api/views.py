@@ -43,7 +43,7 @@ class DatasetViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (
         Dataset.objects.all()
         .select_related("reporting_org")
-        .only("short_name", "source_url", "metadata_json", "reporting_org__short_name")
+        .only("short_name", "source_url", "licence_id", "reporting_org__short_name")
         .order_by("short_name")
     )
     serializer_class = DatasetSerializer
