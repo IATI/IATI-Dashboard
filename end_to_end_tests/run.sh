@@ -19,7 +19,7 @@ fi
 set -x
 
 rm -rf IATI-Stats/ || true
-git clone https://github.com/IATI/IATI-Stats
+git clone https://github.com/IATI/IATI-Stats --branch use-bulk-data-service-metadata
 
 # Set up data
 cp -r end_to_end_tests/fixtures/iati-data IATI-Stats/

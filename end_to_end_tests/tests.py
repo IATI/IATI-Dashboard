@@ -4,6 +4,7 @@ Tests to be run on a predictable set of mock IATI data: end_to_end_tests/fixture
 See end_to_end_tests/README.md for more information.
 """
 
+import os
 import pytest
 import requests
 
@@ -28,6 +29,12 @@ def test_downloads_errors(selenium):
     assert "no_successful_downloads-dataset1" in tr.text
     assert "http_non_200" in tr.text
     assert "404" in tr.text
+
+    # If a publisher has no successful downloads, it should still be included in aggregated-publisher
+    # This makes sure it's counted in the reporting orgs plots
+    assert "no_successful_downloads" in os.listdir(
+        os.path.join("IATI-Stats", "gitout", "current", "aggregated-publisher")
+    )
 
 
 def test_errors(selenium):
