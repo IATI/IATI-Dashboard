@@ -385,12 +385,18 @@ def headlines_publisher_detail(request, publisher_short_name=None):
 #
 def errors_download(request):
     template = loader.get_template("download.html")
-    context = _make_context("download")
+    context = _make_context("download", include_large_dicts=False)
+    context["datasets_with_errors"] = (
+        models.Dataset.objects.exclude(metadata_json__most_recent_get_attempt__error_details__error_type=None)
+        .select_related("reporting_org")
+        .annotate(
+            error_type=F("metadata_json__most_recent_get_attempt__error_details__error_type"),
+            http_status=F("metadata_json__most_recent_get_attempt__error_details__http_status"),
+        )
+        .order_by("reporting_org__human_readable_name")
+        .defer("stats_json", "metadata_json")
+    )
     return HttpResponse(template.render(context, request))
-
-
-def errors_download_errorsjson(request):
-    return HttpResponse(json.dumps(current_stats["download_errors"], indent=2), content_type="application/json")
 
 
 def errors_xml(request):

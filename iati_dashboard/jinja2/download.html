@@ -2,16 +2,10 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Files that fail to download', current_stats.download_errors|length, 'img/aggregate/failed_downloads.png',
-        description='Count of files that fail to download, over time.') }}
-    </div>
-
-    <div class="row">
       <div class="col-xs-12">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading clearfix">
             <h2 class="dashboard-panel-heading__title float-start">List of files that fail to download</h2>
-            <a class="dashboard-panel-heading__title light float-end" href="{{ url('dash-errors-download-json') }}">This table as JSON</a>
           </div>
           <div class="dashboard-panel-body">
         <p><a href="https://gist.github.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/revisions">History of Download Errors</a></p>
@@ -21,19 +15,21 @@
               <table class="table iati-table__table">
                 <thead>
                   <tr>
-                    <th>Publisher</th>
-                    <th>Registry Dataset</th>
+                    <th>Reporting Org</th>
+                    <th>Dataset</th>
                     <th style="max-width: 400px; overflow: clip;">URL</th>
-                    <th><a href="https://everything.curl.dev/cmdline/exitcode.html">Error Code</a></th>
+                    <th>Error Type</th>
+                    <th>HTTP Status</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for code, publisher, dataset, err_url in current_stats.download_errors %}
+                  {% for dataset in datasets_with_errors %}
                   <tr>
-                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
-                    <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
-                    <td style="max-width: 400px; overflow: clip;"><a href="{{ err_url }}">{{ err_url|url_to_filename }}</a></td>
-                    <td>{{ code }}</td>
+                    <td><a href="{{ url('dash-headlines-publisher-detail', args=[dataset.reporting_org.short_name]) }}">{{ dataset.reporting_org.human_readable_name }}</a></td>
+                    <td>{{ dataset.short_name }}</td>
+                    <td style="max-width: 400px; overflow: clip;"><a href="{{ dataset.source_url }}">{{ dataset.source_url|url_to_filename }}</a></td>
+                    <td>{{ dataset.error_type }}</td>
+                    <td>{{ dataset.http_status }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>

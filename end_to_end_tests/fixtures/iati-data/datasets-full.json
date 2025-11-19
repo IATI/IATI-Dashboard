@@ -34,6 +34,28 @@
       "reporting_org_short_name": "test_ro_1",
       "source_url": "http://example.com/5",
       "licence_id": "cc-zero"
+    },
+    {
+      "id": "f59f76d4-f051-4e0f-8b8c-f75179f16268",
+      "short_name": "no_successful_downloads-dataset1",
+      "reporting_org_short_name": "no_successful_downloads",
+      "source_url": "http://example.com/6",
+      "licence_id": "cc-zero",
+      "most_recent_get_attempt": {
+        "datetime": "2025-11-19 16:45:11+00:00",
+        "error_details": {
+          "detailed_message": null,
+          "error_type": "http_non_200",
+          "http_headers": {},
+          "http_method": "GET",
+          "http_reason": "Not Found",
+          "http_status": 404,
+          "source_url": "http://example.com/6",
+          "summary_message": "Download of IATI XML failed with non-200 HTTP status"
+        },
+        "error_occurred": true,
+        "http_status": 404
+      }
     }
   ]
 }
