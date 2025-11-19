@@ -14,12 +14,23 @@ def firefox_options(firefox_options):
     return firefox_options
 
 
-def test_home_page(selenium):
-    root_url = "http://localhost:8000"
+root_url = "http://localhost:8000"
 
+
+def test_home_page(selenium):
     selenium.get(root_url)
     assert "Dashboard Home" in selenium.find_element("tag name", "body").text
 
+
+def test_downloads_errors(selenium):
+    selenium.get(f"{root_url}/errors/download-errors/")
+    tr = selenium.find_element("tag name", "table").find_element("tag name", "tbody").find_element("tag name", "tr")
+    assert "no_successful_downloads-dataset1" in tr.text
+    assert "http_non_200" in tr.text
+    assert "404" in tr.text
+
+
+def test_errors(selenium):
     selenium.get(f"{root_url}/errors/xml-errors/")
     xml_errors_body = selenium.find_element("tag name", "body").text
     selenium.get(f"{root_url}/errors/validation/")
@@ -38,6 +49,9 @@ def test_home_page(selenium):
     assert "in_ao_2-activities" not in xml_errors_body
     assert "in_ao_2-activities" not in schema_validation_body
 
+
+def test_reporting_orgs(selenium):
+    selenium.get(root_url)
     selenium.find_element("link text", "Reporting Orgs").click()
     assert selenium.current_url.endswith("/publishers/")
 

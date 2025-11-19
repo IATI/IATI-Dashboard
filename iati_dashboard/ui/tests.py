@@ -32,7 +32,6 @@ class BasicPageTests(TestCase):
         """Test the data quality pages"""
 
         self.assertEqual(self.client.get(reverse("dash-errors-download")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-errors-download-json")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-errors-xml")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-errors-validation")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-identifiers")).status_code, 200)
