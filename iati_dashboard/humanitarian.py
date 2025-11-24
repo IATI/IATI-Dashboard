@@ -1,8 +1,5 @@
 # This file builds a table to show humanitarian reporting for each publisher
 
-from .common import get_publisher_type
-from .data import get_publisher_stats
-
 # Set column groupings, to be displayed in the user output
 columns = [
     # slug, header
@@ -16,15 +13,15 @@ columns = [
 ]
 
 
-def generate_row(publisher):
+def generate_row(reporting_org):
     """Generate data for the humanitarian table"""
 
-    publisher_stats = get_publisher_stats(publisher)
+    publisher_stats = reporting_org.stats_json
 
     # Create a list for publisher data, and populate it with basic data
     row = {}
-    row["publisher"] = publisher
-    row["publisher_type"] = get_publisher_type(publisher)["name"]
+    row["publisher"] = reporting_org.short_name
+    row["publisher_type"] = reporting_org.organisation_type_name
 
     # Get data from IATI-Stats output
     row["num_activities"] = publisher_stats.get("humanitarian", {}).get("is_humanitarian", "0")

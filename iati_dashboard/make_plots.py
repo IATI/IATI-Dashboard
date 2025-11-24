@@ -1,19 +1,17 @@
 #!/usr/bin/env python
 """Generates static images of stats graphs using matplotlib."""
 
-import argparse
 import csv
 import datetime
 import logging
-import os  # noqa: F401
+import os
 from collections import defaultdict
 
 import matplotlib as mpl
-import numpy as np  # noqa: F401
 from tqdm import tqdm
 
-from . import common, data, filepaths
-from .vars import expected_versions  # noqa: F401
+from . import data, filepaths, models
+from .vars import expected_versions
 
 mpl.use("Agg")
 import matplotlib.dates as mdates  # noqa: E402
@@ -21,6 +19,14 @@ import matplotlib.pyplot as plt  # noqa: E402
 import matplotlib.ticker as ticker  # noqa: E402
 
 logger = logging.getLogger(__name__)
+
+
+def get_organization_type(publisher):
+    reporting_org = models.ReportingOrg.objects.get(short_name=publisher)
+    if reporting_org:
+        return reporting_org.organisation_type_name
+    else:
+        return None
 
 
 class AugmentedJSONDir(data.JSONDir):
@@ -35,8 +41,8 @@ class AugmentedJSONDir(data.JSONDir):
         elif key == "publisher_types":
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in self.gitaggregate_publisher.items():
-                if publisher in data.ckan_publishers:
-                    organization_type = common.get_publisher_type(publisher)["name"]
+                if publisher in data.publisher_name:
+                    organization_type = get_organization_type(publisher)
                     for datestring, count in publisher_data["activities"].items():
                         out[datestring][organization_type] += 1
                 else:
@@ -45,8 +51,8 @@ class AugmentedJSONDir(data.JSONDir):
         elif key == "activities_per_publisher_type":
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in self.gitaggregate_publisher.items():
-                if publisher in data.ckan_publishers:
-                    organization_type = common.get_publisher_type(publisher)["name"]
+                if publisher in data.publisher_name:
+                    organization_type = get_organization_type(publisher)
                     for datestring, count in publisher_data["activities"].items():
                         out[datestring][organization_type] += count
                 else:
@@ -195,11 +201,7 @@ def make_plot(stat_path, git_stats, img_prefix=""):
         del writer
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--verbose", action="store_true", help="Generate images verbosely to stdout")
-    args = parser.parse_args()
-
+def make_plots(verbose=False):
     # Load data required for loading stats.
     failed_downloads = csv.reader(open(filepaths.join_data_path("downloads/history.csv")))
     gitaggregate_publisher = data.JSONDir(filepaths.join_stats_path("gitaggregate-publisher-dated"))
@@ -233,10 +235,10 @@ def main():
         ("activities_per_publisher_type", lambda x: True, ""),
     ]
     with tqdm(total=len(_paths)) as pbar:
-        if args.verbose:
+        if verbose:
             pbar.set_description("Generate aggregate plots")
         for stat_path in _paths:
-            if args.verbose:
+            if verbose:
                 pbar.update()
             make_plot(stat_path, git_stats, img_prefix="img/aggregate/")
 
@@ -251,10 +253,10 @@ def main():
     os.makedirs(filepaths.join_out_path("img/publishers"), exist_ok=True)
 
     with tqdm(total=len(git_stats_publishers)) as pbar:
-        if args.verbose:
+        if verbose:
             pbar.set_description("Generate plots for all publishers")
         for publisher, git_stats_publisher in git_stats_publishers.items():
-            if args.verbose:
+            if verbose:
                 pbar.update()
             for stat_path in [
                 "activities",
@@ -268,7 +270,3 @@ def main():
                 ("versions", lambda x: True, ""),
             ]:
                 make_plot(stat_path, git_stats_publisher, img_prefix="img/publishers/{0}_".format(publisher))
-
-
-if __name__ == "__main__":
-    main()

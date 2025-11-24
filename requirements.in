@@ -3,7 +3,9 @@ django<5.3
 django-environ
 django-extensions
 djangorestframework
+drf-spectacular
 django-filter
+django-hosts
 psycopg
 gunicorn
 jinja2

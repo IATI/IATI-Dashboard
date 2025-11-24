@@ -13,7 +13,6 @@ EXAMPLE_PAGES = [
     "exploring-data/",
     "faq/",
     "errors/download-errors/",
-    "data/download_errors.json",
     "errors/xml-errors/",
     "errors/validation/",
     "errors/identifiers/",

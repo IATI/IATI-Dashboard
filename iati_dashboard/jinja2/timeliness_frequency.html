@@ -40,6 +40,7 @@
               </thead>
               <tbody>
                   {% for publisher in publishers %}
+                  {% if publisher.timeliness_frequency %}
                   <tr>
                       {% set per_month=publisher.timeliness_frequency["updates_per_month"] %}
                       {% set first_published_band=publisher.timeliness_frequency.first_published_band %}
@@ -54,6 +55,7 @@
                       <td {% if hft %}class="{{ 'dashboard-red-flag' if hft==2 else 'dashboard-yellow-flag' }}"{% endif %} data-severity="{{ hft }}">{% if hft %}<a href="#h_exceptions">*</a>{% endif %}</td>
                       <td data-index="{{ timeliness.frequency_index(assessment) }}">{{ assessment }}</td>
                   </tr>
+                  {% endif %}
                   {% endfor %}
               </tbody>
           </table>

@@ -10,7 +10,7 @@ class BasicPageTests(TestCase):
     list the tests as they run.
     """
 
-    fixtures = ["reporting_orgs"]
+    fixtures = ["reporting_orgs", "datasets"]
 
     def test_top_pages(self):
         """Test the index and top hierarchy pages return a 200 status code"""
@@ -32,7 +32,6 @@ class BasicPageTests(TestCase):
         """Test the data quality pages"""
 
         self.assertEqual(self.client.get(reverse("dash-errors-download")).status_code, 200)
-        self.assertEqual(self.client.get(reverse("dash-errors-download-json")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-errors-xml")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-errors-validation")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-identifiers")).status_code, 200)

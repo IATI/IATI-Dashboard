@@ -1,0 +1,61 @@
+{
+  "datasets": [
+    {
+      "id": "e4b63e1b-fe9f-4dea-92ee-3ebdd89824c6",
+      "short_name": "in_ao_1-activities",
+      "reporting_org_short_name": "in_ao_1",
+      "source_url": "http://example.com/1",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "e3f4d744-7b17-42b7-a429-545bae94cad4",
+      "short_name": "in_ao_2-activities",
+      "reporting_org_short_name": "in_ao_2",
+      "source_url": "http://example.com/2",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "45adaebd-93f4-452e-b011-fc4f6e02882c",
+      "short_name": "test_ro_1-empty_activity",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/3",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "ef199b54-8058-4646-8d54-24042a33e30d",
+      "short_name": "test_ro_1-badxml",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/4",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "24d5d96c-8b36-482e-9c1a-d6ffeb46f9b2",
+      "short_name": "test_ro_1-valid_activity",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/5",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "f59f76d4-f051-4e0f-8b8c-f75179f16268",
+      "short_name": "no_successful_downloads-dataset1",
+      "reporting_org_short_name": "no_successful_downloads",
+      "source_url": "http://example.com/6",
+      "licence_id": "cc-zero",
+      "most_recent_get_attempt": {
+        "datetime": "2025-11-19 16:45:11+00:00",
+        "error_details": {
+          "detailed_message": null,
+          "error_type": "http_non_200",
+          "http_headers": {},
+          "http_method": "GET",
+          "http_reason": "Not Found",
+          "http_status": 404,
+          "source_url": "http://example.com/6",
+          "summary_message": "Download of IATI XML failed with non-200 HTTP status"
+        },
+        "error_occurred": true,
+        "http_status": 404
+      }
+    }
+  ]
+}

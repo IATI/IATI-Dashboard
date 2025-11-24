@@ -26,7 +26,7 @@ env = environ.Env(  # set default values and casting
     SECRET_KEY=(str, secret_key),
     SENTRY_DSN=(str, None),
     USE_X_FORWARDED_HOST=(bool, False),
-    ALLOWED_HOSTS=(list, [".dashboard.iatistandard.org", "localhost", "127.0.0.1"]),
+    ALLOWED_HOSTS=(list, [".dashboard.iatistandard.org", "iatiregistry.org", "localhost", "127.0.0.1"]),
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
     ENABLE_API_ALPHA=(bool, False),
@@ -59,6 +59,9 @@ ENABLE_FILTERS_ALPHA = env("ENABLE_FILTERS_ALPHA")
 
 if SENTRY_DSN:
     import sentry_sdk
+    from sentry_sdk.integrations.logging import ignore_logger
+
+    ignore_logger("django.security.DisallowedHost")
 
     sentry_sdk.init(
         dsn=SENTRY_DSN,
@@ -86,15 +89,32 @@ INSTALLED_APPS = [
     "django_filters",
     "django.contrib.contenttypes",
     "django.contrib.auth",
+    "drf_spectacular",
+    "django_hosts",
 ]
 
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Dashboard API",
+    "DESCRIPTION": "The new api for the dashboard website, designed as the main point of access to metadata.",
+    "VERSION": "0.9.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
+
 MIDDLEWARE = [
+    "django_hosts.middleware.HostsRequestMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_hosts.middleware.HostsResponseMiddleware",
 ]
 
+ROOT_HOSTCONF = "iati_dashboard.hosts"
+DEFAULT_HOST = "iati_dashboard"
 ROOT_URLCONF = "iati_dashboard.ui.urls"
 
 TEMPLATES = [

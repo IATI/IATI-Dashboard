@@ -1,0 +1,1874 @@
+openapi: 3.0.3
+info:
+  title: Dashboard API
+  version: 0.9.0
+  description: The new api for the dashboard website, designed as the main point of
+    access to metadata.
+paths:
+  /api/datasets/:
+    get:
+      operationId: datasets_list
+      description: Metadata about datasets.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: reporting_org__id
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: reporting_org__short_name
+        schema:
+          type: string
+      tags:
+      - datasets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDatasetList'
+          description: ''
+  /api/datasets/{id}/:
+    get:
+      operationId: datasets_retrieve
+      description: Metadata for a single dataset.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this dataset.
+        required: true
+      tags:
+      - datasets
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+          description: ''
+  /api/limited-ckan-compatible/group_list:
+    get:
+      operationId: limited_ckan_compatible_group_list_list
+      parameters:
+      - in: query
+        name: all_fields
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_group_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/group_show:
+    get:
+      operationId: limited_ckan_compatible_group_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_group_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+  /api/limited-ckan-compatible/organization_list:
+    get:
+      operationId: limited_ckan_compatible_organization_list_list
+      parameters:
+      - in: query
+        name: all_fields
+        schema:
+          type: string
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_organization_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/organization_show:
+    get:
+      operationId: limited_ckan_compatible_organization_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_organization_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedReportingOrg'
+          description: ''
+  /api/limited-ckan-compatible/package_list:
+    get:
+      operationId: limited_ckan_compatible_package_list_list
+      parameters:
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: limited_ckan_compatible_package_list_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/limited-ckan-compatible/package_search:
+    get:
+      operationId: limited_ckan_compatible_package_search_list
+      description: |-
+        Only a minimal part of this endpoint has been implemented.
+        We support pagination, and a limited set of queries to the q and fq arguments.
+        Only these field names are supported: organization, owner_org, publisher_iati_id, extras_filetype
+        And, they can be combined with " AND "
+      parameters:
+      - in: query
+        name: fq
+        schema:
+          type: string
+      - name: rows
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: start
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCBCDatasetList'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_package_search_create
+      description: |-
+        Only a minimal part of this endpoint has been implemented.
+        We support pagination, and a limited set of queries to the q and fq arguments.
+        Only these field names are supported: organization, owner_org, publisher_iati_id, extras_filetype
+        And, they can be combined with " AND "
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCDataset'
+          description: ''
+  /api/limited-ckan-compatible/package_show:
+    get:
+      operationId: limited_ckan_compatible_package_show_retrieve
+      parameters:
+      - in: query
+        name: id
+        schema:
+          type: string
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedDataset'
+          description: ''
+    post:
+      operationId: limited_ckan_compatible_package_show_create
+      tags:
+      - limited-ckan-compatible
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CBCWrappedDataset'
+          description: ''
+  /api/reporting-orgs/:
+    get:
+      operationId: reporting_orgs_list
+      description: Metadata about reporting organisations.
+      parameters:
+      - in: query
+        name: file_types
+        schema:
+          enum:
+          - both
+          - iati-activities
+          - iati-organisations
+        description: |-
+          Publishes files containing
+
+          * `iati-activities` - Activities
+          * `iati-organisations` - Organisations
+          * `both` - Both
+      - in: query
+        name: hq_country
+        schema:
+          enum:
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AN
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - XK
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: |-
+          Reporting organisation HQ country
+
+          * `AF` - Afghanistan
+          * `AX` - Åland Islands
+          * `AL` - Albania
+          * `DZ` - Algeria
+          * `AS` - American Samoa
+          * `AD` - Andorra
+          * `AO` - Angola
+          * `AI` - Anguilla
+          * `AQ` - Antarctica
+          * `AG` - Antigua and Barbuda
+          * `AR` - Argentina
+          * `AM` - Armenia
+          * `AW` - Aruba
+          * `AU` - Australia
+          * `AT` - Austria
+          * `AZ` - Azerbaijan
+          * `BS` - Bahamas (the)
+          * `BH` - Bahrain
+          * `BD` - Bangladesh
+          * `BB` - Barbados
+          * `BY` - Belarus
+          * `BE` - Belgium
+          * `BZ` - Belize
+          * `BJ` - Benin
+          * `BM` - Bermuda
+          * `BT` - Bhutan
+          * `BO` - Bolivia (Plurinational State of)
+          * `BQ` - Bonaire, Sint Eustatius and Saba
+          * `BA` - Bosnia and Herzegovina
+          * `BW` - Botswana
+          * `BV` - Bouvet Island
+          * `BR` - Brazil
+          * `IO` - British Indian Ocean Territory (the)
+          * `BN` - Brunei Darussalam
+          * `BG` - Bulgaria
+          * `BF` - Burkina Faso
+          * `BI` - Burundi
+          * `KH` - Cambodia
+          * `CM` - Cameroon
+          * `CA` - Canada
+          * `CV` - Cabo Verde
+          * `KY` - Cayman Islands (the)
+          * `CF` - Central African Republic (the)
+          * `TD` - Chad
+          * `CL` - Chile
+          * `CN` - China
+          * `CX` - Christmas Island
+          * `CC` - Cocos (Keeling) Islands (the)
+          * `CO` - Colombia
+          * `KM` - Comoros (the)
+          * `CG` - Congo (the)
+          * `CD` - Congo (the Democratic Republic of the)
+          * `CK` - Cook Islands (the)
+          * `CR` - Costa Rica
+          * `CI` - Côte d'Ivoire
+          * `HR` - Croatia
+          * `CU` - Cuba
+          * `CW` - Curaçao
+          * `CY` - Cyprus
+          * `CZ` - Czechia
+          * `DK` - Denmark
+          * `DJ` - Djibouti
+          * `DM` - Dominica
+          * `DO` - Dominican Republic (the)
+          * `EC` - Ecuador
+          * `EG` - Egypt
+          * `SV` - El Salvador
+          * `GQ` - Equatorial Guinea
+          * `ER` - Eritrea
+          * `EE` - Estonia
+          * `ET` - Ethiopia
+          * `FK` - Falkland Islands (the) [Malvinas]
+          * `FO` - Faroe Islands (the)
+          * `FJ` - Fiji
+          * `FI` - Finland
+          * `FR` - France
+          * `GF` - French Guiana
+          * `PF` - French Polynesia
+          * `TF` - French Southern Territories (the)
+          * `GA` - Gabon
+          * `GM` - Gambia (the)
+          * `GE` - Georgia
+          * `DE` - Germany
+          * `GH` - Ghana
+          * `GI` - Gibraltar
+          * `GR` - Greece
+          * `GL` - Greenland
+          * `GD` - Grenada
+          * `GP` - Guadeloupe
+          * `GU` - Guam
+          * `GT` - Guatemala
+          * `GG` - Guernsey
+          * `GN` - Guinea
+          * `GW` - Guinea-Bissau
+          * `GY` - Guyana
+          * `HT` - Haiti
+          * `HM` - Heard Island and McDonald Islands
+          * `VA` - Holy See (the)
+          * `HN` - Honduras
+          * `HK` - Hong Kong
+          * `HU` - Hungary
+          * `IS` - Iceland
+          * `IN` - India
+          * `ID` - Indonesia
+          * `IR` - Iran (Islamic Republic of)
+          * `IQ` - Iraq
+          * `IE` - Ireland
+          * `IM` - Isle of Man
+          * `IL` - Israel
+          * `IT` - Italy
+          * `JM` - Jamaica
+          * `JP` - Japan
+          * `JE` - Jersey
+          * `JO` - Jordan
+          * `KZ` - Kazakhstan
+          * `KE` - Kenya
+          * `KI` - Kiribati
+          * `KP` - Korea (the Democratic People's Republic of)
+          * `KR` - Korea (the Republic of)
+          * `XK` - Kosovo
+          * `KW` - Kuwait
+          * `KG` - Kyrgyzstan
+          * `LA` - Lao People's Democratic Republic (the)
+          * `LV` - Latvia
+          * `LB` - Lebanon
+          * `LS` - Lesotho
+          * `LR` - Liberia
+          * `LY` - Libya
+          * `LI` - Liechtenstein
+          * `LT` - Lithuania
+          * `LU` - Luxembourg
+          * `MO` - Macao
+          * `MK` - North Macedonia
+          * `MG` - Madagascar
+          * `MW` - Malawi
+          * `MY` - Malaysia
+          * `MV` - Maldives
+          * `ML` - Mali
+          * `MT` - Malta
+          * `MH` - Marshall Islands (the)
+          * `MQ` - Martinique
+          * `MR` - Mauritania
+          * `MU` - Mauritius
+          * `YT` - Mayotte
+          * `MX` - Mexico
+          * `FM` - Micronesia (Federated States of)
+          * `MD` - Moldova (the Republic of)
+          * `MC` - Monaco
+          * `MN` - Mongolia
+          * `ME` - Montenegro
+          * `MS` - Montserrat
+          * `MA` - Morocco
+          * `MZ` - Mozambique
+          * `MM` - Myanmar
+          * `NA` - Namibia
+          * `NR` - Nauru
+          * `NP` - Nepal
+          * `NL` - Netherlands (the)
+          * `AN` - NETHERLAND ANTILLES
+          * `NC` - New Caledonia
+          * `NZ` - New Zealand
+          * `NI` - Nicaragua
+          * `NE` - Niger (the)
+          * `NG` - Nigeria
+          * `NU` - Niue
+          * `NF` - Norfolk Island
+          * `MP` - Northern Mariana Islands (the)
+          * `NO` - Norway
+          * `OM` - Oman
+          * `PK` - Pakistan
+          * `PW` - Palau
+          * `PS` - Palestine, State of
+          * `PA` - Panama
+          * `PG` - Papua New Guinea
+          * `PY` - Paraguay
+          * `PE` - Peru
+          * `PH` - Philippines (the)
+          * `PN` - Pitcairn
+          * `PL` - Poland
+          * `PT` - Portugal
+          * `PR` - Puerto Rico
+          * `QA` - Qatar
+          * `RE` - Réunion
+          * `RO` - Romania
+          * `RU` - Russian Federation (the)
+          * `RW` - Rwanda
+          * `BL` - Saint Barthélemy
+          * `SH` - Saint Helena, Ascension and Tristan da Cunha
+          * `KN` - Saint Kitts and Nevis
+          * `LC` - Saint Lucia
+          * `MF` - Saint Martin (French part)
+          * `PM` - Saint Pierre and Miquelon
+          * `VC` - Saint Vincent and the Grenadines
+          * `WS` - Samoa
+          * `SM` - San Marino
+          * `ST` - Sao Tome and Principe
+          * `SA` - Saudi Arabia
+          * `SN` - Senegal
+          * `RS` - Serbia
+          * `SC` - Seychelles
+          * `SL` - Sierra Leone
+          * `SG` - Singapore
+          * `SX` - Sint Maarten (Dutch part)
+          * `SK` - Slovakia
+          * `SI` - Slovenia
+          * `SB` - Solomon Islands
+          * `SO` - Somalia
+          * `ZA` - South Africa
+          * `GS` - South Georgia and the South Sandwich Islands
+          * `SS` - South Sudan
+          * `ES` - Spain
+          * `LK` - Sri Lanka
+          * `SD` - Sudan (the)
+          * `SR` - Suriname
+          * `SJ` - Svalbard and Jan Mayen
+          * `SZ` - Eswatini
+          * `SE` - Sweden
+          * `CH` - Switzerland
+          * `SY` - Syrian Arab Republic (the)
+          * `TW` - Taiwan (Province of China)
+          * `TJ` - Tajikistan
+          * `TZ` - Tanzania, the United Republic of
+          * `TH` - Thailand
+          * `TL` - Timor-Leste
+          * `TG` - Togo
+          * `TK` - Tokelau
+          * `TO` - Tonga
+          * `TT` - Trinidad and Tobago
+          * `TN` - Tunisia
+          * `TR` - Türkiye
+          * `TM` - Turkmenistan
+          * `TC` - Turks and Caicos Islands (the)
+          * `TV` - Tuvalu
+          * `UG` - Uganda
+          * `UA` - Ukraine
+          * `AE` - United Arab Emirates (the)
+          * `GB` - United Kingdom of Great Britain and Northern Ireland (the)
+          * `US` - United States of America (the)
+          * `UM` - United States Minor Outlying Islands (the)
+          * `UY` - Uruguay
+          * `UZ` - Uzbekistan
+          * `VU` - Vanuatu
+          * `VE` - Venezuela (Bolivarian Republic of)
+          * `VN` - Viet Nam
+          * `VG` - Virgin Islands (British)
+          * `VI` - Virgin Islands (U.S.)
+          * `WF` - Wallis and Futuna
+          * `EH` - Western Sahara
+          * `YE` - Yemen
+          * `ZM` - Zambia
+          * `ZW` - Zimbabwe
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: recipient_country_code
+        schema:
+          enum:
+          - AD
+          - AE
+          - AF
+          - AG
+          - AI
+          - AL
+          - AM
+          - AN
+          - AO
+          - AQ
+          - AR
+          - AS
+          - AT
+          - AU
+          - AW
+          - AX
+          - AZ
+          - BA
+          - BB
+          - BD
+          - BE
+          - BF
+          - BG
+          - BH
+          - BI
+          - BJ
+          - BL
+          - BM
+          - BN
+          - BO
+          - BQ
+          - BR
+          - BS
+          - BT
+          - BV
+          - BW
+          - BY
+          - BZ
+          - CA
+          - CC
+          - CD
+          - CF
+          - CG
+          - CH
+          - CI
+          - CK
+          - CL
+          - CM
+          - CN
+          - CO
+          - CR
+          - CU
+          - CV
+          - CW
+          - CX
+          - CY
+          - CZ
+          - DE
+          - DJ
+          - DK
+          - DM
+          - DO
+          - DZ
+          - EC
+          - EE
+          - EG
+          - EH
+          - ER
+          - ES
+          - ET
+          - FI
+          - FJ
+          - FK
+          - FM
+          - FO
+          - FR
+          - GA
+          - GB
+          - GD
+          - GE
+          - GF
+          - GG
+          - GH
+          - GI
+          - GL
+          - GM
+          - GN
+          - GP
+          - GQ
+          - GR
+          - GS
+          - GT
+          - GU
+          - GW
+          - GY
+          - HK
+          - HM
+          - HN
+          - HR
+          - HT
+          - HU
+          - ID
+          - IE
+          - IL
+          - IM
+          - IN
+          - IO
+          - IQ
+          - IR
+          - IS
+          - IT
+          - JE
+          - JM
+          - JO
+          - JP
+          - KE
+          - KG
+          - KH
+          - KI
+          - KM
+          - KN
+          - KP
+          - KR
+          - KW
+          - KY
+          - KZ
+          - LA
+          - LB
+          - LC
+          - LI
+          - LK
+          - LR
+          - LS
+          - LT
+          - LU
+          - LV
+          - LY
+          - MA
+          - MC
+          - MD
+          - ME
+          - MF
+          - MG
+          - MH
+          - MK
+          - ML
+          - MM
+          - MN
+          - MO
+          - MP
+          - MQ
+          - MR
+          - MS
+          - MT
+          - MU
+          - MV
+          - MW
+          - MX
+          - MY
+          - MZ
+          - NA
+          - NC
+          - NE
+          - NF
+          - NG
+          - NI
+          - NL
+          - 'NO'
+          - NP
+          - NR
+          - NU
+          - NZ
+          - OM
+          - PA
+          - PE
+          - PF
+          - PG
+          - PH
+          - PK
+          - PL
+          - PM
+          - PN
+          - PR
+          - PS
+          - PT
+          - PW
+          - PY
+          - QA
+          - RE
+          - RO
+          - RS
+          - RU
+          - RW
+          - SA
+          - SB
+          - SC
+          - SD
+          - SE
+          - SG
+          - SH
+          - SI
+          - SJ
+          - SK
+          - SL
+          - SM
+          - SN
+          - SO
+          - SR
+          - SS
+          - ST
+          - SV
+          - SX
+          - SY
+          - SZ
+          - TC
+          - TD
+          - TF
+          - TG
+          - TH
+          - TJ
+          - TK
+          - TL
+          - TM
+          - TN
+          - TO
+          - TR
+          - TT
+          - TV
+          - TW
+          - TZ
+          - UA
+          - UG
+          - UM
+          - US
+          - UY
+          - UZ
+          - VA
+          - VC
+          - VE
+          - VG
+          - VI
+          - VN
+          - VU
+          - WF
+          - WS
+          - XK
+          - YE
+          - YT
+          - ZA
+          - ZM
+          - ZW
+        description: |-
+          Publishes files containing data about country
+
+          * `AF` - Afghanistan
+          * `AX` - Åland Islands
+          * `AL` - Albania
+          * `DZ` - Algeria
+          * `AS` - American Samoa
+          * `AD` - Andorra
+          * `AO` - Angola
+          * `AI` - Anguilla
+          * `AQ` - Antarctica
+          * `AG` - Antigua and Barbuda
+          * `AR` - Argentina
+          * `AM` - Armenia
+          * `AW` - Aruba
+          * `AU` - Australia
+          * `AT` - Austria
+          * `AZ` - Azerbaijan
+          * `BS` - Bahamas (the)
+          * `BH` - Bahrain
+          * `BD` - Bangladesh
+          * `BB` - Barbados
+          * `BY` - Belarus
+          * `BE` - Belgium
+          * `BZ` - Belize
+          * `BJ` - Benin
+          * `BM` - Bermuda
+          * `BT` - Bhutan
+          * `BO` - Bolivia (Plurinational State of)
+          * `BQ` - Bonaire, Sint Eustatius and Saba
+          * `BA` - Bosnia and Herzegovina
+          * `BW` - Botswana
+          * `BV` - Bouvet Island
+          * `BR` - Brazil
+          * `IO` - British Indian Ocean Territory (the)
+          * `BN` - Brunei Darussalam
+          * `BG` - Bulgaria
+          * `BF` - Burkina Faso
+          * `BI` - Burundi
+          * `KH` - Cambodia
+          * `CM` - Cameroon
+          * `CA` - Canada
+          * `CV` - Cabo Verde
+          * `KY` - Cayman Islands (the)
+          * `CF` - Central African Republic (the)
+          * `TD` - Chad
+          * `CL` - Chile
+          * `CN` - China
+          * `CX` - Christmas Island
+          * `CC` - Cocos (Keeling) Islands (the)
+          * `CO` - Colombia
+          * `KM` - Comoros (the)
+          * `CG` - Congo (the)
+          * `CD` - Congo (the Democratic Republic of the)
+          * `CK` - Cook Islands (the)
+          * `CR` - Costa Rica
+          * `CI` - Côte d'Ivoire
+          * `HR` - Croatia
+          * `CU` - Cuba
+          * `CW` - Curaçao
+          * `CY` - Cyprus
+          * `CZ` - Czechia
+          * `DK` - Denmark
+          * `DJ` - Djibouti
+          * `DM` - Dominica
+          * `DO` - Dominican Republic (the)
+          * `EC` - Ecuador
+          * `EG` - Egypt
+          * `SV` - El Salvador
+          * `GQ` - Equatorial Guinea
+          * `ER` - Eritrea
+          * `EE` - Estonia
+          * `ET` - Ethiopia
+          * `FK` - Falkland Islands (the) [Malvinas]
+          * `FO` - Faroe Islands (the)
+          * `FJ` - Fiji
+          * `FI` - Finland
+          * `FR` - France
+          * `GF` - French Guiana
+          * `PF` - French Polynesia
+          * `TF` - French Southern Territories (the)
+          * `GA` - Gabon
+          * `GM` - Gambia (the)
+          * `GE` - Georgia
+          * `DE` - Germany
+          * `GH` - Ghana
+          * `GI` - Gibraltar
+          * `GR` - Greece
+          * `GL` - Greenland
+          * `GD` - Grenada
+          * `GP` - Guadeloupe
+          * `GU` - Guam
+          * `GT` - Guatemala
+          * `GG` - Guernsey
+          * `GN` - Guinea
+          * `GW` - Guinea-Bissau
+          * `GY` - Guyana
+          * `HT` - Haiti
+          * `HM` - Heard Island and McDonald Islands
+          * `VA` - Holy See (the)
+          * `HN` - Honduras
+          * `HK` - Hong Kong
+          * `HU` - Hungary
+          * `IS` - Iceland
+          * `IN` - India
+          * `ID` - Indonesia
+          * `IR` - Iran (Islamic Republic of)
+          * `IQ` - Iraq
+          * `IE` - Ireland
+          * `IM` - Isle of Man
+          * `IL` - Israel
+          * `IT` - Italy
+          * `JM` - Jamaica
+          * `JP` - Japan
+          * `JE` - Jersey
+          * `JO` - Jordan
+          * `KZ` - Kazakhstan
+          * `KE` - Kenya
+          * `KI` - Kiribati
+          * `KP` - Korea (the Democratic People's Republic of)
+          * `KR` - Korea (the Republic of)
+          * `XK` - Kosovo
+          * `KW` - Kuwait
+          * `KG` - Kyrgyzstan
+          * `LA` - Lao People's Democratic Republic (the)
+          * `LV` - Latvia
+          * `LB` - Lebanon
+          * `LS` - Lesotho
+          * `LR` - Liberia
+          * `LY` - Libya
+          * `LI` - Liechtenstein
+          * `LT` - Lithuania
+          * `LU` - Luxembourg
+          * `MO` - Macao
+          * `MK` - North Macedonia
+          * `MG` - Madagascar
+          * `MW` - Malawi
+          * `MY` - Malaysia
+          * `MV` - Maldives
+          * `ML` - Mali
+          * `MT` - Malta
+          * `MH` - Marshall Islands (the)
+          * `MQ` - Martinique
+          * `MR` - Mauritania
+          * `MU` - Mauritius
+          * `YT` - Mayotte
+          * `MX` - Mexico
+          * `FM` - Micronesia (Federated States of)
+          * `MD` - Moldova (the Republic of)
+          * `MC` - Monaco
+          * `MN` - Mongolia
+          * `ME` - Montenegro
+          * `MS` - Montserrat
+          * `MA` - Morocco
+          * `MZ` - Mozambique
+          * `MM` - Myanmar
+          * `NA` - Namibia
+          * `NR` - Nauru
+          * `NP` - Nepal
+          * `NL` - Netherlands (the)
+          * `AN` - NETHERLAND ANTILLES
+          * `NC` - New Caledonia
+          * `NZ` - New Zealand
+          * `NI` - Nicaragua
+          * `NE` - Niger (the)
+          * `NG` - Nigeria
+          * `NU` - Niue
+          * `NF` - Norfolk Island
+          * `MP` - Northern Mariana Islands (the)
+          * `NO` - Norway
+          * `OM` - Oman
+          * `PK` - Pakistan
+          * `PW` - Palau
+          * `PS` - Palestine, State of
+          * `PA` - Panama
+          * `PG` - Papua New Guinea
+          * `PY` - Paraguay
+          * `PE` - Peru
+          * `PH` - Philippines (the)
+          * `PN` - Pitcairn
+          * `PL` - Poland
+          * `PT` - Portugal
+          * `PR` - Puerto Rico
+          * `QA` - Qatar
+          * `RE` - Réunion
+          * `RO` - Romania
+          * `RU` - Russian Federation (the)
+          * `RW` - Rwanda
+          * `BL` - Saint Barthélemy
+          * `SH` - Saint Helena, Ascension and Tristan da Cunha
+          * `KN` - Saint Kitts and Nevis
+          * `LC` - Saint Lucia
+          * `MF` - Saint Martin (French part)
+          * `PM` - Saint Pierre and Miquelon
+          * `VC` - Saint Vincent and the Grenadines
+          * `WS` - Samoa
+          * `SM` - San Marino
+          * `ST` - Sao Tome and Principe
+          * `SA` - Saudi Arabia
+          * `SN` - Senegal
+          * `RS` - Serbia
+          * `SC` - Seychelles
+          * `SL` - Sierra Leone
+          * `SG` - Singapore
+          * `SX` - Sint Maarten (Dutch part)
+          * `SK` - Slovakia
+          * `SI` - Slovenia
+          * `SB` - Solomon Islands
+          * `SO` - Somalia
+          * `ZA` - South Africa
+          * `GS` - South Georgia and the South Sandwich Islands
+          * `SS` - South Sudan
+          * `ES` - Spain
+          * `LK` - Sri Lanka
+          * `SD` - Sudan (the)
+          * `SR` - Suriname
+          * `SJ` - Svalbard and Jan Mayen
+          * `SZ` - Eswatini
+          * `SE` - Sweden
+          * `CH` - Switzerland
+          * `SY` - Syrian Arab Republic (the)
+          * `TW` - Taiwan (Province of China)
+          * `TJ` - Tajikistan
+          * `TZ` - Tanzania, the United Republic of
+          * `TH` - Thailand
+          * `TL` - Timor-Leste
+          * `TG` - Togo
+          * `TK` - Tokelau
+          * `TO` - Tonga
+          * `TT` - Trinidad and Tobago
+          * `TN` - Tunisia
+          * `TR` - Türkiye
+          * `TM` - Turkmenistan
+          * `TC` - Turks and Caicos Islands (the)
+          * `TV` - Tuvalu
+          * `UG` - Uganda
+          * `UA` - Ukraine
+          * `AE` - United Arab Emirates (the)
+          * `GB` - United Kingdom of Great Britain and Northern Ireland (the)
+          * `US` - United States of America (the)
+          * `UM` - United States Minor Outlying Islands (the)
+          * `UY` - Uruguay
+          * `UZ` - Uzbekistan
+          * `VU` - Vanuatu
+          * `VE` - Venezuela (Bolivarian Republic of)
+          * `VN` - Viet Nam
+          * `VG` - Virgin Islands (British)
+          * `VI` - Virgin Islands (U.S.)
+          * `WF` - Wallis and Futuna
+          * `EH` - Western Sahara
+          * `YE` - Yemen
+          * `ZM` - Zambia
+          * `ZW` - Zimbabwe
+      - in: query
+        name: search
+        schema:
+          type: string
+        description: Search reporting organisation name / registry ID
+      tags:
+      - reporting-orgs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedReportingOrgList'
+          description: ''
+  /api/reporting-orgs/{id}/:
+    get:
+      operationId: reporting_orgs_retrieve
+      description: Metadata for a single reporting organisation.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this reporting org.
+        required: true
+      tags:
+      - reporting-orgs
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportingOrg'
+          description: ''
+components:
+  schemas:
+    CBCDataset:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+        license_id:
+          type: string
+          readOnly: true
+        license_title:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        num_resources:
+          type: integer
+          readOnly: true
+        organization:
+          type: object
+          additionalProperties: {}
+          readOnly: true
+        owner_org:
+          type: string
+          readOnly: true
+        private:
+          type: boolean
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        extras:
+          type: array
+          items: {}
+          readOnly: true
+        resources:
+          type: array
+          items: {}
+          readOnly: true
+        publisher_source_type:
+          type: string
+          readOnly: true
+        publisher_organization_type:
+          type: string
+          readOnly: true
+        publisher_iati_id:
+          type: string
+          readOnly: true
+        publisher_country:
+          type: string
+          readOnly: true
+        author:
+          type: string
+          readOnly: true
+        author_email:
+          type: string
+          readOnly: true
+        creator_user_id:
+          type: string
+          readOnly: true
+        maintainer:
+          type: string
+          readOnly: true
+        maintainer_email:
+          type: string
+          readOnly: true
+      required:
+      - author
+      - author_email
+      - creator_user_id
+      - extras
+      - id
+      - license_id
+      - license_title
+      - maintainer
+      - maintainer_email
+      - name
+      - num_resources
+      - organization
+      - owner_org
+      - private
+      - publisher_country
+      - publisher_iati_id
+      - publisher_organization_type
+      - publisher_source_type
+      - resources
+      - state
+      - title
+      - type
+    CBCReportingOrg:
+      type: object
+      properties:
+        description:
+          type: string
+          readOnly: true
+        id:
+          type: string
+          readOnly: true
+        is_organization:
+          type: boolean
+          readOnly: true
+        license_id:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        package_count:
+          type: integer
+          readOnly: true
+        publisher_country:
+          type: string
+          readOnly: true
+        publisher_description:
+          type: string
+          readOnly: true
+        publisher_first_publish_date:
+          type: string
+          readOnly: true
+        publisher_iati_id:
+          type: string
+          readOnly: true
+        publisher_organization_type:
+          type: string
+          readOnly: true
+        state:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          readOnly: true
+        image_display_url:
+          type: string
+          readOnly: true
+        image_url:
+          type: string
+          readOnly: true
+        publisher_agencies:
+          type: string
+          readOnly: true
+        publisher_constraints:
+          type: string
+          readOnly: true
+        publisher_contact:
+          type: string
+          readOnly: true
+        publisher_contact_email:
+          type: string
+          readOnly: true
+        publisher_data_quality:
+          type: string
+          readOnly: true
+        publisher_field_exclusions:
+          type: string
+          readOnly: true
+        publisher_frequency:
+          type: string
+          readOnly: true
+        publisher_frequency_select:
+          type: string
+          readOnly: true
+        publisher_implementation_schedule:
+          type: string
+          readOnly: true
+        publisher_record_exclusions:
+          type: string
+          readOnly: true
+        publisher_refs:
+          type: string
+          readOnly: true
+        publisher_segmentation:
+          type: string
+          readOnly: true
+        publisher_source_type:
+          type: string
+          readOnly: true
+        publisher_thresholds:
+          type: string
+          readOnly: true
+        publisher_timeliness:
+          type: string
+          readOnly: true
+        publisher_ui:
+          type: string
+          readOnly: true
+        tags:
+          type: array
+          items: {}
+          readOnly: true
+        groups:
+          type: array
+          items: {}
+          readOnly: true
+        users:
+          type: array
+          items: {}
+          readOnly: true
+        historical_publisher_names:
+          type: array
+          items: {}
+          readOnly: true
+      required:
+      - description
+      - groups
+      - historical_publisher_names
+      - id
+      - image_display_url
+      - image_url
+      - is_organization
+      - license_id
+      - name
+      - package_count
+      - publisher_agencies
+      - publisher_constraints
+      - publisher_contact
+      - publisher_contact_email
+      - publisher_country
+      - publisher_data_quality
+      - publisher_description
+      - publisher_field_exclusions
+      - publisher_first_publish_date
+      - publisher_frequency
+      - publisher_frequency_select
+      - publisher_iati_id
+      - publisher_implementation_schedule
+      - publisher_organization_type
+      - publisher_record_exclusions
+      - publisher_refs
+      - publisher_segmentation
+      - publisher_source_type
+      - publisher_thresholds
+      - publisher_timeliness
+      - publisher_ui
+      - state
+      - tags
+      - title
+      - type
+      - users
+    CBCWrappedDataset:
+      type: object
+      properties:
+        success:
+          type: boolean
+          readOnly: true
+        result:
+          $ref: '#/components/schemas/CBCDataset'
+      required:
+      - result
+      - success
+    CBCWrappedReportingOrg:
+      type: object
+      properties:
+        success:
+          type: boolean
+          readOnly: true
+        result:
+          $ref: '#/components/schemas/CBCReportingOrg'
+      required:
+      - result
+      - success
+    Dataset:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        short_name:
+          type: string
+        source_url:
+          type: string
+        reporting_org_id:
+          type: string
+          format: uuid
+          readOnly: true
+        reporting_org_short_name:
+          type: string
+          readOnly: true
+        licence_id:
+          readOnly: true
+      required:
+      - id
+      - licence_id
+      - reporting_org_id
+      - reporting_org_short_name
+      - short_name
+      - source_url
+    PaginatedCBCDatasetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?start=400&rows=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?start=200&rows=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CBCDataset'
+    PaginatedDatasetList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Dataset'
+    PaginatedReportingOrgList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportingOrg'
+    ReportingOrg:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        short_name:
+          type: string
+        human_readable_name:
+          type: string
+        dataset_count:
+          type: integer
+          readOnly: true
+        created_date:
+          readOnly: true
+        data_portal_url:
+          readOnly: true
+        default_licence_id:
+          readOnly: true
+        description:
+          readOnly: true
+        exclusions_policy_url:
+          readOnly: true
+        first_publication_date:
+          readOnly: true
+        hq_country:
+          readOnly: true
+        organisation_identifier:
+          readOnly: true
+        organisation_type:
+          readOnly: true
+        region:
+          readOnly: true
+        reporting_source_type:
+          readOnly: true
+        website:
+          readOnly: true
+      required:
+      - created_date
+      - data_portal_url
+      - dataset_count
+      - default_licence_id
+      - description
+      - exclusions_policy_url
+      - first_publication_date
+      - hq_country
+      - human_readable_name
+      - id
+      - organisation_identifier
+      - organisation_type
+      - region
+      - reporting_source_type
+      - short_name
+      - website
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

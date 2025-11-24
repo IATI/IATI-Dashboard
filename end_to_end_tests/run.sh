@@ -9,7 +9,7 @@ set -eux
 # Temporarily turn off -x to make messages clearer
 set +x
 if [[ "$@" != "-f" ]]; then
-    echo "This script will replace the IATI-Stats, stats-calculated, data/ckan_publishers directories with test data."
+    echo "This script will replace the IATI-Stats and stats-calculated directories with test data."
     echo "This script will also replace the database at \"$DATABASE_URL\" with test data."
     read -p "Do you wish to continue? (y/n): "
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -22,19 +22,14 @@ rm -rf IATI-Stats/ || true
 git clone https://github.com/IATI/IATI-Stats
 
 # Set up data
-cp -r end_to_end_tests/fixtures/data IATI-Stats/
-cd IATI-Stats/data
+cp -r end_to_end_tests/fixtures/iati-data IATI-Stats/
+cd IATI-Stats/iati-data
 git init
 git add .
 git config user.email "test@example.com"
 git config user.name "Test"
 git commit -a -m "Initial commit"
 cd ../..
-
-cp -r end_to_end_tests/fixtures/ckan IATI-Stats/helpers
-
-rm -r data/ckan_publishers || true
-cp -r end_to_end_tests/fixtures/ckan_publishers data/
 
 # Run IATI-Stats
 cd IATI-Stats
@@ -45,6 +40,7 @@ cd ..
 # Run dashboard
 rm -r stats-calculated || true
 ln -s IATI-Stats/gitout stats-calculated
+echo '{}' > stats-calculated/licenses.json
 pip install -r requirements_dev.txt
 python manage.py collectstatic --noinput
 python manage.py migrate

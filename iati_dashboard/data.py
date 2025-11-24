@@ -105,7 +105,10 @@ class JSONDir(MutableMapping):
         """Method to return a list of keys that are contained within the data folder that
         is being accessed within this instance.
         """
-        return [x[:-5] if x.endswith(".json") else x for x in os.listdir(self.folder)]
+        try:
+            return [x[:-5] if x.endswith(".json") else x for x in os.listdir(self.folder)]
+        except FileNotFoundError:
+            return []
 
     def __iter__(self):
         """Custom iterable, to iterate over the keys that are contained within the data
@@ -197,15 +200,17 @@ current_stats = {
     "inverted_file_publisher": JSONDir(filepaths.join_stats_path("current/inverted-file-publisher")),
     "download_errors": [],
 }
-ckan_publishers = JSONDir(filepaths.join_data_path("ckan_publishers"))
-ckan = json.load(open(filepaths.join_stats_path("ckan.json")), object_pairs_hook=OrderedDict)
-dataset_to_publisher_dict = {
-    dataset: publisher for publisher, publisher_dict in ckan.items() for dataset in publisher_dict.keys()
-}
 with open(filepaths.join_data_path("downloads/errors")) as fp:
     for line in fp:
         if line != ".\n":
             current_stats["download_errors"].append(line.strip("\n").split(" ", 3))
+
+
+metadata_datasets = json.load(open(filepaths.join_stats_path("current/bulk-data-service-metadata/datasets-full.json")))
+metadata_reporting_orgs = json.load(
+    open(filepaths.join_stats_path("current/bulk-data-service-metadata/reporting-orgs.json"))
+)
+
 
 sources105 = [
     filepaths.join_data_path("schemas/1.05/iati-activities-schema.xsd"),
@@ -289,7 +294,8 @@ codelist_lookup = {
 
 # Simple look up to map publisher id to a publishers given name (title)
 publisher_name = {
-    publisher: publisher_json["result"]["title"] for publisher, publisher_json in ckan_publishers.items()
+    reporting_org["short_name"]: reporting_org["human_readable_name"]
+    for reporting_org in metadata_reporting_orgs["reporting_orgs"]
 }
 # Create a list of tuples ordered by publisher given name titles - this allows us to display lists of publishers in alphabetical order
 publishers_ordered_by_title = [

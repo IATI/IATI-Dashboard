@@ -58,18 +58,22 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
       <table class="table iati-table__table">
         <tbody>
             <tr>
-                <td>On the Registry</td>
-                <td><a href="http://iatiregistry.org/publisher/{{ publisher.short_name }}">{{ publisher.short_name }}</a></td>
-            </tr>
-            <tr>
-                <td>Reporting Org on Registry</td>
-                <td>{% if ckan_publishers and publisher.short_name in ckan_publishers %}
-                    <code class="iati-code">{{ ckan_publishers[publisher.short_name].result.publisher_iati_id }}</code>
-                    {% endif %}
+                <td>View this Reporting Org elsewhere</td>
+                <td>
+                    <a href="https://d-portal.iatistandard.org/ctrack.html#reporting_ref={{ publisher.organisation_identifier }}">On D-Portal</a>
+                    <br>
+                    <a href="https://validator.iatistandard.org/organisation/{{ publisher.short_name }}">On IATI Validator</a>
+
                 </td>
             </tr>
             <tr>
-                <td>Reporting Org(s) in Data</td>
+                <td>Reporting Org Ref</td>
+                <td>
+                    <code class="iati-code">{{ publisher.organisation_identifier }}</code>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporting Org ref(s) in Data</td>
                 <td>
                 {% for org in publisher.stats_json.reporting_orgs %}
                 <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
@@ -320,7 +324,8 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
       <table class="table iati-table__table exploring-data">
         <thead>
             <tr>
-                <th>Package</th>
+                <th>Short Name</th>
+                <th>Links</th>
                 <th>Activities <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher.short_name }}/activities.json">(J)</a></th>
                 <th>Organisations <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher.short_name }}/organisations.json">(J)</a></th>
                 <th>File Size <a href="{{ stats_url }}/current/inverted-file-publisher/{{ publisher.short_name }}/file_size.json">(J)</a></th>
@@ -330,7 +335,11 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in publisher.dataset_set.all().order_by("short_name") %}
             <tr>
-                <td class="break"><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                <td class="break">{{ dataset.short_name }}</td>
+                <td>
+                    <a href="{{ dataset.source_url }}">Source Url</a>
+                    <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}" style="padding-left: 1em">IATI Validator</a>
+                </td>
                 <td>{{ dataset.stats_json.activities }}</td>
                 <td>{{ dataset.stats_json.organisations }}</td>
                 <td data-bytes="{{ dataset.stats_json.file_size }}">{{ dataset.stats_json.file_size|filesizeformat }}</td>

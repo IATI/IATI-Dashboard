@@ -44,6 +44,7 @@ jobs:
         python manage.py dashboard_import
         mkdir iati_dashboard/fixtures/
         python manage.py dumpdata iati_dashboard.ReportingOrg > iati_dashboard/fixtures/reporting_orgs.json
+        python manage.py dumpdata iati_dashboard.Dataset > iati_dashboard/fixtures/datasets.json
     - name: Set up W3C HTML validator
       run: |
         docker run -d -p 8888:8888 ghcr.io/validator/validator:latest
