@@ -394,7 +394,7 @@ def errors_download(request):
             http_status=F("metadata_json__most_recent_get_attempt__error_details__http_status"),
         )
         .order_by("reporting_org__human_readable_name")
-        .defer("stats_json", "metadata_json")
+        .defer("stats_json", "metadata_json", "reporting_org__stats_json", "reporting_org__metadata_json")
     )
     return HttpResponse(template.render(context, request))
 
