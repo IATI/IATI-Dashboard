@@ -28,6 +28,7 @@ class CBCPagination(LimitOffsetPagination):
 
 class CBCDatasetSearchPagination(LimitOffsetPagination):
     default_limit = 10
+    max_limit = 1000
     limit_query_param = "rows"
     offset_query_param = "start"
 
@@ -350,7 +351,11 @@ class PackageSearchView(generics.ListAPIView, AllowPost):
     serializer_class = CBCDatasetSerializer
 
     def get_queryset(self):
-        datasets = Dataset.objects.all()
+        datasets = (
+            Dataset.objects.all()
+            .prefetch_related("reporting_org")
+            .defer("reporting_org__stats_json", "reporting_org__metadata_json")
+        )
         q = self.request.GET.get("q", self.request.POST.get("q"))
         fq = self.request.GET.get("fq", self.request.POST.get("fq"))
 
