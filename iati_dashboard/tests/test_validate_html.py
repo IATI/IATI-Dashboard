@@ -14,7 +14,7 @@ def test_validate_html(page):
         pytest.skip()
 
     # Skip non html page
-    if page.endswith(".json"):
+    if page.endswith(".json") or page.startswith("api/"):
         pytest.skip()
 
     if page in [
