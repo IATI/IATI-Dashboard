@@ -355,6 +355,7 @@ class PackageSearchView(generics.ListAPIView, AllowPost):
             Dataset.objects.all()
             .prefetch_related("reporting_org")
             .defer("reporting_org__stats_json", "reporting_org__metadata_json")
+            .order_by("short_name")
         )
         q = self.request.GET.get("q", self.request.POST.get("q"))
         fq = self.request.GET.get("fq", self.request.POST.get("fq"))
