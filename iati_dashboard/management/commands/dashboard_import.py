@@ -74,6 +74,8 @@ class Command(BaseCommand):
                     )
                 )
             )
+            if not stats_json:
+                stats_json = DEFAULT_STATS_JSON
             try:
                 dataset = Dataset(
                     id=dataset_dict["id"],
