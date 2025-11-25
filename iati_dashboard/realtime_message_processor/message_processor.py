@@ -102,7 +102,7 @@ class MessageProcessor:
 
     def process_bulk_data_service_dataset_check_result(self, message_payload: dict):
 
-        dataset_check_result_current = message_payload["dataset_check_result_current"]
+        dataset_check_result_current = message_payload["dataset_check_result"]
         dataset_check_result_previous = message_payload.get("dataset_check_result_previous", None)
 
         self.update_most_recent_dataset_check_field(dataset_check_result_current)
@@ -124,8 +124,9 @@ class MessageProcessor:
     def save_dataset_check_result_change_event(self, message_payload: dict):
         dataset_event = DatasetEvent()
         dataset_event.timestamp = get_datetime_with_tz(message_payload["message_date"])
-        dataset_event.dataset_id = message_payload["dataset_check_result_current"]["id"]
-        dataset_event.reporting_org_id = message_payload["dataset_check_result_current"]["id"]
+        dataset_event.dataset_id = message_payload["dataset_check_result"]["id"]
+        # TODO, this should look up the actual reporting org id
+        dataset_event.reporting_org_id = message_payload["dataset_check_result"]["id"]
         dataset_event.initiating_user_id = None
         dataset_event.initiating_user_name = None
         dataset_event.initiating_organisation_id = None
@@ -134,7 +135,7 @@ class MessageProcessor:
         dataset_event.initiating_application_name = "Bulk Data Service"
         dataset_event.event_type = DatasetEventTypes.DATASET_DOWNLOAD_STATUS_CHANGED
         dataset_event.message_payload = message_payload
-        dataset_event.data_fields_current = message_payload["dataset_check_result_current"]
+        dataset_event.data_fields_current = message_payload["dataset_check_result"]
         dataset_event.data_fields_previous = message_payload["dataset_check_result_previous"]
         dataset_event.save()
 
