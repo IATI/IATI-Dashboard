@@ -6,28 +6,6 @@ set -eux
 mkdir -p data/downloads/
 wget "https://gist.githubusercontent.com/codeforIATIbot/f117c9be138aa94c9762d57affc51a64/raw/errors" -O data/downloads/errors
 
-# Have an option to skip this step (e.g. for CI), because it is slow
-if [[ "$@" != "no-download-errors-history" ]]; then
-    # Generate a csv file with the number of download errors logged since 2013
-    cd data/downloads
-    echo "cloning download errors"
-    if [ ! -d ./f117c9be138aa94c9762d57affc51a64 ]; then
-        git clone https://gist.github.com/f117c9be138aa94c9762d57affc51a64.git
-    fi
-    cd ./f117c9be138aa94c9762d57affc51a64
-    echo "cloned download errors - checking out commits"
-    git checkout master > /dev/null
-    git pull > /dev/null
-    for commit in `git log --format=format:%H`; do
-        git checkout $commit
-        date=`git log -1 --format="%ai"`
-        count=`cat errors | grep -v '^\.$' | wc -l`
-        echo $date,$count
-    done > ../history.csv
-    echo "cloned and checked out download errors"
-    cd ../../../
-fi
-
 # Get codelists for versions v1.x and v2.x of the IATI Standard
 rm -rf data/IATI-Codelists-1
 echo "cloning Codelists-1"

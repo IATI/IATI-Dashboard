@@ -23,7 +23,7 @@ jobs:
     - name: Fetch codelists, schemas etc.
       run: |
         pip install -r requirements.txt
-        ./fetch_data.sh no-download-errors-history
+        ./fetch_data.sh
     - name: Run test script
       env:
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"

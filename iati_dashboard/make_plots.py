@@ -30,15 +30,12 @@ def get_organization_type(publisher):
 
 
 class AugmentedJSONDir(data.JSONDir):
-    def __init__(self, folder, failed_downloads, gitaggregate_publisher):
+    def __init__(self, folder, gitaggregate_publisher):
         super().__init__(folder)
-        self.failed_downloads = failed_downloads
         self.gitaggregate_publisher = gitaggregate_publisher
 
     def __getitem__(self, key):
-        if key == "failed_downloads":
-            return dict((row[0], row[1]) for row in self.failed_downloads)
-        elif key == "publisher_types":
+        if key == "publisher_types":
             out = defaultdict(lambda: defaultdict(int))
             for publisher, publisher_data in self.gitaggregate_publisher.items():
                 if publisher in data.publisher_name:
@@ -203,14 +200,11 @@ def make_plot(stat_path, git_stats, img_prefix=""):
 
 def make_plots(verbose=False):
     # Load data required for loading stats.
-    failed_downloads = csv.reader(open(filepaths.join_data_path("downloads/history.csv")))
     gitaggregate_publisher = data.JSONDir(filepaths.join_stats_path("gitaggregate-publisher-dated"))
 
     # Generate plots for aggregated stats for all data.
     logger.info("Generating plots for all aggregated data")
-    git_stats = AugmentedJSONDir(
-        filepaths.join_stats_path("gitaggregate-dated"), failed_downloads, gitaggregate_publisher
-    )
+    git_stats = AugmentedJSONDir(filepaths.join_stats_path("gitaggregate-dated"), gitaggregate_publisher)
     os.makedirs(filepaths.join_out_path("img/aggregate"), exist_ok=True)
 
     _paths = [
@@ -219,7 +213,6 @@ def make_plots(verbose=False):
         "activity_files",
         "organisation_files",
         "file_size",
-        "failed_downloads",
         "invalidxml",
         "nonstandardroots",
         "unique_identifiers",
@@ -248,7 +241,7 @@ def make_plots(verbose=False):
     # Generate plots for each publisher.
     logger.info("Generating plots for all publishers")
     git_stats_publishers = AugmentedJSONDir(
-        filepaths.join_stats_path("gitaggregate-publisher-dated/"), failed_downloads, gitaggregate_publisher
+        filepaths.join_stats_path("gitaggregate-publisher-dated/"), gitaggregate_publisher
     )
     os.makedirs(filepaths.join_out_path("img/publishers"), exist_ok=True)
 

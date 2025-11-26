@@ -30,7 +30,7 @@ jobs:
     - name: Lint - isort
       run: isort . --check-only
     - name: Fetch data
-      run: ./fetch_data.sh no-download-errors-history
+      run: ./fetch_data.sh
     - name: Fetch stats
       run: |
         mkdir out
