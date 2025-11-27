@@ -18,6 +18,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path, re_path
+from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
 
 from . import views
@@ -210,6 +211,7 @@ urlpatterns = (
             "<slug:file_start>.csv",
             RedirectView.as_view(url="/generated/data/csv/%(file_start)s.csv", permanent=False),
         ),
+        path("iatiregistry_org_notice/", TemplateView.as_view(template_name="iatiregistry_org_notice.html")),
     ]
     + static("generated", document_root="out")
     + static("stats", document_root="stats-calculated")
