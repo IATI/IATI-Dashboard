@@ -85,7 +85,7 @@ flake8==7.3.0
     #   flake8-pyproject
 flake8-pyproject==1.2.3
     # via -r requirements_dev.in
-fonttools==4.60.1
+fonttools==4.61.0
     # via
     #   -r requirements.txt
     #   matplotlib
