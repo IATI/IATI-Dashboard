@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+from django.http import Http404
 from django.urls import path
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import generics, serializers
@@ -331,7 +332,10 @@ class OrganisationRetrieveView(generics.RetrieveAPIView, AllowPost):
             return ReportingOrg.objects.get(id=id_param)
         # we need to catch ValidationError if it's a badly formed uuid
         except (ReportingOrg.DoesNotExist, ValidationError):
-            return ReportingOrg.objects.get(short_name=id_param)
+            try:
+                return ReportingOrg.objects.get(short_name=id_param)
+            except ReportingOrg.DoesNotExist:
+                raise Http404("No organization matches this id")
 
 
 class PackageListView(generics.ListAPIView, AllowPost):
@@ -410,7 +414,10 @@ class PackageRetrieveView(generics.RetrieveAPIView, AllowPost):
             return Dataset.objects.get(id=id_param)
         # we need to catch ValidationError if it's a badly formed uuid
         except (Dataset.DoesNotExist, ValidationError):
-            return Dataset.objects.get(short_name=id_param)
+            try:
+                return Dataset.objects.get(short_name=id_param)
+            except Dataset.DoesNotExist:
+                raise Http404("No dataset matches this id")
 
 
 urlpatterns = [
