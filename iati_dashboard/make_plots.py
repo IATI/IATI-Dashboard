@@ -24,9 +24,9 @@ logger = logging.getLogger(__name__)
 def get_organization_type(publisher):
     reporting_org = models.ReportingOrg.objects.get(short_name=publisher)
     if reporting_org:
-        return reporting_org.organisation_type_name
+        return reporting_org.organisation_type_name or "None Given"
     else:
-        return None
+        return "None Given"
 
 
 class AugmentedJSONDir(data.JSONDir):
