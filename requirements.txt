@@ -48,7 +48,7 @@ drf-spectacular==0.28.0
     # via -r requirements.in
 elementpath==5.0.4
     # via xmlschema
-fonttools==4.60.1
+fonttools==4.61.0
     # via matplotlib
 gunicorn==23.0.0
     # via -r requirements.in
