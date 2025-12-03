@@ -7,7 +7,7 @@ import subprocess
 
 import dateutil.parser
 from django.conf import settings
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.http import Http404, HttpResponse
 from django.template import loader
 
@@ -59,8 +59,7 @@ with open(filepaths.join_stats_path("licenses.json")) as handler:
     LICENSE_URLS = json.load(handler)
 
 LICENSES = [
-    dataset["licence_id"] if dataset["licence_id"] is not None else "notspecified"
-    for dataset in metadata_datasets["datasets"]
+    dataset["licence_id"] if dataset["licence_id"] else "notspecified" for dataset in metadata_datasets["datasets"]
 ]
 
 LICENCE_COUNT = dict((x, LICENSES.count(x)) for x in set(LICENSES))
@@ -68,7 +67,7 @@ LICENCE_COUNT = dict((x, LICENSES.count(x)) for x in set(LICENSES))
 LICENSES_AND_PUBLISHER = set(
     [
         (
-            dataset["licence_id"] if dataset["licence_id"] is not None else "notspecified",
+            dataset["licence_id"] if dataset["licence_id"] else "notspecified",
             dataset["reporting_org_short_name"],
         )
         for dataset in metadata_datasets["datasets"]
@@ -86,11 +85,7 @@ def _get_licenses_for_publisher(short_name):
     # Return unique licenses used
     return set(
         [
-            (
-                dataset.metadata_json["licence_id"]
-                if dataset.metadata_json.get("licence_id") is not None
-                else "notspecified"
-            )
+            (dataset.metadata_json["licence_id"] if dataset.metadata_json.get("licence_id") else "notspecified")
             for dataset in models.ReportingOrg.objects.get(short_name=short_name).dataset_set.all()
         ]
     )
@@ -434,9 +429,15 @@ def licenses_detail(request, license_id=None):
     if license_id not in LICENSE_URLS:
         raise Http404("Unknown license")
 
-    reporting_orgs = models.ReportingOrg.objects.filter(dataset__metadata_json__licence_id=license_id).annotate(
-        Count("dataset")
-    )
+    if license_id == "notspecified":
+        filters = (
+            Q(dataset__metadata_json__licence_id=license_id)
+            | Q(dataset__metadata_json__licence_id="")
+            | Q(dataset__metadata_json__licence_id=None)
+        )
+    else:
+        filters = Q(dataset__metadata_json__licence_id=license_id)
+    reporting_orgs = models.ReportingOrg.objects.filter(filters).annotate(Count("dataset"))
     context = _make_context("licenses")
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["licenses"], "title": text.LICENSE_NAMES[license_id]})
     context["license_urls"] = LICENSE_URLS
