@@ -282,7 +282,7 @@ uritemplate==4.2.0
     # via
     #   -r requirements.txt
     #   drf-spectacular
-urllib3[socks]==2.5.0
+urllib3[socks]==2.6.0
     # via
     #   -r requirements.txt
     #   requests
