@@ -66,7 +66,12 @@ class Command(BaseCommand):
             reporting_org.summary_stats = summary_stats.generate_row(reporting_org)
             reporting_org.save()
 
+        dataset_short_names = set()
         for dataset_dict in metadata_datasets["datasets"]:
+            if dataset_dict["short_name"] in dataset_short_names:
+                print(f"ERROR: duplicate Dataset short_name: {dataset_dict["short_name"]}")
+                continue
+            dataset_short_names.add(dataset_dict["short_name"])
             stats_json = dict(
                 JSONDir(
                     filepaths.join_stats_path(
