@@ -94,10 +94,6 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <td>{{ publisher.human_readable_name }}</td>
             </tr>
             <tr>
-                <td>Description</td>
-                <td style="white-space: pre-line;">{{ publisher.description }}</td>
-            </tr>
-            <tr>
                 <td>Exclusions Policy</td>
                 <td><a href="{{ publisher.exclusions_policy_url }}">{{ publisher.exclusions_policy_url }}</a></td>
             </tr>
@@ -114,14 +110,6 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
                 {% endfor %}
                 </td>
-            </tr>
-            <tr>
-                <td>Reporting Source Type</td>
-                <td>{{ publisher.reporting_source_type }}</td>
-            </tr>
-            <tr>
-                <td>First publication date</td>
-                <td>{{ publisher.first_publication_date }}</td>
             </tr>
             <tr>
                 <td>Organisation Type</td>
