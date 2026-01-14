@@ -60,11 +60,46 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             <tr>
                 <td>View this Reporting Org elsewhere</td>
                 <td>
-                    <a href="https://d-portal.iatistandard.org/ctrack.html#reporting_ref={{ publisher.organisation_identifier }}">On D-Portal</a>
+                    <a href="https://d-portal.iatistandard.org/ctrack.html?reporting_ref={{ publisher.organisation_identifier }}">On D-Portal</a>
                     <br>
                     <a href="https://validator.iatistandard.org/organisation/{{ publisher.short_name }}">On IATI Validator</a>
-
+                    <br>
+                    <a href="/api/reporting-orgs/{{ publisher.short_name }}">On the Dashboard API</a>
                 </td>
+            </tr>
+            {% if publisher.data_portal_url %}
+            <tr>
+                <td>Reporting Org's data portal</td>
+                <td>
+                    <a href="{{ publisher.data_portal_url }}">{{ publisher.data_portal_url }}</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% if publisher.website %}
+            <tr>
+                <td>Reporting Org's website</td>
+                <td>
+                    <a href="{{ publisher.website }}">{{ publisher.website }}</a>
+                </td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td>Short Name</td>
+                <td>
+                    <code class="iati-code">{{ publisher.short_name }}</code>
+                </td>
+            </tr>
+            <tr>
+                <td>Human Readable Name</td>
+                <td>{{ publisher.human_readable_name }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td style="white-space: pre-line;">{{ publisher.description }}</td>
+            </tr>
+            <tr>
+                <td>Exclusions Policy</td>
+                <td><a href="{{ publisher.exclusions_policy_url }}">{{ publisher.exclusions_policy_url }}</a></td>
             </tr>
             <tr>
                 <td>Reporting Org Ref</td>
@@ -79,11 +114,39 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
                 {% endfor %}
                 </td>
+            </tr>
+            <tr>
+                <td>Reporting Source Type</td>
+                <td>{{ publisher.reporting_source_type }}</td>
+            </tr>
+            <tr>
+                <td>First publication date</td>
+                <td>{{ publisher.first_publication_date }}</td>
+            </tr>
+            <tr>
+                <td>Organisation Type</td>
+                <td>{{ codelist_lookup["2"]["OrganisationType"].get(publisher.organisation_type, {}).get("name", "") }} ({{ publisher.organisation_type }})</td>
+            </tr>
+            {% if publisher.hq_country %}
+            <tr>
+                <td>HQ Country</td>
+                <td>{{ codelist_lookup["2"]["Country"].get(publisher.hq_country, {}).get("name", "") }} ({{ publisher.hq_country }})</td>
+            </tr>
+            {% endif %}
+            {% if publisher.region %}
+            <tr>
+                <td>Region</td>
+                <td>{{ codelist_lookup["2"]["Region"].get(publisher.region, {}).get("name", "") }} ({{ publisher.region }})</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td>Total Datasets</td>
+                <td>{{ publisher.dataset_count }}</td>
             </tr><tr>
-                <td>Activity Files</td>
+                <td>Datasets with Activity data</td>
                 <td>{{ publisher.stats_json.activity_files }}</td>
             </tr><tr>
-                <td>Organisation Files</td>
+                <td>Datasets with Organisation data</td>
                 <td>{{ publisher.stats_json.organisation_files }}</td>
             </tr><tr>
                 <td>Total File Size</td>
