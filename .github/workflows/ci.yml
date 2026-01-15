@@ -54,7 +54,7 @@ jobs:
         DASHBOARD_ROOT_URL: "http://localhost:8000"
         ENABLE_API_ALPHA: "True"
       run: |
-        python manage.py runserver &
+        python manage.py runserver & sleep 5
         pytest iati_dashboard
     # - name: Coveralls
     #   run: coveralls --service=github-actions
