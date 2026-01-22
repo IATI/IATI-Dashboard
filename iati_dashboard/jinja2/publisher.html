@@ -70,17 +70,13 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             {% if publisher.data_portal_url %}
             <tr>
                 <td>Reporting Org's data portal</td>
-                <td>
-                    <a href="{{ publisher.data_portal_url }}">{{ publisher.data_portal_url }}</a>
-                </td>
+                <td>{{ publisher.data_portal_url|linkurl }}</td>
             </tr>
             {% endif %}
             {% if publisher.website %}
             <tr>
                 <td>Reporting Org's website</td>
-                <td>
-                    <a href="{{ publisher.website }}">{{ publisher.website }}</a>
-                </td>
+                <td>{{ publisher.website|linkurl }}</td>
             </tr>
             {% endif %}
             <tr>
@@ -96,7 +92,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             {% if publisher.exclusions_policy_url %}
             <tr>
                 <td>Exclusions Policy</td>
-                <td><a href="{{ publisher.exclusions_policy_url }}">{{ publisher.exclusions_policy_url }}</a></td>
+                <td>{{ publisher.exclusions_policy_url|linkurl }}</td>
             </tr>
             {% endif %}
             <tr>
@@ -229,7 +225,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                         <tr>
                             <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
                             <td>
-                                    <a href="{{ dataset.source_url }}">{{ dataset.source_url|url_to_filename }}</a>
+                                  {{ dataset.source_url|linkurl(dataset.source_url|url_to_filename) }}
                             </td>
                             <td>
                                   <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}">validator</a>
@@ -390,7 +386,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             <tr>
                 <td class="break">{{ dataset.short_name }}</td>
                 <td>
-                    <a href="{{ dataset.source_url }}">Source Url</a>
+                    {{ dataset.source_url|linkurl('Source Url') }}
                     <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}" style="padding-left: 1em">IATI Validator</a>
                 </td>
                 <td>{{ dataset.stats_json.activities }}</td>
