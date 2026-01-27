@@ -13,11 +13,11 @@ class ReportingOrgFilter(django_filters.FilterSet):
     search = django_filters.CharFilter(
         method="search_fulltext", label="Search reporting organisation name / registry ID"
     )
-    hq_country = django_filters.ChoiceFilter(
+    hq_country = django_filters.MultipleChoiceFilter(
         choices=COUNTRY_CODELIST_CHOICES, label="Reporting organisation HQ country"
     )
 
-    recipient_country_code = django_filters.ChoiceFilter(
+    recipient_country_code = django_filters.MultipleChoiceFilter(
         choices=COUNTRY_CODELIST_CHOICES, lookup_expr="contains", label="Publishes files containing data about country"
     )
     file_types = django_filters.ChoiceFilter(

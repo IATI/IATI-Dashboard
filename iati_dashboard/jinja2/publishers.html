@@ -11,15 +11,14 @@
 
     <div class="row">
     <div class="col-xs-12">
-    <div class="dashboard-panel">
+    <div class="dashboard-panel" id="publishers-list">
     <div class="dashboard-panel-heading clearfix">
       <h2 class="dashboard-panel-heading__title float-start">List of current active IATI Reporting Orgs</h2>
       <a class="dashboard-panel-heading__title light float-end" href="{{ generated_url }}/data/csv/publishers.csv">(This table as CSV)</a>
     </div>
     <div class="dashboard-panel-body">
       {% if show_filters %}
-        <p>NOTE: This is a development server, and not all of these filters will work correctly.</p>
-        <form method="get">
+        <form method="get" action="#publishers-list">
             {{ filter.form.as_p() }}
             <button class="iati-button iati-button--submit">Submit</button>
         </form>
