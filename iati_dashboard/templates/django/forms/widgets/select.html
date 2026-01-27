@@ -1,0 +1,6 @@
+{# adapted from https://github.com/django/django/blob/stable/5.2.x/django/forms/templates/django/forms/widgets/select.html #}
+<{% if widget.attrs.multiple %}multi-select{% else %}select{% endif %} name="{{ widget.name }}" label=""{% include "django/forms/widgets/attrs.html" %}>{% for group_name, group_choices, group_index in widget.optgroups %}{% if group_name %}
+  <optgroup label="{{ group_name }}">{% endif %}{% for option in group_choices %}
+  {% include option.template_name with widget=option %}{% endfor %}{% if group_name %}
+  </optgroup>{% endif %}{% endfor %}
+</{% if widget.attrs.multiple %}multi-select{% else %}select{% endif %}>
