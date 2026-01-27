@@ -37,6 +37,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <li><a href="#h_exploringdata">Exploring Data</a>
                     <ul>
                         <li><a href="#p_files">Files</a>
+                        <li><a href="#p_countries">Recipient Countries</a>
                         <li><a href="#p_codelists">Codelist values</a>
                         <li><a href="#p_elements">Elements and Attributes published</a>
                         <li><a href="#p_org_ids">Organisation Identifiers</a>
@@ -399,6 +400,36 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 </td>
             </tr>
             {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_countries">
+    <div class="dashboard-panel-heading clearfix">
+        <h3 class="dashboard-panel-heading__title float-start">Recipient Countries</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <div class="iati-table">
+      <table class="table iati-table__table exploring-data">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for code in publisher.recipient_country_code %}
+          <tr>
+            <td>{{ code }}</td>
+            <td>{{ codelist_lookup["2"]["Country"].get(code, {}).get("name", "") }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
