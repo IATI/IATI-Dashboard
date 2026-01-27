@@ -67,7 +67,7 @@ urlpatterns = (
         path("exploring-data/versions/", views.versions, name="dash-versions"),
         path("exploring-data/organisation/", views.orgxml, name="dash-organisation"),
         path("exploring-data/licenses/", views.licenses, name="dash-licenses"),
-        path("exploring-data/licenses/<slug:license_id>/", views.licenses_detail, name="dash-licenses-detail"),
+        path("exploring-data/licenses/<str:license_id>/", views.licenses_detail, name="dash-licenses-detail"),
         path("exploring-data/traceability/", views.exploringdata_traceability, name="dash-exploringdata-traceability"),
         path("exploring-data/organisation-identifiers/", views.exploringdata_orgids, name="dash-exploringdata-orgids"),
         path(
