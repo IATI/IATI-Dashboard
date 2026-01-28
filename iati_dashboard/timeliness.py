@@ -29,7 +29,7 @@ def previous_months_generator(d):
     """Returns a generator object with the previous month for a given datetime object"""
     year = d.year
     month = d.month
-    for i in range(0, 12):
+    while year >= 2014:
         month -= 1
         if month <= 0:
             year -= 1
