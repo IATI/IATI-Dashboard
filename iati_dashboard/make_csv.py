@@ -88,7 +88,7 @@ def make_csv(verbose=False):
     with open(filepaths.join_out_path("data/csv/timeliness_frequency.csv"), "w") as fp:
         writer = csv.writer(fp)
         writer.writerow(
-            ["Publisher Name", "Publisher Registry Id"] + previous_months + ["Frequency", "First published"]
+            ["Publisher Name", "Publisher Registry Id"] + previous_months + ["Frequency", "Flags", "First published"]
         )
         for publisher in publishers:
             if not publisher.timeliness_frequency:
@@ -96,20 +96,20 @@ def make_csv(verbose=False):
             per_month = publisher.timeliness_frequency["updates_per_month"]
             first_published_band = publisher.timeliness_frequency["first_published_band"]
             assessment = publisher.timeliness_frequency["frequency"]
-            # hft=publisher.has_future_transactions
+            hft = publisher.has_future_transactions
             writer.writerow(
                 [publisher.human_readable_name, publisher.short_name]
                 + [per_month.get(x) or 0 for x in previous_months]
-                + [assessment, first_published_band]
+                + [assessment, {2:"Red flag", 1:"Yellow flag"}.get(hft, ""), first_published_band]
             )
 
     logger.info("Generating timeliness_timelag.csv")
     with open(filepaths.join_out_path("data/csv/timeliness_timelag.csv"), "w") as fp:
         writer = csv.writer(fp)
-        writer.writerow(["Publisher Name", "Publisher Registry Id"] + previous_months + ["Time lag"])
+        writer.writerow(["Publisher Name", "Publisher Registry Id"] + previous_months + ["Time lag", "Flags"])
         for publisher in publishers:
             per_month = publisher.stats_json.get("transaction_months_with_year", {})
-            # hft=publisher.has_future_transactions
+            hft = publisher.has_future_transactions
             previous_months = timeliness.previous_months_reversed
             assessment = publisher.stats_json.get("timelag")
             if assessment is None:
@@ -117,7 +117,7 @@ def make_csv(verbose=False):
             writer.writerow(
                 [publisher.human_readable_name, publisher.short_name]
                 + [per_month.get(x) or 0 for x in previous_months]
-                + [assessment]
+                + [assessment, {2:"Red flag", 1:"Yellow flag"}.get(hft, "")]
             )
 
     logger.info("Generating forwardlooking.csv")

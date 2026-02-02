@@ -29,11 +29,13 @@ def previous_months_generator(d):
     """Returns a generator object with the previous month for a given datetime object"""
     year = d.year
     month = d.month
-    while year >= 2014:
+    while True:
         month -= 1
         if month <= 0:
             year -= 1
             month = 12
+        if year < 2024:
+            break
         yield year, month
 
 
@@ -194,7 +196,8 @@ def has_future_transactions(publisher):
                     return 2
 
     gitaggregate_publisher = JSONDir(filepaths.join_stats_path("gitaggregate-publisher-dated")).get(publisher, {})
-    mindate = datetime.date(today.year - 1, today.month, 1)
+    #mindate = datetime.date(today.year - 1, today.month, 1)
+    mindate = datetime.date(2024, 1, 1)
     for date_string, latest_transaction_date_string in gitaggregate_publisher.get(
         "latest_transaction_date", {}
     ).items():
