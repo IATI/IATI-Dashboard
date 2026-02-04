@@ -539,6 +539,6 @@ $('.popover-html').popover({
 
 
 {% block tablesorterscript %}
-<script>$(function() { $("table.table:not(.exploring-data)").tablesorter(); });</script>
-<script>$(function() { $("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return $(node).attr('data-bytes'); } }}); });</script>
+<script>jQuery(function() { jQuery("table.table:not(.exploring-data)").tablesorter(); });</script>
+<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
 {% endblock %}

@@ -273,13 +273,13 @@ Count the updates by calendar month
     widgets: ['stickyHeaders'],
     textExtraction: {
         1: function(node, table, cellIndex) {
-            return $(node).attr('data-index');
+            return jQuery(node).attr('data-index');
         },
         15: function(node, table, cellIndex) {
-            return $(node).attr('data-severity');
+            return jQuery(node).attr('data-severity');
         },
         16: function(node, table, cellIndex) {
-            return $(node).attr('data-index');
+            return jQuery(node).attr('data-index');
         }
     }
 }

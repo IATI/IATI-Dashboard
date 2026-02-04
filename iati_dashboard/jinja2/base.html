@@ -258,7 +258,7 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
-{% block tablesorterscript %}<script>$(function() { $("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{ widgets: ['stickyHeaders'] }{% endblock %}); });</script>{% endblock %}
+{% block tablesorterscript %}<script>jQuery(function() { jQuery("{% block tablesortertarget %}table.table{% endblock %}").tablesorter({% block tablesorteroptions %}{ widgets: ['stickyHeaders'] }{% endblock %}); });</script>{% endblock %}
   {% block extrafooter %}{% endblock %}
 </body>
 </html>
