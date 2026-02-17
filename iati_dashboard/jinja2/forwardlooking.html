@@ -226,19 +226,19 @@ Else
     widgets: ['stickyHeaders'],
     textExtraction:{
         7: function(node,table,cellIndex) {
-            if ($(node).text().indexOf('-') > 0) return '0';
-            else return $(node).text();
+            if (jQuery(node).text().indexOf('-') > 0) return '0';
+            else return jQuery(node).text();
         },
         8: function(node,table,cellIndex) {
-            if ($(node).text().indexOf('-') > 0) return '0';
-            else return $(node).text();
+            if (jQuery(node).text().indexOf('-') > 0) return '0';
+            else return jQuery(node).text();
         },
         9: function(node,table,cellIndex) {
-            if ($(node).text().indexOf('-') > 0) return '0';
-            else return $(node).text();
+            if (jQuery(node).text().indexOf('-') > 0) return '0';
+            else return jQuery(node).text();
         },
         10: function(node,table,cellIndex) {
-            return $(node).attr('data-severity');
+            return jQuery(node).attr('data-severity');
         }
     }
 }{% endblock %}

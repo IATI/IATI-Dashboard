@@ -26,8 +26,8 @@
 {% block tablesorteroptions %}{
   textExtraction:{
     1: function(node,table,cellIndex) {
-      if (['1', 'true'].indexOf($(node).text()) !== -1) return 1;
-      if (['0', 'false'].indexOf($(node).text()) !== -1) return 0;
+      if (['1', 'true'].indexOf(jQuery(node).text()) !== -1) return 1;
+      if (['0', 'false'].indexOf(jQuery(node).text()) !== -1) return 0;
       return -1;
     }
   }

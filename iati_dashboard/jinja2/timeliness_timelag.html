@@ -192,13 +192,13 @@ For each transaction (of any type) in the reporting org's data:
     widgets: ['stickyHeaders'],
     textExtraction: {
         4: function(node, table, cellIndex) {
-            return $(node).attr('data-index');
+            return jQuery(node).attr('data-index');
         },
         14: function(node, table, cellIndex) {
-            return $(node).attr('data-severity');
+            return jQuery(node).attr('data-severity');
         },
         15: function(node, table, cellIndex) {
-            return $(node).attr('data-index');
+            return jQuery(node).attr('data-index');
         }
     }
 }

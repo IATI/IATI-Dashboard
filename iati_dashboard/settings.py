@@ -87,6 +87,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "rest_framework",
     "django_filters",
+    "django.forms",
     "django.contrib.contenttypes",
     "django.contrib.auth",
     "drf_spectacular",
@@ -195,6 +196,8 @@ STATIC_ROOT = "static"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
 
 #
 # Relative (to dashboard/) paths to IATI data and output directories.
