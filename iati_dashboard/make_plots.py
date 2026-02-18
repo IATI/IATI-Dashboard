@@ -213,6 +213,12 @@ def make_plots(verbose=False):
     )
     os.makedirs(filepaths.join_out_path("img/aggregate"), exist_ok=True)
 
+    import json
+    for stat_path in ["publisher_types", "activities_per_publisher_type"]:
+        with open(f"{stat_path}.json", "w") as fp:
+            json.dump(git_stats[stat_path], fp, sort_keys=True, indent=2)
+    return
+
     _paths = [
         "activities",
         "publishers",
