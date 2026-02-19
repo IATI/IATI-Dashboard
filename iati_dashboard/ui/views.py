@@ -1,6 +1,7 @@
 """Views for the IATI Dashboard"""
 
 import collections
+import csv
 import datetime
 import json
 import subprocess
@@ -378,10 +379,8 @@ def headlines_publisher_detail(request, publisher_short_name=None):
 #
 # Views to generate data quality pages.
 #
-def errors_download(request):
-    template = loader.get_template("download.html")
-    context = _make_context("download", include_large_dicts=False)
-    context["datasets_with_errors"] = (
+def _datasets_with_errors():
+    return (
         models.Dataset.objects.exclude(metadata_json__most_recent_get_attempt__error_details__error_type=None)
         .select_related("reporting_org")
         .annotate(
@@ -391,7 +390,45 @@ def errors_download(request):
         .order_by("reporting_org__human_readable_name")
         .defer("stats_json", "metadata_json", "reporting_org__stats_json", "reporting_org__metadata_json")
     )
+
+
+def errors_download(request):
+    template = loader.get_template("download.html")
+    context = _make_context("download", include_large_dicts=False)
+    context["datasets_with_errors"] = _datasets_with_errors()
     return HttpResponse(template.render(context, request))
+
+
+def errors_download_csv(request):
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": 'attachment; filename="download-errors.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(
+        [
+            "Reporting Org Human Readable Name",
+            "Reporting Org Short Name",
+            "Dataset Short Name",
+            "URL",
+            "Error Type",
+            "HTTP Status",
+        ]
+    )
+    for dataset in _datasets_with_errors():
+        writer.writerow(
+            [
+                dataset.reporting_org.human_readable_name,
+                dataset.reporting_org.short_name,
+                dataset.short_name,
+                dataset.source_url,
+                dataset.error_type,
+                dataset.http_status,
+            ]
+        )
+
+    return response
 
 
 def errors_xml(request):

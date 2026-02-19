@@ -43,6 +43,7 @@ urlpatterns = (
         path("faq/", views.faq, name="dash-faq"),
         # Errors pages.
         path("errors/download-errors/", views.errors_download, name="dash-errors-download"),
+        path("errors/download-errors.csv", views.errors_download_csv, name="dash-errors-download-csv"),
         path("errors/xml-errors/", views.errors_xml, name="dash-errors-xml"),
         path("errors/validation/", views.errors_validation, name="dash-errors-validation"),
         path("errors/identifiers/", views.errors_identifiers, name="dash-identifiers"),

@@ -1,0 +1,2 @@
+Reporting Org Human Readable Name,Reporting Org Short Name,Dataset Short Name,URL,Error Type,HTTP Status
+Test Organisation with no successful downloads,no_successful_downloads,no_successful_downloads-dataset1,http://example.com/6,http_non_200,404
