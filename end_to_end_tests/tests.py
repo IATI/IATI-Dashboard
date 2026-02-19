@@ -30,6 +30,11 @@ def test_downloads_errors(selenium):
     assert "404" in tr.text
 
 
+def test_downloads_errors_csv():
+    with open("end_to_end_tests/fixtures/download-errors.csv", "rb") as fp:
+        assert requests.get(f"{root_url}/errors/download-errors.csv").content == fp.read()
+
+
 def test_errors(selenium):
     selenium.get(f"{root_url}/errors/xml-errors/")
     xml_errors_body = selenium.find_element("tag name", "body").text
