@@ -540,5 +540,5 @@ $('.popover-html').popover({
 
 {% block tablesorterscript %}
 <script>jQuery(function() { jQuery("table.table:not(.exploring-data)").tablesorter(); });</script>
-<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
+<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{4: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
 {% endblock %}
