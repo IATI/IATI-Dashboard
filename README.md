@@ -8,7 +8,7 @@ IATI Dashboard
 
  Product  |  IATI Dashboard
 --- | ---
-Description | A Django web application that provides key numbers, statistics and graphs about the data on the [IATI registry](http://iatiregistry.org/).  This repository is currently a development version where the IATI Dashboard/Publishing Statistics and Code for IATI Analytics are being merged.
+Description | A Django web application that provides key numbers, statistics and graphs about the data that has been [registered with IATI](https://docs.account.iatistandard.org/en/latest/manage_data_files/).  The IATI Dashboard, Publishing Statistics and Code for IATI Analytics have been merged to make this code.
 Website |  Development only; see [IATI Dashboard](https://dashboard.iatistandard.org), and [Code for IATI Analytics](https://analytics.codeforiati.org) for live versions. 
 Related | Repositories for the [live version of the IATI Dashboard](https://github.com/IATI/IATI-Dashboard), [live version of the IATI Publishing Stats](https://github.com/IATI/IATI-Publishing-Statistics), and [Code for IATI Analytics](https://github.com/codeforIATI/analytics).  Data is generated from [Code for IATI Stats](https://github.com/codeforIATI/IATI-Stats).
 Documentation | Rest of README.md
