@@ -13,7 +13,7 @@
             <a href="{{ stats_url }}/current/inverted-publisher/publisher_has_org_file.json" class="dashboard-panel-heading__title light float-end">(J)</a>
           </div>
           <div class="dashboard-panel-body">
-            <p>The following reporting orgs do not have an organisation file listed on the IATI Registry.</p>
+            <p>The following reporting orgs do not have an organisation file registered.</p>
             <ul>
             {% for publisher in func.sorted(current_stats.inverted_publisher.publisher_has_org_file.no) %}
               <li><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></li>
