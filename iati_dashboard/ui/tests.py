@@ -19,6 +19,9 @@ class BasicPageTests(TestCase):
         self.assertEqual(self.client.get(reverse("dash-headlines-publishers")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-publisher-detail", args=("zsl",))).status_code, 200)
         self.assertEqual(
+            self.client.get(reverse("dash-headlines-dataset-detail", args=("zsl-activity",))).status_code, 200
+        )
+        self.assertEqual(
             self.client.get(reverse("dash-headlines-publisher-detail", args=("not-a-valid-publisher",))).status_code,
             404,
         )
