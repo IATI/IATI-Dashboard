@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% import '_partials/boxes.html' as boxes with context %}
+{% block title %}
+Dataset: {{ dataset.short_name }} {{ super() }}
+{% endblock %}
+{% block page_header %}
+<h1>Dataset: {{ dataset.short_name }}</h1>
+<p class="lead"></p>
+{% endblock %}
+
+{% block content %}
+
+    <h2 id="h_headlines">Headlines</h2>
+
+    <div class="row">
+    <div class="col-md-12">
+    <div class="dashboard-panel">
+    <div class="dashboard-panel-body">
+    <div class="iati-table">
+      <table class="table iati-table__table">
+        <colgroup>
+            <col style="width: 30%">
+            <col style="width: 20%">
+            <col style="width: 50%">
+        </colgroup>
+        <tbody>
+            <tr>
+                <td>View this Dataset elsewhere</td>
+                <td colspan="2">
+                    <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}">On IATI Validator</a>
+                    <br>
+                    <a href="/api/datasets/{{ dataset.short_name }}">On the Dashboard API</a>
+                </td>
+            </tr>
+                <tr>
+                <td>Short Name</td>
+                <td colspan="2">
+                    <code class="iati-code">{{ dataset.short_name }}</code>
+                </td>
+            </tr>
+            <tr>
+                <td>Reporting Org Short Name</td>
+                <td colspan="2"> <code class="iati-code">{{ dataset.reporting_org.short_name }}</code></td>
+            </tr>
+            <tr>
+                <td>Reporting Org Human Readable Name</td>
+                <td colspan="2">{{ dataset.reporting_org.human_readable_name }}</td>
+            </tr>
+            <tr>
+                <td>Reporting Org Ref</td>
+                <td colspan="2">
+                    <code class="iati-code">{{ dataset.reporting_org.organisation_identifier }}</code>
+                </td>
+            </tr>
+            <tr>
+                <td>Source URL</td>
+                <td colspan="2"><a href="{{ dataset.source_url }}">{{ dataset.source_url }}</a></td>
+            </tr>
+            <tr>
+                <td>Last update check</td>
+                <td colspan="2">{{ dataset.metadata_json.last_update_check }}</td>
+            </tr>
+            <tr>
+                {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
+                <td rowspan="6"><strong>Most recent <code>GET</code> (download) attempt</strong></td>
+                {% else %}
+                <td rowspan="2"><strong>Most recent <code>GET</code> (download) attempt</strong></td>
+                {% endif %}
+                <td>Date</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.datetime }}</td>
+            </tr>
+            <tr>
+                <td>Error occurred?</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_occurred }}</td>
+            </tr>
+            {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
+            <tr>
+                <td>Error type</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["error_type"] }}</td>
+            </tr>
+            <tr>
+                <td>Summary error message</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["summary_message"] }}</td>
+            </tr>
+            <tr>
+                <td>HTTP status code</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_status"] }}</td>
+            </tr>
+            <tr>
+                <td>HTTP reason</td>
+                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_reason"] }}</td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                {% if dataset.metadata_json.most_recent_head_attempt.error_occurred %}
+                <td rowspan="6"><strong>Most recent <code>HEAD</code> (verification) attempt</strong></td>
+                {% else %}
+                <td rowspan="2"><strong>Most recent <code>HEAD</code> (verification) attempt</strong></td>
+                {% endif %}
+                <td>Date</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.datetime }}</td>
+            </tr>
+            <tr>
+                <td>Error occurred?</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_occurred }}</td>
+            </tr>
+            {% if dataset.metadata_json.most_recent_head_attempt.error_occurred %}
+            <tr>
+                <td>Error type</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["error_type"] }}</td>
+            </tr>
+            <tr>
+                <td>Summary error message</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["summary_message"] }}</td>
+            </tr>
+            <tr>
+                <td>HTTP status code</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["http_status"] }}</td>
+            </tr>
+            <tr>
+                <td>HTTP reason</td>
+                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["http_reason"] }}</td>
+            </tr>
+            {% endif %}   
+            
+            <tr>
+                {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
+                <td rowspan="4"><strong>Last known good dataset</strong></td>
+                <td>Downloaded</td>
+                <td>{{ dataset.metadata_json.last_known_good_dataset.downloaded }}</td>
+                {% else %}
+                <td rowspan="1"><strong>Last known good dataset</strong></td>
+                <td colspan="2">No known good dataset.</td>
+                {% endif %}
+            </tr>            
+            {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
+            <tr>
+                <td>Verified on server</td>
+                <td>{{ dataset.metadata_json.last_known_good_dataset.verified_on_server }}</td>
+            </tr>
+            <tr>
+                <td>Content length</td>
+                <td>{{ dataset.metadata_json.last_known_good_dataset.content_length }}</td>
+            </tr>
+            <tr>
+                <td>Hash</td>
+                <td>{{ dataset.metadata_json.last_known_good_dataset.hash_excluding_generated_timestamp }}</td>
+            </tr>
+            {% endif %}
+
+            <tr>
+                <td>Reporting Org ref(s) in Data</td>
+                <td colspan="2">
+                {% for org in dataset.stats_json.reporting_orgs %}
+                <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
+                {% endfor %}
+                </td>
+            </tr>
+            <tr>
+            <td>Version</td>
+                <td colspan="2">
+                {% if dataset.stats_json.versions|length > 0 %}
+                    {% for version in dataset.stats_json.versions.keys() %}
+                    <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                    {% endfor %}
+                {% endif %}
+            </td>
+            </tr>
+            <tr>
+                <td>License</td>
+                <td colspan="2">
+                {% if dataset.metadata_json.licence_id %}
+                    <code class="iati-code"><a href="{{ url('dash-licenses-detail', args=[dataset.metadata_json.licence_id]) }}">{{ dataset.metadata_json.licence_id }}</a></code>
+                {% endif %}
+                </td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+{% endblock %}
+
+{% block extrafooter %}
+    <script>
+$('.popover-html').popover({
+  html: true
+})
+    </script>
+{% endblock %}
+
+
+{% block tablesorterscript %}
+<script>jQuery(function() { jQuery("table.table:not(.exploring-data)").tablesorter(); });</script>
+<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
+{% endblock %}

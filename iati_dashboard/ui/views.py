@@ -124,6 +124,7 @@ PAGE_VIEW_NAMES = {
     "files": "dash-headlines-files",
     "activities": "dash-headlines-activities",
     "publisher": "dash-headlines-publisher-detail",
+    "dataset": "dash-headlines-dataset-detail",
     "download": "dash-errors-download",
     "xml": "dash-errors-xml",
     "validation": "dash-errors-validation",
@@ -372,6 +373,41 @@ def headlines_publisher_detail(request, publisher_short_name=None):
         ]
     except KeyError:
         raise Http404("Publisher does not exist")
+
+    return HttpResponse(template.render(context, request))
+
+
+def headlines_dataset_detail(request, dataset_short_name: str | None = None) -> HttpResponse:
+    try:
+        dataset: models.Dataset = (
+            models.Dataset.objects.select_related("reporting_org")
+            .only(
+                "short_name",
+                "source_url",
+                "metadata_json",
+                "stats_json",
+                "reporting_org_id",
+                "reporting_org__short_name",
+                "reporting_org__human_readable_name",
+                "reporting_org__organisation_identifier",
+            )
+            .get(short_name=dataset_short_name)
+        )
+    except models.Dataset.DoesNotExist:
+        raise Http404("Dataset does not exist")
+
+    template = loader.get_template("dataset.html")
+
+    context = _make_context("publishers")
+    context["breadcrumbs"].append(
+        {
+            "view": PAGE_VIEW_NAMES["publisher"],
+            "view_arg": dataset.reporting_org.short_name,
+            "title": dataset.reporting_org.human_readable_name,
+        }  # type: ignore
+    )
+    context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["dataset"], "title": dataset.short_name})  # type: ignore
+    context["dataset"] = dataset  # type: ignore
 
     return HttpResponse(template.render(context, request))
 
