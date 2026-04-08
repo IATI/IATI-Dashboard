@@ -223,7 +223,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                     <tbody>
                         {% for dataset in validation__fail_list %}
                         <tr>
-                            <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                            <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
                             <td>
                                   {{ dataset.source_url|linkurl(dataset.source_url|url_to_filename) }}
                             </td>
@@ -259,7 +259,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in invalidxml_list %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -290,7 +290,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in nonstandardroots_list %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -384,7 +384,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in publisher.dataset_set.all().order_by("short_name") %}
             <tr>
-                <td class="break">{{ dataset.short_name }}</td>
+                <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
                 <td>
                     {{ dataset.source_url|linkurl('Source Url') }}
                     <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}" style="padding-left: 1em">IATI Validator</a>
