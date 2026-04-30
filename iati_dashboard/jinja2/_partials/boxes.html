@@ -33,33 +33,41 @@
 
 {% macro box_h3(title, number, image, json, legend, folderextra, description) %}
       {% set alt="Graph of "~title~" against time" %}
-      <div class="col-md-6">
-        <div class="dashboard-panel">
-          <div class="dashboard-panel-heading clearfix">
-            <h3 class="dashboard-panel-heading__title float-start">
-              {% if number %}
-                {% set title_id = title.replace(' ', '-').lower() %}
-                <span id="{{ title_id }}" class="dashboard-panel-heading__titlenum" aria-hidden="true">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number }}{% endif %}</span>
-              {% endif %}
+      <div class="iati-data-card">
+        <header class="iati-data-card--header">
+            <h3 class="iati-data-card__title">
               {{ title }}
             </h3>
+          </header>
+          <div class="iati-data-card--body">
+            {% if description %}
+            <p class="iati-data-card__tagline">{{ description|safe }}</p>
+            {% endif %}
+            {% if number %}
+              <div class="iati-data-card__stats">
+                <div class="iati-data-card__stat">
+                  <div class="iati-data-card__stat-label">{{ title }}</div>
+                  <div class="iati-data-card__stat-value">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number|replace(' ', '&nbsp;')|safe }}{% endif %}</div>
+                </div>
+              </div>
+            {% endif %}
             {% if json %}
               {% if folderextra %}
-                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" class="dashboard-panel-heading__title light float-end">(J)</a>
+              <div class="iati-data-card__graph">
+                <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}"></canvas>
+              </div>
+              <div class="iati-data-card__button">
+                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" class="iati-button iati-button--submit">Download data (.JSON)</a>
+              </div>
               {% else %}
-                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" class="dashboard-panel-heading__title light float-end">(J)</a>
+              <div class="iati-data-card__graph">
+                <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate-dated/{{ json }}"></canvas>
+              </div>
+              <div class="iati-data-card__button">
+                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" class="iati-button iati-button--submit">Download data (.JSON)</a>
+              </div>
               {% endif %}
             {% endif %}
           </div>
-          <div class="dashboard-panel-body">
-            {% if description %}
-              <p>{{ description|safe }}</p>
-            {% endif %}
-            <img src="{{ generated_url }}/{{ image }}" style="width: 100%" alt="{{ alt }}">
-            {% if legend %}
-              <img src="{{ generated_url }}/{{ legend }}" style="width: 100%" alt="{{ alt }}">
-            {% endif %}
-          </div>
-        </div>
       </div>
 {% endmacro %}
