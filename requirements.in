@@ -12,7 +12,8 @@ jinja2
 python-dateutil
 pytz
 matplotlib
-xmlschema
+# 4.2.0 has some breaking changes
+xmlschema<4.2
 lxml
 requests
 tqdm
