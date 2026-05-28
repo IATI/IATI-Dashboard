@@ -96,7 +96,7 @@ EXAMPLE_PAGES = [
     "api/limited-ckan-compatible/group_show?id=zsl",
     "api/limited-ckan-compatible/package_list",
     "api/limited-ckan-compatible/package_list?limit=1000000000",
-    "api/limited-ckan-compatible/package_show?id=zsl-activities",
+    "api/limited-ckan-compatible/package_show?id=zsl-activity",
     "api/limited-ckan-compatible/package_search?id=organization:zsl",
     "api/limited-ckan-compatible/package_search?rows=1000",
     "api/limited-ckan-compatible/package_search?rows=1000000000",
