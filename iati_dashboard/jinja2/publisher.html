@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% set rendertime = now() %}
 {% import '_partials/boxes.html' as boxes with context %}
 {% block title %}
 Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
@@ -10,6 +11,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
 {% endblock %}
 
 {% block content %}
+<span>Render Time: {{now()-rendertime}}</span>
     <div class="row">
     <div class="col-md-6">
     <div class="dashboard-panel">
@@ -198,6 +200,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         {{ boxes.box_h3('Files where XML is not well-formed', publisher.stats_json.invalidxml, 'img/publishers/'+publisher.short_name+'_invalidxml.png', publisher.short_name+'/invalidxml.json', '', '-publisher') }}
     </div>
 
+<span>Render Time: {{now()-rendertime}}</span>
 
     <h2 id="h_errors">Errors</h2>
 
@@ -239,6 +242,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
           </div>
         </div>
     {% endif %}
+<span>Render Time: {{now()-rendertime}}</span>
 
     {% if invalidxml_list %}
     {% set data_quality_issue = true %}
@@ -270,6 +274,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     {% endif %}
 
+<span>Render Time: {{now()-rendertime}}</span>
 
     {% if nonstandardroots_list %}
     {% set data_quality_issue = true %}
@@ -300,6 +305,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     {% endif %}
+<span>Render Time: {{now()-rendertime}}</span>
 
     </div><!-- .row -->
 
@@ -359,6 +365,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+<span>Render Time: {{now()-rendertime}}</span>
 
     <h2 id="h_exploringdata">Exploring Data</h2>
 
@@ -406,6 +413,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+<span>Render Time: {{now()-rendertime}}</span>
 
     {% for major_version in MAJOR_VERSIONS %}
     {% if major_version in publisher.stats_json.codelist_values_by_major_version %}
@@ -457,6 +465,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     {% endif %}
     {% endfor %}
+<span>Render Time: {{now()-rendertime}}</span>
 
     <div class="row">
     <div class="col-xs-12">
@@ -493,6 +502,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
     </div>
+<span>Render Time: {{now()-rendertime}}</span>
 
     <div class="row">
     <div class="col-xs-12">
@@ -527,6 +537,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
     </div>
     </div>
 
+<span>Render Time: {{now()-rendertime}}</span>
 {% endblock %}
 
 {% block extrafooter %}

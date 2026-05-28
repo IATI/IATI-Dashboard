@@ -2,6 +2,8 @@
 
 import re
 
+import datetime
+
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.html import format_html
@@ -48,6 +50,7 @@ def environment(**options):
         {
             "static": static,
             "url": reverse,
+            "now": datetime.datetime.now,
         }
     )
     env.filters["url_to_filename"] = lambda x: x.rstrip("/").split("/")[-1]
