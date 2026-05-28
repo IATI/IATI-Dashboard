@@ -63,7 +63,7 @@
                         {% for column in publisher.forwardlooking.year_columns %}
                             {% for year in forwardlooking.years %}
                                 <td {% if not column[year] or column[year]=='-' %}class="dashboard-text-muted"{% endif %}>
-                                    {% if column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
+                                    {% if column[year] and column[year] != '-' %}{{ column[year] | round_nicely }}{% else %}-{% endif %}
                                 </td>
                             {% endfor %}
                         {% endfor %}
