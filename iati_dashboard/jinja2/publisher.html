@@ -89,6 +89,10 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <td>Human Readable Name</td>
                 <td>{{ publisher.human_readable_name }}</td>
             </tr>
+            <tr>
+                <td>Description</td>
+                <td style="white-space: pre-line;">{{ publisher.description }}</td>
+            </tr>
             {% if publisher.exclusions_policy_url %}
             <tr>
                 <td>Exclusions Policy</td>
