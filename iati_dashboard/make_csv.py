@@ -30,6 +30,8 @@ def publisher_dicts():
             "Reporting Orgs in Data": ";".join(publisher_stats["reporting_orgs"]),
             "Hierarchies (count)": len(publisher_stats["hierarchies"]),
             "Hierarchies": ";".join(publisher_stats["hierarchies"]),
+            "HQ Country": f"{reporting_org["hq_country"]} - {data.codelist_lookup["2"]["Country"].get(reporting_org["hq_country"], {}).get("name", "")}",
+            "Organisation Type": f"{reporting_org["organisation_type"]} - {data.codelist_lookup["2"]["OrganisationType"].get(reporting_org["organisation_type"], {}).get("name", "")}",
         }
 
 
@@ -58,6 +60,8 @@ def make_csv(verbose=False):
                 "Reporting Orgs in Data",
                 "Hierarchies (count)",
                 "Hierarchies",
+                "HQ Country",
+                "Organisation Type",
             ],
         )
         writer.writeheader()
