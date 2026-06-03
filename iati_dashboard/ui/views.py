@@ -8,11 +8,13 @@ import subprocess
 
 import dateutil.parser
 from django.conf import settings
+from django.core.paginator import Paginator
 from django.db.models import Count, F, Q
 from django.http import Http404, HttpResponse
 from django.template import loader
 
 from .. import (
+    activity_streams,
     comprehensiveness,
     filepaths,
     filters,
@@ -54,6 +56,8 @@ STATS_COMMIT_HASH = (
     .stdout.decode()
     .strip()
 )
+
+ACTIVITY_STREAM_HISTORY_PAGE_SIZE = 25
 
 # Load all the licenses and generate data for each licence and publisher.
 with open(filepaths.join_stats_path("licenses.json")) as handler:
@@ -382,6 +386,7 @@ def headlines_dataset_detail(request, dataset_short_name: str | None = None) -> 
         dataset: models.Dataset = (
             models.Dataset.objects.select_related("reporting_org")
             .only(
+                "id",
                 "short_name",
                 "source_url",
                 "metadata_json",
@@ -396,10 +401,31 @@ def headlines_dataset_detail(request, dataset_short_name: str | None = None) -> 
     except models.Dataset.DoesNotExist:
         raise Http404("Dataset does not exist")
 
+    dataset_history_qs = (
+        models.DatasetHistoricEvent.objects.using("activity_stream")
+        .filter(dataset_id=dataset.id)
+        .filter(Q(display_category__isnull=True) | ~Q(display_category="CONTENT_CHANGED_ANY"))
+        .order_by("-message_date", "-id")
+    )
+
+    paginator = Paginator(dataset_history_qs, ACTIVITY_STREAM_HISTORY_PAGE_SIZE)
+
+    history_page = paginator.get_page(request.GET.get("page", 1))
+
+    paged_dataset_history_entries = [
+        {
+            "message_date": item.message_date,
+            "message_type": item.message_type,
+            **activity_streams.render_message_type_for_payload(item.message_type, item.display_category, item.payload),
+        }
+        for item in history_page.object_list
+        if activity_streams.message_type_has_handler(item.message_type, item.display_category)
+    ]
+
     template = loader.get_template("dataset.html")
 
     context = _make_context("publishers")
-    context["breadcrumbs"].append(
+    context["breadcrumbs"].append(  # type: ignore
         {
             "view": PAGE_VIEW_NAMES["publisher"],
             "view_arg": dataset.reporting_org.short_name,
@@ -408,6 +434,8 @@ def headlines_dataset_detail(request, dataset_short_name: str | None = None) -> 
     )
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["dataset"], "title": dataset.short_name})  # type: ignore
     context["dataset"] = dataset  # type: ignore
+    context["dataset_change_history"] = paged_dataset_history_entries  # type: ignore
+    context["history_page"] = history_page  # type: ignore
 
     return HttpResponse(template.render(context, request))
 

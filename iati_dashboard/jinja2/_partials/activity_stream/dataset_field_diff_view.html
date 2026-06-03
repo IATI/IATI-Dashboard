@@ -1,0 +1,30 @@
+<div class="iati-table">
+<table class="table iati-table__table" style="table-layout: fixed;">
+<colgroup>
+    <col style="width: 25%">
+    <col style="width: 37%">
+    <col style="width: 37%">
+</colgroup>
+<tbody>
+    <tr>
+        <th colspan="3" class="fw-bolder">
+            <span>{{ dataset_change_event.message_date.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+            <span class="dashboard-activity-stream-separator">&mdash;</span>
+            <span>{{ dataset_change_event.context.label }}</span>
+        </th>
+    </tr>
+    <tr>
+        <td></td>
+        <td>Old value</td>
+        <td>New value</td>
+    </tr>
+    {% for label, old, new in dataset_change_event.context.updated_fields %}
+    <tr>
+        <td class="dashboard-activity-stream-data-cell" title="{{ label }}">{{ label }}</td>
+        <td class="dashboard-activity-stream-data-cell copyable" title="{{ old if old is not none else '—' }} (click to copy)">{{ old if old is not none else '—' }}</td>
+        <td class="dashboard-activity-stream-data-cell copyable" title="{{ new if new is not none else '—' }} (click to copy)">{{ new if new is not none else '—' }}</td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+</div>

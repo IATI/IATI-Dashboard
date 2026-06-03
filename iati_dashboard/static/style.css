@@ -176,6 +176,22 @@ a.popover-html:focus {
   opacity: 0.5;
 }
 
+.dashboard-activity-stream-separator {
+  margin: 0 0.6rem;
+}
+
+.dashboard-activity-stream-data-cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Other non-design system */
+
+.copyable { cursor: pointer; }
+.copyable:hover { background-color: #f0f0f0; }
+.copyable.copied { background-color: #d4edda; transition: background-color 0.1s; }
+
 .iati-card {
   border-top-width: 2px;
 }

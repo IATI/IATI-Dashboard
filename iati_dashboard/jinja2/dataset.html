@@ -4,181 +4,144 @@
 Dataset: {{ dataset.short_name }} {{ super() }}
 {% endblock %}
 {% block page_header %}
-<h1>Dataset: {{ dataset.short_name }}</h1>
+<h1>Dataset: <code class="iati-code"><small>{{ dataset.short_name }}</small></code></h1>
 <p class="lead"></p>
 {% endblock %}
 
 {% block content %}
 
-    <h2 id="h_headlines">Headlines</h2>
+    <div class="dashboard-panel-heading">
+    <h3 class="dashboard-panel-heading__title">Current status</h3>    
+    </div>
 
     <div class="row">
     <div class="col-md-12">
     <div class="dashboard-panel">
-    <div class="dashboard-panel-body">
     <div class="iati-table">
       <table class="table iati-table__table">
         <colgroup>
-            <col style="width: 30%">
-            <col style="width: 20%">
-            <col style="width: 50%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
+            <col style="width: 25%">
         </colgroup>
         <tbody>
             <tr>
-                <td>View this Dataset elsewhere</td>
-                <td colspan="2">
-                    <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}">On IATI Validator</a>
-                    <br>
+                <td colspan="1">View this Dataset elsewhere</td>
+                <td colspan="3">
+                    <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}">On IATI Validator</a> |
                     <a href="/api/datasets/{{ dataset.short_name }}">On the Dashboard API</a>
                 </td>
             </tr>
-                <tr>
-                <td>Short Name</td>
-                <td colspan="2">
-                    <code class="iati-code">{{ dataset.short_name }}</code>
+            <tr>
+                <td colspan="1">Source URL</td>
+                <td colspan="3" class="dashboard-activity-stream-data-cell"><a href="{{ dataset.source_url }}">{{ dataset.source_url }}</a></td>
+            </tr>
+            <tr>
+            <td colspan="1">Version</td>
+                <td colspan="1">
+                    {% if dataset.stats_json.versions|length > 0 %}
+                        {% for version in dataset.stats_json.versions.keys() %}
+                        <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
+                        {% endfor %}
+                    {% endif %}
                 </td>
-            </tr>
-            <tr>
-                <td>Reporting Org Short Name</td>
-                <td colspan="2"> <code class="iati-code">{{ dataset.reporting_org.short_name }}</code></td>
-            </tr>
-            <tr>
-                <td>Reporting Org Human Readable Name</td>
-                <td colspan="2">{{ dataset.reporting_org.human_readable_name }}</td>
-            </tr>
-            <tr>
-                <td>Reporting Org Ref</td>
-                <td colspan="2">
-                    <code class="iati-code">{{ dataset.reporting_org.organisation_identifier }}</code>
-                </td>
-            </tr>
-            <tr>
-                <td>Source URL</td>
-                <td colspan="2"><a href="{{ dataset.source_url }}">{{ dataset.source_url }}</a></td>
-            </tr>
-            <tr>
-                <td>Last update check</td>
-                <td colspan="2">{{ dataset.metadata_json.last_update_check }}</td>
-            </tr>
-            <tr>
-                {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
-                <td rowspan="6"><strong>Most recent <code>GET</code> (download) attempt</strong></td>
-                {% else %}
-                <td rowspan="2"><strong>Most recent <code>GET</code> (download) attempt</strong></td>
-                {% endif %}
-                <td>Date</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.datetime }}</td>
-            </tr>
-            <tr>
-                <td>Error occurred?</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_occurred }}</td>
-            </tr>
-            {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
-            <tr>
-                <td>Error type</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["error_type"] }}</td>
-            </tr>
-            <tr>
-                <td>Summary error message</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["summary_message"] }}</td>
-            </tr>
-            <tr>
-                <td>HTTP status code</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_status"] }}</td>
-            </tr>
-            <tr>
-                <td>HTTP reason</td>
-                <td>{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_reason"] }}</td>
-            </tr>
-            {% endif %}
-
-            <tr>
-                {% if dataset.metadata_json.most_recent_head_attempt.error_occurred %}
-                <td rowspan="6"><strong>Most recent <code>HEAD</code> (verification) attempt</strong></td>
-                {% else %}
-                <td rowspan="2"><strong>Most recent <code>HEAD</code> (verification) attempt</strong></td>
-                {% endif %}
-                <td>Date</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.datetime }}</td>
-            </tr>
-            <tr>
-                <td>Error occurred?</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_occurred }}</td>
-            </tr>
-            {% if dataset.metadata_json.most_recent_head_attempt.error_occurred %}
-            <tr>
-                <td>Error type</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["error_type"] }}</td>
-            </tr>
-            <tr>
-                <td>Summary error message</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["summary_message"] }}</td>
-            </tr>
-            <tr>
-                <td>HTTP status code</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["http_status"] }}</td>
-            </tr>
-            <tr>
-                <td>HTTP reason</td>
-                <td>{{ dataset.metadata_json.most_recent_head_attempt.error_details["http_reason"] }}</td>
-            </tr>
-            {% endif %}   
-            
-            <tr>
-                {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
-                <td rowspan="4"><strong>Last known good dataset</strong></td>
-                <td>Downloaded</td>
-                <td>{{ dataset.metadata_json.last_known_good_dataset.downloaded }}</td>
-                {% else %}
-                <td rowspan="1"><strong>Last known good dataset</strong></td>
-                <td colspan="2">No known good dataset.</td>
-                {% endif %}
-            </tr>            
-            {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
-            <tr>
-                <td>Verified on server</td>
-                <td>{{ dataset.metadata_json.last_known_good_dataset.verified_on_server }}</td>
-            </tr>
-            <tr>
-                <td>Content length</td>
-                <td>{{ dataset.metadata_json.last_known_good_dataset.content_length }}</td>
-            </tr>
-            <tr>
-                <td>Hash</td>
-                <td>{{ dataset.metadata_json.last_known_good_dataset.hash_excluding_generated_timestamp }}</td>
-            </tr>
-            {% endif %}
-
-            <tr>
-                <td>Reporting Org ref(s) in Data</td>
-                <td colspan="2">
-                {% for org in dataset.stats_json.reporting_orgs %}
-                <code class="iati-code">{{ org|replace(' ', ' ') }}</code>
-                {% endfor %}
-                </td>
-            </tr>
-            <tr>
-            <td>Version</td>
-                <td colspan="2">
-                {% if dataset.stats_json.versions|length > 0 %}
-                    {% for version in dataset.stats_json.versions.keys() %}
-                    <code class="iati-code">{{ version|replace(' ', '&nbsp;')|safe }}</code>
-                    {% endfor %}
-                {% endif %}
-            </td>
-            </tr>
-            <tr>
-                <td>License</td>
-                <td colspan="2">
+                <td colspan="1">License</td>
+                <td colspan="1">
                 {% if dataset.metadata_json.licence_id %}
                     <code class="iati-code"><a href="{{ url('dash-licenses-detail', args=[dataset.metadata_json.licence_id]) }}">{{ dataset.metadata_json.licence_id }}</a></code>
                 {% endif %}
                 </td>
             </tr>
+            <tr>
+                <td colspan="1">Last update check</td>
+                <td colspan="3">{{ dataset.metadata_json.last_update_check }}</td>
+            </tr>
+            
+            {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
+                <tr>
+                    <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Last known good dataset</strong></td>
+                    <td colspan="1">Cache URL</td>
+                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.cached_dataset_xml_url }}</td>
+                </tr>
+                <tr>
+                    <td colspan="1">Downloaded</td>
+                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.downloaded }}</td>
+                </tr>
+                <tr>
+                    <td colspan="1">Verified on server</td>
+                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.verified_on_server }}</td>
+                </tr>
+                <tr>
+                    <td colspan="1">Content length</td>
+                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.content_length }}</td>
+                </tr>
+                <tr>
+                    <td colspan="1">Hash</td>
+                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.hash_excluding_generated_timestamp }}</td>
+                </tr>
+            {% endif %}
+            {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
+            <tr>
+                <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Most recent download attempt</strong></td>
+                <td colspan="1">Date</td>
+                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.datetime }}</td>
+            </tr>
+            <tr>
+                <td colspan="1">Error type</td>
+                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["error_type"] }}</td>
+            </tr>
+            <tr>
+                <td colspan="1">Summary error message</td>
+                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["summary_message"] }}</td>
+            </tr>
+            <tr>
+                <td colspan="1">HTTP status code</td>
+                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_status"] }}</td>
+            </tr>
+            <tr>
+                <td colspan="1">HTTP reason</td>
+                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_reason"] }}</td>
+            </tr>
+            {% endif %}
         </tbody>
       </table>
     </div>
     </div>
+    </div>
+    </div>
+
+    <div class="dashboard-panel-heading">
+    <h3 id="h_history" class="dashboard-panel-heading__title">History</h3>
+    </div>
+
+    <div class="row">
+    <div class="col-md-12">
+    <div class="dashboard-panel">
+        {% for dataset_change_event in dataset_change_history %}
+        <div class="history-entry">
+            {% include dataset_change_event.template ignore missing %}
+        </div>
+        {% else %}
+            <p>No history yet for this dataset.</p>
+        {% endfor %}
+        {% if history_page.paginator.num_pages > 1 %}
+        <p class="history-pager">
+            {% if history_page.has_previous() %}
+            <a href="?page={{ history_page.previous_page_number() }}#h_history">◂ Prev</a>
+            {% endif %}
+            {% for page_num in history_page.paginator.page_range %}
+                {% if page_num == history_page.number %}
+                <strong>{{ page_num }}</strong>
+                {% else %}
+                <a href="?page={{ page_num }}#h_history">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if history_page.has_next() %}
+            <a href="?page={{ history_page.next_page_number() }}#h_history">Next ▸</a>
+            {% endif %}
+        </p>
+        {% endif %}
     </div>
     </div>
     </div>
@@ -191,6 +154,16 @@ Dataset: {{ dataset.short_name }} {{ super() }}
 $('.popover-html').popover({
   html: true
 })
+document.addEventListener('click', function (e) {
+    var cell = e.target.closest('.copyable');
+    if (!cell) return;
+    var text = cell.textContent.trim();
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(function () {
+        cell.classList.add('copied');
+        setTimeout(function () { cell.classList.remove('copied'); }, 600);
+    });
+});
     </script>
 {% endblock %}
 
