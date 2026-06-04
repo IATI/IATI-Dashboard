@@ -26,6 +26,9 @@ jobs:
         ./fetch_data.sh no-download-errors-history
     - name: Run test script
       env:
+        # The DB in ACTIVITY_STREAM_DATABASE_URL doesn't exist, but needs somethign to avoid
+        # warnings from the Django environment variable parser
+        ACTIVITY_STREAM_DATABASE_URL: "postgres://postgres:postgres@localhost:5432/activity_stream"
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
         ENABLE_FILTERS_ALPHA: "True"
         ENABLE_API_ALPHA: "True"
