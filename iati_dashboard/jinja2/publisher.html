@@ -382,19 +382,19 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             </tr>
         </thead>
         <tbody>
-            {% for dataset in publisher.dataset_set.all().order_by("short_name") %}
+            {% for dataset in publisher.dataset_set.all().order_by("short_name").defer("stats_json") %}
             <tr>
                 <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
                 <td>
                     {{ dataset.source_url|linkurl('Source Url') }}
                     <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}" style="padding-left: 1em">IATI Validator</a>
                 </td>
-                <td>{{ dataset.stats_json.activities }}</td>
-                <td>{{ dataset.stats_json.organisations }}</td>
-                <td data-bytes="{{ dataset.stats_json.file_size }}">{{ dataset.stats_json.file_size|filesizeformat }}</td>
+                <td>{{ dataset.activities }}</td>
+                <td>{{ dataset.organisations }}</td>
+                <td data-bytes="{{ dataset.file_size }}">{{ dataset.file_size|filesizeformat }}</td>
                 <td>
-                    {% if dataset.stats_json.versions %}
-                        {{ dataset.stats_json.versions.keys()|first }}
+                    {% if dataset.versions %}
+                        {{ dataset.versions.keys()|first }}
                     {% endif %}
                 </td>
             </tr>

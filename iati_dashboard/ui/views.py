@@ -301,7 +301,7 @@ def headlines_publisher_detail(request, publisher_short_name=None):
 
     template = loader.get_template("publisher.html")
 
-    context = _make_context("publishers")
+    context = _make_context("publishers", include_large_dicts=False)
     context["breadcrumbs"].append({"view": PAGE_VIEW_NAMES["publisher"], "title": publisher.human_readable_name})
     context["publisher"] = publisher
     context["publisher_licenses"] = _get_licenses_for_publisher(publisher_short_name)
