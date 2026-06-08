@@ -151,9 +151,6 @@ Dataset: {{ dataset.short_name }} {{ super() }}
 
 {% block extrafooter %}
     <script>
-$('.popover-html').popover({
-  html: true
-})
 document.addEventListener('click', function (e) {
     var cell = e.target.closest('.copyable');
     if (!cell) return;
