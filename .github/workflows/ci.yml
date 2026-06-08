@@ -37,6 +37,9 @@ jobs:
         ./partial_stats_for_unit_tests.sh
     - name: Set up django
       env:
+        # The DB in ACTIVITY_STREAM_DATABASE_URL doesn't exist, but needs somethign to avoid
+        # warnings from the Django environment variable parser
+        ACTIVITY_STREAM_DATABASE_URL: "postgres://postgres:postgres@localhost:5432/activity_stream"
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
       run: |
         python manage.py collectstatic
@@ -50,6 +53,7 @@ jobs:
         docker run -d -p 8888:8888 ghcr.io/validator/validator:latest
     - name: Run tests
       env:
+        ACTIVITY_STREAM_DATABASE_URL: "postgres://postgres:postgres@localhost:5432/activity_stream"
         DATABASE_URL: "postgres://postgres:postgres@localhost:5432/test_database_name"
         DASHBOARD_ROOT_URL: "http://localhost:8000"
         ENABLE_API_ALPHA: "True"
