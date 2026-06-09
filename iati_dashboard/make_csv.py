@@ -18,18 +18,20 @@ def publisher_dicts():
             continue
         yield {
             "Publisher Name": reporting_org["human_readable_name"],
-            "Publisher Registry Id": reporting_org["short_name"],
+            "Publisher Short Name": reporting_org["short_name"],
             "Activities": publisher_stats["activities"],
             "Organisations": publisher_stats["organisations"],
             "Files": publisher_stats["activity_files"] + publisher_stats["organisation_files"],
             "Activity Files": publisher_stats["activity_files"],
             "Organisation Files": publisher_stats["organisation_files"],
             "Total File Size": publisher_stats["file_size"],
-            "Reporting Org on Registry": reporting_org["organisation_identifier"],
+            "Reporting Org Identifier Registered": reporting_org["organisation_identifier"],
             "Reporting Orgs in Data (count)": len(publisher_stats["reporting_orgs"]),
             "Reporting Orgs in Data": ";".join(publisher_stats["reporting_orgs"]),
             "Hierarchies (count)": len(publisher_stats["hierarchies"]),
             "Hierarchies": ";".join(publisher_stats["hierarchies"]),
+            "HQ Country": f"{reporting_org["hq_country"]} - {data.codelist_lookup["2"]["Country"].get(reporting_org["hq_country"], {}).get("name", "")}",
+            "Organisation Type": f"{reporting_org["organisation_type"]} - {data.codelist_lookup["2"]["OrganisationType"].get(reporting_org["organisation_type"], {}).get("name", "")}",
         }
 
 
@@ -46,18 +48,20 @@ def make_csv(verbose=False):
             fp,
             [
                 "Publisher Name",
-                "Publisher Registry Id",
+                "Publisher Short Name",
                 "Activities",
                 "Organisations",
                 "Files",
                 "Activity Files",
                 "Organisation Files",
                 "Total File Size",
-                "Reporting Org on Registry",
+                "Reporting Org Identifier Registered",
                 "Reporting Orgs in Data (count)",
                 "Reporting Orgs in Data",
                 "Hierarchies (count)",
                 "Hierarchies",
+                "HQ Country",
+                "Organisation Type",
             ],
         )
         writer.writeheader()

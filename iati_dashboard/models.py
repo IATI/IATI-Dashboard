@@ -143,18 +143,18 @@ REPORTING_ORG_METADATA_FIELDS = [
 ]
 
 
-for key in REPORTING_ORG_METADATA_FIELDS:
+for key in ["id", "short_name"]:
     ReportingOrg.add_to_class(
-        key,
+        f"reporting_org_{key}",
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
     )
 
 
-for key in ["id", "short_name"]:
+for key in REPORTING_ORG_METADATA_FIELDS:
     ReportingOrg.add_to_class(
-        f"reporting_org_{key}",
+        key,
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
@@ -182,6 +182,20 @@ for key in DATASET_METADATA_FIELDS:
         key,
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
+        ),
+    )
+
+
+for key in [
+    "activities",
+    "organisations",
+    "file_size",
+    "versions",
+]:
+    Dataset.add_to_class(
+        key,
+        models.GeneratedField(
+            expression=models.F(f"stats_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
     )
 
