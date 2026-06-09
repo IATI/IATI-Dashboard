@@ -36,8 +36,8 @@
               <th>Organisations <a href="{{ stats_url }}/current/inverted-publisher/organisations.json">(J)</a></th>
               <th>Files <a href="#files_note">(*)</a></th>
               <th>Total File Size <a href="{{ stats_url }}/current/inverted-publisher/file_size.json">(J)</a></th>
-              <th>Hierarchies <a href="{{ stats_url }}/current/inverted-publisher/hierarchies.json">(J)</a></th>
-              <th>Orgs Reported On <a href="{{ stats_url }}/current/inverted-publisher/reporting_orgs.json">(J)</a></th>
+              <th>HQ Country</th>
+              <th>Recipient Countries</th>
             </tr>
           </thead>
           <tbody>
@@ -49,8 +49,8 @@
               <td>{{ publisher.organisations }}</td>
               <td>{{ publisher.activity_files+publisher.organisation_files }}</td>
               <td data-bytes="{{ publisher.file_size }}">{{ publisher.file_size|filesizeformat }}</td>
-              <td>{{ publisher.hierarchies|length }}</td>
-              <td>{{ publisher.reporting_orgs|length }}</td>
+              <td><abbr title="{{ codelist_lookup["2"]["Country"].get(publisher.hq_country, {}).get("name", "") }}">{{ publisher.hq_country }}</abbr></td>
+              <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher.short_name]) }}#p_countries">{{ publisher.recipient_country_code|count }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
