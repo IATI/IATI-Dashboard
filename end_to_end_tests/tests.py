@@ -55,11 +55,47 @@ def test_errors(selenium):
     assert "in_ao_2-activities" not in schema_validation_body
 
 
+def get_cell(table, row_id_th_text, row_id, cell_th_text):
+    ths = [th.text for th in table.find_elements("tag name", "th")]
+    assert len(ths) > 0
+
+    row_id_index = ths.index(row_id_th_text)
+    for tr in table.find_elements("tag name", "tr"):
+        try:
+            if tr.find_elements("tag name", "td")[row_id_index].text == row_id:
+                break
+        except IndexError:
+            continue
+    else:
+        raise Exception("No row matched")
+
+    cell_index = ths.index(cell_th_text)
+    return tr.find_elements("tag name", "td")[cell_index]
+
+
 def test_reporting_orgs(selenium):
     selenium.get(root_url)
     selenium.find_element("link text", "Reporting Orgs").click()
     assert selenium.current_url.endswith("/publishers/")
 
+    table = selenium.find_element("css selector", ".iati-table")
+    hq_country_cell = get_cell(table, "REPORTING ORG SHORT NAME", "test_ro_1", "HQ COUNTRY")
+    assert hq_country_cell.text == "ES"
+    assert hq_country_cell.find_element("tag name", "abbr").get_attribute("title") == "Spain"
+
+    table = selenium.find_element("css selector", ".iati-table")
+    recipient_countries_cell = get_cell(table, "REPORTING ORG SHORT NAME", "in_ao_1", "RECIPIENT COUNTRIES")
+    assert recipient_countries_cell.text == "1"
+    href = recipient_countries_cell.find_element("tag name", "a").get_attribute("href")
+    assert href.endswith("/publishers/in_ao_1/#p_countries")
+    selenium.get(href)
+    recipient_countries_panel = selenium.find_element("css selector", "#p_countries")
+    assert "Recipient Countries" in recipient_countries_panel.text
+    assert "AO" in recipient_countries_panel.text
+    assert "Angola" in recipient_countries_panel.text
+
+
+def test_reporting_orgs_filter(selenium):
     # TODO click the interface to get to this page
     selenium.get(f"{root_url}/publishers/?recipient_country_code=AO")
     assert selenium.title == "IATI Dashboard – IATI Reporting Orgs"

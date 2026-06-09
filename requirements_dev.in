@@ -9,3 +9,4 @@ flake8-pyproject
 isort
 black
 ptpython
+pdbpp
