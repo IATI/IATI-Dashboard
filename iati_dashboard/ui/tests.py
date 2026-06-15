@@ -2,6 +2,8 @@ import datetime
 import uuid
 from pathlib import Path
 
+import pytest
+from django.core.management import call_command
 from django.db import connections
 from django.test import TestCase
 from django.urls import reverse
@@ -232,6 +234,31 @@ class DatasetHistoryPaginationTests(TestCase):
         self.assertIn('id="h_history"', body)
         self.assertIn("No history yet for this dataset.", body)
         self.assertNotIn("?page=", body)
+
+
+# Switch this whole file to pytest?
+@pytest.mark.django_db(databases={"default", "activity_stream"})
+def test_dataset_no_stats(client, django_db_blocker):
+    _create_dataset_activity_stream_table()
+    with django_db_blocker.unblock():
+        call_command("loaddata", "reporting_orgs")
+        call_command("loaddata", "datasets")
+
+    reporting_org = models.ReportingOrg.objects.get(short_name="zsl")
+    dataset = models.Dataset(
+        short_name="zsl-test",
+        reporting_org=reporting_org,
+        metadata_json=models.Dataset.objects.get(short_name="zsl-activity").metadata_json,
+        # Set stats to empty dictionary to emulate behaviour of realtime update processor
+        stats_json={},
+    )
+    dataset.save()
+    url = reverse("dash-headlines-publisher-detail", args=("zsl",))
+    assert client.get(url).status_code == 200
+    url = reverse("dash-headlines-dataset-detail", args=(dataset.short_name,))
+    assert client.get(url).status_code == 200
+
+    raise
 
 
 class OriginalDashboardRedirectTests(TestCase):

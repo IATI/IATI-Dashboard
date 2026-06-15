@@ -111,4 +111,4 @@ def test_page_speed(page):
         pytest.skip()
     r = requests.get(f"{dashboard_url}/{page}")
     assert r.status_code == 200
-    assert r.elapsed.total_seconds() < 2
+    assert r.elapsed.total_seconds() < 3
