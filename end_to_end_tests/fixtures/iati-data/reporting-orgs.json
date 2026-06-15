@@ -28,7 +28,8 @@
       "id": "297649cc-0933-4c74-8df7-9ac27e6f4680",
       "short_name": "test_ro_1",
       "human_readable_name": "Test RO 1",
-      "organisation_type": "40"
+      "organisation_type": "40",
+      "hq_country": "ES"
     },
     {
       "id": "7d4a43b3-2c5c-42ac-934a-5e0143146ff1",

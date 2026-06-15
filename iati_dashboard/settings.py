@@ -149,7 +149,14 @@ WSGI_APPLICATION = "iati_dashboard.ui.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {"default": env.db()}
+DATABASES = {
+    "default": env.db(),
+    "activity_stream": env.db("ACTIVITY_STREAM_DATABASE_URL"),
+}
+
+# The activity_stream database is externally managed: never migrate it or
+# load fixtures into it.
+DATABASE_ROUTERS = ["iati_dashboard.db_routers.ActivityStreamRouter"]
 
 
 # Password validation

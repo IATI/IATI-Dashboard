@@ -37,6 +37,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <li><a href="#h_exploringdata">Exploring Data</a>
                     <ul>
                         <li><a href="#p_files">Files</a>
+                        <li><a href="#p_countries">Recipient Countries</a>
                         <li><a href="#p_codelists">Codelist values</a>
                         <li><a href="#p_elements">Elements and Attributes published</a>
                         <li><a href="#p_org_ids">Organisation Identifiers</a>
@@ -88,6 +89,10 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             <tr>
                 <td>Human Readable Name</td>
                 <td>{{ publisher.human_readable_name }}</td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td style="white-space: pre-line;">{{ publisher.description }}</td>
             </tr>
             {% if publisher.exclusions_policy_url %}
             <tr>
@@ -223,7 +228,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                     <tbody>
                         {% for dataset in validation__fail_list %}
                         <tr>
-                            <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                            <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
                             <td>
                                   {{ dataset.source_url|linkurl(dataset.source_url|url_to_filename) }}
                             </td>
@@ -259,7 +264,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in invalidxml_list %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -290,7 +295,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
         <tbody>
             {% for dataset in nonstandardroots_list %}
             <tr>
-                <td><a href="http://iatiregistry.org/dataset/{{ dataset.short_name }}">{{ dataset.short_name }}</a></td>
+                <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
             </tr>
             {% endfor %}
         </tbody>
@@ -382,23 +387,53 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             </tr>
         </thead>
         <tbody>
-            {% for dataset in publisher.dataset_set.all().order_by("short_name") %}
+            {% for dataset in publisher.dataset_set.all().order_by("short_name").defer("stats_json") %}
             <tr>
-                <td class="break">{{ dataset.short_name }}</td>
+                <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
                 <td>
                     {{ dataset.source_url|linkurl('Source Url') }}
                     <a href="https://validator.iatistandard.org/report/{{ dataset.short_name }}" style="padding-left: 1em">IATI Validator</a>
                 </td>
-                <td>{{ dataset.stats_json.activities }}</td>
-                <td>{{ dataset.stats_json.organisations }}</td>
-                <td data-bytes="{{ dataset.stats_json.file_size }}">{{ dataset.stats_json.file_size|filesizeformat }}</td>
+                <td>{{ dataset.activities }}</td>
+                <td>{{ dataset.organisations }}</td>
+                <td data-bytes="{{ dataset.file_size }}">{{ dataset.file_size|filesizeformat }}</td>
                 <td>
-                    {% if dataset.stats_json.versions %}
-                        {{ dataset.stats_json.versions.keys()|first }}
+                    {% if dataset.versions %}
+                        {{ dataset.versions.keys()|first }}
                     {% endif %}
                 </td>
             </tr>
             {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12">
+    <div class="dashboard-panel" id="p_countries">
+    <div class="dashboard-panel-heading clearfix">
+        <h3 class="dashboard-panel-heading__title float-start">Recipient Countries</h3>
+    </div>
+    <div class="dashboard-panel-body">
+    <div class="iati-table">
+      <table class="table iati-table__table exploring-data">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for code in publisher.recipient_country_code %}
+          <tr>
+            <td>{{ code }}</td>
+            <td>{{ codelist_lookup["2"]["Country"].get(code, {}).get("name", "") }}</td>
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -540,5 +575,5 @@ $('.popover-html').popover({
 
 {% block tablesorterscript %}
 <script>jQuery(function() { jQuery("table.table:not(.exploring-data)").tablesorter(); });</script>
-<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{3: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
+<script>jQuery(function() { jQuery("table.exploring-data").tablesorter({textExtraction:{4: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
 {% endblock %}

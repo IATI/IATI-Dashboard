@@ -36,7 +36,7 @@
               {% for dataset in datasets.keys() %}
               {% with dataset_name=dataset %}
                 <tr>
-                  <td><a href="http://iatiregistry.org/dataset/{{ dataset_name }}">{{ dataset_name }}</a></td>
+                  <td><a href="{{ url('dash-headlines-dataset-detail', args=[dataset_name]) }}">{{ dataset_name }}</a></td>
                   <td style="max-width: 300px; overflow: clip;">
                     {% if publisher.short_name in ckan and dataset_name in ckan[publisher.short_name] %}
                     <a href="{{ ckan[publisher.short_name][dataset_name].resource.url }}">{{ ckan[publisher.short_name][dataset_name].resource.url|url_to_filename }}</a>

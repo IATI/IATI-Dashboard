@@ -28,6 +28,19 @@ def get_default_stats_json():
     return DEFAULT_STATS_JSON
 
 
+class JSONTextField(models.JSONField):
+    def db_type(self, connection):
+        return "json"
+
+    def from_db_value(self, value, expression, connection):
+        # psycopg3 auto-decodes the `json` type (jsonb has a Django-side loader
+        # that prevents this; plain json does not), so the parent's json.loads
+        # is handed a dict and raises TypeError.
+        if isinstance(value, (dict, list)):
+            return value
+        return super().from_db_value(value, expression, connection)
+
+
 class ReportingOrg(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     short_name = models.CharField(unique=True)
@@ -130,18 +143,18 @@ REPORTING_ORG_METADATA_FIELDS = [
 ]
 
 
-for key in REPORTING_ORG_METADATA_FIELDS:
+for key in ["id", "short_name"]:
     ReportingOrg.add_to_class(
-        key,
+        f"reporting_org_{key}",
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
     )
 
 
-for key in ["id", "short_name"]:
+for key in REPORTING_ORG_METADATA_FIELDS:
     ReportingOrg.add_to_class(
-        f"reporting_org_{key}",
+        key,
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
@@ -169,6 +182,20 @@ for key in DATASET_METADATA_FIELDS:
         key,
         models.GeneratedField(
             expression=models.F(f"metadata_json__{key}"), output_field=models.JSONField(), db_persist=True
+        ),
+    )
+
+
+for key in [
+    "activities",
+    "organisations",
+    "file_size",
+    "versions",
+]:
+    Dataset.add_to_class(
+        key,
+        models.GeneratedField(
+            expression=models.F(f"stats_json__{key}"), output_field=models.JSONField(), db_persist=True
         ),
     )
 
@@ -231,3 +258,16 @@ class DatasetEvent(models.Model):
     message_payload = models.CharField()
     data_fields_current = models.JSONField()
     data_fields_previous = models.JSONField(null=True)
+
+
+class DatasetHistoricEvent(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    message_type = models.CharField(null=False, db_index=True)
+    display_category = models.CharField(null=False, db_index=True)
+    message_date = models.DateTimeField(db_index=True)
+    dataset_id = models.UUIDField(db_index=True)
+    payload = JSONTextField()
+
+    class Meta:
+        db_table = "dataset_activity_stream"
+        managed = False

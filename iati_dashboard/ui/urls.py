@@ -37,6 +37,11 @@ urlpatterns = (
             views.exploringdata_publisher_codelist_detail,
             name="dash-publisher-codelist-detail",
         ),
+        path(
+            "datasets/<slug:dataset_short_name>/",
+            views.headlines_dataset_detail,
+            name="dash-headlines-dataset-detail",
+        ),
         path("errors/", views.errors, name="dash-errors"),
         path("publishing-statistics/", views.publishing_stats, name="dash-publishingstats"),
         path("exploring-data/", views.exploring_data, name="dash-exploringdata"),
