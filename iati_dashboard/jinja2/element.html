@@ -94,7 +94,7 @@
               {% if datasets %}
                 <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td><td>
                 {% for dataset in datasets.keys() %}
-                    <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
+                    <a href="https://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
                 {% endfor %}
                 </td></tr>
               {% endif %}

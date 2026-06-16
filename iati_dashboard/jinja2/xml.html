@@ -30,7 +30,7 @@
               <tr>
                   {% set publisher=func.dataset_to_publisher(dataset) %}
                   <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
-                  <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
+                  <td><a href="https://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
               </tr>
               {% endif %}
               {% endfor %}

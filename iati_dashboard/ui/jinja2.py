@@ -25,18 +25,18 @@ def xpath_to_url(path):
     # remove conditions
     path = re.sub(r"\[[^]]+\]", "", path)
     if path.startswith("iati-activity"):
-        url = "http://iatistandard.org/activity-standard/iati-activities/" + path.split("@")[0]
+        url = "https://iatistandard.org/activity-standard/iati-activities/" + path.split("@")[0]
     elif path.startswith("iati-organisation"):
-        url = "http://iatistandard.org/organisation-standard/iati-organisations/" + path.split("@")[0]
+        url = "https://iatistandard.org/organisation-standard/iati-organisations/" + path.split("@")[0]
     else:
-        url = "http://iatistandard.org/activity-standard/iati-activities/iati-activity/" + path.split("@")[0]
+        url = "https://iatistandard.org/activity-standard/iati-activities/iati-activity/" + path.split("@")[0]
     if "@" in path:
         url += "#attributes"
     return url
 
 
 def linkurl(url, link_text=None):
-    if url.startswith("http://") or url.startswith("https://"):
+    if url.startswith("https://") or url.startswith("https://"):
         return format_html('<a href="{}" rel="noopener">{}</a>', url, link_text or url)
     else:
         return link_text or url
