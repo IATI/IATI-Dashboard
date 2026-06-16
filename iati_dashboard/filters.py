@@ -11,7 +11,7 @@ FILE_TYPE_CHOICES = [("iati-activities", "Activities"), ("iati-organisations", "
 
 class ReportingOrgFilter(django_filters.FilterSet):
     search = django_filters.CharFilter(
-        method="search_fulltext", label="Search reporting organisation name / registry ID"
+        method="search_fulltext", label="Search reporting organisation name / short name"
     )
     hq_country = django_filters.MultipleChoiceFilter(
         choices=COUNTRY_CODELIST_CHOICES, label="Reporting organisation HQ country"
