@@ -1,3 +1,4 @@
+import copy
 import json
 import uuid
 from enum import Enum
@@ -25,7 +26,7 @@ DEFAULT_STATS_JSON = {
 
 
 def get_default_stats_json():
-    return DEFAULT_STATS_JSON
+    return copy.deepcopy(DEFAULT_STATS_JSON)
 
 
 class JSONTextField(models.JSONField):
