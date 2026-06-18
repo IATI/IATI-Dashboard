@@ -173,7 +173,6 @@ class MessageProcessor:
                 id=message_payload["dataset"]["id"],
                 short_name=message_payload["dataset"]["short_name"],
                 source_url=message_payload["dataset"]["url"],
-                stats_json={},
                 reporting_org=ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"]),
             )
             dataset.save()
@@ -194,7 +193,6 @@ class MessageProcessor:
                 id=message_payload["reporting_org"]["id"],
                 short_name=message_payload["reporting_org"]["short_name"],
                 human_readable_name=message_payload["reporting_org"]["human_readable_name"],
-                stats_json={"activity_files": 0, "organisation_files": 0},
             )
             reporting_org.save()
             self.print_success("created", "reporting_org", message_payload["reporting_org"])
