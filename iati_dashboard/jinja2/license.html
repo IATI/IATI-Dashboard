@@ -14,14 +14,14 @@
             <thead>
                 <tr>
                     <th>Publisher</th>
-                    <th>Files</th>
+                    <th>Datasets</th>
                 </tr>
             </thead>
             <tbody>
-                {% for publisher, files in publisher_counts %}
+                {% for publisher, datasets in publisher_counts %}
                 <tr>
                     <td><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher }}</a></td>
-                    <td>{{ files }}</td>
+                    <td>{{ datasets }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

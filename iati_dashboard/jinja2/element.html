@@ -4,7 +4,7 @@
 {% block page_header %}
   <h1>Usage of <code class="iati-code">{{ element }}</code></h1>
   <p class="dashboard-page-heading__lead">Who uses <code class="iati-code">{{ element }}</code>?</p>
-  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across reporting orgs, files and activities.</p>
+  <p>Showing usage of <code class="iati-code"><a href="{{ element|xpath_to_url }}">{{ element }}</a></code> across reporting orgs, datasets and activities.</p>
 
   {% if element_or_attribute == 'attribute' %}
   <p>An empty value for the attribute is treated the same as if the attribute is not present.</p>
@@ -81,12 +81,12 @@
 
 
   {#
-      <h2>Files</h2>
+      <h2>Datasets</h2>
       <div class="iati-table">
         <table class="table iati-table__table">
           <thead>
                 <td>Reporting Org</td>
-                <td>Files</td>
+                <td>Datasets</td>
           </thead>
           <tbody>
             {% for publisher in current_stats.inverted_file_publisher %}
