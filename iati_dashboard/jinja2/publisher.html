@@ -115,6 +115,14 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 </td>
             </tr>
             <tr>
+                <td>Reporting Source Type</td>
+                <td>{{ publisher.reporting_source_type_name }}</td>
+            </tr>
+            <tr>
+                <td>First publication date</td>
+                <td>{{ publisher.first_publication_date }}</td>
+            </tr>
+            <tr>
                 <td>Organisation Type</td>
                 <td>{{ codelist_lookup["2"]["OrganisationType"].get(publisher.organisation_type, {}).get("name", "") }} ({{ publisher.organisation_type }})</td>
             </tr>
