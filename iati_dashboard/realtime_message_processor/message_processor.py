@@ -3,6 +3,7 @@ import json
 import traceback
 from datetime import datetime, timezone
 
+import sentry_sdk
 from asgiref.sync import sync_to_async
 from azure.servicebus.aio import ServiceBusClient
 from azure.servicebus.exceptions import ServiceBusConnectionError
@@ -74,6 +75,7 @@ class MessageProcessor:
         except Exception as e:
             self.print_with_timestamp(f"MessageProcessor.fetch_and_process_messages - Unexpected Error - {e}")
             print(traceback.format_exc())
+            sentry_sdk.capture_exception(e)
 
     def dispatch_event(self, message_type: str, message_payload: dict):
         try:
