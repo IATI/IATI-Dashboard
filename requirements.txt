@@ -50,7 +50,13 @@ elementpath==5.1.1
     # via xmlschema
 fonttools==4.63.0
     # via matplotlib
+gitdb==4.0.12
+    # via gitpython
+gitpython==3.1.50
+    # via -r requirements.in
 gunicorn==26.0.0
+    # via -r requirements.in
+iatirulesets @ git+https://github.com/IATI/IATI-Rulesets.git@version-2.03
     # via -r requirements.in
 idna==3.18
     # via requests
@@ -67,7 +73,9 @@ jsonschema-specifications==2025.9.1
 kiwisolver==1.5.0
     # via matplotlib
 lxml==6.1.1
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   iatirulesets
 markupsafe==3.0.3
     # via jinja2
 matplotlib==3.10.9
@@ -110,6 +118,8 @@ sentry-sdk[django]==2.62.0
     # via -r requirements.in
 six==1.17.0
     # via python-dateutil
+smmap==5.0.3
+    # via gitdb
 sqlparse==0.5.5
     # via django
 tqdm==4.68.2

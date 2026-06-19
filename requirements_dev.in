@@ -10,3 +10,5 @@ isort
 black
 ptpython
 pdbpp
+# required for IATI-Stats
+mock

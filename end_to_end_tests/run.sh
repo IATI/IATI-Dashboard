@@ -31,9 +31,11 @@ git config user.name "Test"
 git commit -a -m "Initial commit"
 cd ../..
 
+# Install requirements
+pip install -r requirements_dev.txt
+
 # Run IATI-Stats
 cd IATI-Stats
-pip install -r requirements.txt
 ./git.sh
 cd ..
 
@@ -41,7 +43,6 @@ cd ..
 rm -r stats-calculated || true
 ln -s IATI-Stats/gitout stats-calculated
 echo '{}' > stats-calculated/licenses.json
-pip install -r requirements_dev.txt
 python manage.py collectstatic --noinput
 python manage.py migrate
 python manage.py dashboard_import
