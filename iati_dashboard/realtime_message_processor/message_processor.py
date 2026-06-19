@@ -12,7 +12,7 @@ from django.db.models import DateTimeField, Q, TextField
 from django.db.models.functions import Cast
 from django.db.utils import IntegrityError
 
-from ..models import Dataset, DatasetEvent, DatasetEventTypes, ReportingOrg
+from ..models import Dataset, ReportingOrg
 from .message_processor_error import MessageProcessorRuntimeError
 from .utilities import get_datetime_with_tz
 
@@ -62,7 +62,7 @@ class MessageProcessor:
                     for msg in received_msgs:
                         if not msg.application_properties:
                             self.print_with_timestamp(
-                                f"MessageProcessor.fetch_and_process_messages - skipping msg because it has no application_properties"
+                                "MessageProcessor.fetch_and_process_messages - skipping msg because it has no application_properties"
                             )
                             await receiver.complete_message(msg)
                             continue
@@ -98,7 +98,8 @@ class MessageProcessor:
                     record_type = "dataset" if message_type == "DATASET_DELETED" else "reporting_org"
                     self.process_registry_record_deleted(record_type, message_payload)
                 case "DATASET_CHECK_RESULT":
-                    self.process_bulk_data_service_dataset_check_result(message_payload)
+                    # Ignore these
+                    return
                 case _:
                     print("Received unknown message type: ")
                     print(json.dumps(message_payload))
@@ -107,44 +108,6 @@ class MessageProcessor:
                 f"MessageProcessor.dispatch_event - ERROR - KeyError ({e}) handling message of type {message_type}. "
                 f"Received message likely not in correct format. {traceback.format_exc()}"
             )
-
-    def process_bulk_data_service_dataset_check_result(self, message_payload: dict):
-
-        dataset_check_result_current = message_payload["dataset_check_result_current"]
-        dataset_check_result_previous = message_payload.get("dataset_check_result_previous", None)
-
-        self.update_most_recent_dataset_check_field(dataset_check_result_current)
-
-        if (dataset_check_result_previous is not None) and (
-            dataset_check_result_current.get("last_known_good_dataset", {}).get("hash", "")
-            != dataset_check_result_previous.get("last_known_good_dataset", {}).get("hash", "")
-            or dataset_check_result_current["most_recent_get_attempt"]["error_occurred"]
-            != dataset_check_result_previous["most_recent_get_attempt"]["error_occurred"]
-            or dataset_check_result_current["most_recent_get_attempt"]["http_status"]
-            != dataset_check_result_previous["most_recent_get_attempt"]["http_status"]
-        ):
-            self.save_dataset_check_result_change_event(message_payload)
-            self.print_with_timestamp(
-                f"dataset id: {dataset_check_result_current["id"]} - Saved new DatasetEvent as hash or download "
-                "status has changed"
-            )
-
-    def save_dataset_check_result_change_event(self, message_payload: dict):
-        dataset_event = DatasetEvent()
-        dataset_event.timestamp = get_datetime_with_tz(message_payload["message_date"])
-        dataset_event.dataset_id = message_payload["dataset_check_result_current"]["id"]
-        dataset_event.reporting_org_id = message_payload["dataset_check_result_current"]["id"]
-        dataset_event.initiating_user_id = None
-        dataset_event.initiating_user_name = None
-        dataset_event.initiating_organisation_id = None
-        dataset_event.initiating_organisation_name = None
-        dataset_event.initiating_application_id = "5bb64df4-84e1-4d44-8071-e1c396ba950a"
-        dataset_event.initiating_application_name = "Bulk Data Service"
-        dataset_event.event_type = DatasetEventTypes.DATASET_DOWNLOAD_STATUS_CHANGED
-        dataset_event.message_payload = message_payload
-        dataset_event.data_fields_current = message_payload["dataset_check_result_current"]
-        dataset_event.data_fields_previous = message_payload["dataset_check_result_previous"]
-        dataset_event.save()
 
     def update_most_recent_dataset_check_field(self, dataset_check_result: dict):
         if Dataset.objects.filter(pk=dataset_check_result["id"]).exists():
