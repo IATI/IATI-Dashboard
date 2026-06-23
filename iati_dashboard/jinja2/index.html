@@ -48,7 +48,7 @@
                         {{ current_stats.aggregated.activity_files }}
                         </a>
                     </td>
-                    <td>Activity Files</td>
+                    <td>Activity Datasets</td>
                 </tr>
                 <tr>
                     <td id="organisation-files-count">
@@ -56,7 +56,7 @@
                         {{ current_stats.aggregated.organisation_files }}
                         </a>
                     </td>
-                    <td>Organisation Files</td>
+                    <td>Organisation Datasets</td>
                 </tr>
                 <tr>
                     <td id="total-file-size">
@@ -64,7 +64,7 @@
                         {{ current_stats.aggregated.file_size|filesizeformat }}
                         </a>
                     </td>
-                    <td>Total File Size</td>
+                    <td>Total Dataset Size</td>
                 </tr>
                 <tr>
                     <td id="failed-download-count">
@@ -72,7 +72,7 @@
                         {{ current_stats.download_errors|length }}
                         </a>
                     </td>
-                    <td>Files Fail to Download</td>
+                    <td>Datasets Fail to Download</td>
                 </tr>
                 <tr>
                     <td id="poorly-formed-xml-file-count">
@@ -80,7 +80,7 @@
                         {{ current_stats.aggregated.invalidxml }}
                         </a>
                     </td>
-                    <td>Files where XML is not well-formed</td>
+                    <td>Datasets where XML is not well-formed</td>
                 </tr>
                 <tr>
                     <td id="non-standard-roots-file-count">
@@ -88,13 +88,13 @@
                         {{ current_stats.aggregated.nonstandardroots }}
                         </a>
                     </td>
-                    <td>Files with Nonstandard Roots</td>
+                    <td>Datasets with Nonstandard Roots</td>
                 </tr>
                 <tr>
                     <td id="too-large-files-count">
                         {{ current_stats.aggregated.toolarge }}
                     </td>
-                    <td>Files that are too large to be processed</td>
+                    <td>Datasets that are too large to be processed</td>
                 </tr>
                 <tr>
                     <td id="cannot-validate-file-count">
@@ -102,7 +102,7 @@
                         {{ current_stats.aggregated.validation.fail }}
                         </a>
                     </td>
-                    <td>Files don't validate against the schema</td>
+                    <td>Datasets don't validate against the schema</td>
                 </tr>
                 <tr>
                     <td id="publishers-with-non-valid-files-count">

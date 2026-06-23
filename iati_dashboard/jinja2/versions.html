@@ -2,8 +2,8 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Files per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of files per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
-      {{ boxes.box_h2('Files per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of files per other versions, over time. These values are not valid IATI versions.') }}
+      {{ boxes.box_h2('Datasets per version (expected)', '', 'img/aggregate/versions_expected.png', 'versions.json', 'img/aggregate/versions_expected_legend.png', description='Count of datasets per IATI version, over time. Expected: these are actual versions of the IATI Standard.') }}
+      {{ boxes.box_h2('Datasets per version (other)', '', 'img/aggregate/versions_other.png', 'versions.json', 'img/aggregate/versions_other_legend.png', description='Count of datasets per other versions, over time. These values are not valid IATI versions.') }}
     </div>
     <div class="row">
       {{ boxes.box_h2('Reporting orgs per version (expected)', '', 'img/aggregate/publishers_per_version_expected.png', 'publishers_per_version.json', 'img/aggregate/versions_expected_legend.png',
@@ -14,7 +14,7 @@
 
     {% if 'true' in current_stats.aggregated.version_mismatch %}
     <h2>Inconsistent versions</h2>
-    <p>Files where the iati-activities/@version does not match iati-activity/@version</p>
+    <p>Datasets where the iati-activities/@version does not match iati-activity/@version</p>
     <div class="row">
     <div class="col-xs-12">
       <div class="dashboard-panel">
@@ -23,7 +23,7 @@
           <table class="table iati-table__table">
             <thead>
                   <td>Reporting Org</td>
-                  <td>Files</td>
+                  <td>Datasets</td>
             </thead>
             <tbody>
               {% for publisher in current_stats.inverted_file_publisher %}
@@ -31,7 +31,7 @@
                   {% if datasets %}
                   <tr><td id="files_{{ publisher }}"><a href="{{ url('dash-headlines-publisher-detail', args=[publisher]) }}">{{ publisher_name[publisher] }}</a></td><td>
                   {% for dataset in datasets.keys() %}
-                      <a href="http://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
+                      <a href="https://iatiregistry.org/dataset/{{ dataset[:-4] }}">{{ dataset[:-4] }}</a>
                   {% endfor %}
                   </td></tr>
                   {% endif %}

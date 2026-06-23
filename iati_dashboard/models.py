@@ -14,6 +14,11 @@ organisation_type_dict = {c["code"]: c["name"] for c in organisation_type_codeli
 del organisation_type_codelist
 
 
+# From https://github.com/IATI/iati-account-web/blob/6f15fb301b3757d00fc0c83ff640e6e9bce104ad/iati_account_web/constants.py#L76-L77
+REPORTING_SOURCE_TYPE_LIST = [("primary_source", "Primary Source"), ("secondary_source", "Secondary Source")]
+REPORTING_SOURCE_TYPE_LOOKUP = {x[0]: x[1] for x in REPORTING_SOURCE_TYPE_LIST}
+
+
 DEFAULT_STATS_JSON = {
     "activities": 0,
     "organisations": 0,
@@ -79,6 +84,10 @@ class ReportingOrg(models.Model):
     @property
     def organisation_type_name(self):
         return organisation_type_dict.get(self.organisation_type)
+
+    @property
+    def reporting_source_type_name(self):
+        return REPORTING_SOURCE_TYPE_LOOKUP.get(self.reporting_source_type, "")
 
     def filtered_datasets_by(self, stat_name):
         return (

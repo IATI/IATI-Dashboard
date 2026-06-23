@@ -224,8 +224,8 @@ Else
         <tr>
           <td>Core</td>
           <td>Version</td>
-          <td>iati-activities/@version must exist for the file the activity is in</td>
-          <td>iati-activities/@version must be on the <a href="http://iatistandard.org/codelists/Version/">Version codelist</a></td>
+          <td>iati-activities/@version must exist for the datasets the activity is in</td>
+          <td>iati-activities/@version must be on the <a href="https://iatistandard.org/codelists/Version/">Version codelist</a></td>
         </tr>
         <tr>
           <td>Core</td>
@@ -261,7 +261,7 @@ Else
           <td>Core</td>
           <td>Status</td>
           <td>Activity must contain an activity-status element</td>
-          <td>activity-status/@code must be on the <a href="http://iatistandard.org/codelists/ActivityStatus/">ActivityStats codelist</a></td>
+          <td>activity-status/@code must be on the <a href="https://iatistandard.org/codelists/ActivityStatus/">ActivityStats codelist</a></td>
         </tr>
         <tr>
           <td>Core</td>
@@ -300,7 +300,7 @@ Else
           <td>Financials</td>
           <td>Transaction - Currency</td>
           <td>All transactions must have value/@currency OR the activity must have a @default-currency attribute. All transactions must have value/@value-date</td>
-          <td>All currency values must be on the <a href="http://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code class="iati-code">xs:date</code>.</td>
+          <td>All currency values must be on the <a href="https://iatistandard.org/codelists/Currency/">Currency codelist</a>. value/@value-date must be valid <code class="iati-code">xs:date</code>.</td>
         </tr>
         <tr>
           <td>Financials</td>
@@ -312,7 +312,7 @@ Else
           <td>Financials</td>
           <td>Budget</td>
           <td>Activity must have at least 1 budget element OR the activity must have the budget-not-provided attribute AND no budget elements</td>
-          <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code class="iati-code">xs:date</code>s AND a value element that is a valid <code class="iati-code">xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="http://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
+          <td>Each budget element must contain period-start/@iso-date and period-end/@iso-date and value/@value-date that are valid <code class="iati-code">xs:date</code>s AND a value element that is a valid <code class="iati-code">xs:decimal</code> OR the activity element must have a valid iati-activity/@budget-not-provided attribute under the <a href="https://iatistandard.org/codelists/BudgetNotProvided/">BudgetNotProvided codelist</a> AND no budget elements</td>
         </tr>
         {% endblock %}
 
@@ -339,7 +339,7 @@ Else
           <td>Value added</td>
           <td>DAC Sectors</td>
           <td>At least 1 sector where @vocabulary is <code class="iati-code">DAC</code> or <code class="iati-code">DAC-3</code> (1.xx) or <code class="iati-code">1</code> or <code class="iati-code">2</code> (2.xx), must be reported at activity level, unless there is no @vocabulary attribute, in which case DAC/1 is assumed. If there is no DAC sector element at activity level it must be reported within all transactions contained within that activity.</td>
-          <td>Must be valid code on the <a href="http://iatistandard.org/codelists/Sector/">DAC</a> or <a href="http://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
+          <td>Must be valid code on the <a href="https://iatistandard.org/codelists/Sector/">DAC</a> or <a href="https://iatistandard.org/codelists/SectorCategory/">DAC-3</a> lists as appropriate.</td>
         </tr>
         <tr>
           <td>Value added</td>
@@ -357,7 +357,7 @@ Else
           <td>Value added</td>
           <td>Aid Type</td>
           <td>Activity must contain either i) a value in <code class="iati-code">default-aid-type/@code</code> or ii) each transaction must contain a value in <code class="iati-code">transaction/aid-type/@code</code>.</td>
-          <td>Must be valid code on the <a href="http://iatistandard.org/codelists/AidType/">AidType codelist</a>.</td>
+          <td>Must be valid code on the <a href="https://iatistandard.org/codelists/AidType/">AidType codelist</a>.</td>
         </tr>
         <tr>
           <td>Value added</td>
