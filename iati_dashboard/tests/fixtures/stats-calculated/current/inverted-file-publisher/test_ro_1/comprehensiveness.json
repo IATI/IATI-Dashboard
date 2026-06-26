@@ -1,0 +1,83 @@
+{
+  "activity-date": {
+    "test_ro_1-valid_activity": 1
+  },
+  "activity-status": {
+    "test_ro_1-valid_activity": 1
+  },
+  "activity-website": {
+    "test_ro_1-valid_activity": 0
+  },
+  "aid_type": {
+    "test_ro_1-valid_activity": 0
+  },
+  "budget": {
+    "test_ro_1-valid_activity": 0
+  },
+  "budget_not_provided": {
+    "test_ro_1-valid_activity": 0
+  },
+  "capital-spend": {
+    "test_ro_1-valid_activity": 0
+  },
+  "conditions_attached": {
+    "test_ro_1-valid_activity": 0
+  },
+  "contact-info": {
+    "test_ro_1-valid_activity": 0
+  },
+  "country_or_region": {
+    "test_ro_1-valid_activity": 0
+  },
+  "description": {
+    "test_ro_1-valid_activity": 1
+  },
+  "document-link": {
+    "test_ro_1-valid_activity": 0
+  },
+  "iati-identifier": {
+    "test_ro_1-valid_activity": 1
+  },
+  "location": {
+    "test_ro_1-valid_activity": 0
+  },
+  "location_point_pos": {
+    "test_ro_1-valid_activity": 0
+  },
+  "participating-org": {
+    "test_ro_1-valid_activity": 1
+  },
+  "recipient_language": {
+    "test_ro_1-valid_activity": 0
+  },
+  "reporting-org": {
+    "test_ro_1-valid_activity": 1
+  },
+  "result_indicator": {
+    "test_ro_1-valid_activity": 0
+  },
+  "sector": {
+    "test_ro_1-valid_activity": 0
+  },
+  "sector_dac": {
+    "test_ro_1-valid_activity": 0
+  },
+  "title": {
+    "test_ro_1-valid_activity": 1
+  },
+  "transaction_commitment": {
+    "test_ro_1-valid_activity": 0
+  },
+  "transaction_currency": {
+    "test_ro_1-valid_activity": 0
+  },
+  "transaction_spend": {
+    "test_ro_1-valid_activity": 0
+  },
+  "transaction_traceability": {
+    "test_ro_1-valid_activity": 0
+  },
+  "version": {
+    "test_ro_1-valid_activity": 1
+  }
+}

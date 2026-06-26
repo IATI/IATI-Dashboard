@@ -1,0 +1,56 @@
+{
+  "iati-activity": {
+    "test_ro_1": 1
+  },
+  "iati-activity/activity-date": {
+    "test_ro_1": 1
+  },
+  "iati-activity/activity-date/@iso-date": {
+    "test_ro_1": 1
+  },
+  "iati-activity/activity-date/@type": {
+    "test_ro_1": 1
+  },
+  "iati-activity/activity-status": {
+    "test_ro_1": 1
+  },
+  "iati-activity/activity-status/@code": {
+    "test_ro_1": 1
+  },
+  "iati-activity/description": {
+    "test_ro_1": 1
+  },
+  "iati-activity/description/narrative": {
+    "test_ro_1": 1
+  },
+  "iati-activity/iati-identifier": {
+    "test_ro_1": 1
+  },
+  "iati-activity/participating-org": {
+    "test_ro_1": 1
+  },
+  "iati-activity/participating-org/@ref": {
+    "test_ro_1": 1
+  },
+  "iati-activity/participating-org/@role": {
+    "test_ro_1": 1
+  },
+  "iati-activity/reporting-org": {
+    "test_ro_1": 1
+  },
+  "iati-activity/reporting-org/@ref": {
+    "test_ro_1": 1
+  },
+  "iati-activity/reporting-org/@type": {
+    "test_ro_1": 1
+  },
+  "iati-activity/reporting-org/narrative": {
+    "test_ro_1": 1
+  },
+  "iati-activity/title": {
+    "test_ro_1": 1
+  },
+  "iati-activity/title/narrative": {
+    "test_ro_1": 1
+  }
+}
