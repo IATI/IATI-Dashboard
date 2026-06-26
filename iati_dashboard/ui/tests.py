@@ -1,4 +1,5 @@
 import datetime
+import importlib
 import uuid
 from pathlib import Path
 
@@ -6,6 +7,7 @@ from django.db import connections
 from django.test import TestCase
 from django.urls import reverse
 
+import iati_dashboard.data
 from iati_dashboard import models
 
 DATASET_ACTIVITY_STREAM_SQL = Path(__file__).resolve().parent.parent / "tests" / "sql" / "dataset_activity_stream.sql"
@@ -35,6 +37,8 @@ class BasicPageTests(TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        # We need to do this because data.py imports the stats JSON at import time
+        importlib.reload(iati_dashboard.data)
         super().setUpClass()
         _create_dataset_activity_stream_table()
 

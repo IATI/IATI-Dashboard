@@ -1,0 +1,18 @@
+{
+  "datasets": [
+    {
+      "id": "e9f8b60d-dfdb-419b-9902-bb683287e49f",
+      "short_name": "test_ro_1-d1",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/3",
+      "licence_id": "cc-zero"
+    },
+    {
+      "id": "45adaebd-93f4-452e-b011-fc4f6e02882c",
+      "short_name": "test_ro_1-d3",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/3",
+      "licence_id": "cc-zero"
+    }
+  ]
+}

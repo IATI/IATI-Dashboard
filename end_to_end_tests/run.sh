@@ -44,7 +44,8 @@ echo '{}' > stats-calculated/licenses.json
 pip install -r requirements_dev.txt
 python manage.py collectstatic --noinput
 python manage.py migrate
-python manage.py dashboard_import
+python manage.py dashboard_import_metadata
+python manage.py dashboard_import_stats
 
 # Kill all background processes when we exit, even when exiting with an error
 trap 'kill $(jobs -p)' EXIT

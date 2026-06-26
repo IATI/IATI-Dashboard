@@ -1,0 +1,18 @@
+{
+  "reporting_orgs": [
+    {
+      "id": "297649cc-0933-4c74-8df7-9ac27e6f4680",
+      "short_name": "test_ro_1",
+      "human_readable_name": "Test RO 1",
+      "organisation_type": "40",
+      "hq_country": "ES"
+    },
+    {
+      "id": "36410008-48a5-4f1a-938c-972d549de3ed",
+      "short_name": "test_ro_3",
+      "human_readable_name": "Test RO 3",
+      "organisation_type": "40",
+      "hq_country": "GB"
+    }
+  ]
+}
