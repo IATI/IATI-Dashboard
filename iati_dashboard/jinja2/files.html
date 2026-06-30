@@ -55,14 +55,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for dataset, activities in current_stats.inverted_file.activities.items() %}
+                    {% for dataset in datasets %}
                     <tr>
-                        {% set publisher=func.dataset_to_publisher(dataset) %}
-                        <td class="break"><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_name[func.dataset_to_publisher(dataset)] }}</a></td>
-                        <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset]) }}">{{ dataset }}</a></td>
-                        <td>{{ activities }}</td>
-                        <td>{{ current_stats.inverted_file.organisations.get(dataset) }}</td>
-                        <td data-bytes="{{ current_stats.inverted_file.file_size.get(dataset) }}">{{ current_stats.inverted_file.file_size.get(dataset)|filesizeformat }}</td>
+                        <td class="break"><a href="{{ url("dash-headlines-publisher-detail", args=[dataset.reporting_org.short_name]) }}">{{ dataset.reporting_org.human_readable_name }}</a></td>
+                        <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
+                        <td>{{ dataset.activities }}</td>
+                        <td>{{ dataset.organisations }}</td>
+                        <td data-bytes="{{ dataset.file_size }}">{{ dataset.file_size|filesizeformat }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -105,7 +105,7 @@ class BasicPageTests(TestCase):
 
     def test_exploringdata(self):
         """Test the exploring data pages"""
-        self.assertEqual(self.client.get(reverse("dash-headlines-files")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-headlines-datasets")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-activities")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-booleans")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-codelists")).status_code, 200)
@@ -264,7 +264,7 @@ class OriginalDashboardRedirectTests(TestCase):
             {
                 "index": "dash-index",
                 "headlines": "dash-index",
-                "files": "dash-headlines-files",
+                "files": "dash-headlines-datasets",
                 "activities": "dash-headlines-activities",
                 "publishers": "dash-headlines-publishers",
                 "faq": "dash-faq",
