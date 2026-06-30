@@ -60,7 +60,7 @@ Dataset: {{ dataset.short_name }} {{ super() }}
             
             {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
                 <tr>
-                    <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Last known good dataset</strong></td>
+                    <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Last dataset successfully downloaded by the <a href="https://bulk-data.iatistandard.org/">Bulk Data Service</a></strong></td>
                     <td colspan="1">Cache URL</td>
                     <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.cached_dataset_xml_url }}</td>
                 </tr>
