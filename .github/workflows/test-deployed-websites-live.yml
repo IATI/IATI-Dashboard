@@ -1,0 +1,31 @@
+# We have separate workflows for the live and dev websites, so that they don't cancel each other
+# I tried continue-on-error, but that additionally shows the workflow as succeeding
+name: Test deployed live website
+on:
+  #schedule:
+  #  - cron: '0 5 * * *'
+  push
+jobs:
+  test_deployed_websites:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements_dev.txt
+    - name: Set up hosts file  # we do this to avoid cloudflare
+      run: "sudo echo '${{ secrets.LIVE_DASHBOARD_IP_ADDRESS }} dashboard.iatistandard.org' | sudo tee -a /etc/hosts"
+    - name: Test all reporting org pages
+      env:
+        DASHBOARD_ROOT_URL: "https://${{ matrix.subdomain }}.iatistandard.org/"
+        DELAY_BETWEEN_REQUESTS: 5
+        # These tests shouldn't require Django in the action
+        DJANGO_SETTINGS_MODULE: ""
+      run: |
+        # Use -x so that we don't keep hitting a broken website
+        pytest iati_dashboard/tests/test_all_reporting_org_pages.py -x

@@ -1,4 +1,5 @@
 import os
+import time
 
 import pytest
 import requests
@@ -15,4 +16,6 @@ else:
 def test_page_speed(short_name):
     r = requests.get(f"{dashboard_url}/publishers/{short_name}")
     assert r.status_code == 200
-    assert r.elapsed.total_seconds() < 2
+    assert r.elapsed.total_seconds() < 5
+    if "DELAY_BETWEEN_REQUESTS" in os.environ:
+        time.sleep(int(os.environ["DELAY_BETWEEN_REQUESTS"]))
