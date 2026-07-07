@@ -84,10 +84,12 @@ class Command(BaseCommand):
                     f"Skipping dataset with ID {dataset.id} ({dataset.short_name}), because it has been updated more recently than these metadata files."
                 )
                 continue
-            dataset.metadata_json_datetime = index_created
             dataset.short_name = dataset_dict["short_name"]
             dataset.source_url = dataset_dict["source_url"]
             dataset.metadata_json = dataset_dict
+            dataset.metadata_json_datetime = index_created
+            dataset.check_result_json = dataset_dict
+            dataset.check_result_json_datetime = index_created
             dataset.save()
 
         dataset_ids_removed = dataset_ids_before - dataset_ids_after

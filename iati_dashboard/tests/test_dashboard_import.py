@@ -36,6 +36,7 @@ def test_dashboard_import_metadata_datasets():
     d1.save()
     # Check this isn't populated yet, so we know it's populated in the import
     assert "source_url" not in d1.metadata_json
+    assert "source_url" not in d1.check_result_json
     d2 = models.Dataset(id="7626aebd-ee1a-473f-ae6d-c8f25a41d392", short_name="test_ro_1-d2", reporting_org=ro1)
     d2.save()
 
@@ -46,6 +47,7 @@ def test_dashboard_import_metadata_datasets():
     d1_again = models.Dataset.objects.get(short_name="test_ro_1-d1")
     assert d1_again.stats_json["test_key"] == "test_value"
     assert d1_again.metadata_json["source_url"] == "http://example.com/3"
+    assert d1_again.check_result_json["source_url"] == "http://example.com/3"
 
 
 @pytest.mark.django_db

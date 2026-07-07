@@ -182,6 +182,8 @@ class Dataset(models.Model):
 
     metadata_json = models.JSONField(default=dict)
     metadata_json_datetime = models.DateTimeField(default=datetime(2000, 1, 1, 0, 0, 0, 0, timezone.utc))
+    check_result_json = models.JSONField(default=dict)
+    check_result_json_datetime = models.DateTimeField(default=datetime(2000, 1, 1, 0, 0, 0, 0, timezone.utc))
     stats_json = models.JSONField(default=get_default_stats_json)
 
 
