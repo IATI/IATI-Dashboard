@@ -79,17 +79,24 @@ class Command(BaseCommand):
             )
             dataset_ids_after.add(dataset.id)
             index_created = datetime.datetime.fromisoformat(metadata_datasets["index_created"])
-            if not created and dataset.metadata_json_datetime > index_created:
+            if created or dataset.metadata_json_datetime <= index_created:
+                dataset.short_name = dataset_dict["short_name"]
+                dataset.source_url = dataset_dict["source_url"]
+                dataset.metadata_json = dataset_dict
+                dataset.metadata_json_datetime = index_created
+            else:
                 print(
-                    f"Skipping dataset with ID {dataset.id} ({dataset.short_name}), because it has been updated more recently than these metadata files."
+                    f"Skipping updating metadata_json for dataset with ID {dataset.id} ({dataset.short_name}),"
+                    f"because it has been updated more recently than these metadata files."
                 )
-                continue
-            dataset.short_name = dataset_dict["short_name"]
-            dataset.source_url = dataset_dict["source_url"]
-            dataset.metadata_json = dataset_dict
-            dataset.metadata_json_datetime = index_created
-            dataset.check_result_json = dataset_dict
-            dataset.check_result_json_datetime = index_created
+            if created or dataset.check_result_json_datetime <= index_created:
+                dataset.check_result_json = dataset_dict
+                dataset.check_result_json_datetime = index_created
+            else:
+                print(
+                    f"Skipping updating check_result_json for dataset with ID {dataset.id} ({dataset.short_name}),"
+                    f"because it has been updated more recently than these metadata files."
+                )
             dataset.save()
 
         dataset_ids_removed = dataset_ids_before - dataset_ids_after
