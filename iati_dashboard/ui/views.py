@@ -394,6 +394,28 @@ def headlines_datasets(request):
     return HttpResponse(template.render(context, request))
 
 
+def debug(request):
+    datasets = (
+        models.Dataset.objects.select_related("reporting_org").only(
+            "id",
+            "short_name",
+            "source_url",
+            "activities",
+            "organisations",
+            "file_size",
+            "metadata_json_datetime",
+            "check_result_json_datetime",
+            "reporting_org_id",
+            "reporting_org__short_name",
+            "reporting_org__human_readable_name",
+        )
+    ).order_by("-metadata_json_datetime")
+    context = {}
+    context["datasets"] = datasets
+    template = loader.get_template("debug.html")
+    return HttpResponse(template.render(context, request))
+
+
 def headlines_dataset_detail(request, dataset_short_name: str | None = None) -> HttpResponse:
     try:
         dataset: models.Dataset = (

@@ -26,6 +26,7 @@ urlpatterns = (
     [
         # Top level dashboard pages.
         path("", views.index, name="dash-index"),
+        path("debug/", views.debug),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
         path(
             "publishers/<slug:publisher_short_name>/",
