@@ -31,43 +31,70 @@
       </div>
 {% endmacro %}
 
-{% macro box_h3(title, number, image, json, legend, folderextra, description) %}
-      {% set alt="Graph of "~title~" against time" %}
-      <div class="iati-data-card">
-        <header class="iati-data-card--header">
-            <h3 class="iati-data-card__title">
-              {{ title }}
-            </h3>
-          </header>
-          <div class="iati-data-card--body">
-            {% if description %}
-            <p class="iati-data-card__tagline">{{ description|safe }}</p>
-            {% endif %}
-            {% if number %}
-              <div class="iati-data-card__stats">
-                <div class="iati-data-card__stat">
-                  <div class="iati-data-card__stat-label">{{ title }}</div>
-                  <div class="iati-data-card__stat-value">{% if number is number %}{{ "{:,}".format(number) }}{% else %}{{ number|replace(' ', '&nbsp;')|safe }}{% endif %}</div>
-                </div>
-              </div>
-            {% endif %}
-            {% if json %}
-              {% if folderextra %}
-              <div class="iati-data-card__graph">
-                <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}"></canvas>
-              </div>
-              <div class="iati-data-card__button">
-                <a href="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}" class="iati-button iati-button--submit">Download data (.JSON)</a>
-              </div>
-              {% else %}
-              <div class="iati-data-card__graph">
-                <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate-dated/{{ json }}"></canvas>
-              </div>
-              <div class="iati-data-card__button">
-                <a href="{{ stats_url }}/gitaggregate-dated/{{ json }}" class="iati-button iati-button--submit">Download data (.JSON)</a>
-              </div>
-              {% endif %}
-            {% endif %}
+{% macro datacard_complete(
+  title,
+  tagline,
+  stat1,
+  stat2,
+  stattitle1,
+  stattitle2,
+  folderextra,
+  graph,
+  json,
+  description,
+  buttonlink1,
+  buttonlink2,
+  buttontext1,
+  buttontext2
+) %}
+  <div class="iati-data-card">
+    <header class="iati-data-card--header">
+      <h3 class="iati-data-card__title">{{ title }}</h3>
+    </header>
+    <div class="iati-data-card--body">
+      {% if tagline %}
+        <p class="iati-data-card__tagline">
+          {{ tagline|safe }}
+        </p>
+      {% endif %}
+      <div class="iati-data-card__stats">
+        <div class="iati-data-card__stat">
+          <div class="iati-data-card__stat-label">{{ stattitle1 }}</div>
+          <div class="iati-data-card__stat-value">{% if stat1 is number %}{{ "{:,}".format(stat1) }}{% else %}{{ stat1|replace(' ', '&nbsp;')|safe }}{% endif %}</div>
+        </div>
+        {% if stat2 %}
+          <div class="iati-data-card__stat">
+            <div class="iati-data-card__stat-label">{{ stattitle2 }}</div>
+            <div class="iati-data-card__stat-value">{{ stat2 }}</div>
           </div>
+        {% endif %}
       </div>
+      {% if folderextra %}
+        {% if graph %}
+          <div class="iati-data-card__graph">
+            <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate{{ folderextra }}-dated/{{ json }}"></canvas>
+          </div>
+        {% endif %}
+      {% else %}
+        {% if graph %}
+          <div class="iati-data-card__graph">
+            <canvas class="iati-data-card__sparkline" data-url="{{ stats_url }}/gitaggregate-dated/{{ json }}"></canvas>
+          </div>
+        {% endif %}
+      {% endif %}
+      {% if description %}
+        <div class="iati-data-card__caption">
+          {{ description|safe }}
+        </div>
+      {% endif %}
+      {% if buttonlink1 %}
+        <div class="iati-data-card__button">
+          <a href="{{ buttonlink1 }}" class="iati-button iati-button--submit">{{ buttontext1 }}</a>
+          {% if buttonlink2 %}
+            <a href="{{ buttonlink2 }}" class="iati-button iati-button--submit" style="margin-top:0.5rem;">{{ buttontext2 }}</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endmacro %}

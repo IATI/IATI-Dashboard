@@ -5,12 +5,13 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
 {% endblock %}
 {% block page_header %}
 <h1>Reporting Org: {{ publisher.human_readable_name }}</h1>
-<a href="https://d-portal.iatistandard.org/ctrack.html?reporting_ref={{ publisher.organisation_identifier }}">View on D-Portal</a>
-<br>
-<a href="https://validator.iatistandard.org/organisation/{{ publisher.short_name }}">View on IATI Validator</a>
-<br>
-<a href="/api/reporting-orgs/{{ publisher.short_name }}">View on the Dashboard API</a>
-<a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" class="iati-button iati-button--submit" style="float:right">Publisher Stats JSON</a>
+
+<p style="display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin:0;">
+  <span style="flex:999 1 auto;">
+    View on <a href="https://d-portal.iatistandard.org/ctrack.html?reporting_ref={{ publisher.organisation_identifier }}">D-Portal</a> | <a href="https://validator.iatistandard.org/organisation/{{ publisher.short_name }}">IATI Validator</a> | <a href="/api/reporting-orgs/{{ publisher.short_name }}">Dashboard API</a>
+  </span>
+  <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" class="iati-button iati-button--submit" style="flex:1 1 auto; text-align:center;">Publisher Stats JSON</a>
+</p>
 <p class="lead"></p>
 {% endblock %}
 
@@ -140,13 +141,107 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             </div>
 
             <div class="iati-masonry">
-                {{ boxes.box_h3('Activities', publisher.stats_json.activities, 'img/publishers/'+publisher.short_name+'_activities.png', publisher.short_name+'/activities.json', '', '-publisher') }} 
-                {{ boxes.box_h3('Activity Datasets', publisher.stats_json.activity_files, 'img/publishers/'+publisher.short_name+'_activity_files.png', publisher.short_name+'/activity_files.json', '', '-publisher') }}
-                {{ boxes.box_h3('Organisation Datasets', publisher.stats_json.organisation_files, 'img/publishers/'+publisher.short_name+'_organisation_files.png', publisher.short_name+'/organisation_files.json', '', '-publisher') }}
-                {{ boxes.box_h3('Datasets per version', '', 'img/publishers/'+publisher.short_name+'_versions.png', publisher.short_name+'/versions.json', 'img/publishers/'+publisher.short_name+'_versions_legend.png', '-publisher') }}
-                {{ boxes.box_h3('Total Dataset Size', publisher.stats_json.file_size|filesizeformat, 'img/publishers/'+publisher.short_name+'_file_size.png', publisher.short_name+'/file_size.json', '', '-publisher') }}
-                {{ boxes.box_h3('Datasets failing schema validation', publisher.stats_json.validation.get('fail',0), 'img/publishers/'+publisher.short_name+'_validation.png', publisher.short_name+'/validation.json', '', '-publisher') }}
-                {{ boxes.box_h3('Datasets where XML is not well-formed', publisher.stats_json.invalidxml, 'img/publishers/'+publisher.short_name+'_invalidxml.png', publisher.short_name+'/invalidxml.json', '', '-publisher') }}
+                {{ boxes.datacard_complete(
+                  'IATI Activities',
+                  '',
+                  publisher.stats_json.activities,
+                  '',
+                  'Total Activities',
+                  '',
+                  '-publisher',
+                  'y',
+                  publisher.short_name~'/activities.json',
+                  '',
+                  "https://d-portal.iatistandard.org/ctrack.html?reporting_ref="~publisher.organisation_identifier,
+                  'https://docs.datastore.iatistandard.org/en/latest/adv_search/',
+                  'See on D-Portal',
+                  'Search on Datastore'
+                ) }}
+
+                {{ boxes.datacard_complete(
+                'Organisation Datasets',
+                '',
+                publisher.stats_json.organisation_files,
+                '',
+                'Oranisation Datasets',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '#p_files',
+                '',
+                'See files',
+                ''
+              ) }}
+
+              {{ boxes.datacard_complete(
+                'Activity Datasets',
+                '',
+                publisher.stats_json.activity_files,
+                '',
+                'Activity Datasets',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '#p_files',
+                '',
+                'See files',
+                ''
+              ) }}
+
+              {{ boxes.datacard_complete(
+                'IATI Standard Versions',
+                'Number of files using each version of the IATI Standard',
+                publisher.stats_json.versions['2.03'],
+                publisher.stats_json.versions | sum_all_dict_values_except_key('2.03'),
+                'Latest (2.03)',
+                'Others',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                ''
+              ) }}
+
+              {{ boxes.datacard_complete(
+                'Validation',
+                'Datasets with validation issues',
+                publisher.stats_json.invalidxml,
+                '???',
+                'stattitle1',
+                'stattitle2',
+                '-publisher',
+                'y',
+                publisher.short_name~'/validation.json',
+                'Not well-formed XML',
+                'https://validator.iatistandard.org/organisation/'~publisher.short_name,
+                '',
+                'See on validator',
+                ''
+              ) }}
+
+              {{ boxes.datacard_complete(
+                'Dataset Size',
+                'Total size of all files published by this organsation',
+                publisher.stats_json.file_size|filesizeformat,
+                '',
+                'Total Dataset Size',
+                '',
+                '-publisher',
+                'y',
+                publisher.short_name~'/file_size.json',
+                '',
+                '',
+                '',
+                '',
+                ''
+              ) }}
             </div>
 
             <h2 id="h_errors">Errors</h2>
