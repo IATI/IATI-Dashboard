@@ -195,7 +195,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
               {{ boxes.datacard_complete(
                 'IATI Standard Versions',
                 'Number of files using each version of the IATI Standard',
-                publisher.stats_json.versions['2.03'],
+                publisher.stats_json.versions.get('2.03',0),
                 publisher.stats_json.versions | sum_all_dict_values_except_key('2.03'),
                 'Latest (2.03)',
                 'Others',
@@ -212,10 +212,10 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
               {{ boxes.datacard_complete(
                 'Validation',
                 'Datasets with validation issues',
+                publisher.stats_json.validation.get('fail',0),
                 publisher.stats_json.invalidxml,
-                '???',
-                'stattitle1',
-                'stattitle2',
+                'Datasets failing schema validation',
+                'Datasets where XML is not well-formed',
                 '-publisher',
                 'y',
                 publisher.short_name~'/validation.json',

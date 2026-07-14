@@ -62,10 +62,10 @@
           <div class="iati-data-card__stat-label">{{ stattitle1 }}</div>
           <div class="iati-data-card__stat-value">{% if stat1 is number %}{{ "{:,}".format(stat1) }}{% else %}{{ stat1|replace(' ', '&nbsp;')|safe }}{% endif %}</div>
         </div>
-        {% if stat2 %}
+        {% if stattitle2 %}
           <div class="iati-data-card__stat">
             <div class="iati-data-card__stat-label">{{ stattitle2 }}</div>
-            <div class="iati-data-card__stat-value">{{ stat2 }}</div>
+            <div class="iati-data-card__stat-value">{% if stat2 is number %}{{ "{:,}".format(stat2) }}{% else %}{{ stat2|replace(' ', '&nbsp;')|safe }}{% endif %}</div>
           </div>
         {% endif %}
       </div>
