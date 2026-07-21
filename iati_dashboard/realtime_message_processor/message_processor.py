@@ -32,6 +32,7 @@ class MessageProcessor:
         ]
         self._stop_event = asyncio.Event()
         self._sb_client = None
+        self._enable_reporting_org = args.get("ENABLE_REPORTING_ORG_REALTIME_UPDATES", False)
 
     def run(self):
         try:
@@ -133,6 +134,8 @@ class MessageProcessor:
             )
 
     def process_registry_reporting_org_created(self, message_payload: dict):
+        if not self._enable_reporting_org:
+            return
         if message_payload["reporting_org"]["visibility"] == "private":
             self.print_with_timestamp(
                 f"Ignoring reporting org with ID {message_payload["dataset"]["id"]} because "
@@ -215,6 +218,8 @@ class MessageProcessor:
             )
 
     def process_registry_reporting_org_updated(self, message_payload: dict):
+        if not self._enable_reporting_org:
+            return
         if message_payload["reporting_org"]["visibility"] == "private":
             return self.process_registry_record_deleted("reporting_org", message_payload)
         try:
