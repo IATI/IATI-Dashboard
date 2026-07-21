@@ -27,7 +27,7 @@ MESSAGE_PAYLOAD_DATASET_UPDATED_FIXTURE = {
         "short_name": "test_ro_1-d1renamed",
         "source_type": "primary_source",
         "licence_id": "cc-by",
-        "visibility": "private",
+        "visibility": "public",
         "url": "http://www.example.com/dataset",
         "last_url_update_date": "",
         "last_metadata_update_date": "",

@@ -106,6 +106,11 @@ class MessageProcessor:
             )
 
     def process_registry_dataset_created(self, message_payload: dict):
+        if message_payload["dataset"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Ignoring dataset with ID {message_payload["dataset"]["id"]} because " f"it is marked as private."
+            )
+            return
         try:
             dataset = Dataset(
                 id=message_payload["dataset"]["id"],
@@ -128,6 +133,12 @@ class MessageProcessor:
             )
 
     def process_registry_reporting_org_created(self, message_payload: dict):
+        if message_payload["reporting_org"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Ignoring reporting org with ID {message_payload["dataset"]["id"]} because "
+                f"it is marked as private."
+            )
+            return
         try:
             reporting_org = ReportingOrg(
                 id=message_payload["reporting_org"]["id"],
@@ -144,6 +155,11 @@ class MessageProcessor:
             )
 
     def process_registry_dataset_updated(self, message_payload: dict):
+        if message_payload["dataset"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Deleting with ID {message_payload["dataset"]["id"]} because " f"it is marked as private."
+            )
+            return self.process_registry_record_deleted("dataset", message_payload)
         metadata_json = message_payload["dataset"]
         try:
             dataset = Dataset.objects.get(id=metadata_json["id"])
@@ -199,6 +215,8 @@ class MessageProcessor:
             )
 
     def process_registry_reporting_org_updated(self, message_payload: dict):
+        if message_payload["reporting_org"]["visibility"] == "private":
+            return self.process_registry_record_deleted("reporting_org", message_payload)
         try:
             reporting_org = ReportingOrg.objects.get(id=message_payload["reporting_org"]["id"])
             reporting_org.short_name = message_payload["reporting_org"]["short_name"]
