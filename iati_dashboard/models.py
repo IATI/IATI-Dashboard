@@ -1,6 +1,7 @@
 import copy
 import json
 import uuid
+from datetime import datetime, timezone
 from enum import Enum
 
 from django.db import connection, models
@@ -53,6 +54,7 @@ class ReportingOrg(models.Model):
     human_readable_name = models.CharField()
 
     metadata_json = models.JSONField(default=dict)
+    metadata_json_datetime = models.DateTimeField(default=datetime(2000, 1, 1, 0, 0, 0, 0, timezone.utc))
     stats_json = models.JSONField(default=get_default_stats_json)
 
     has_future_transactions = models.IntegerField(default=0)
@@ -179,6 +181,7 @@ class Dataset(models.Model):
     most_recent_dataset_check_result = models.JSONField(default=dict)
 
     metadata_json = models.JSONField(default=dict)
+    metadata_json_datetime = models.DateTimeField(default=datetime(2000, 1, 1, 0, 0, 0, 0, timezone.utc))
     stats_json = models.JSONField(default=get_default_stats_json)
 
 

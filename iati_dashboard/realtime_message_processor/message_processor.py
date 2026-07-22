@@ -181,6 +181,8 @@ class MessageProcessor:
                 id=message_payload["dataset"]["id"],
                 short_name=message_payload["dataset"]["short_name"],
                 source_url=message_payload["dataset"]["url"],
+                metadata_json=message_payload["dataset"],
+                metadata_json_datetime=datetime.fromisoformat(message_payload["message_date"]),
                 reporting_org=ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"]),
             )
             dataset.save()
@@ -201,6 +203,8 @@ class MessageProcessor:
                 id=message_payload["reporting_org"]["id"],
                 short_name=message_payload["reporting_org"]["short_name"],
                 human_readable_name=message_payload["reporting_org"]["human_readable_name"],
+                metadata_json=message_payload["reporting_org"],
+                metadata_json_datetime=datetime.fromisoformat(message_payload["message_date"]),
             )
             reporting_org.save()
             self.print_success("created", "reporting_org", message_payload["reporting_org"])
@@ -212,8 +216,17 @@ class MessageProcessor:
     def process_registry_dataset_updated(self, message_payload: dict):
         try:
             dataset = Dataset.objects.get(id=message_payload["dataset"]["id"])
+            message_date = datetime.fromisoformat(message_payload["message_date"])
+            if dataset.metadata_json_datetime > message_date:
+                self.print_with_timestamp(
+                    f"Skipping dataset with ID {dataset.id} ({dataset.short_name}), because"
+                    f"it has been updated more recently than this message."
+                )
+                return
             dataset.short_name = message_payload["dataset"]["short_name"]
             dataset.source_url = message_payload["dataset"]["url"]
+            dataset.metadata_json = message_payload["dataset"]
+            dataset.metadata_json_datetime = message_date
             dataset.reporting_org = ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"])
             dataset.save()
             self.print_success("updated", "dataset", message_payload["dataset"])
@@ -237,6 +250,8 @@ class MessageProcessor:
         try:
             reporting_org = ReportingOrg.objects.get(id=message_payload["reporting_org"]["id"])
             reporting_org.short_name = message_payload["reporting_org"]["short_name"]
+            reporting_org.metadata_json = message_payload["reporting_org"]
+            reporting_org.metadata_json_datetime = datetime.fromisoformat(message_payload["message_date"])
             reporting_org.human_readable_name = message_payload["reporting_org"]["human_readable_name"]
             reporting_org.save()
             self.print_success("updated", "reporting_org", message_payload["reporting_org"])

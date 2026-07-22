@@ -48,6 +48,57 @@ def test_dashboard_import_metadata_datasets():
     assert d1_again.metadata_json["source_url"] == "http://example.com/3"
 
 
+@pytest.mark.django_db
+def test_dashboard_import_metadata_reporting_orgs_duplicate_short_name(settings):
+    """
+    This is the case where a reporting org short name appears in the database, and the metadata file being processed, with different IDs.
+    """
+
+    old_id1 = uuid.UUID("bd694e32-6ffe-43ef-9873-45f7afa6d739")
+    old_ro1 = models.ReportingOrg(id=old_id1, short_name="test_ro_1", stats_json={"test_key": "test_value"})
+    old_ro1.save()
+
+    call_command("dashboard_import_metadata", "iati_dashboard/tests/fixtures/metadata/")
+
+    new_id1 = uuid.UUID("297649cc-0933-4c74-8df7-9ac27e6f4680")
+    ids = set(models.ReportingOrg.objects.values_list("id", flat=True))
+    assert old_id1 not in ids
+    assert new_id1 in ids
+    new_ro1 = models.ReportingOrg.objects.get(short_name="test_ro_1")
+    assert new_ro1.id != old_id1
+    assert new_ro1.id == new_id1
+    # We don't expect the stats to persist when the ID has changed like this
+    assert new_ro1.stats_json.get("test_key") != "test_value"
+    assert new_ro1.metadata_json["hq_country"] == "ES"
+
+
+@pytest.mark.django_db
+def test_dashboard_import_metadata_datasets_duplicate_short_name(settings):
+    """
+    This is the case where a dataset short name appears in the database, and the metadata file being processed, with different IDs.
+    """
+
+    ro1 = models.ReportingOrg(uuid.UUID("297649cc-0933-4c74-8df7-9ac27e6f4680"), short_name="test_ro_1")
+    old_id1 = uuid.UUID("4dff1253-616d-47f8-9bf1-b6251efa3805")
+    old_d1 = models.Dataset(
+        id=old_id1, short_name="test_ro_1-d1", reporting_org=ro1, stats_json={"test_key": "test_value"}
+    )
+    old_d1.save()
+
+    call_command("dashboard_import_metadata", "iati_dashboard/tests/fixtures/metadata/")
+
+    new_id1 = uuid.UUID("e9f8b60d-dfdb-419b-9902-bb683287e49f")
+    ids = set(models.Dataset.objects.values_list("id", flat=True))
+    assert old_id1 not in ids
+    assert new_id1 in ids
+    new_d1 = models.Dataset.objects.get(short_name="test_ro_1-d1")
+    assert new_d1.id != old_id1
+    assert new_d1.id == new_id1
+    # We don't expect the stats to persist when the ID has changed like this
+    assert new_d1.stats_json.get("test_key") != "test_value"
+    assert new_d1.metadata_json["source_url"] == "http://example.com/3"
+
+
 def join_stats_path_fixture(p: str) -> str:
     return os.path.join("iati_dashboard/tests/fixtures/stats-calculated/", p)
 
