@@ -124,14 +124,14 @@ def test_dashboard_import_and_message_processor_metadata_json(tmpdir):
     # If we run metadata import with a latesr datetime than the message processor, we should get an update
     with open(tmpdir.join("metadata").join("datasets-full.json")) as fp:
         datasets_full = json.load(fp)
-        datasets_full["index_created"] = "2026-06-26 18:00:00+00:00"
+        datasets_full["index_created"] = "2026-06-26 19:00:00+00:00"
     with open(tmpdir.join("metadata").join("datasets-full.json"), "w") as fp:
         json.dump(datasets_full, fp)
     call_command("dashboard_import_metadata", tmpdir.join("metadata"))
     dataset = models.Dataset.objects.get(short_name="test_ro_1-d1")
     assert dataset.id == uuid.UUID("e9f8b60d-dfdb-419b-9902-bb683287e49f")
     assert dataset.licence_id == "cc-zero" and dataset.metadata_json["licence_id"] == "cc-zero"
-    assert dataset.metadata_json_datetime == datetime.datetime(2026, 6, 26, 18, 0, tzinfo=datetime.timezone.utc)
+    assert dataset.metadata_json_datetime == datetime.datetime(2026, 6, 26, 19, 0, tzinfo=datetime.timezone.utc)
     with pytest.raises(models.Dataset.DoesNotExist):
         models.Dataset.objects.get(short_name="test_ro_1-d1renamed")
 
@@ -200,13 +200,13 @@ def test_dashboard_import_and_message_processor_check_result(tmpdir):
     # If we run metadata import with a latesr datetime than the message processor, we should get an update
     with open(tmpdir.join("metadata").join("datasets-full.json")) as fp:
         datasets_full = json.load(fp)
-        datasets_full["index_created"] = "2026-06-26 18:00:00+00:00"
+        datasets_full["index_created"] = "2026-06-26 19:00:00+00:00"
     with open(tmpdir.join("metadata").join("datasets-full.json"), "w") as fp:
         json.dump(datasets_full, fp)
     call_command("dashboard_import_metadata", tmpdir.join("metadata"))
     dataset = models.Dataset.objects.get(short_name="test_ro_1-d1")
     assert dataset.id == uuid.UUID("e9f8b60d-dfdb-419b-9902-bb683287e49f")
     assert dataset.check_result_json["licence_id"] == "cc-zero"
-    assert dataset.check_result_json_datetime == datetime.datetime(2026, 6, 26, 18, 0, tzinfo=datetime.timezone.utc)
+    assert dataset.check_result_json_datetime == datetime.datetime(2026, 6, 26, 19, 0, tzinfo=datetime.timezone.utc)
     with pytest.raises(models.Dataset.DoesNotExist):
         models.Dataset.objects.get(short_name="test_ro_1-d1renamed")
