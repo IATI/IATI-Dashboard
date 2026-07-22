@@ -33,8 +33,12 @@ class MessageProcessor:
         self._stop_event = asyncio.Event()
         self._sb_client = None
         self._enable_reporting_org = args.get("ENABLE_REPORTING_ORG_REALTIME_UPDATES", False)
+        self._debug_messages_file_in = args.get("REALTIME_UPDATE_DEBUG_FILE_IN", None)
+        self._debug_messages_file_out = args.get("REALTIME_UPDATE_DEBUG_FILE_OUT", None)
 
     def run(self):
+        if self._debug_messages_file_in:
+            return self.process_messages_from_file()
         try:
             asyncio.run(self.service_loop())
         except KeyboardInterrupt:
@@ -81,7 +85,23 @@ class MessageProcessor:
             print(traceback.format_exc())
             sentry_sdk.capture_exception(e)
 
+    def process_messages_from_file(self):
+        """
+        Used for testing / debugging.
+        """
+        with open(self._debug_messages_file_in, "r") as fp:
+            for line in fp.readlines():
+                msg_dict = json.loads(line)
+                try:
+                    self.dispatch_event(msg_dict["message_type"], msg_dict)
+                except MessageProcessorRuntimeError as e:
+                    self.print_with_timestamp(e)
+
     def dispatch_event(self, message_type: str, message_payload: dict):
+        if self._debug_messages_file_out:
+            with open(self._debug_messages_file_out, "a") as fp:
+                fp.write(json.dumps(message_payload))
+                fp.write("\n")
         try:
             match message_type:
                 case "DATASET_CREATED":
