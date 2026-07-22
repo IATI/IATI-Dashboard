@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.db import transaction
 
 from ... import comprehensiveness, filepaths, forwardlooking, humanitarian, summary_stats, timeliness
 from ...data import (
@@ -35,7 +34,6 @@ def file_types(stats_json):
 
 
 class Command(BaseCommand):
-    @transaction.atomic
     def handle(self, *args, **options):
         for reporting_org_dict in metadata_reporting_orgs["reporting_orgs"]:
             stats_json = dict(get_publisher_stats(reporting_org_dict["short_name"]))

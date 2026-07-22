@@ -4,7 +4,6 @@ import os
 import uuid
 
 from django.core.management.base import BaseCommand
-from django.db import transaction
 
 from ... import filepaths
 from ...models import Dataset, ReportingOrg
@@ -14,7 +13,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("metadata_path", nargs="?")
 
-    @transaction.atomic
     def handle(self, *args, metadata_path=None, **options):
         if not metadata_path:
             metadata_path = filepaths.join_stats_path("current/bulk-data-service-metadata")
