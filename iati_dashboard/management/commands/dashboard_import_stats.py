@@ -92,8 +92,5 @@ class Command(BaseCommand):
             except Dataset.DoesNotExist:
                 print(f"Dataset {dataset_dict["id"]} ({dataset_dict["short_name"]}), not found")
                 continue
-            dataset.short_name = dataset_dict["short_name"]
-            dataset.source_url = dataset_dict["source_url"]
             dataset.stats_json = stats_json
-            dataset.metadata_json = dataset_dict
             dataset.save()

@@ -55,7 +55,7 @@ Dataset: {{ dataset.short_name }} {{ super() }}
             </tr>
             <tr>
                 <td colspan="1">Last update check</td>
-                <td colspan="3">{{ dataset.metadata_json.last_update_check }}</td>
+                <td colspan="3">{{ dataset.check_result_json.last_update_check }}</td>
             </tr>
             {% if dataset.check_result_json %}
             {% if dataset.check_result_json.last_known_good_dataset["downloaded"] %}

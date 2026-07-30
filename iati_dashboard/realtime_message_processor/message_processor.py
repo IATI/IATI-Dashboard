@@ -158,7 +158,7 @@ class MessageProcessor:
             return
         if message_payload["reporting_org"]["visibility"] == "private":
             self.print_with_timestamp(
-                f"Ignoring reporting org with ID {message_payload["dataset"]["id"]} because "
+                f"Ignoring reporting org with ID {message_payload["reporting_org"]["id"]} because "
                 f"it is marked as private."
             )
             return
@@ -262,6 +262,8 @@ class MessageProcessor:
             )
 
     def process_registry_record_deleted(self, record_type: str, message_payload: dict):
+        if record_type == "reporting_org" and not self._enable_reporting_org:
+            return
         Model = Dataset if record_type == "dataset" else ReportingOrg
         try:
             record = Model.objects.get(id=message_payload[record_type]["id"])
