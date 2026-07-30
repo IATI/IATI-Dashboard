@@ -125,7 +125,7 @@ PAGE_VIEW_NAMES = {
     "exploring_data": "dash-exploringdata",
     "faq": "dash-faq",
     "publishers": "dash-headlines-publishers",
-    "files": "dash-headlines-files",
+    "files": "dash-headlines-datasets",
     "activities": "dash-headlines-activities",
     "publisher": "dash-headlines-publisher-detail",
     "dataset": "dash-headlines-dataset-detail",
@@ -288,11 +288,6 @@ def headlines_activities(request):
     return HttpResponse(template.render(_make_context("activities"), request))
 
 
-def headlines_files(request):
-    template = loader.get_template("files.html")
-    return HttpResponse(template.render(_make_context("files"), request))
-
-
 def headlines_publisher_detail(request, publisher_short_name=None):
     try:
         publisher = models.ReportingOrg.objects.get(short_name=publisher_short_name)
@@ -378,6 +373,46 @@ def headlines_publisher_detail(request, publisher_short_name=None):
     except KeyError:
         raise Http404("Publisher does not exist")
 
+    return HttpResponse(template.render(context, request))
+
+
+def headlines_datasets(request):
+    datasets = models.Dataset.objects.select_related("reporting_org").only(
+        "id",
+        "short_name",
+        "source_url",
+        "activities",
+        "organisations",
+        "file_size",
+        "reporting_org_id",
+        "reporting_org__short_name",
+        "reporting_org__human_readable_name",
+    )
+    context = _make_context("files")
+    context["datasets"] = datasets
+    template = loader.get_template("files.html")
+    return HttpResponse(template.render(context, request))
+
+
+def debug(request):
+    datasets = (
+        models.Dataset.objects.select_related("reporting_org").only(
+            "id",
+            "short_name",
+            "source_url",
+            "activities",
+            "organisations",
+            "file_size",
+            "metadata_json_datetime",
+            "check_result_json_datetime",
+            "reporting_org_id",
+            "reporting_org__short_name",
+            "reporting_org__human_readable_name",
+        )
+    ).order_by("-metadata_json_datetime")
+    context = {}
+    context["datasets"] = datasets
+    template = loader.get_template("debug.html")
     return HttpResponse(template.render(context, request))
 
 

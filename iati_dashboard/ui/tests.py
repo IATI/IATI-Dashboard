@@ -1,4 +1,5 @@
 import datetime
+import importlib
 import uuid
 from pathlib import Path
 
@@ -6,6 +7,7 @@ from django.db import connections
 from django.test import TestCase
 from django.urls import reverse
 
+import iati_dashboard.data
 from iati_dashboard import models
 
 DATASET_ACTIVITY_STREAM_SQL = Path(__file__).resolve().parent.parent / "tests" / "sql" / "dataset_activity_stream.sql"
@@ -35,6 +37,8 @@ class BasicPageTests(TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
+        # We need to do this because data.py imports the stats JSON at import time
+        importlib.reload(iati_dashboard.data)
         super().setUpClass()
         _create_dataset_activity_stream_table()
 
@@ -101,7 +105,7 @@ class BasicPageTests(TestCase):
 
     def test_exploringdata(self):
         """Test the exploring data pages"""
-        self.assertEqual(self.client.get(reverse("dash-headlines-files")).status_code, 200)
+        self.assertEqual(self.client.get(reverse("dash-headlines-datasets")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-headlines-activities")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-booleans")).status_code, 200)
         self.assertEqual(self.client.get(reverse("dash-exploringdata-codelists")).status_code, 200)
@@ -260,7 +264,7 @@ class OriginalDashboardRedirectTests(TestCase):
             {
                 "index": "dash-index",
                 "headlines": "dash-index",
-                "files": "dash-headlines-files",
+                "files": "dash-headlines-datasets",
                 "activities": "dash-headlines-activities",
                 "publishers": "dash-headlines-publishers",
                 "faq": "dash-faq",

@@ -55,54 +55,55 @@ Dataset: {{ dataset.short_name }} {{ super() }}
             </tr>
             <tr>
                 <td colspan="1">Last update check</td>
-                <td colspan="3">{{ dataset.metadata_json.last_update_check }}</td>
+                <td colspan="3">{{ dataset.check_result_json.last_update_check }}</td>
             </tr>
-            
-            {% if dataset.metadata_json.last_known_good_dataset["downloaded"] %}
+            {% if dataset.check_result_json %}
+            {% if dataset.check_result_json.last_known_good_dataset["downloaded"] %}
                 <tr>
                     <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Last dataset successfully downloaded by the <a href="https://bulk-data.iatistandard.org/">Bulk Data Service</a></strong></td>
                     <td colspan="1">Cache URL</td>
-                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.cached_dataset_xml_url }}</td>
+                    <td colspan="2">{{ dataset.check_result_json.last_known_good_dataset.cached_dataset_xml_url }}</td>
                 </tr>
                 <tr>
                     <td colspan="1">Downloaded</td>
-                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.downloaded }}</td>
+                    <td colspan="2">{{ dataset.check_result_json.last_known_good_dataset.downloaded }}</td>
                 </tr>
                 <tr>
                     <td colspan="1">Verified on server</td>
-                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.verified_on_server }}</td>
+                    <td colspan="2">{{ dataset.check_result_json.last_known_good_dataset.verified_on_server }}</td>
                 </tr>
                 <tr>
                     <td colspan="1">Content length</td>
-                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.content_length }}</td>
+                    <td colspan="2">{{ dataset.check_result_json.last_known_good_dataset.content_length }}</td>
                 </tr>
                 <tr>
                     <td colspan="1">Hash</td>
-                    <td colspan="2">{{ dataset.metadata_json.last_known_good_dataset.hash_excluding_generated_timestamp }}</td>
+                    <td colspan="2">{{ dataset.check_result_json.last_known_good_dataset.hash_excluding_generated_timestamp }}</td>
                 </tr>
             {% endif %}
-            {% if dataset.metadata_json.most_recent_get_attempt.error_occurred %}
+            {% if dataset.check_result_json.most_recent_get_attempt.error_occurred %}
             <tr>
                 <td style="vertical-align: top"; colspan="1" rowspan="5"><strong>Most recent download attempt</strong></td>
                 <td colspan="1">Date</td>
-                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.datetime }}</td>
+                <td colspan="2">{{ dataset.check_result_json.most_recent_get_attempt.datetime }}</td>
             </tr>
             <tr>
                 <td colspan="1">Error type</td>
-                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["error_type"] }}</td>
+                <td colspan="2">{{ dataset.check_result_json.most_recent_get_attempt.error_details["error_type"] }}</td>
             </tr>
             <tr>
                 <td colspan="1">Summary error message</td>
-                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["summary_message"] }}</td>
+                <td colspan="2">{{ dataset.check_result_json.most_recent_get_attempt.error_details["summary_message"] }}</td>
             </tr>
             <tr>
                 <td colspan="1">HTTP status code</td>
-                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_status"] }}</td>
+                <td colspan="2">{{ dataset.check_result_json.most_recent_get_attempt.error_details["http_status"] }}</td>
             </tr>
             <tr>
                 <td colspan="1">HTTP reason</td>
-                <td colspan="2">{{ dataset.metadata_json.most_recent_get_attempt.error_details["http_reason"] }}</td>
+                <td colspan="2">{{ dataset.check_result_json.most_recent_get_attempt.error_details["http_reason"] }}</td>
             </tr>
+            {% endif %}
             {% endif %}
         </tbody>
       </table>

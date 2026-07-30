@@ -1,0 +1,11 @@
+{
+  "recipient_language": {
+    "test_ro_1": 0
+  },
+  "transaction_spend": {
+    "test_ro_1": 1
+  },
+  "transaction_traceability": {
+    "test_ro_1": 0
+  }
+}

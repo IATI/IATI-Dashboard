@@ -1,0 +1,13 @@
+{
+  "index_created": "2026-06-23 16:22:15+00:00",
+  "index_created_unix_timestamp": 1782231735,
+  "reporting_orgs": [
+    {
+      "id": "297649cc-0933-4c74-8df7-9ac27e6f4680",
+      "short_name": "test_ro_1",
+      "human_readable_name": "Test RO 1",
+      "organisation_type": "40",
+      "hq_country": "ES"
+    }
+  ]
+}

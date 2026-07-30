@@ -1,0 +1,14 @@
+{
+  ".//activity-date/@type": {
+    "1": 1
+  },
+  ".//activity-status/@code": {
+    "2": 1
+  },
+  ".//participating-org/@role": {
+    "1": 1
+  },
+  ".//reporting-org/@type": {
+    "40": 1
+  }
+}

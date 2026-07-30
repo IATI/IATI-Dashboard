@@ -44,7 +44,8 @@ jobs:
       run: |
         python manage.py collectstatic
         python manage.py migrate
-        python manage.py dashboard_import
+        python manage.py dashboard_import_metadata
+        python manage.py dashboard_import_stats
         mkdir iati_dashboard/fixtures/
         python manage.py dumpdata iati_dashboard.ReportingOrg > iati_dashboard/fixtures/reporting_orgs.json
         python manage.py dumpdata iati_dashboard.Dataset > iati_dashboard/fixtures/datasets.json
