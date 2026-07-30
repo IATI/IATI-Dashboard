@@ -180,7 +180,7 @@ class MessageProcessor:
     def process_registry_dataset_updated(self, message_payload: dict):
         if message_payload["dataset"]["visibility"] == "private":
             self.print_with_timestamp(
-                f"Deleting with ID {message_payload["dataset"]["id"]} because " f"it is marked as private."
+                f"Deleting with ID {message_payload["dataset"]["id"]} because it is marked as private."
             )
             return self.process_registry_record_deleted("dataset", message_payload)
         metadata_json = message_payload["dataset"]
