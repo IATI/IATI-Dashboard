@@ -41,6 +41,7 @@ def linkurl(url, link_text=None):
     else:
         return link_text or url
 
+
 def sum_all_dict_values_except_key(a_dict, except_key):
     return sum(value for (key, value) in a_dict.items() if key != except_key)
 
