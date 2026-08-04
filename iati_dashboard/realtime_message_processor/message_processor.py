@@ -62,18 +62,18 @@ class MessageProcessor:
                 async with receiver:
                     received_msgs = await receiver.receive_messages(max_wait_time=1, max_message_count=250)
                     for msg in received_msgs:
-                        if not msg.application_properties:
-                            self.print_with_timestamp(
-                                "MessageProcessor.fetch_and_process_messages - skipping msg because it has no application_properties"
-                            )
-                            await receiver.complete_message(msg)
-                            continue
                         try:
                             await sync_to_async(self.dispatch_event, thread_sensitive=True)(
                                 msg.application_properties[b"message_type"].decode("utf-8"), json.loads(str(msg))
                             )
                         except MessageProcessorRuntimeError as e:
                             self.print_with_timestamp(e)
+                        except Exception as e:
+                            self.print_with_timestamp(
+                                f"MessageProcessor.fetch_and_process_messages - Unexpected Error - {e}"
+                            )
+                            print(traceback.format_exc())
+                            sentry_sdk.capture_exception(e)
                         await receiver.complete_message(msg)
         except ServiceBusConnectionError as e:
             self.print_with_timestamp(

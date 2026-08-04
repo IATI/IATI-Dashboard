@@ -1,4 +1,5 @@
 import datetime
+import unittest.mock
 
 import pytest
 
@@ -181,3 +182,56 @@ def test_dataset_deleted():
     message_processor.dispatch_event("DATASET_DELETED", message_payload)
 
     assert models.Dataset.objects.count() == 0
+
+
+@pytest.mark.asyncio
+async def test_errors_messages(capsys):
+    message_processor = MessageProcessor(MESSAGE_PROCESSOR_CONFIG_FIXTURE)
+    # This is None as it hasn't been set up properly, so should cause an error
+    assert message_processor._sb_client is None
+    await message_processor.fetch_and_process_messages()
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert "AttributeError: 'NoneType' object has no attribute 'get_subscription_receiver'" in captured.out
+
+
+@pytest.mark.asyncio
+async def test_process_messages(capsys):
+    message_processor = MessageProcessor(MESSAGE_PROCESSOR_CONFIG_FIXTURE)
+    message_processor._sb_client = unittest.mock.Mock()
+    receiver = unittest.mock.AsyncMock()
+    message_processor._sb_client.get_subscription_receiver.return_value = receiver
+    message_processor.dispatch_event = unittest.mock.Mock()
+    msg = unittest.mock.MagicMock()
+    msg.__str__.return_value = "{}"
+
+    receiver.receive_messages.return_value = []
+    await message_processor.fetch_and_process_messages()
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert "Error" not in captured.out
+
+    receiver.receive_messages.return_value = [msg]
+    await message_processor.fetch_and_process_messages()
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert "Error" not in captured.out
+    message_processor.dispatch_event.assert_called()
+    message_processor.dispatch_event.reset_mock()
+
+    receiver.receive_messages.return_value = [None]
+    await message_processor.fetch_and_process_messages()
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert "AttributeError: 'NoneType' object has no attribute 'application_properties'" in captured.out
+    message_processor.dispatch_event.assert_not_called()
+    message_processor.dispatch_event.reset_mock()
+
+    # Test that the second msg is processed, even thought the first one fails
+    receiver.receive_messages.return_value = [None, msg]
+    await message_processor.fetch_and_process_messages()
+    captured = capsys.readouterr()
+    assert captured.err == ""
+    assert "AttributeError: 'NoneType' object has no attribute 'application_properties'" in captured.out
+    message_processor.dispatch_event.assert_called()
+    message_processor.dispatch_event.reset_mock()
