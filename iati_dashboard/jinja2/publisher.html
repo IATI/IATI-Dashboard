@@ -10,7 +10,7 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
   <span style="flex:999 1 auto;">
     View on <a href="https://d-portal.iatistandard.org/ctrack.html?reporting_ref={{ publisher.organisation_identifier }}">D-Portal</a> | <a href="https://validator.iatistandard.org/organisation/{{ publisher.short_name }}">IATI Validator</a> | <a href="/api/reporting-orgs/{{ publisher.short_name }}">Dashboard API</a>
   </span>
-  <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" class="iati-button iati-button--submit" style="flex:1 1 auto; text-align:center;">Publisher Stats JSON</a>
+  <a href="{{ stats_url }}/current/aggregated-publisher/{{ publisher.short_name }}/" class="iati-button iati-button--submit" style="flex:1 1 auto; text-align:center;">Reporting Org Stats JSON</a>
 </p>
 <p class="lead"></p>
 {% endblock %}
