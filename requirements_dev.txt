@@ -168,7 +168,7 @@ pathspec==1.1.1
     # via black
 pdbpp==0.12.1
     # via -r requirements_dev.in
-pillow==12.2.0
+pillow==12.3.0
     # via
     #   -r requirements.txt
     #   matplotlib

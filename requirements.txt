@@ -80,7 +80,7 @@ packaging==26.2
     # via
     #   gunicorn
     #   matplotlib
-pillow==12.2.0
+pillow==12.3.0
     # via matplotlib
 psycopg==3.3.4
     # via -r requirements.in
