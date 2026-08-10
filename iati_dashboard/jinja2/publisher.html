@@ -247,6 +247,9 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
             <h2 id="h_errors">Errors</h2>
 
             {% set data_quality_issue = false %}
+            {% set validation__fail_list = publisher.filtered_datasets_by("validation__fail") %}
+            {% set invalidxml_list = publisher.filtered_datasets_by("invalidxml") %}
+            {% set nonstandardroots_list = publisher.filtered_datasets_by("nonstandardroots") %}
 
             <div class="row">
 
@@ -613,15 +616,12 @@ Reporting Org: {{ publisher.human_readable_name }} {{ super() }}
                 <ul id="iati-jump-menu-items" class="iati-jump-menu__items js-jump-menu-items" aria-hidden="true">
                     <li class="iati-jump-menu__item"><a class="iati-jump-menu__link" href="#h_headlines">Headlines</a>
                     <li class="iati-jump-menu__item"><a class="iati-jump-menu__link" href="#h_errors">Errors</a>
-                    {% set validation__fail_list = publisher.filtered_datasets_by("validation__fail") %}
                     {% if validation__fail_list %}
                     <li class="iati-jump-menu__subitem"><a class="iati-jump-menu__sublink" href="#p_validation">Datasets Failing Schema Validation</a></li>
                     {% endif %}
-                    {% set invalidxml_list = publisher.filtered_datasets_by("invalidxml") %}
                     {% if invalidxml_list %}
                     <li class="iati-jump-menu__subitem"><a class="iati-jump-menu__sublink" href="#p_invalid">Datasets where XML is not well-formed</a></li>
                     {% endif %}
-                    {% set nonstandardroots_list = publisher.filtered_datasets_by("nonstandardroots") %}
                     {% if nonstandardroots_list %}
                     <li class="iati-jump-menu__subitem"><a class="iati-jump-menu__sublink" href="#p_nonstandardroots">Datasets with non-standard roots</a></li>
                     {% endif %}
