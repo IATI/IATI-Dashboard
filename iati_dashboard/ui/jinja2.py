@@ -36,7 +36,7 @@ def xpath_to_url(path):
 
 
 def linkurl(url, link_text=None):
-    if url.startswith("https://") or url.startswith("https://"):
+    if url.startswith("http://") or url.startswith("https://"):
         return format_html('<a href="{}" rel="noopener">{}</a>', url, link_text or url)
     else:
         return link_text or url
