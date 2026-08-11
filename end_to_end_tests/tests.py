@@ -88,11 +88,16 @@ def test_reporting_orgs(selenium):
     assert recipient_countries_cell.text == "1"
     href = recipient_countries_cell.find_element("tag name", "a").get_attribute("href")
     assert href.endswith("/publishers/in_ao_1/#p_countries")
+
     selenium.get(href)
+
     recipient_countries_panel = selenium.find_element("css selector", "#p_countries")
     assert "Recipient Countries" in recipient_countries_panel.text
     assert "AO" in recipient_countries_panel.text
     assert "Angola" in recipient_countries_panel.text
+
+    source_url_1 = selenium.find_element("link text", "Source Url")
+    assert source_url_1.get_attribute("href") == "http://example.com/1"
 
 
 def test_reporting_orgs_filter(selenium):
