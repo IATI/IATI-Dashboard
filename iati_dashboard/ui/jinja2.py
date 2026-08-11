@@ -42,6 +42,10 @@ def linkurl(url, link_text=None):
         return link_text or url
 
 
+def sum_all_dict_values_except_key(a_dict, except_key):
+    return sum(value for (key, value) in a_dict.items() if key != except_key)
+
+
 def environment(**options):
     env = Environment(**options)
     env.globals.update(
@@ -55,4 +59,5 @@ def environment(**options):
     env.filters["xpath_to_url"] = xpath_to_url
     env.filters["round_nicely"] = round_nicely
     env.filters["linkurl"] = linkurl
+    env.filters["sum_all_dict_values_except_key"] = sum_all_dict_values_except_key
     return env
