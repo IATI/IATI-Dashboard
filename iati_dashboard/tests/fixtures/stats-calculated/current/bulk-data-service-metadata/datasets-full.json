@@ -1,0 +1,13 @@
+{
+  "index_created": "2026-06-23 16:22:15+00:00",
+  "index_created_unix_timestamp": 1782231735,
+  "datasets": [
+    {
+      "id": "24d5d96c-8b36-482e-9c1a-d6ffeb46f9b2",
+      "short_name": "test_ro_1-valid_activity",
+      "reporting_org_short_name": "test_ro_1",
+      "source_url": "http://example.com/5",
+      "licence_id": "cc-zero"
+    }
+  ]
+}

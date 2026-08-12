@@ -18,7 +18,7 @@ page_titles = {
     "exploring_data": "Exploring Data",
     "faq": "Frequently Asked Questions",
     "publishers": "IATI Reporting Orgs",
-    "files": "IATI Files",
+    "files": "IATI Datasets",
     "activities": "IATI Activities",
     "download": "Download Errors",
     "xml": "XML Errors",
@@ -26,7 +26,7 @@ page_titles = {
     "versions": "Versions",
     "rulesets": "Rulesets",
     "licenses": "Licenses",
-    "organisation": "Organisation XML Files",
+    "organisation": "Organisation XML Datasets",
     "identifiers": "Duplicate Activity Identifiers",
     "registration_agencies": "Registration Agencies",
     "reporting_orgs": "Reporting Org Identifier Inconsistencies",
@@ -74,12 +74,12 @@ page_leads = {
 }
 page_sub_leads = {
     "publishers": "Reporting Orgs that have registered data files.",
-    "files": "Files are registered with IATI by reporting orgs. The files contain data on activities and the organisation.  A reporting org may have multiple files, which can contain multiple activities.",
+    "files": "Datasets are registered with IATI by reporting orgs. The files contain data on activities and the organisation.  A reporting org may have multiple files, which can contain multiple activities.",
     "activities": "Activities are the individual projects found in files.  A file can contain one or many activities, from a reporting org.",
-    "download": "Files that failed to download, when accessed via the registered URL. Note: This may because when requesting the URL the reporting org's server returns an error message (e.g. because there is no file at that location). Some files that failed to download when last checked may since have become available.",
+    "download": "Datasets that failed to download, when accessed via the registered URL. Note: This may because when requesting the URL the reporting org's server returns an error message (e.g. because there is no file at that location). Some files that failed to download when last checked may since have become available.",
     "xml": "This page shows files that are not well-formed XML.",
     "validation": 'IATI files are validated against the appropriate <a href="https://iatistandard.org/schema/">IATI Schema</a>. Note: this is based on the version declared in the file and whether it\'s an activity/organisation file.',
-    "versions": "Files are reported against a specific version of the IATI Standard, using the <code class='iati-code'>version</code> attribute in the <code class='iati-code'>iati-activities</code> element.",
+    "versions": "Datasets are reported against a specific version of the IATI Standard, using the <code class='iati-code'>version</code> attribute in the <code class='iati-code'>iati-activities</code> element.",
     "rulesets": "The IATI Ruleset describe constraints, conditions and logics that are additional to the IATI schema. Note: Currently, on the IATI Standard Ruleset is tested.",
     "licenses": "Licences are applied to files by reporting orgs through registration, and explain how data can be used.",
     "organisation": "Checking for files that have <code class='iati-code'>iati-organisations</code> as the root element. IATI Organisation files contain general information about the organisations in the delivery chain.",
@@ -94,7 +94,7 @@ short_page_titles = copy.copy(page_titles)
 short_page_titles.update(
     {
         "publishers": "Reporting Orgs",
-        "files": "Files",
+        "files": "Datasets",
         "activities": "Activities",
         "validation": "Schema Validation",
         "licenses": "Licenses",

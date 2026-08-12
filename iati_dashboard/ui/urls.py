@@ -26,6 +26,7 @@ urlpatterns = (
     [
         # Top level dashboard pages.
         path("", views.index, name="dash-index"),
+        path("debug/", views.debug),
         path("publishers/", views.headlines_publishers, name="dash-headlines-publishers"),
         path(
             "publishers/<slug:publisher_short_name>/",
@@ -54,7 +55,7 @@ urlpatterns = (
         path("errors/identifiers/", views.errors_identifiers, name="dash-identifiers"),
         path("errors/reporting-orgs/", views.errors_reportingorgs, name="dash-errors-reportingorgs"),
         # Exploring data pages.
-        path("exploring-data/files/", views.headlines_files, name="dash-headlines-files"),
+        path("exploring-data/files/", views.headlines_datasets, name="dash-headlines-datasets"),
         path("exploring-data/activities/", views.headlines_activities, name="dash-headlines-activities"),
         path("exploring-data/elements/", views.exploringdata_elements, name="dash-exploringdata-elements"),
         path(
@@ -176,7 +177,7 @@ urlpatterns = (
         path(
             "humanitarian.html", RedirectView.as_view(pattern_name="dash-publishingstats-humanitarian", permanent=True)
         ),
-        path("files.html", RedirectView.as_view(pattern_name="dash-headlines-files", permanent=True)),
+        path("files.html", RedirectView.as_view(pattern_name="dash-headlines-datasets", permanent=True)),
         path("activities.html", RedirectView.as_view(pattern_name="dash-headlines-activities", permanent=True)),
         path("download.html", RedirectView.as_view(pattern_name="dash-errors-download", permanent=True)),
         path("xml.html", RedirectView.as_view(pattern_name="dash-errors-xml", permanent=True)),

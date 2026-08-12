@@ -2,18 +2,18 @@
 {% import '_partials/boxes.html' as boxes with context %}
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Total activity files', current_stats.aggregated.activity_files, 'img/aggregate/activity_files.png', 'activity_files.json',
-        description='Count of total number of activity files over time.') }}
-      {{ boxes.box_h2('Total organisation files', current_stats.aggregated.organisation_files, 'img/aggregate/organisation_files.png', 'organisation_files.json',
+      {{ boxes.box_h2('Total activity datasets', current_stats.aggregated.activity_files, 'img/aggregate/activity_files.png', 'activity_files.json',
+        description='Count of total number of activity datasets over time.') }}
+      {{ boxes.box_h2('Total organisation datasets', current_stats.aggregated.organisation_files, 'img/aggregate/organisation_files.png', 'organisation_files.json',
         description='Count of total number of organisation files, over time.') }}
     </div>
     <div class="row">
-      {{ boxes.box_h2('Total File Size', current_stats.aggregated.file_size|filesizeformat, 'img/aggregate/file_size.png', 'file_size.json') }}
+      {{ boxes.box_h2('Total Dataset Size', current_stats.aggregated.file_size|filesizeformat, 'img/aggregate/file_size.png', 'file_size.json') }}
       <div class="col-md-6">
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading clearfix">
             <a href="{{ stats_url }}/current/aggregated/file_size_bins.json" class="dashboard-panel-heading__title light float-end">(J)</a>
-            <h2 class="dashboard-panel-heading__title float-start">File Sizes</h2>
+            <h2 class="dashboard-panel-heading__title float-start">Dataset Sizes</h2>
           </div>
           <div class="dashboard-panel-body">
             <div class="iati-table">
@@ -38,7 +38,7 @@
         <div class="dashboard-panel">
           <div class="dashboard-panel-heading">
             <h2 class="dashboard-panel-heading__title">
-              Total file size by publisher
+              Total datasets size by publisher
             </h2>
           </div>
           <div class="dashboard-panel-body">
@@ -48,21 +48,20 @@
                 <thead>
                     <tr>
                         <th>Publisher</th>
-                        <th>Package</th>
+                        <th>Dataset</th>
                         <th>Activities <a href="{{ stats_url }}/current/inverted-file/activities.json">(J)</a></th>
                         <th>Organisations <a href="{{ stats_url }}/current/inverted-file/organisations.json">(J)</a></th>
-                        <th>File Size <a href="{{ stats_url }}/current/inverted-file/file_size.json">(J)</a></th>
+                        <th>Dataset Size <a href="{{ stats_url }}/current/inverted-file/file_size.json">(J)</a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for package, activities in current_stats.inverted_file.activities.items() %}
+                    {% for dataset in datasets %}
                     <tr>
-                        {% set publisher=func.dataset_to_publisher(package) %}
-                        <td class="break"><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher_name[func.dataset_to_publisher(package)] }}</a></td>
-                        <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[package]) }}">{{ package }}</a></td>
-                        <td>{{ activities }}</td>
-                        <td>{{ current_stats.inverted_file.organisations.get(package) }}</td>
-                        <td data-bytes="{{ current_stats.inverted_file.file_size.get(package) }}">{{ current_stats.inverted_file.file_size.get(package)|filesizeformat }}</td>
+                        <td class="break"><a href="{{ url("dash-headlines-publisher-detail", args=[dataset.reporting_org.short_name]) }}">{{ dataset.reporting_org.human_readable_name }}</a></td>
+                        <td class="break"><a href="{{ url('dash-headlines-dataset-detail', args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
+                        <td>{{ dataset.activities }}</td>
+                        <td>{{ dataset.organisations }}</td>
+                        <td data-bytes="{{ dataset.file_size }}">{{ dataset.file_size|filesizeformat }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

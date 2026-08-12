@@ -1,0 +1,20 @@
+{
+  "iati-activity": 1,
+  "iati-activity/activity-date": 1,
+  "iati-activity/activity-date/@iso-date": 1,
+  "iati-activity/activity-date/@type": 1,
+  "iati-activity/activity-status": 1,
+  "iati-activity/activity-status/@code": 1,
+  "iati-activity/description": 1,
+  "iati-activity/description/narrative": 1,
+  "iati-activity/iati-identifier": 1,
+  "iati-activity/participating-org": 1,
+  "iati-activity/participating-org/@ref": 1,
+  "iati-activity/participating-org/@role": 1,
+  "iati-activity/reporting-org": 1,
+  "iati-activity/reporting-org/@ref": 1,
+  "iati-activity/reporting-org/@type": 1,
+  "iati-activity/reporting-org/narrative": 1,
+  "iati-activity/title": 1,
+  "iati-activity/title/narrative": 1
+}

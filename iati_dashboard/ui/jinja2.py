@@ -25,11 +25,11 @@ def xpath_to_url(path):
     # remove conditions
     path = re.sub(r"\[[^]]+\]", "", path)
     if path.startswith("iati-activity"):
-        url = "http://iatistandard.org/activity-standard/iati-activities/" + path.split("@")[0]
+        url = "https://iatistandard.org/activity-standard/iati-activities/" + path.split("@")[0]
     elif path.startswith("iati-organisation"):
-        url = "http://iatistandard.org/organisation-standard/iati-organisations/" + path.split("@")[0]
+        url = "https://iatistandard.org/organisation-standard/iati-organisations/" + path.split("@")[0]
     else:
-        url = "http://iatistandard.org/activity-standard/iati-activities/iati-activity/" + path.split("@")[0]
+        url = "https://iatistandard.org/activity-standard/iati-activities/iati-activity/" + path.split("@")[0]
     if "@" in path:
         url += "#attributes"
     return url
@@ -40,6 +40,10 @@ def linkurl(url, link_text=None):
         return format_html('<a href="{}" rel="noopener">{}</a>', url, link_text or url)
     else:
         return link_text or url
+
+
+def sum_all_dict_values_except_key(a_dict, except_key):
+    return sum(value for (key, value) in a_dict.items() if key != except_key)
 
 
 def environment(**options):
@@ -55,4 +59,5 @@ def environment(**options):
     env.filters["xpath_to_url"] = xpath_to_url
     env.filters["round_nicely"] = round_nicely
     env.filters["linkurl"] = linkurl
+    env.filters["sum_all_dict_values_except_key"] = sum_all_dict_values_except_key
     return env

@@ -3,17 +3,15 @@ import json
 import traceback
 from datetime import datetime, timezone
 
+import sentry_sdk
 from asgiref.sync import sync_to_async
 from azure.servicebus.aio import ServiceBusClient
 from azure.servicebus.exceptions import ServiceBusConnectionError
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import DateTimeField, Q, TextField
-from django.db.models.functions import Cast
 from django.db.utils import IntegrityError
 
-from ..models import Dataset, DatasetEvent, DatasetEventTypes, ReportingOrg
+from ..models import Dataset, ReportingOrg
 from .message_processor_error import MessageProcessorRuntimeError
-from .utilities import get_datetime_with_tz
 
 
 class MessageProcessor:
@@ -34,8 +32,13 @@ class MessageProcessor:
         ]
         self._stop_event = asyncio.Event()
         self._sb_client = None
+        self._enable_reporting_org = args.get("ENABLE_REPORTING_ORG_REALTIME_UPDATES", False)
+        self._debug_messages_file_in = args.get("REALTIME_UPDATE_DEBUG_FILE_IN", None)
+        self._debug_messages_file_out = args.get("REALTIME_UPDATE_DEBUG_FILE_OUT", None)
 
     def run(self):
+        if self._debug_messages_file_in:
+            return self.process_messages_from_file()
         try:
             asyncio.run(self.service_loop())
         except KeyboardInterrupt:
@@ -65,6 +68,12 @@ class MessageProcessor:
                             )
                         except MessageProcessorRuntimeError as e:
                             self.print_with_timestamp(e)
+                        except Exception as e:
+                            self.print_with_timestamp(
+                                f"MessageProcessor.fetch_and_process_messages - Unexpected Error - {e}"
+                            )
+                            print(traceback.format_exc())
+                            sentry_sdk.capture_exception(e)
                         await receiver.complete_message(msg)
         except ServiceBusConnectionError as e:
             self.print_with_timestamp(
@@ -74,8 +83,25 @@ class MessageProcessor:
         except Exception as e:
             self.print_with_timestamp(f"MessageProcessor.fetch_and_process_messages - Unexpected Error - {e}")
             print(traceback.format_exc())
+            sentry_sdk.capture_exception(e)
+
+    def process_messages_from_file(self):
+        """
+        Used for testing / debugging.
+        """
+        with open(self._debug_messages_file_in, "r") as fp:
+            for line in fp.readlines():
+                msg_dict = json.loads(line)
+                try:
+                    self.dispatch_event(msg_dict["message_type"], msg_dict)
+                except MessageProcessorRuntimeError as e:
+                    self.print_with_timestamp(e)
 
     def dispatch_event(self, message_type: str, message_payload: dict):
+        if self._debug_messages_file_out:
+            with open(self._debug_messages_file_out, "a") as fp:
+                fp.write(json.dumps(message_payload))
+                fp.write("\n")
         try:
             match message_type:
                 case "DATASET_CREATED":
@@ -90,7 +116,7 @@ class MessageProcessor:
                     record_type = "dataset" if message_type == "DATASET_DELETED" else "reporting_org"
                     self.process_registry_record_deleted(record_type, message_payload)
                 case "DATASET_CHECK_RESULT":
-                    self.process_bulk_data_service_dataset_check_result(message_payload)
+                    self.process_dataset_check_result_updated(message_payload)
                 case _:
                     print("Received unknown message type: ")
                     print(json.dumps(message_payload))
@@ -100,80 +126,19 @@ class MessageProcessor:
                 f"Received message likely not in correct format. {traceback.format_exc()}"
             )
 
-    def process_bulk_data_service_dataset_check_result(self, message_payload: dict):
-
-        dataset_check_result_current = message_payload["dataset_check_result_current"]
-        dataset_check_result_previous = message_payload.get("dataset_check_result_previous", None)
-
-        self.update_most_recent_dataset_check_field(dataset_check_result_current)
-
-        if (dataset_check_result_previous is not None) and (
-            dataset_check_result_current.get("last_known_good_dataset", {}).get("hash", "")
-            != dataset_check_result_previous.get("last_known_good_dataset", {}).get("hash", "")
-            or dataset_check_result_current["most_recent_get_attempt"]["error_occurred"]
-            != dataset_check_result_previous["most_recent_get_attempt"]["error_occurred"]
-            or dataset_check_result_current["most_recent_get_attempt"]["http_status"]
-            != dataset_check_result_previous["most_recent_get_attempt"]["http_status"]
-        ):
-            self.save_dataset_check_result_change_event(message_payload)
-            self.print_with_timestamp(
-                f"dataset id: {dataset_check_result_current["id"]} - Saved new DatasetEvent as hash or download "
-                "status has changed"
-            )
-
-    def save_dataset_check_result_change_event(self, message_payload: dict):
-        dataset_event = DatasetEvent()
-        dataset_event.timestamp = get_datetime_with_tz(message_payload["message_date"])
-        dataset_event.dataset_id = message_payload["dataset_check_result_current"]["id"]
-        dataset_event.reporting_org_id = message_payload["dataset_check_result_current"]["id"]
-        dataset_event.initiating_user_id = None
-        dataset_event.initiating_user_name = None
-        dataset_event.initiating_organisation_id = None
-        dataset_event.initiating_organisation_name = None
-        dataset_event.initiating_application_id = "5bb64df4-84e1-4d44-8071-e1c396ba950a"
-        dataset_event.initiating_application_name = "Bulk Data Service"
-        dataset_event.event_type = DatasetEventTypes.DATASET_DOWNLOAD_STATUS_CHANGED
-        dataset_event.message_payload = message_payload
-        dataset_event.data_fields_current = message_payload["dataset_check_result_current"]
-        dataset_event.data_fields_previous = message_payload["dataset_check_result_previous"]
-        dataset_event.save()
-
-    def update_most_recent_dataset_check_field(self, dataset_check_result: dict):
-        if Dataset.objects.filter(pk=dataset_check_result["id"]).exists():
-
-            q = Dataset.objects.annotate(
-                _=Cast("most_recent_dataset_check_result__last_update_check", TextField())
-            ).annotate(last_update_check=Cast("_", DateTimeField()))
-
-            num_matched = q.filter(
-                Q(pk=dataset_check_result["id"]),
-                Q(last_update_check__isnull=True)
-                | Q(last_update_check__lte=get_datetime_with_tz(dataset_check_result["last_update_check"])),
-            ).update(most_recent_dataset_check_result=dataset_check_result)
-
-            if num_matched == 1:
-                self.print_with_timestamp(
-                    f"dataset id: {dataset_check_result["id"]} - Updated record with new dataset check result"
-                )
-            else:
-                self.print_with_timestamp(
-                    f"dataset id: {dataset_check_result["id"]} - Skipped updating record with dataset check "
-                    "because the dataset check result's 'last_update_check' field is not newer than existing record"
-                )
-
-        else:
-            self.print_with_timestamp(
-                f"dataset id: {dataset_check_result["id"]} - Failed to update with new dataset check result "
-                "because dataset does not exist in the database."
-            )
-
     def process_registry_dataset_created(self, message_payload: dict):
+        if message_payload["dataset"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Ignoring dataset with ID {message_payload["dataset"]["id"]} because " f"it is marked as private."
+            )
+            return
         try:
             dataset = Dataset(
                 id=message_payload["dataset"]["id"],
                 short_name=message_payload["dataset"]["short_name"],
                 source_url=message_payload["dataset"]["url"],
-                stats_json={},
+                metadata_json=message_payload["dataset"],
+                metadata_json_datetime=datetime.fromisoformat(message_payload["message_date"]),
                 reporting_org=ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"]),
             )
             dataset.save()
@@ -189,12 +154,21 @@ class MessageProcessor:
             )
 
     def process_registry_reporting_org_created(self, message_payload: dict):
+        if not self._enable_reporting_org:
+            return
+        if message_payload["reporting_org"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Ignoring reporting org with ID {message_payload["reporting_org"]["id"]} because "
+                f"it is marked as private."
+            )
+            return
         try:
             reporting_org = ReportingOrg(
                 id=message_payload["reporting_org"]["id"],
                 short_name=message_payload["reporting_org"]["short_name"],
                 human_readable_name=message_payload["reporting_org"]["human_readable_name"],
-                stats_json={"activity_files": 0, "organisation_files": 0},
+                metadata_json=message_payload["reporting_org"],
+                metadata_json_datetime=datetime.fromisoformat(message_payload["message_date"]),
             )
             reporting_org.save()
             self.print_success("created", "reporting_org", message_payload["reporting_org"])
@@ -204,33 +178,75 @@ class MessageProcessor:
             )
 
     def process_registry_dataset_updated(self, message_payload: dict):
+        if message_payload["dataset"]["visibility"] == "private":
+            self.print_with_timestamp(
+                f"Deleting with ID {message_payload["dataset"]["id"]} because it is marked as private."
+            )
+            return self.process_registry_record_deleted("dataset", message_payload)
+        metadata_json = message_payload["dataset"]
         try:
-            dataset = Dataset.objects.get(id=message_payload["dataset"]["id"])
-            dataset.short_name = message_payload["dataset"]["short_name"]
-            dataset.source_url = message_payload["dataset"]["url"]
-            dataset.reporting_org = ReportingOrg.objects.get(id=message_payload["dataset"]["reporting_org_id"])
+            dataset = Dataset.objects.get(id=metadata_json["id"])
+            message_date = datetime.fromisoformat(message_payload["message_date"])
+            if dataset.metadata_json_datetime > message_date:
+                self.print_with_timestamp(
+                    f"Skipping dataset with ID {dataset.id} ({dataset.short_name}), because"
+                    f"it has been updated more recently than this message."
+                )
+                return
+            dataset.short_name = metadata_json["short_name"]
+            dataset.source_url = metadata_json["url"]
+            dataset.metadata_json = metadata_json
+            dataset.metadata_json_datetime = message_date
+            dataset.reporting_org = ReportingOrg.objects.get(id=metadata_json["reporting_org_id"])
             dataset.save()
-            self.print_success("updated", "dataset", message_payload["dataset"])
+            self.print_success("updated", "dataset", metadata_json)
         except ReportingOrg.DoesNotExist:
             self.print_with_timestamp(
-                f"Failed to update dataset with ID {message_payload["dataset"]["id"]} because "
+                f"Failed to update dataset with ID {metadata_json["id"]} because "
                 f"the new parent reporting_org is not in the database"
             )
         except Dataset.DoesNotExist:
             self.print_with_timestamp(
-                f"Failed to update dataset with ID {message_payload["dataset"]["id"]} because "
+                f"Failed to update dataset with ID {metadata_json["id"]} because "
                 f"the dataset is not in the database"
             )
         except IntegrityError:
             self.print_with_timestamp(
-                f"Failed to update dataset with ID {message_payload["dataset"]["id"]} because "
+                f"Failed to update dataset with ID {metadata_json["id"]} because "
                 f"the new short_name is already in use"
             )
 
+    def process_dataset_check_result_updated(self, message_payload: dict):
+        metadata_json = message_payload["dataset_check_result"]
+        try:
+            dataset = Dataset.objects.get(id=metadata_json["id"])
+            message_date = datetime.fromisoformat(message_payload["message_date"])
+            if dataset.check_result_json_datetime > message_date:
+                self.print_with_timestamp(
+                    f"Skipping dataset with ID {dataset.id} ({dataset.short_name}), because"
+                    f"it has been updated more recently than this message."
+                )
+                return
+            dataset.check_result_json = metadata_json
+            dataset.check_result_json_datetime = message_date
+            dataset.save()
+            self.print_success("updated", "dataset check_result", metadata_json)
+        except Dataset.DoesNotExist:
+            self.print_with_timestamp(
+                f"Failed to update dataset with ID {metadata_json["id"]} because "
+                f"the dataset is not in the database"
+            )
+
     def process_registry_reporting_org_updated(self, message_payload: dict):
+        if not self._enable_reporting_org:
+            return
+        if message_payload["reporting_org"]["visibility"] == "private":
+            return self.process_registry_record_deleted("reporting_org", message_payload)
         try:
             reporting_org = ReportingOrg.objects.get(id=message_payload["reporting_org"]["id"])
             reporting_org.short_name = message_payload["reporting_org"]["short_name"]
+            reporting_org.metadata_json = message_payload["reporting_org"]
+            reporting_org.metadata_json_datetime = datetime.fromisoformat(message_payload["message_date"])
             reporting_org.human_readable_name = message_payload["reporting_org"]["human_readable_name"]
             reporting_org.save()
             self.print_success("updated", "reporting_org", message_payload["reporting_org"])
@@ -246,6 +262,8 @@ class MessageProcessor:
             )
 
     def process_registry_record_deleted(self, record_type: str, message_payload: dict):
+        if record_type == "reporting_org" and not self._enable_reporting_org:
+            return
         Model = Dataset if record_type == "dataset" else ReportingOrg
         try:
             record = Model.objects.get(id=message_payload[record_type]["id"])

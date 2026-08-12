@@ -3,8 +3,8 @@
 
 {% block content %}
     <div class="row">
-      {{ boxes.box_h2('Files where XML is not well-formed', current_stats.aggregated.invalidxml, 'img/aggregate/invalidxml.png', 'invalidxml.json',
-        description='Count of files where the XML that is not well-formed, over time. This is different from <a href="{}">validation against the schema</a>. Note this decreased substantially in November 2025, because many of these errors are now encountered by the Bulk Data Service download, so can be found in the <a href="{}">Download Errors</a> section.'.format(url('dash-errors-validation'), url('dash-errors-download'))) }}
+      {{ boxes.box_h2('Datasets where XML is not well-formed', current_stats.aggregated.invalidxml, 'img/aggregate/invalidxml.png', 'invalidxml.json',
+        description='Count of datasets where the XML that is not well-formed, over time. This is different from <a href="{}">validation against the schema</a>. Note this decreased substantially in November 2025, because many of these errors are now encountered by the Bulk Data Service download, so can be found in the <a href="{}">Download Errors</a> section.'.format(url('dash-errors-validation'), url('dash-errors-download'))) }}
     </div>
 
     <div class="row">
@@ -13,7 +13,7 @@
     <div class="dashboard-panel">
     <div class="dashboard-panel-heading clearfix">
         <a href="{{ stats_url }}/current/inverted-file/invalidxml.json" class="dashboard-panel-heading__title light float-end">(J)</a>
-        <h2 class="float-start dashboard-panel-heading__title">Files where XML is not well-formed</h2>
+        <h2 class="float-start dashboard-panel-heading__title">Datasets where XML is not well-formed</h2>
     </div>
     <div class="dashboard-panel-body">
       <div class="iati-table">
@@ -30,7 +30,7 @@
               <tr>
                   {% set publisher=func.dataset_to_publisher(dataset) %}
                   <td><a href="{% if publisher %}{{ url("dash-headlines-publisher-detail", args=[publisher]) }}{% endif %}">{{ publisher }}</a></td>
-                  <td><a href="http://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
+                  <td><a href="https://iatiregistry.org/dataset/{{ dataset }}">{{ dataset }}</a></td>
               </tr>
               {% endif %}
               {% endfor %}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="dashboard-panel">
+        <div class="dashboard-panel-body">
+          <div class="iati-table">
+            <table class="table iati-table__table">
+              <thead>
+                  <tr>
+                      <th>Publisher</th>
+                      <th>Dataset</th>
+                      <th>Activities <a href="{{ stats_url }}/current/inverted-file/activities.json">(J)</a></th>
+                      <th>Organisations <a href="{{ stats_url }}/current/inverted-file/organisations.json">(J)</a></th>
+                      <th>Dataset Size <a href="{{ stats_url }}/current/inverted-file/file_size.json">(J)</a></th>
+                      <th>metadata updated</th>
+                      <th>check result updated</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for dataset in datasets %}
+                  <tr>
+                      <td class="break"><a href="{{ url("dash-headlines-publisher-detail", args=[dataset.reporting_org.short_name]) }}">{{ dataset.reporting_org.human_readable_name }}</a></td>
+                      <td class="break"><a href="{{ url("dash-headlines-dataset-detail", args=[dataset.short_name]) }}">{{ dataset.short_name }}</a></td>
+                      <td>{{ dataset.activities }}</td>
+                      <td>{{ dataset.organisations }}</td>
+                      <td data-bytes="{{ dataset.file_size }}">{{ dataset.file_size|filesizeformat }}</td>
+                      <td>{{ dataset.metadata_json_datetime }}</td>
+                      <td>{{ dataset.check_result_json_datetime }}</td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.13.3/jquery.tablesorter.widgets.min.js"></script>
+  <script>jQuery(function() { jQuery("table.table").tablesorter({textExtraction:{4: function(node,table,cellIndex) { return jQuery(node).attr('data-bytes'); } }}); });</script>
+</body>
+</html>

@@ -11,8 +11,10 @@ mkdir out
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Fetching data"
 ./fetch_data.sh &> fetch_data.log
 
-echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import"
-python manage.py dashboard_import
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import_metadata"
+python manage.py dashboard_import_metadata
+echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running manage.py dashboard_import_stats"
+python manage.py dashboard_import_stats
 
 echo "LOG: `date '+%Y-%m-%d %H:%M:%S'` - Running make_plots.py"
 python manage.py make_plots

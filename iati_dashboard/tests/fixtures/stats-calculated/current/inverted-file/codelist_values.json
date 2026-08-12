@@ -1,0 +1,22 @@
+{
+  ".//activity-date/@type": {
+    "1": {
+      "test_ro_1-valid_activity": 1
+    }
+  },
+  ".//activity-status/@code": {
+    "2": {
+      "test_ro_1-valid_activity": 1
+    }
+  },
+  ".//participating-org/@role": {
+    "1": {
+      "test_ro_1-valid_activity": 1
+    }
+  },
+  ".//reporting-org/@type": {
+    "40": {
+      "test_ro_1-valid_activity": 1
+    }
+  }
+}

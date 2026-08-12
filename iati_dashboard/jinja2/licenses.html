@@ -15,16 +15,16 @@
                     <tr>
                         <th>License</th>
                         <th>License ID</th>
-                        <th>Files</th>
+                        <th>Datasets</th>
                         <th>Publishers</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for license, files in func.sorted(license_count.items()) %}
+                    {% for license, datasets in func.sorted(license_count.items()) %}
                     <tr>
                         <td>{% if license in license_urls and license_urls[license]['url'] %}<a href="{{ license_urls[license]['url'] }}">{{ license_names.get(license, license) }}</a>{% else %}{{ license_names.get(license, license) }}{% endif %}</td>
                         <td>{{ license }}</td>
-                        <td>{{ files }}</td>
+                        <td>{{ datasets }}</td>
                         <td><a href="{{ url('dash-licenses-detail', args=[license]) }}">{{ publisher_license_count[license] }}</a></td>
                     </tr>
                     {% endfor %}
