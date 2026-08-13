@@ -1,9 +1,5 @@
 {% extends 'base.html' %}
 {% import '_partials/boxes.html' as boxes with context %}
-{% block designsystem %}
-  <link href="https://cdn.jsdelivr.net/npm/iati-design-system@4.6.0/dist/css/iati.min.css" rel="stylesheet">
-  <script defer src="https://cdn.jsdelivr.net/npm/iati-design-system@4.6.0/dist/js/iati.js"></script>
-{% endblock %}
 {% block content %}
     <div class="row">
       {{ boxes.box_h2('Reporting Orgs', publishers.count(), 'img/aggregate/publishers.png', 'publishers.json',
