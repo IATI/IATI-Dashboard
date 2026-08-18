@@ -1,5 +1,5 @@
 {# adapted from https://github.com/django/django/blob/stable/5.2.x/django/forms/templates/django/forms/widgets/select.html #}
-<{% if widget.attrs.multiple %}multi-select field-name="{{ widget.name }}"{% else %}select name="{{ widget.name }}"{% endif %} label=""{% include "django/forms/widgets/attrs.html" %}>{% for group_name, group_choices, group_index in widget.optgroups %}{% if group_name %}
+<{% if widget.attrs.multiple %}multi-select field-name="{{ widget.name }}"{% else %}select name="{{ widget.name }}"{% endif %} {% include "django/forms/widgets/attrs.html" %}>{% for group_name, group_choices, group_index in widget.optgroups %}{% if group_name %}
   <optgroup label="{{ group_name }}">{% endif %}{% for option in group_choices %}
   {% if widget.attrs.multiple %}<select-option value="{{ option.value|stringformat:'s' }}"{% include "django/forms/widgets/attrs.html" with widget=option %}>{{ option.label }}</select-option>{% else %}{% include option.template_name with widget=option %}{% endif %}{% endfor %}{% if group_name %}
   </optgroup>{% endif %}{% endfor %}
