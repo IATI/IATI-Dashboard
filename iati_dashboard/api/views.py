@@ -28,10 +28,16 @@ class ReportingOrgViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (DjangoFilterBackend,)
     filterset_class = ReportingOrgFilter
 
-    def retrieve(self, request, pk: str):
+    def retrieve(self, request, pk: str, **kwargs):
         user = get_object_or_404(self.queryset, short_name=pk)
-        serializer = ReportingOrgSerializer(user)
+        serializer = ReportingOrgSerializer(user, context=self.get_serializer_context())
         return Response(serializer.data)
+
+    def get_serializer_context(self):
+        return {
+            "show_stats": self.request.GET.get("show_stats"),
+            "show_stats_large": self.request.GET.get("show_stats_large"),
+        }
 
 
 @extend_schema_view(retrieve=extend_schema(description="Metadata for a single dataset."))
