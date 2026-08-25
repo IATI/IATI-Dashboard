@@ -211,7 +211,7 @@ def _make_context(page_name: str, include_large_dicts: bool = True):
 
     # Build the list of breadcrumbs for page navigation rather than doing
     # it programmatically in the template.
-    if page_name == "index":
+    if page_name == "index" or "gherkin_" in page_name:
         pass
     elif page_name == "registration_agencies":
         context["breadcrumbs"].append({"view": "dash-registrationagencies", "title": "Registration Agencies"})
