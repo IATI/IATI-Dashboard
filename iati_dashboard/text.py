@@ -46,6 +46,8 @@ page_titles = {
     "comprehensiveness_valueadded": "Comprehensiveness Value-Added",
     "summary_stats": "Summary Statistics",
     "humanitarian": "Humanitarian Reporting",
+    "gherkin_publishers": "",
+    "gherkin_publisher_detail": "",
 }
 
 page_leads = {
