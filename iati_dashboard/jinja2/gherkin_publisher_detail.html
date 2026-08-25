@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <p>This is a work in progress development copy.</p>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Organisation Tests</h3></div>
+          <div class="panel-body">
+            <p>Organisations: {{ publisher_stats.organisations }}</p>
+            {% include '_partials/tablesorter_instructions.html' %}
+          </div>
+          {% if "iati-organisation" in publisher_stats.gherkin_tests %}
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Count</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test_name, test_count in publisher_stats.gherkin_tests["iati-organisation"].items() %}
+                <tr>
+                    <td>{{ test_name }}</td>
+                    <td>{{ test_count }}</td>
+                    <td>{{ (test_count / publisher_stats.organisations * 100) | round_nicely }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading"><h3 class="panel-title">Activity Tests</h3></div>
+          <div class="panel-body">
+            <p>Activities: {{ publisher_stats.activities }}</p>
+            <p>Current activities: {{ publisher_stats.gherkin_current }}</p>
+            {% include '_partials/tablesorter_instructions.html' %}
+          </div>
+          {% if "iati-activity" in publisher_stats.gherkin_tests %}
+          <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Count (all)</th>
+                    <th>Percentage (all)</th>
+                    <th>Count (current)</th>
+                    <th>Percentage (current)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test_name, test_count in publisher_stats.gherkin_tests["iati-activity"].items() %}
+                <tr>
+                    <td>{{ test_name }}</td>
+                    <td>{{ test_count }}</td>
+                    <td>{{ (test_count / publisher_stats.activities * 100) | round_nicely }}</td>
+                    <td>{{ publisher_stats.gherkin_tests_current["iati-activity"][test_name] }}</td>
+                    <td>{{ (publisher_stats.gherkin_tests_current["iati-activity"][test_name] / publisher_stats.gherkin_current * 100) | round_nicely }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+{% endblock %}
