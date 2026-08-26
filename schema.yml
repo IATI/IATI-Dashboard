@@ -1855,6 +1855,9 @@ components:
           readOnly: true
         website:
           readOnly: true
+        stats:
+          type: string
+          readOnly: true
       required:
       - created_date
       - data_portal_url
@@ -1871,6 +1874,7 @@ components:
       - region
       - reporting_source_type
       - short_name
+      - stats
       - website
   securitySchemes:
     basicAuth:

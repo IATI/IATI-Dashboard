@@ -8,6 +8,23 @@ class ReportingOrgSerializer(serializers.HyperlinkedModelSerializer):
         model = ReportingOrg
         fields = ["id", "short_name", "human_readable_name", "dataset_count"]
         fields += REPORTING_ORG_METADATA_FIELDS
+        fields += ["stats"]
+
+    stats = serializers.SerializerMethodField()
+
+    def get_stats(self, reporting_org):
+        if "show_stats" in self.context and self.context["show_stats"]:
+            if "show_stats_large" in self.context and self.context["show_stats_large"]:
+                return reporting_org.stats_json
+            else:
+                deleted_keys = [
+                    "iati_identifiers",
+                    "sum_commitments_and_disbursements_by_activity_id_usd",
+                    "iati_identifiers_by_publisher_id",
+                    "sum_commitments_and_disbursements_by_activity_id_by_publisher_id_usd",
+                ]
+                stats = {key: value for key, value in reporting_org.stats_json.items() if key not in deleted_keys}
+                return stats
 
 
 class DatasetSerializer(serializers.HyperlinkedModelSerializer):
