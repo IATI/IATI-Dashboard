@@ -1403,7 +1403,7 @@ paths:
         name: search
         schema:
           type: string
-        description: Search reporting organisation name / registry ID
+        description: Search reporting organisation name / short name
       tags:
       - reporting-orgs
       security:
