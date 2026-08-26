@@ -1437,6 +1437,14 @@ paths:
           format: uuid
         description: A UUID string identifying this reporting org.
         required: true
+      - in: query
+        name: show_stats
+        schema:
+          type: string
+      - in: query
+        name: show_stats_large
+        schema:
+          type: string
       tags:
       - reporting-orgs
       security:
@@ -1856,7 +1864,302 @@ components:
         website:
           readOnly: true
         stats:
-          type: string
+          type: object
+          properties:
+            accountable_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            accountable_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            activities:
+              type: integer
+            activities_with_future_transactions:
+              type: integer
+            activity_dates:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            activity_dates_humanitarian:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            activity_files:
+              type: integer
+            boolean_values:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            codelist_values:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            codelist_values_by_major_version:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            comprehensiveness:
+              additionalProperties:
+                type: integer
+              type: object
+            comprehensiveness_denominator_default:
+              type: integer
+            comprehensiveness_denominators:
+              additionalProperties:
+                type: integer
+              type: object
+            comprehensiveness_with_validation:
+              additionalProperties:
+                type: integer
+              type: object
+            count_budgets_by_type_by_year:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            elements:
+              additionalProperties:
+                type: integer
+              type: object
+            elements_total:
+              additionalProperties:
+                type: integer
+              type: object
+            empty:
+              type: integer
+            extending_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            extending_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            file_size:
+              type: integer
+            file_size_bins:
+              additionalProperties:
+                type: integer
+              type: object
+            forwardlooking_activities_current:
+              additionalProperties:
+                type: integer
+              type: object
+            forwardlooking_activities_with_budget_not_provided:
+              additionalProperties:
+                type: integer
+              type: object
+            forwardlooking_activities_with_budgets:
+              additionalProperties:
+                type: integer
+              type: object
+            forwardlooking_currency_year:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            funding_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            funding_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            gherkin_current:
+              type: integer
+            gherkin_tests:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            gherkin_tests_current:
+              additionalProperties:
+                type: integer
+              type: object
+            hierarchies:
+              additionalProperties:
+                type: integer
+              type: object
+            humanitarian:
+              additionalProperties:
+                type: integer
+              type: object
+            iati_identifiers:
+              additionalProperties:
+                type: integer
+              type: object
+            iati_identifiers_by_publisher_id:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            implementing_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            implementing_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            invalidxml:
+              type: integer
+            nonstandardroots:
+              type: integer
+            organisation_files:
+              type: integer
+            organisations:
+              type: integer
+            participating_orgs:
+              additionalProperties:
+                type: integer
+              type: object
+            provider_activity_id:
+              additionalProperties:
+                type: integer
+              type: object
+            provider_activity_id_without_own:
+              additionalProperties:
+                type: integer
+              type: object
+            provider_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            provider_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            publisher_duplicate_identifiers:
+              additionalProperties:
+                type: integer
+              type: object
+            publisher_has_org_file:
+              additionalProperties:
+                type: integer
+              type: object
+            publisher_unique_identifiers:
+              type: integer
+            publishers:
+              type: integer
+            publishers_per_version:
+              additionalProperties:
+                type: integer
+              type: object
+            publishers_validation:
+              additionalProperties:
+                type: integer
+              type: object
+            receiver_org_transaction_stats:
+              additionalProperties:
+                type: integer
+              type: object
+            receiver_org_valid_prefixes:
+              additionalProperties:
+                type: integer
+              type: object
+            reporting_orgs:
+              additionalProperties:
+                type: integer
+              type: object
+            sum_budgets_by_type_by_year:
+              additionalProperties:
+                additionalProperties:
+                  additionalProperties:
+                    type: integer
+                  type: object
+                type: object
+              type: object
+            sum_budgets_by_type_by_year_usd:
+              additionalProperties:
+                additionalProperties:
+                  additionalProperties:
+                    type: integer
+                  type: object
+                type: object
+              type: object
+            sum_commitments_and_disbursements_by_activity_id_by_publisher_id_usd:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            sum_commitments_and_disbursements_by_activity_id_usd:
+              additionalProperties:
+                type: integer
+              type: object
+            sum_transactions_by_type_by_year_usd:
+              additionalProperties:
+                additionalProperties:
+                  additionalProperties:
+                    type: integer
+                  type: object
+                type: object
+              type: object
+            toolarge:
+              type: integer
+            traceable_activities_by_publisher_id:
+              additionalProperties:
+                type: integer
+              type: object
+            traceable_activities_by_publisher_id_denominator:
+              additionalProperties:
+                type: integer
+              type: object
+            traceable_sum_commitments_and_disbursements_by_publisher_id:
+              additionalProperties:
+                type: integer
+              type: object
+            traceable_sum_commitments_and_disbursements_by_publisher_id_denominator:
+              additionalProperties:
+                type: integer
+              type: object
+            transaction_dates:
+              additionalProperties:
+                additionalProperties:
+                  type: integer
+                type: object
+              type: object
+            transaction_months_with_year:
+              additionalProperties:
+                type: integer
+              type: object
+            transaction_total:
+              type: integer
+            unique_identifiers:
+              type: integer
+            validation:
+              additionalProperties:
+                type: integer
+              type: object
+            version_mismatch:
+              additionalProperties:
+                type: integer
+              type: object
+            versions:
+              additionalProperties:
+                type: integer
+              type: object
+            wrong_roots:
+              additionalProperties:
+                type: integer
+              type: object
           readOnly: true
       required:
       - created_date
