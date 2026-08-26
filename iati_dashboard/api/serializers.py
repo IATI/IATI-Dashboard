@@ -1,3 +1,6 @@
+import requests
+import yaml
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from ..models import REPORTING_ORG_METADATA_FIELDS, Dataset, ReportingOrg
@@ -12,6 +15,14 @@ class ReportingOrgSerializer(serializers.HyperlinkedModelSerializer):
 
     stats = serializers.SerializerMethodField()
 
+    @extend_schema_field(
+        {
+            "type": "object",
+            "properties": yaml.safe_load(
+                requests.get("https://raw.githubusercontent.com/IATI/IATI-Stats/refs/heads/stats-api/schema.yml").text
+            ),
+        }
+    )
     def get_stats(self, reporting_org):
         if "show_stats" in self.context and self.context["show_stats"]:
             if "show_stats_large" in self.context and self.context["show_stats_large"]:
