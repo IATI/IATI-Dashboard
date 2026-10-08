@@ -29,8 +29,8 @@ env = environ.Env(  # set default values and casting
     ALLOWED_HOSTS=(list, [".dashboard.iatistandard.org", ".iatiregistry.org", "localhost", "127.0.0.1"]),
     # Allow api features to only be enabled on a dev instance for now
     # This means we can keep it off live until we assess the performance implications
-    ENABLE_API_ALPHA=(bool, False),
-    ENABLE_FILTERS_ALPHA=(bool, False),
+    ENABLE_API_ALPHA=(bool, True),
+    ENABLE_FILTERS_ALPHA=(bool, True),
     REALTIME_UPDATE_SERVICE_LOOP_SLEEP=(int, 3),
     REALTIME_UPDATE_SERVICE_LOOP_SLEEP_AFTER_ERROR=(int, 15),
     AZ_SERVICE_BUS_CONNECTION_STRING=(str, None),
