@@ -19,7 +19,7 @@ fi
 set -x
 
 rm -rf IATI-Stats/ || true
-git clone https://github.com/IATI/IATI-Stats
+git clone --recurse-submodules https://github.com/IATI/IATI-Stats
 
 # Set up data
 cp -r end_to_end_tests/fixtures/iati-data IATI-Stats/

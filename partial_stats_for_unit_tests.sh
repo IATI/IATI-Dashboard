@@ -3,7 +3,7 @@ set -eux
 # ^ https://explainshell.com/explain?cmd=set+-eux
 
 publisher_short_name=zsl
-domain=dev2.dashboard.iatistandard.org
+domain=dev-dashboard.iatistandard.org
 
 if [ -d stats-calculated ]; then
     echo "stats-calculated directory already exists, exiting."
